@@ -1,0 +1,321 @@
+/**
+ * DOS Snake Game Styles
+ * Bulletproof, responsive, DOS-aligned design
+ */
+
+.dos-snake-game {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: var(--ric-space-lg);
+  background: var(--ric-color-background);
+  border-radius: var(--ric-radius-lg);
+  border: 1px solid var(--ric-color-border);
+  box-shadow: var(--ric-shadow-lg);
+  font-family: var(--ric-font-family);
+}
+
+.dos-snake-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ric-space-lg);
+  padding-bottom: var(--ric-space-md);
+  border-bottom: 1px solid var(--ric-color-border);
+}
+
+.dos-snake-title {
+  display: flex;
+  align-items: center;
+  gap: var(--ric-space-sm);
+}
+
+.dos-snake-title h3 {
+  margin: 0;
+  font-size: var(--ric-text-lg);
+  font-weight: 600;
+  color: var(--ric-color-foreground);
+}
+
+.dos-snake-icon {
+  font-size: var(--ric-text-xl);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.dos-snake-scores {
+  display: flex;
+  gap: var(--ric-space-md);
+  font-size: var(--ric-text-sm);
+}
+
+.dos-snake-score,
+.dos-snake-high-score {
+  padding: var(--ric-space-xs) var(--ric-space-sm);
+  background: var(--ric-color-muted);
+  border-radius: var(--ric-radius-md);
+  font-weight: 500;
+}
+
+.dos-snake-high-score {
+  color: var(--ric-color-primary);
+  border: 1px solid var(--ric-color-primary);
+}
+
+.dos-snake-canvas-container {
+  position: relative;
+  margin-bottom: var(--ric-space-lg);
+  border-radius: var(--ric-radius-md);
+  overflow: hidden;
+  background: var(--ric-color-muted);
+}
+
+#snake-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: var(--ric-radius-md);
+  cursor: pointer;
+}
+
+.dos-snake-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  border-radius: var(--ric-radius-md);
+}
+
+.dos-snake-overlay-content {
+  text-align: center;
+  color: white;
+  padding: var(--ric-space-lg);
+}
+
+.dos-snake-message h4 {
+  margin: 0 0 var(--ric-space-sm) 0;
+  font-size: var(--ric-text-lg);
+  font-weight: 600;
+}
+
+.dos-snake-message p {
+  margin: 0 0 var(--ric-space-lg) 0;
+  font-size: var(--ric-text-sm);
+  opacity: 0.9;
+}
+
+.dos-snake-button {
+  background: var(--ric-color-primary);
+  color: white;
+  border: none;
+  padding: var(--ric-space-sm) var(--ric-space-lg);
+  border-radius: var(--ric-radius-md);
+  font-size: var(--ric-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--ric-duration-normal) var(--ric-ease-in-out);
+  font-family: inherit;
+}
+
+.dos-snake-button:hover {
+  background: var(--ric-color-accent);
+  transform: translateY(-1px);
+  box-shadow: var(--ric-shadow-md);
+}
+
+.dos-snake-button:active {
+  transform: translateY(0);
+  transition-duration: var(--ric-duration-fast);
+}
+
+.dos-snake-button.dos-snake-secondary {
+  background: var(--ric-color-muted);
+  color: var(--ric-color-foreground);
+  border: 1px solid var(--ric-color-border);
+}
+
+.dos-snake-button.dos-snake-secondary:hover {
+  background: var(--ric-color-border);
+  border-color: var(--ric-color-primary);
+}
+
+.dos-snake-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ric-space-lg);
+  margin-bottom: var(--ric-space-lg);
+}
+
+.dos-snake-touch-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.dos-snake-dpad {
+  display: grid;
+  grid-template-areas: 
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: var(--ric-space-xs);
+  max-width: 150px;
+}
+
+.dos-snake-direction-btn {
+  width: 44px;
+  height: 44px;
+  background: var(--ric-color-muted);
+  border: 1px solid var(--ric-color-border);
+  border-radius: var(--ric-radius-md);
+  font-size: var(--ric-text-lg);
+  cursor: pointer;
+  transition: all var(--ric-duration-fast) var(--ric-ease-in-out);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dos-snake-direction-btn:hover,
+.dos-snake-direction-btn:active {
+  background: var(--ric-color-primary);
+  color: white;
+  transform: scale(0.95);
+}
+
+.dos-snake-up { grid-area: up; }
+.dos-snake-down { grid-area: down; }
+.dos-snake-left { grid-area: left; }
+.dos-snake-right { grid-area: right; }
+
+.dos-snake-horizontal {
+  display: contents;
+}
+
+.dos-snake-actions {
+  display: flex;
+  gap: var(--ric-space-sm);
+  justify-content: center;
+}
+
+.dos-snake-instructions {
+  text-align: center;
+  font-size: var(--ric-text-xs);
+  color: var(--ric-color-muted);
+  line-height: 1.4;
+}
+
+.dos-snake-instructions p {
+  margin: var(--ric-space-xs) 0;
+}
+
+.dos-snake-instructions strong {
+  color: var(--ric-color-foreground);
+}
+
+/* Dark mode enhancements */
+.dark .dos-snake-overlay {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.dark .dos-snake-button {
+  background: var(--ric-color-accent);
+}
+
+.dark .dos-snake-button:hover {
+  background: hsl(var(--ric-color-accent-hsl) / 0.8);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.dark .dos-snake-direction-btn:hover,
+.dark .dos-snake-direction-btn:active {
+  background: var(--ric-color-accent);
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dos-snake-game {
+    padding: var(--ric-space-md);
+    margin: var(--ric-space-sm);
+  }
+  
+  .dos-snake-header {
+    flex-direction: column;
+    gap: var(--ric-space-sm);
+    text-align: center;
+  }
+  
+  .dos-snake-scores {
+    justify-content: center;
+  }
+  
+  .dos-snake-dpad {
+    max-width: 120px;
+  }
+  
+  .dos-snake-direction-btn {
+    width: 36px;
+    height: 36px;
+    font-size: var(--ric-text-base);
+  }
+  
+  .dos-snake-actions {
+    flex-direction: column;
+  }
+  
+  .dos-snake-button {
+    width: 100%;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dos-snake-game {
+    border-width: 2px;
+  }
+  
+  .dos-snake-button {
+    border: 2px solid currentColor;
+  }
+  
+  .dos-snake-direction-btn {
+    border-width: 2px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .dos-snake-icon {
+    animation: none;
+  }
+  
+  .dos-snake-button,
+  .dos-snake-direction-btn {
+    transition: none;
+  }
+}
+
+/* Focus states for accessibility */
+.dos-snake-button:focus,
+.dos-snake-direction-btn:focus {
+  outline: 2px solid var(--ric-color-primary);
+  outline-offset: 2px;
+}
+
+.dark .dos-snake-button:focus,
+.dark .dos-snake-direction-btn:focus {
+  outline-color: var(--ric-color-accent);
+}

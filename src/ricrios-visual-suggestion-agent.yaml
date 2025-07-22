@@ -1,0 +1,381 @@
+# Ric Rios Visual Suggestion Agent System
+# Non-invasive design enhancement suggestions based on context and engagement
+
+# =====================================
+# VISUAL SUGGESTION AGENT SYSTEM
+# =====================================
+ricrios_visual_suggestion_agent:
+  metadata:
+    system: "Visual Suggestion Agent"
+    purpose: "Non-invasive design enhancement suggestions based on user context and engagement"
+    version: "1.0"
+    generated: "2025-07-18"
+
+  # =====================================
+  # CORE VISUAL SUGGESTION BLOCK
+  # =====================================
+  block:
+    id: "visual-suggestion-agent"
+    type: "claude"
+    mode: "suggestion"
+    trigger: "contextual_visual_enhancement"
+    
+    inputs:
+      mode: "suggestion"
+      context:
+        site_section: "{{ current_section }}"
+        time_of_day: "{{ user.timeOfDay }}"
+        user_prompt: "{{ memory.lastPrompt }}"
+        engagement_level: "{{ metrics.engagementLevel }}"
+        interaction_depth: "{{ memory.interactionDepth }}"
+        preferred_sections: "{{ memory.preferredSections }}"
+        session_duration: "{{ metrics.sessionDuration }}"
+        device_type: "{{ user.deviceType }}"
+    
+    prompt: |
+      You are a non-invasive design enhancement agent for RicRios.com, specializing in visual clarity and aesthetic presentation.
+      
+      CONTEXT:
+      - Current section: {{ current_section }}
+      - Time of day: {{ user.timeOfDay }}
+      - User's last prompt: {{ memory.lastPrompt }}
+      - Engagement level: {{ metrics.engagementLevel }}
+      - Interaction depth: {{ memory.interactionDepth }}
+      - Device type: {{ user.deviceType }}
+      - Session duration: {{ metrics.sessionDuration }} minutes
+      
+      ROLE:
+      Based on the user's last prompt, time of day, and engagement patterns, suggest layout or stylistic treatments that improve visual clarity or aesthetic presentation — *without editing content*.
+      
+      DESIGN PRINCIPLES:
+      - Editorial minimalism with strategic visual hierarchy
+      - Time-aware visual treatments (morning: clean/bright, afternoon: structured/focused, evening: elegant/contemplative)
+      - Engagement-responsive layouts (surface: simple, engaged: structured, deep: sophisticated)
+      - Device-appropriate suggestions (mobile: vertical flow, desktop: strategic use of space)
+      
+      RESPONSE TRIGGERS:
+      Respond with suggestions when user prompts include:
+      - "Show me something visual"
+      - "This feels dense"
+      - "Make it simpler"
+      - "Turn this into a diagram"
+      - "Can you visualize this?"
+      - "I need to see this differently"
+      - "This is hard to follow"
+      - "Break this down visually"
+      
+      RESPONSE STRUCTURE:
+      - Insight: (1–2 sentence observation about current visual state and opportunity)
+      - Suggested layout mode: (specific layout recommendation from approved modes)
+      - Action (optional): "Would you like to try this mode?"
+      
+      APPROVED LAYOUT MODES:
+      - "card layout" - Clean card-based presentation with strategic spacing
+      - "split column" - Two-column layout with visual hierarchy
+      - "visual summary" - Key points with visual emphasis and icons
+      - "timeline flow" - Chronological or process-based visual flow
+      - "grid showcase" - Structured grid with visual emphasis
+      - "narrative scroll" - Story-driven vertical flow with visual breaks
+      - "minimal focus" - Simplified layout with single focal point
+      - "systematic breakdown" - Methodical visual organization
+      - "contemplative flow" - Elegant, spacious layout for reflection
+      
+      FALLBACK RESPONSE:
+      If no visual improvement is needed or prompt doesn't warrant visual enhancement:
+      "Looks great as is. Nothing to improve visually right now."
+      
+      VOICE GUIDELINES:
+      - Maintain Ric Rios' editorial minimalism
+      - Strategic observations without unnecessary complexity
+      - Respectful of user's current experience
+      - Focused on clarity and aesthetic enhancement
+    
+    output:
+      type: "object"
+      properties:
+        insight:
+          type: "string"
+          description: "1-2 sentence observation about visual opportunity"
+        suggested_layout_mode:
+          type: "string"
+          enum: ["card layout", "split column", "visual summary", "timeline flow", "grid showcase", "narrative scroll", "minimal focus", "systematic breakdown", "contemplative flow", "no change needed"]
+          description: "Specific layout recommendation"
+        action:
+          type: "string"
+          description: "Optional call-to-action for trying the suggested mode"
+        confidence:
+          type: "number"
+          description: "Confidence in suggestion relevance (0-1)"
+        time_context:
+          type: "string"
+          description: "Time-aware visual treatment rationale"
+      save_to: "visualSuggestion"
+      actions:
+        - showSuggestionModal: "{{ visualSuggestion }}"
+
+  # =====================================
+  # CONTEXTUAL TRIGGERS
+  # =====================================
+  triggers:
+    user_prompt_analysis:
+      patterns:
+        - "visual*"
+        - "show*"
+        - "dense"
+        - "simpler"
+        - "diagram"
+        - "visualize"
+        - "see*differently"
+        - "hard*follow"
+        - "break*down"
+        - "organize"
+        - "layout"
+        - "design"
+      action: "activate_visual_suggestion_agent"
+    
+    engagement_based:
+      conditions:
+        - engagement_level: "low"
+          session_duration: ">3_minutes"
+          action: "suggest_visual_enhancement"
+        - engagement_level: "medium"
+          interaction_depth: "engaged"
+          action: "suggest_advanced_layout"
+        - engagement_level: "high"
+          interaction_depth: "deep"
+          action: "suggest_sophisticated_presentation"
+    
+    time_based:
+      conditions:
+        - time_of_day: "morning"
+          suggestion_bias: "clean_bright_layouts"
+        - time_of_day: "afternoon"
+          suggestion_bias: "structured_focused_layouts"
+        - time_of_day: "evening"
+          suggestion_bias: "elegant_contemplative_layouts"
+    
+    device_based:
+      conditions:
+        - device_type: "mobile"
+          suggestion_bias: "vertical_flow_layouts"
+        - device_type: "desktop"
+          suggestion_bias: "strategic_space_usage"
+
+  # =====================================
+  # LAYOUT MODE SPECIFICATIONS
+  # =====================================
+  layout_modes:
+    card_layout:
+      description: "Clean card-based presentation with strategic spacing"
+      best_for: ["content_heavy_sections", "multiple_items", "scannable_information"]
+      time_variants:
+        morning: "bright_cards_with_clean_shadows"
+        afternoon: "structured_cards_with_clear_hierarchy"
+        evening: "elegant_cards_with_subtle_depth"
+      css_classes: ["card-layout", "strategic-spacing", "time-aware-cards"]
+    
+    split_column:
+      description: "Two-column layout with visual hierarchy"
+      best_for: ["comparison_content", "detailed_explanations", "methodology_breakdown"]
+      time_variants:
+        morning: "clean_split_with_bright_accents"
+        afternoon: "structured_split_with_clear_divisions"
+        evening: "elegant_split_with_subtle_separators"
+      css_classes: ["split-column", "visual-hierarchy", "time-aware-split"]
+    
+    visual_summary:
+      description: "Key points with visual emphasis and icons"
+      best_for: ["key_takeaways", "process_steps", "principle_highlights"]
+      time_variants:
+        morning: "bright_icons_with_clean_emphasis"
+        afternoon: "structured_icons_with_systematic_layout"
+        evening: "elegant_icons_with_contemplative_spacing"
+      css_classes: ["visual-summary", "icon-emphasis", "time-aware-summary"]
+    
+    timeline_flow:
+      description: "Chronological or process-based visual flow"
+      best_for: ["case_studies", "methodology_steps", "journey_narratives"]
+      time_variants:
+        morning: "clean_timeline_with_bright_markers"
+        afternoon: "structured_timeline_with_clear_progression"
+        evening: "elegant_timeline_with_reflective_flow"
+      css_classes: ["timeline-flow", "process-visual", "time-aware-timeline"]
+    
+    grid_showcase:
+      description: "Structured grid with visual emphasis"
+      best_for: ["portfolio_items", "toolkit_display", "feature_highlights"]
+      time_variants:
+        morning: "clean_grid_with_bright_presentation"
+        afternoon: "structured_grid_with_systematic_organization"
+        evening: "elegant_grid_with_sophisticated_spacing"
+      css_classes: ["grid-showcase", "visual-emphasis", "time-aware-grid"]
+    
+    narrative_scroll:
+      description: "Story-driven vertical flow with visual breaks"
+      best_for: ["case_study_stories", "philosophy_content", "about_sections"]
+      time_variants:
+        morning: "clean_narrative_with_bright_breaks"
+        afternoon: "structured_narrative_with_clear_sections"
+        evening: "elegant_narrative_with_contemplative_flow"
+      css_classes: ["narrative-scroll", "story-flow", "time-aware-narrative"]
+    
+    minimal_focus:
+      description: "Simplified layout with single focal point"
+      best_for: ["hero_sections", "key_messages", "call_to_action"]
+      time_variants:
+        morning: "clean_focus_with_bright_clarity"
+        afternoon: "structured_focus_with_systematic_emphasis"
+        evening: "elegant_focus_with_contemplative_depth"
+      css_classes: ["minimal-focus", "single-focal", "time-aware-minimal"]
+    
+    systematic_breakdown:
+      description: "Methodical visual organization"
+      best_for: ["complex_concepts", "methodology_explanation", "framework_details"]
+      time_variants:
+        morning: "clean_breakdown_with_bright_organization"
+        afternoon: "structured_breakdown_with_systematic_clarity"
+        evening: "elegant_breakdown_with_thoughtful_hierarchy"
+      css_classes: ["systematic-breakdown", "methodical-visual", "time-aware-systematic"]
+    
+    contemplative_flow:
+      description: "Elegant, spacious layout for reflection"
+      best_for: ["philosophy_content", "wisdom_sharing", "reflective_sections"]
+      time_variants:
+        morning: "clean_contemplation_with_bright_space"
+        afternoon: "structured_contemplation_with_clear_breathing_room"
+        evening: "elegant_contemplation_with_profound_spacing"
+      css_classes: ["contemplative-flow", "reflective-space", "time-aware-contemplative"]
+
+  # =====================================
+  # SUGGESTION MODAL SYSTEM
+  # =====================================
+  modal_system:
+    visual_suggestion_modal:
+      component: "VisualSuggestionModal"
+      template: |
+        <div class="visual-suggestion-modal time-aware-{{ time_of_day }}">
+          <div class="modal-header">
+            <h2 class="insight">{{ visualSuggestion.insight }}</h2>
+            <button class="modal-close" aria-label="Close suggestion">×</button>
+          </div>
+          <div class="modal-content">
+            <p class="suggestion-details">
+              <strong>Suggested:</strong> {{ visualSuggestion.suggested_layout_mode }}
+            </p>
+            <p class="time-context">{{ visualSuggestion.time_context }}</p>
+            <div class="modal-actions">
+              <button class="try-mode-btn primary" data-mode="{{ visualSuggestion.suggested_layout_mode }}">
+                {{ visualSuggestion.action || "Try this mode" }}
+              </button>
+              <button class="dismiss-btn secondary">Not now</button>
+            </div>
+          </div>
+          <div class="confidence-indicator">
+            <span class="confidence-score">Confidence: {{ visualSuggestion.confidence * 100 }}%</span>
+          </div>
+        </div>
+      
+      styling:
+        base_classes: ["visual-suggestion-modal", "non-invasive", "contextual"]
+        time_aware_classes:
+          morning: ["bright-modal", "clean-presentation"]
+          afternoon: ["structured-modal", "focused-presentation"]
+          evening: ["elegant-modal", "contemplative-presentation"]
+        responsive: true
+        accessibility: "full_compliance"
+        animation: "subtle_fade_in"
+      
+      behavior:
+        auto_dismiss: "30_seconds"
+        keyboard_navigation: true
+        escape_key_close: true
+        backdrop_click_close: true
+        remember_preference: true
+
+  # =====================================
+  # INTEGRATION SPECIFICATIONS
+  # =====================================
+  integration:
+    visitor_memory_system:
+      - track_visual_preferences: true
+      - remember_dismissed_suggestions: true
+      - learn_from_accepted_modes: true
+      - adapt_future_suggestions: true
+    
+    time_aware_system:
+      - inherit_time_context: true
+      - apply_time_based_visual_treatments: true
+      - maintain_editorial_minimalism: true
+      - preserve_authentic_voice: true
+    
+    agent_orchestration:
+      - integrate_with_existing_agents: true
+      - coordinate_with_content_agents: true
+      - maintain_non_invasive_approach: true
+      - respect_content_integrity: true
+    
+    modal_system:
+      - coordinate_with_existing_modals: true
+      - maintain_modal_hierarchy: true
+      - preserve_accessibility: true
+      - integrate_with_interaction_patterns: true
+
+  # =====================================
+  # PERFORMANCE & ANALYTICS
+  # =====================================
+  performance:
+    suggestion_generation:
+      timeout: "2_seconds"
+      fallback: "no_suggestion"
+      caching: "context_based_cache"
+      debouncing: "user_input_debounce"
+    
+    modal_rendering:
+      lazy_loading: true
+      progressive_enhancement: true
+      accessibility_compliance: true
+      performance_optimized: true
+    
+    analytics:
+      track_suggestion_relevance: true
+      measure_acceptance_rates: true
+      monitor_user_satisfaction: true
+      analyze_visual_preference_patterns: true
+      log_contextual_effectiveness: true
+
+  # =====================================
+  # EXAMPLE SCENARIOS
+  # =====================================
+  example_scenarios:
+    scenario_1:
+      user_prompt: "This case study feels dense"
+      time_of_day: "afternoon"
+      engagement_level: "medium"
+      expected_response:
+        insight: "The case study content could benefit from structured visual organization to improve readability and systematic flow."
+        suggested_layout_mode: "timeline flow"
+        action: "Would you like to try timeline flow mode?"
+        confidence: 0.85
+        time_context: "Afternoon structure emphasizes systematic progression and clear methodology steps."
+    
+    scenario_2:
+      user_prompt: "Show me something visual"
+      time_of_day: "morning"
+      engagement_level: "high"
+      expected_response:
+        insight: "Your engagement suggests readiness for a more visually dynamic presentation that maintains morning clarity."
+        suggested_layout_mode: "visual summary"
+        action: "Would you like to try visual summary mode?"
+        confidence: 0.90
+        time_context: "Morning brightness enhances visual icons and clean emphasis for strategic clarity."
+    
+    scenario_3:
+      user_prompt: "Make it simpler"
+      time_of_day: "evening"
+      engagement_level: "low"
+      expected_response:
+        insight: "Evening reflection calls for simplified presentation that honors contemplative space and reduces visual complexity."
+        suggested_layout_mode: "minimal focus"
+        action: "Would you like to try minimal focus mode?"
+        confidence: 0.95
+        time_context: "Evening elegance emphasizes single focal points with contemplative depth and spacious breathing room."

@@ -1,0 +1,65 @@
+name: ricrios_homepage_personal_ai_studio_with_tuner
+description: Homepage orchestration with integrated Claude Prompt Tuner UI for tone/layout/module control
+
+onPageLoad:
+  steps:
+    - agent: seedos
+      action: clarify_goal
+      input: "Ric wants to evolve the homepage of RicRios.com"
+      output: reframed_goal
+
+    - agent: agent-r
+      action: orchestrateHomepage
+      input:
+        goal: "{{reframed_goal}}"
+      output: agent_plan
+
+    - agent: prompt_tuner_ui
+      action: tunePrompt
+      input:
+        intent_token: "{{intent_token}}"
+        time_of_day: "{{session_metadata.timeOfDay}}"
+        device_type: "{{session_metadata.device}}"
+        tone_profile: "{{agent_plan.agent-s}}"
+        layout_variant: "{{agent_plan.agent-d}}"
+        module_1: "{{agent_plan.module_1}}"
+        module_2: "{{agent_plan.module_2}}"
+        module_3: "{{agent_plan.module_3}}"
+      output:
+        tone_instructions: tone_profile
+        layout_instructions: layout_variant
+        module_sequence: module_sequence
+        theme: theme_mode
+
+    - parallel:
+        - agent: agent-s
+          action: renderCopy
+          input:
+            intentToken: "{{intent_token}}"
+            toneProfile: "{{tone_profile}}"
+          output: hero_copy
+
+        - agent: agent-d
+          action: renderLayout
+          input:
+            intentToken: "{{intent_token}}"
+            layoutProfile: "{{layout_variant}}"
+          output: layout_blocks
+
+        - agent: agent-g
+          action: defineJourneyFlow
+          input:
+            intentToken: "{{intent_token}}"
+            module_sequence: "{{module_sequence}}"
+          output: module_sequence_output
+
+    - agent: agent-x
+      action: logSession
+      input:
+        sessionId: "{{session.id}}"
+        intentToken: "{{intent_token}}"
+        timestamp: "{{timestamp}}"
+        renderedCopy: "{{hero_copy}}"
+        layoutBlocks: "{{layout_blocks}}"
+        moduleSequence: "{{module_sequence_output}}"
+        theme: "{{theme_mode}}"

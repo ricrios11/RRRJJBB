@@ -1,0 +1,316 @@
+name: "Hidden Lab 2.0 - Advanced UX Memory & Case Study Remix"
+description: "Konami Code triggered advanced personalization lab with memory recall, case study remixing, and save-to-local curation"
+version: "2.0"
+session_id: "hidden_lab_v2_${timestamp}_${random}"
+
+# Hidden Lab 2.0 Orchestration Blocks
+orchestration:
+  
+  # Konami Code Listener Block
+  - block:
+      id: konamiTrigger
+      type: konamiListener
+      sequence: "↑ ↑ ↓ ↓ ← → ← → B A"
+      onTrigger:
+        - runBlock: recallMemorySnapshot
+        - runBlock: remixCaseStudies
+        - showModal: hiddenLabV2Modal
+      logging:
+        event: "konami_code_activated"
+        context: "hidden_lab_v2"
+
+  # UX Memory Recall Block
+  - block:
+      id: recallMemorySnapshot
+      type: localMemory
+      description: "Recalls visitor journey and engagement patterns"
+      inputs:
+        keys: 
+          - promptHistory
+          - visitedSections
+          - engagementMap
+          - timeOfDayPreference
+          - interactionDepth
+          - sessionDuration
+          - hiddenLabAccess
+          - visualSuggestionHistory
+      processing:
+        - analyzeEngagementPatterns
+        - identifyPreferredContent
+        - calculatePersonalizationScore
+      output:
+        save_to: userMemorySnapshot
+        structure:
+          mostVisitedSection: "string"
+          favoriteTimeOfDay: "string"
+          lastPrompt: "string"
+          engagementLevel: "string"
+          visitCount: "number"
+          preferredLayoutModes: "array"
+          caseStudyInteractions: "array"
+
+  # Case Study Remix Generator Block
+  - block:
+      id: remixCaseStudies
+      type: claude
+      description: "AI-powered case study personalization and reordering"
+      inputs:
+        memory: "{{ userMemorySnapshot }}"
+        context:
+          timeOfDay: "{{ user.timeOfDay }}"
+          currentPrompt: "{{ memory.lastPrompt }}"
+          engagementHistory: "{{ userMemorySnapshot.caseStudyInteractions }}"
+          preferredModes: "{{ userMemorySnapshot.preferredLayoutModes }}"
+      prompt: |
+        You are the advanced personalization engine for RicRios.com Hidden Lab 2.0.
+        
+        Based on this visitor's memory snapshot, create a personalized case study remix:
+        
+        VISITOR CONTEXT:
+        - Most engaged section: {{ userMemorySnapshot.mostVisitedSection }}
+        - Preferred time: {{ userMemorySnapshot.favoriteTimeOfDay }}
+        - Recent prompt: "{{ userMemorySnapshot.lastPrompt }}"
+        - Engagement level: {{ userMemorySnapshot.engagementLevel }}
+        - Visit count: {{ userMemorySnapshot.visitCount }}
+        - Layout preferences: {{ userMemorySnapshot.preferredLayoutModes }}
+        
+        CASE STUDY REMIX INSTRUCTIONS:
+        1. Reorder case studies based on their engagement patterns
+        2. Highlight 1-2 case studies that match their interests/prompt style
+        3. Create a personalized remix title that reflects their journey
+        4. Suggest visual treatment based on their preferred layout modes
+        5. Include strategic insights that align with their engagement depth
+        
+        AVAILABLE CASE STUDIES:
+        - Chase Travel Platform (Enterprise Fintech, Strategic Leadership)
+        - Digital Wealth Management (Financial Services, Systematic Innovation)
+        - BJJ Movement Community (Community Building, Authentic Engagement)
+        - [Additional case studies based on portfolio content]
+        
+        OUTPUT FORMAT:
+        {
+          "remixTitle": "Strategic Flow: Your Curated Highlights",
+          "personalizedOrder": ["case_study_1", "case_study_2", "case_study_3"],
+          "highlightedCases": [
+            {
+              "id": "case_study_id",
+              "personalizedSummary": "Why this resonates with your journey",
+              "relevanceScore": 0.95
+            }
+          ],
+          "visualTreatment": "contemplative flow",
+          "strategicInsight": "Based on your engagement, you're drawn to...",
+          "confidence": 0.87
+        }
+      output:
+        save_to: remixPayload
+        validation:
+          - validateRemixStructure
+          - ensurePersonalizationQuality
+          - checkConfidenceThreshold
+
+  # Hidden Lab 2.0 Modal Block
+  - block:
+      id: hiddenLabV2Modal
+      type: modal
+      description: "Advanced personalization lab interface"
+      styling:
+        theme: "time-aware-{{ user.timeOfDay }}"
+        classes: ["hidden-lab-v2", "memory-recall", "non-invasive"]
+        animations: ["fade-in", "slide-up"]
+      content: |
+        <div class="hidden-lab-v2-container">
+          <div class="lab-header">
+            <h1 class="lab-title">🧬 Hidden Lab 2.0 Unlocked</h1>
+            <p class="lab-subtitle">Advanced UX Memory & Personalization Engine</p>
+          </div>
+          
+          <div class="memory-recall-section">
+            <h2>🧠 Your Journey Remembered</h2>
+            <div class="memory-grid">
+              <div class="memory-item">
+                <span class="memory-label">Most Visited:</span>
+                <span class="memory-value">{{ userMemorySnapshot.mostVisitedSection | capitalize }}</span>
+              </div>
+              <div class="memory-item">
+                <span class="memory-label">Active During:</span>
+                <span class="memory-value">{{ userMemorySnapshot.favoriteTimeOfDay | capitalize }}</span>
+              </div>
+              <div class="memory-item">
+                <span class="memory-label">Recent Prompt:</span>
+                <span class="memory-value">"{{ userMemorySnapshot.lastPrompt }}"</span>
+              </div>
+              <div class="memory-item">
+                <span class="memory-label">Engagement Level:</span>
+                <span class="memory-value">{{ userMemorySnapshot.engagementLevel | capitalize }}</span>
+              </div>
+              <div class="memory-item">
+                <span class="memory-label">Visit Count:</span>
+                <span class="memory-value">{{ userMemorySnapshot.visitCount }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="case-study-remix-section">
+            <h2>🎭 Your Curated Case Study Remix</h2>
+            <h3 class="remix-title">{{ remixPayload.remixTitle }}</h3>
+            <p class="strategic-insight">{{ remixPayload.strategicInsight }}</p>
+            
+            <div class="highlighted-cases">
+              {{#each remixPayload.highlightedCases}}
+              <div class="case-highlight">
+                <h4>{{ this.id | caseStudyTitle }}</h4>
+                <p>{{ this.personalizedSummary }}</p>
+                <span class="relevance-score">Relevance: {{ this.relevanceScore | percentage }}%</span>
+              </div>
+              {{/each}}
+            </div>
+            
+            <div class="visual-treatment-preview">
+              <span class="treatment-label">Suggested Layout:</span>
+              <span class="treatment-value">{{ remixPayload.visualTreatment | capitalize }}</span>
+            </div>
+          </div>
+          
+          <div class="lab-actions">
+            <button class="lab-btn primary" data-action="remixAgain">
+              🔁 Remix Again
+            </button>
+            <button class="lab-btn secondary" data-action="saveExperience">
+              💾 Save Experience
+            </button>
+            <button class="lab-btn tertiary" data-action="exitLab">
+              ↩ Exit Lab
+            </button>
+          </div>
+          
+          <div class="confidence-indicator">
+            <span class="confidence-label">Personalization Confidence:</span>
+            <div class="confidence-bar">
+              <div class="confidence-fill" style="width: {{ remixPayload.confidence | percentage }}%"></div>
+            </div>
+            <span class="confidence-score">{{ remixPayload.confidence | percentage }}%</span>
+          </div>
+        </div>
+      interactions:
+        - action: "remixAgain"
+          trigger: "click"
+          handler: "regenerateRemix"
+        - action: "saveExperience"
+          trigger: "click"
+          handler: "saveToLocal"
+        - action: "exitLab"
+          trigger: "click"
+          handler: "closeModal"
+
+  # Save-to-Local Block
+  - block:
+      id: saveToLocal
+      type: localStorage
+      description: "Saves personalized experience to browser storage"
+      trigger: "💾 Save Experience"
+      inputs:
+        key: "ricrios_saved_experience_v2"
+        value: 
+          timestamp: "{{ now }}"
+          sessionId: "{{ session.id }}"
+          userMemory: "{{ userMemorySnapshot }}"
+          remixData: "{{ remixPayload }}"
+          timeOfDay: "{{ user.timeOfDay }}"
+          version: "2.0"
+      processing:
+        - validateStorageData
+        - compressForStorage
+        - setExpirationDate
+      success:
+        message: "✅ Your personalized experience has been saved!"
+        actions:
+          - showNotification
+          - updateUserPreferences
+      error:
+        message: "❌ Unable to save experience. Please try again."
+        fallback: "sessionStorage"
+
+  # Remix Regeneration Block
+  - block:
+      id: regenerateRemix
+      type: claude
+      description: "Regenerates case study remix with fresh perspective"
+      inputs:
+        memory: "{{ userMemorySnapshot }}"
+        previousRemix: "{{ remixPayload }}"
+        regenerationCount: "{{ session.remixCount || 0 }}"
+      prompt: |
+        Regenerate the case study remix with a fresh perspective.
+        
+        PREVIOUS REMIX: {{ remixPayload.remixTitle }}
+        REGENERATION #{{ session.remixCount + 1 }}
+        
+        Create a different angle while maintaining personalization quality:
+        - Try a different remix title
+        - Reorder case studies differently
+        - Highlight different aspects
+        - Suggest alternative visual treatment
+        
+        Maintain the same high-quality personalization but with fresh insights.
+      output:
+        save_to: remixPayload
+        increment: session.remixCount
+
+# Integration Specifications
+integration:
+  
+  # Konami Code Detection
+  konamiListener:
+    sequence: [38, 38, 40, 40, 37, 39, 37, 39, 66, 65] # ↑ ↑ ↓ ↓ ← → ← → B A
+    timeout: 10000 # 10 seconds to complete sequence
+    resetOnError: true
+    
+  # Memory Integration
+  memorySystem:
+    source: "visitor-memory-personalization-system"
+    keys: ["promptHistory", "visitedSections", "engagementMap", "timeOfDayPreference"]
+    
+  # Case Study Data
+  caseStudySource:
+    - id: "chase_travel"
+      title: "Chase Travel Platform"
+      category: "Enterprise Fintech"
+      themes: ["strategic_leadership", "enterprise_scale", "systematic_innovation"]
+    - id: "digital_wealth"
+      title: "Digital Wealth Management"
+      category: "Financial Services"
+      themes: ["systematic_innovation", "user_experience", "financial_technology"]
+    - id: "bjj_community"
+      title: "BJJ Movement Community"
+      category: "Community Building"
+      themes: ["authentic_engagement", "community_design", "movement_culture"]
+
+# Analytics & Logging
+analytics:
+  events:
+    - konami_activation
+    - memory_recall_success
+    - case_study_remix_generated
+    - experience_saved_locally
+    - remix_regenerated
+  
+  metrics:
+    - personalization_confidence
+    - user_engagement_depth
+    - remix_quality_score
+    - save_conversion_rate
+
+# Error Handling
+errorHandling:
+  memoryRecallFailure:
+    fallback: "basic_personalization"
+    message: "Using basic personalization due to memory access issues"
+  
+  remixGenerationFailure:
+    fallback: "default_case_study_order"
+    message: "Showing default case study arrangement"
+  
+  saveFailure:
+    fallback: "sessionStorage"
+    message: "Saved to session storage instead of local storage"

@@ -1,0 +1,429 @@
+name: "Embedded Case Studies Evolution Modes"
+description: "Dynamic case study storytelling with multiple narrative perspectives and time-aware evolution"
+version: "1.0"
+session_id: "case_evolution_${timestamp}_${random}"
+
+# Evolution Modes Configuration
+evolutionModes:
+  enabled: true
+  defaultMode: method
+  timeAwareMode:
+    morning: method
+    afternoon: metric
+    evening: emotional
+  promptBasedOverrides:
+    - keyword: "growth"
+      mode: metric
+    - keyword: "UI"
+      mode: visual
+    - keyword: "leadership"
+      mode: emotional
+    - keyword: "remix"
+      mode: remix
+    - keyword: "how did you do it"
+      mode: method
+    - keyword: "results"
+      mode: metric
+    - keyword: "process"
+      mode: method
+    - keyword: "design"
+      mode: visual
+    - keyword: "team"
+      mode: emotional
+    - keyword: "ROI"
+      mode: metric
+    - keyword: "methodology"
+      mode: method
+  userTriggers:
+    remixButton: true
+    evolutionSelector: true
+    narratorButton: true
+  claudeSuggestion:
+    onUncertainty: true
+    suggestRemix: true
+    confidenceThreshold: 0.85
+
+# Modal Behavior Configuration
+modals:
+  behavior:
+    enableRemixCTA: true
+    enableNarratorCTA: true
+    enableEvolutionSelector: true
+    remixVariants:
+      - id: "metric"
+        title: "ROI-Focused Version"
+        description: "Zoom into the quant results"
+        icon: "📊"
+        timeAlignment: ["afternoon", "morning"]
+        promptAlignment: ["growth", "results", "ROI", "impact"]
+      - id: "method"
+        title: "Methodology-Heavy Version"
+        description: "Step-by-step systems logic"
+        icon: "⚙️"
+        timeAlignment: ["morning", "afternoon"]
+        promptAlignment: ["how did you do it", "process", "methodology", "systematic"]
+      - id: "visual"
+        title: "Visual Showcase"
+        description: "More UI, fewer words"
+        icon: "🎨"
+        timeAlignment: ["morning", "afternoon", "evening"]
+        promptAlignment: ["UI", "design", "visual", "interface", "aesthetic"]
+      - id: "emotional"
+        title: "Founder Journey"
+        description: "Real, kind, leadership POV"
+        icon: "❤️"
+        timeAlignment: ["evening", "afternoon"]
+        promptAlignment: ["leadership", "team", "journey", "personal", "challenge"]
+      - id: "remix"
+        title: "Alternate Cut"
+        description: "Different lens on the same story"
+        icon: "🔄"
+        timeAlignment: ["evening", "afternoon"]
+        promptAlignment: ["remix", "different", "alternative", "fresh", "new perspective"]
+
+# Case Study Evolution Orchestration
+orchestration:
+
+  # Case Study Opening Event
+  - block:
+      id: caseStudyOpened
+      type: event
+      trigger: "caseStudy.opened"
+      description: "Triggered when a case study is opened"
+      onTrigger:
+        - runBlock: analyzeEvolutionContext
+        - runBlock: selectEvolutionMode
+        - runBlock: generateCaseStudyVariant
+        - runBlock: narratorTrigger
+      logging:
+        event: "case_study_opened"
+        context: "evolution_mode_analysis"
+
+  # Evolution Context Analysis
+  - block:
+      id: analyzeEvolutionContext
+      type: contextAnalyzer
+      description: "Analyzes context to determine optimal evolution mode"
+      inputs:
+        timeOfDay: "{{ user.timeOfDay }}"
+        userPrompt: "{{ memory.lastPrompt }}"
+        visitedSections: "{{ memory.visitedSections }}"
+        engagementLevel: "{{ memory.interactionDepth }}"
+        stylePreferences: "{{ localStorage.ricrios_ui_prefs }}"
+        caseStudyId: "{{ caseStudy.id }}"
+      processing:
+        - analyzePromptKeywords
+        - assessTimeAlignment
+        - evaluateEngagementContext
+        - checkStylePreferences
+      output:
+        save_to: evolutionContext
+        structure:
+          suggestedMode: "string"
+          confidence: "number"
+          reasoning: "string"
+          alternativeModes: "array"
+
+  # Evolution Mode Selection
+  - block:
+      id: selectEvolutionMode
+      type: modeSelector
+      description: "Selects optimal evolution mode based on context"
+      inputs:
+        context: "{{ evolutionContext }}"
+        defaultMode: "{{ evolutionModes.defaultMode }}"
+        timeAwareMode: "{{ evolutionModes.timeAwareMode[user.timeOfDay] }}"
+        promptOverrides: "{{ evolutionModes.promptBasedOverrides }}"
+      processing:
+        - applyPromptOverrides
+        - considerTimeAwareMode
+        - evaluateConfidence
+        - selectFinalMode
+      output:
+        save_to: selectedEvolutionMode
+        structure:
+          mode: "string"
+          confidence: "number"
+          source: "string"
+          alternatives: "array"
+
+  # Case Study Variant Generation
+  - block:
+      id: generateCaseStudyVariant
+      type: claude
+      description: "Generates case study content based on selected evolution mode"
+      inputs:
+        caseStudyId: "{{ caseStudy.id }}"
+        evolutionMode: "{{ selectedEvolutionMode.mode }}"
+        timeOfDay: "{{ user.timeOfDay }}"
+        userPrompt: "{{ memory.lastPrompt }}"
+        styleTheme: "{{ localStorage.ricrios_ui_prefs.visualTheme }}"
+        engagementLevel: "{{ memory.interactionDepth }}"
+      prompt: |
+        You are the Case Study Evolution Engine for RicRios.com.
+        
+        Generate a {{ selectedEvolutionMode.mode }} version of the case study.
+        
+        CASE STUDY: {{ caseStudy.id }}
+        EVOLUTION MODE: {{ selectedEvolutionMode.mode }}
+        TIME CONTEXT: {{ user.timeOfDay }}
+        USER PROMPT: "{{ memory.lastPrompt }}"
+        VISUAL THEME: {{ localStorage.ricrios_ui_prefs.visualTheme }}
+        ENGAGEMENT: {{ memory.interactionDepth }}
+        
+        EVOLUTION MODE SPECIFICATIONS:
+        
+        METRIC MODE:
+        - Focus on quantifiable results and ROI
+        - Highlight key performance indicators
+        - Include before/after metrics
+        - Emphasize business impact
+        - Use data-driven language
+        
+        METHOD MODE:
+        - Detail step-by-step methodology
+        - Explain systematic approach
+        - Break down process phases
+        - Include frameworks and tools used
+        - Focus on "how" rather than "what"
+        
+        VISUAL MODE:
+        - Emphasize design elements and UI
+        - Include visual descriptions
+        - Focus on aesthetic decisions
+        - Highlight visual problem-solving
+        - Use design-centric language
+        
+        EMOTIONAL MODE:
+        - Focus on leadership journey
+        - Include team dynamics
+        - Highlight personal challenges
+        - Emphasize human elements
+        - Use empathetic, authentic voice
+        
+        REMIX MODE:
+        - Offer alternative perspective
+        - Reframe the narrative
+        - Highlight different aspects
+        - Use fresh angle or lens
+        - Surprise with new insights
+        
+        TIME-AWARE ADAPTATION:
+        - Morning: Energetic, clear, systematic
+        - Afternoon: Confident, results-driven, professional
+        - Evening: Reflective, contemplative, wisdom-focused
+        
+        OUTPUT FORMAT:
+        {
+          "title": "evolved_case_study_title",
+          "summary": "brief_summary_in_selected_mode",
+          "content": "full_case_study_content",
+          "keyInsights": ["insight1", "insight2", "insight3"],
+          "callToAction": "mode_appropriate_cta",
+          "confidence": 0.85
+        }
+      output:
+        save_to: evolvedCaseStudy
+        validation:
+          - validateModeAlignment
+          - ensureContentQuality
+          - checkTimeConsistency
+
+  # Case Study Remix Modal
+  - block:
+      id: showCaseStudyRemixModal
+      type: modal
+      description: "Modal for case study evolution mode selection"
+      trigger: "remix_case_study_button"
+      styling:
+        theme: "{{ localStorage.ricrios_ui_prefs.visualTheme | lowercase }}"
+        classes: ["case-study-remix-modal", "evolution-selector"]
+        animations: ["fade-in", "scale-up"]
+      content: |
+        <div class="case-study-remix-container">
+          <div class="remix-header">
+            <h2>🎭 Remix This Case Study</h2>
+            <p>Choose your preferred narrative perspective</p>
+          </div>
+          
+          <div class="current-mode-display">
+            <span class="current-label">Current Mode:</span>
+            <span class="current-mode">{{ selectedEvolutionMode.mode | capitalize }}</span>
+            <span class="current-confidence">({{ selectedEvolutionMode.confidence | percentage }}% confidence)</span>
+          </div>
+          
+          <div class="evolution-modes-grid">
+            {{#each modals.behavior.remixVariants}}
+            <div class="evolution-mode-card" data-mode="{{ this.id }}">
+              <div class="mode-icon">{{ this.icon }}</div>
+              <h3 class="mode-title">{{ this.title }}</h3>
+              <p class="mode-description">{{ this.description }}</p>
+              <div class="mode-alignment">
+                <span class="time-alignment">{{ this.timeAlignment | join(', ') }}</span>
+              </div>
+              <button class="select-mode-btn" data-action="selectMode" data-mode="{{ this.id }}">
+                Select {{ this.title }}
+              </button>
+            </div>
+            {{/each}}
+          </div>
+          
+          <div class="remix-actions">
+            <button class="auto-select-btn primary" data-action="autoSelect">
+              🤖 Auto-Select Best Mode
+            </button>
+            <button class="close-remix-btn secondary" data-action="closeRemix">
+              Keep Current Mode
+            </button>
+          </div>
+        </div>
+      interactions:
+        - action: "selectMode"
+          trigger: "click"
+          handler: "applyEvolutionMode"
+        - action: "autoSelect"
+          trigger: "click"
+          handler: "autoSelectBestMode"
+        - action: "closeRemix"
+          trigger: "click"
+          handler: "closeModal"
+
+  # Evolution Mode Application
+  - block:
+      id: applyEvolutionMode
+      type: evolutionApplicator
+      description: "Applies selected evolution mode to case study"
+      inputs:
+        selectedMode: "{{ selectedMode }}"
+        caseStudyId: "{{ caseStudy.id }}"
+        currentContent: "{{ evolvedCaseStudy }}"
+      processing:
+        - regenerateCaseStudyContent
+        - updateVisualPresentation
+        - adaptInteractionElements
+        - trackModeChange
+      output:
+        save_to: appliedEvolution
+        structure:
+          newContent: "object"
+          visualChanges: "array"
+          interactionUpdates: "array"
+          modeChangeId: "string"
+
+  # Auto-Select Best Mode
+  - block:
+      id: autoSelectBestMode
+      type: claude
+      description: "Automatically selects best evolution mode based on context"
+      inputs:
+        context: "{{ evolutionContext }}"
+        userPrompt: "{{ memory.lastPrompt }}"
+        timeOfDay: "{{ user.timeOfDay }}"
+        engagementLevel: "{{ memory.interactionDepth }}"
+        availableModes: "{{ modals.behavior.remixVariants }}"
+      prompt: |
+        Analyze the context and automatically select the best evolution mode.
+        
+        CONTEXT:
+        - User Prompt: "{{ memory.lastPrompt }}"
+        - Time: {{ user.timeOfDay }}
+        - Engagement: {{ memory.interactionDepth }}
+        
+        AVAILABLE MODES:
+        {{#each modals.behavior.remixVariants}}
+        - {{ this.id }}: {{ this.description }}
+        {{/each}}
+        
+        Select the mode that best matches the user's intent and context.
+        
+        OUTPUT FORMAT:
+        {
+          "selectedMode": "mode_id",
+          "confidence": 0.90,
+          "reasoning": "why this mode is optimal for this context"
+        }
+      output:
+        save_to: autoSelectedMode
+        validation:
+          - validateModeSelection
+          - ensureContextAlignment
+
+# Style Controller Integration
+styleController:
+  
+  # Evolution Mode Styling
+  evolutionModeStyles:
+    metric:
+      cssClasses: ["metric-mode", "data-focused", "results-oriented"]
+      colorScheme: "metric-blue"
+      visualElements: ["charts", "graphs", "metrics-display"]
+      
+    method:
+      cssClasses: ["method-mode", "systematic-layout", "process-focused"]
+      colorScheme: "method-green"
+      visualElements: ["step-indicators", "process-flow", "methodology-display"]
+      
+    visual:
+      cssClasses: ["visual-mode", "design-showcase", "aesthetic-focused"]
+      colorScheme: "visual-purple"
+      visualElements: ["image-gallery", "design-preview", "visual-emphasis"]
+      
+    emotional:
+      cssClasses: ["emotional-mode", "journey-narrative", "human-focused"]
+      colorScheme: "emotional-warm"
+      visualElements: ["story-flow", "personal-highlights", "empathy-design"]
+      
+    remix:
+      cssClasses: ["remix-mode", "alternative-perspective", "fresh-angle"]
+      colorScheme: "remix-dynamic"
+      visualElements: ["perspective-shift", "alternative-view", "remix-highlights"]
+
+# Integration with Existing Systems
+integration:
+  
+  # Visitor Memory Integration
+  memoryIntegration:
+    trackEvolutionPreferences: true
+    rememberModeSelections: true
+    personalizeDefaults: true
+    
+  # Time-Aware Integration
+  timeAwareIntegration:
+    adaptModesByTime: true
+    timeBasedDefaults: true
+    evolutionTimeContext: true
+    
+  # Style Remix Integration
+  styleRemixIntegration:
+    coordinateWithVisualThemes: true
+    adaptToStylePreferences: true
+    maintainVisualConsistency: true
+
+# Analytics & Monitoring
+analytics:
+  events:
+    - case_study_opened
+    - evolution_mode_selected
+    - case_study_remixed
+    - auto_mode_selected
+    - mode_preference_saved
+  
+  metrics:
+    - evolution_mode_distribution
+    - mode_selection_accuracy
+    - user_satisfaction_by_mode
+    - time_based_mode_preferences
+
+# Error Handling
+errorHandling:
+  modeSelectionFailure:
+    fallback: "default_method_mode"
+    message: "Using default methodology mode"
+  
+  contentGenerationFailure:
+    fallback: "original_case_study_content"
+    message: "Showing original case study content"
+  
+  evolutionContextFailure:
+    fallback: "time_based_mode_selection"
+    message: "Using time-based mode selection"

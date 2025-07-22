@@ -1,0 +1,392 @@
+name: "Remix Style Selector UI"
+description: "Interactive UI component for selecting narrator remix modes"
+version: "1.0"
+component_type: "remix_selector"
+
+# Remix Style Selector Component
+remix_style_selector:
+  id: remix-style-ui
+  type: component
+  render:
+    component: Select
+    styling:
+      classes: ["remix-selector", "narrator-control", "time-aware-{{ user.timeOfDay }}"]
+      theme: "{{ localStorage.ricrios_ui_prefs.visualTheme | lowercase }}"
+      animations: ["fade-in", "hover-glow"]
+    props:
+      label: "🎙 Remix the Narrator"
+      placeholder: "Choose narrative lens..."
+      options:
+        - value: "strategic"
+          label: "🎯 Strategic"
+          description: "Clear + authoritative - business outcomes and system logic"
+          timeAlignment: ["morning", "afternoon"]
+          voiceProfile: "analytical"
+        - value: "reflective"
+          label: "📖 Reflective"
+          description: "Calm + narrative - personal growth and applied wisdom"
+          timeAlignment: ["evening", "late-night"]
+          voiceProfile: "contemplative"
+        - value: "energetic"
+          label: "🚀 Energetic"
+          description: "Punchy + rhythmic - momentum and urgency to transformation"
+          timeAlignment: ["morning", "afternoon"]
+          voiceProfile: "dynamic"
+        - value: "poetic"
+          label: "🎨 Poetic"
+          description: "Vivid + metaphorical - emotion through analogy and symbolism"
+          timeAlignment: ["evening", "afternoon"]
+          voiceProfile: "empathetic"
+        - value: "analytical"
+          label: "🧠 Analytical"
+          description: "Data-rich + concise - metrics, validation, and hard insights"
+          timeAlignment: ["morning", "afternoon"]
+          voiceProfile: "analytical"
+      bind: visitor_input.remix_mode
+      validation:
+        required: false
+        allowEmpty: true
+        defaultValue: "{{ recommendedRemixMode }}"
+    interactions:
+      onChange:
+        - runBlock: validateRemixSelection
+        - runBlock: updateNarratorPreview
+        - runBlock: trackRemixSelection
+      onFocus:
+        - runBlock: showRemixTooltips
+      onBlur:
+        - runBlock: hideRemixTooltips
+
+# Remix Mode Orchestration
+narrator_remix_mode:
+  id: narrator-remix-mode
+  type: conditional
+  condition: "{{ visitor_input.remix_mode }}"
+  description: "Orchestrates narrator remix based on visitor selection"
+  
+  # Remix Mode Processing
+  processing:
+    - block:
+        id: setNarratorStyle
+        type: variable
+        action: set
+        variable: narrator_style
+        value: "{{ visitor_input.remix_mode }}"
+        validation:
+          - validateRemixMode
+          - ensureTimeAlignment
+    
+    - block:
+        id: generateRemixNarration
+        type: claude
+        model: "sonnet4"
+        description: "Generate remixed case study narration"
+        inputs:
+          remix_mode: "{{ visitor_input.remix_mode }}"
+          timeOfDay: "{{ user.timeOfDay }}"
+          case_study_data: "{{ case_study_data }}"
+          visitor_context: "{{ visitor_memory }}"
+          style_theme: "{{ localStorage.ricrios_ui_prefs.visualTheme }}"
+        prompt: |
+          You are Narrator-X, remixing a case study with a specific narrative lens.
+          
+          REMIX REQUEST:
+          - Narrative Tone: {{ remix_mode }}
+          - Time Context: {{ timeOfDay }}
+          - Case Study: {{ case_study_data.title }}
+          - Visitor Context: {{ visitor_context.engagementLevel }}
+          - Style Theme: {{ style_theme }}
+          
+          REMIX LENS SPECIFICATIONS:
+          
+          🎯 STRATEGIC (Clear + Authoritative):
+          - Emphasize business outcomes and system logic
+          - Focus on measurable impact and strategic decisions
+          - Use confident, results-oriented language
+          - Highlight methodology and systematic thinking
+          - Time adaptation: Morning (crisp execution), Afternoon (proven results), Evening (strategic wisdom)
+          
+          📖 REFLECTIVE (Calm + Narrative):
+          - Focus on personal growth and applied wisdom
+          - Tell the story of transformation and learning
+          - Use contemplative, thoughtful language
+          - Highlight human elements and leadership journey
+          - Time adaptation: Morning (quiet clarity), Afternoon (thoughtful progress), Evening (earned wisdom)
+          
+          🚀 ENERGETIC (Punchy + Rhythmic):
+          - Add momentum and urgency to transformation
+          - Use dynamic, action-oriented language
+          - Emphasize breakthrough moments and rapid progress
+          - Create sense of movement and acceleration
+          - Time adaptation: Morning (fresh energy), Afternoon (sustained momentum), Evening (powerful culmination)
+          
+          🎨 POETIC (Vivid + Metaphorical):
+          - Express emotion through analogy and symbolism
+          - Use rich, evocative language and imagery
+          - Create emotional resonance and visual storytelling
+          - Blend craft mastery with artistic expression
+          - Time adaptation: Morning (fresh inspiration), Afternoon (creative flow), Evening (artistic reflection)
+          
+          🧠 ANALYTICAL (Data-Rich + Concise):
+          - Prioritize metrics, validation, and hard insights
+          - Use precise, evidence-based language
+          - Focus on quantifiable outcomes and systematic analysis
+          - Highlight technical decisions and logical reasoning
+          - Time adaptation: Morning (sharp analysis), Afternoon (systematic breakdown), Evening (deep insights)
+          
+          EDITORIAL REQUIREMENTS:
+          - Maintain Ric Rios' authentic voice and editorial minimalism
+          - Keep narration to 2-4 sentences maximum
+          - Ensure clarity, engagement, and lens-specific depth
+          - Adapt tone for time of day while preserving remix lens
+          - Avoid corporate speak or generic language
+          
+          EXAMPLE OUTPUTS:
+          
+          Strategic + Morning:
+          "Systematic design thinking transformed complex user friction into measurable business impact. This case demonstrates how strategic methodology delivered 40% engagement increase and 25% conversion boost through disciplined execution."
+          
+          Reflective + Evening:
+          "Leading through uncertainty required more than design skills—it demanded clarity, patience, and conviction. This journey traces how three decades of craft mastery guided a team through complexity toward breakthrough solutions."
+          
+          Energetic + Afternoon:
+          "When ambitious vision meets systematic execution, transformation accelerates. This case captures the momentum of breakthrough thinking—from initial insight to measurable impact in record time."
+          
+          Poetic + Evening:
+          "Like a master craftsman shaping raw material into art, this case study reveals how strategic design thinking transforms chaos into clarity, complexity into elegant solutions that endure."
+          
+          Analytical + Morning:
+          "Data-driven design decisions yielded quantifiable results: 60% reduction in user friction, 35% increase in task completion, 50% improvement in satisfaction scores. Here's the systematic methodology that delivered these outcomes."
+          
+          Generate remixed narration now:
+        output:
+          save_to: remixed_narration
+          structure:
+            narration: "string"
+            remix_mode: "string"
+            tone: "string"
+            voice: "string"
+            confidence: "number"
+            time_adapted: "boolean"
+          validation:
+            - validateNarrationLength
+            - ensureRemixAlignment
+            - checkTimeAdaptation
+    
+    - block:
+        id: renderRemixedModal
+        type: render
+        component: narrated_case_study_modal
+        inputs:
+          narration: "{{ remixed_narration }}"
+          remix_mode: "{{ visitor_input.remix_mode }}"
+          original_mode: "{{ original_narrator_mode }}"
+          context: "{{ narrator_context }}"
+
+# Narrated Case Study Modal
+narrated_case_study_modal:
+  id: narrated-case-study-modal
+  type: modal
+  description: "Modal displaying remixed case study narration"
+  styling:
+    theme: "{{ localStorage.ricrios_ui_prefs.visualTheme | lowercase }}"
+    classes: ["narrated-modal", "remix-mode-{{ visitor_input.remix_mode }}", "time-aware-{{ user.timeOfDay }}"]
+    animations: ["fade-in", "narrator-wave", "remix-glow"]
+    size: "large"
+  content: |
+    <div class="narrated-modal-container">
+      <div class="narrated-header">
+        <div class="header-main">
+          <h2>🎙 Narrator-X: {{ visitor_input.remix_mode | capitalize }} Lens</h2>
+          <p class="narrated-subtitle">{{ case_study_data.title }} - Remixed for {{ user.timeOfDay }}</p>
+        </div>
+        <div class="remix-indicator">
+          <span class="remix-badge">{{ visitor_input.remix_mode | capitalize }}</span>
+          <span class="confidence-badge">{{ remixed_narration.confidence | percentage }}%</span>
+        </div>
+      </div>
+      
+      <div class="narration-comparison">
+        <div class="comparison-grid">
+          <div class="original-narration">
+            <h3>📝 Original</h3>
+            <div class="narration-text original">
+              {{ original_narration.narration }}
+            </div>
+            <div class="narration-meta">
+              <span class="voice-tag">{{ original_narration.voice }}</span>
+              <span class="tone-tag">{{ original_narration.tone }}</span>
+            </div>
+          </div>
+          
+          <div class="remix-arrow">
+            <div class="arrow-icon">🎭</div>
+            <div class="remix-label">Remixed</div>
+          </div>
+          
+          <div class="remixed-narration">
+            <h3>{{ visitor_input.remix_mode | emoji }} Remixed</h3>
+            <div class="narration-text remixed">
+              {{ remixed_narration.narration }}
+            </div>
+            <div class="narration-meta">
+              <span class="voice-tag">{{ remixed_narration.voice }}</span>
+              <span class="tone-tag">{{ remixed_narration.tone }}</span>
+              <span class="remix-tag">{{ remixed_narration.remix_mode }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="remix-context">
+        <h3>🎯 Remix Context</h3>
+        <div class="context-details">
+          <div class="context-item">
+            <span class="context-label">Lens:</span>
+            <span class="context-value">{{ visitor_input.remix_mode | capitalize }}</span>
+          </div>
+          <div class="context-item">
+            <span class="context-label">Time:</span>
+            <span class="context-value">{{ user.timeOfDay | capitalize }}</span>
+          </div>
+          <div class="context-item">
+            <span class="context-label">Adaptation:</span>
+            <span class="context-value">{{ remixed_narration.time_adapted | yesno }}</span>
+          </div>
+          <div class="context-item">
+            <span class="context-label">Voice:</span>
+            <span class="context-value">{{ remixed_narration.voice | capitalize }}</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="narration-actions">
+        <button class="use-remix-btn primary" data-action="useRemixedNarration">
+          ✨ Use This Remix
+        </button>
+        <button class="try-another-btn secondary" data-action="tryAnotherRemix">
+          🔄 Try Another Lens
+        </button>
+        <button class="save-both-btn tertiary" data-action="saveBothNarrations">
+          💾 Save Both
+        </button>
+        <button class="share-remix-btn quaternary" data-action="shareRemix">
+          📤 Share Remix
+        </button>
+        <button class="close-remix-btn quinary" data-action="closeRemixModal">
+          ↩ Close
+        </button>
+      </div>
+      
+      <div class="remix-enhancement">
+        <h3>🎨 Further Enhancement</h3>
+        <div class="enhancement-grid">
+          <button class="enhance-option" data-enhance="time-specific">
+            🕐 More {{ user.timeOfDay | capitalize }}
+          </button>
+          <button class="enhance-option" data-enhance="voice-specific">
+            🎭 More {{ remixed_narration.voice | capitalize }}
+          </button>
+          <button class="enhance-option" data-enhance="lens-specific">
+            {{ visitor_input.remix_mode | emoji }} More {{ visitor_input.remix_mode | capitalize }}
+          </button>
+          <button class="enhance-option" data-enhance="hybrid">
+            🌟 Hybrid Approach
+          </button>
+        </div>
+      </div>
+    </div>
+  interactions:
+    - action: "useRemixedNarration"
+      trigger: "click"
+      handler: "adoptRemixedNarration"
+    - action: "tryAnotherRemix"
+      trigger: "click"
+      handler: "showRemixSelector"
+    - action: "saveBothNarrations"
+      trigger: "click"
+      handler: "saveBothToMemory"
+    - action: "shareRemix"
+      trigger: "click"
+      handler: "shareRemixContent"
+    - action: "closeRemixModal"
+      trigger: "click"
+      handler: "closeModal"
+    - action: "enhance-option"
+      trigger: "click"
+      handler: "enhanceRemixNarration"
+
+# Remix Mode Recommendations
+remix_recommendations:
+  time_based:
+    morning:
+      primary: "strategic"
+      secondary: "energetic"
+      tertiary: "analytical"
+    afternoon:
+      primary: "analytical"
+      secondary: "strategic"
+      tertiary: "energetic"
+    evening:
+      primary: "reflective"
+      secondary: "poetic"
+      tertiary: "contemplative"
+  
+  engagement_based:
+    low: "energetic"
+    medium: "strategic"
+    high: "reflective"
+    deep: "poetic"
+  
+  prompt_based:
+    methodology: "analytical"
+    leadership: "reflective"
+    results: "strategic"
+    design: "poetic"
+    innovation: "energetic"
+
+# Validation Rules
+validation:
+  remix_mode:
+    allowed_values: ["strategic", "reflective", "energetic", "poetic", "analytical"]
+    required: false
+    default_strategy: "time_based_recommendation"
+  
+  narration_length:
+    min_sentences: 2
+    max_sentences: 4
+    max_characters: 400
+  
+  time_alignment:
+    enforce: true
+    fallback: "adaptive_mode"
+
+# Analytics & Tracking
+analytics:
+  events:
+    - remix_selector_shown
+    - remix_mode_selected
+    - narration_remixed
+    - remix_adopted
+    - remix_shared
+    - enhancement_applied
+  
+  metrics:
+    - remix_usage_rate
+    - remix_preference_distribution
+    - remix_satisfaction_scores
+    - time_alignment_accuracy
+
+# Error Handling
+error_handling:
+  remix_generation_failure:
+    fallback: "original_narration"
+    message: "Using original narration due to remix generation issues"
+  
+  invalid_remix_mode:
+    fallback: "recommended_mode"
+    message: "Using recommended remix mode"
+  
+  modal_rendering_failure:
+    fallback: "simple_text_display"
+    message: "Displaying narration in simplified format"

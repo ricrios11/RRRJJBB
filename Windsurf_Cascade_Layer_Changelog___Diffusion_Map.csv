@@ -1,0 +1,8 @@
+Layer,Description,Influence Scope,Connected Modules
+🔧 live-prompt.yaml,Initial prompt input interface with time-aware themes and memory recall.,"Visitor experience initiation, prompt-driven rendering","theme-controller.yaml, memory-merge.yaml"
+🪩 remix-ui-modals.yaml,Allows Claude to suggest or visitors to request new UI expressions based on prompt style.,"Modal layout, editorial vs. systematized card shifts","live-prompt.yaml, styleController.yaml"
+🕹 konami.yaml,"Konami unlock for advanced UX paths, recall tools, and remix archive preview.",Easter egg access to system-wide remix tools and curation,"memory-merge.yaml, journey-builder.yaml"
+🎙 narrator-agent.yaml,Narration layer with tone matrix; visitors can hear variant storytelling perspectives.,"Case study modals, Claude suggestion logic, remix storytelling","case-studies.yaml, remix-narrator.yaml"
+🧬 case-studies-remix.yaml,Enables evolution paths for each case study with remix and narrator swap logic.,"Historical narrative adjustment, style expression","remix-ui-modals.yaml, narrator-agent.yaml"
+🧠 memory-merge.yaml,"Logs last prompt, remix history, and curates visitor journey data for reuse.","Session persistence, Claude tuning accuracy","live-prompt.yaml, konami.yaml"
+🧭 journey-builder.yaml,"Orchestrates all modules via time-of-day matrix, remix triggers, and UX scaffold logic.","Master conductor—governs route logic, rendering decisions, tone handoffs",ALL

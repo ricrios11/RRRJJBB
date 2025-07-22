@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Ric Rios Design Leadership</title>
+    <style>
+        /* DOS-Aligned 404 Design System */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Design Tokens - DOS Framework */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+            --spacing-4xl: 96px;
+            
+            /* Typography Scale */
+            --text-xs: 0.75rem;
+            --text-sm: 0.875rem;
+            --text-base: 1rem;
+            --text-lg: 1.125rem;
+            --text-xl: 1.25rem;
+            --text-2xl: 1.5rem;
+            --text-3xl: 1.875rem;
+            --text-4xl: 2.25rem;
+            --text-5xl: 3rem;
+            --text-6xl: 3.75rem;
+            
+            /* Color System - Light Mode */
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --accent-primary: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-subtle: #e2e8f0;
+            
+            /* Gradients */
+            --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+        }
+
+        .dark {
+            /* Color System - Dark Mode */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --accent-primary: #60a5fa;
+            --accent-hover: #3b82f6;
+            --border-subtle: #334155;
+            
+            /* Dark Gradients */
+            --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--gradient-hero);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-lg);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .error-code {
+            font-size: var(--text-6xl);
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.02em;
+        }
+
+        .error-title {
+            font-size: var(--text-3xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+        }
+
+        .error-description {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-2xl);
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            align-items: center;
+        }
+
+        .cta-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            background: var(--accent-primary);
+            color: white;
+            text-decoration: none;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: var(--text-base);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+        }
+
+        .cta-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+        }
+
+        .cta-secondary {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: var(--text-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .cta-secondary:hover {
+            color: var(--accent-primary);
+            background: var(--bg-secondary);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: var(--text-lg);
+            transition: all 0.2s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .cta-primary {
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 640px) {
+            .error-code {
+                font-size: var(--text-5xl);
+            }
+            
+            .error-title {
+                font-size: var(--text-2xl);
+            }
+            
+            .error-description {
+                font-size: var(--text-base);
+            }
+            
+            .theme-toggle {
+                top: var(--spacing-md);
+                right: var(--spacing-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="theme-toggle">🌙</div>
+    
+    <div class="container">
+        <div class="error-code">404</div>
+        <h1 class="error-title" id="error-title">Reflective Journey Pause</h1>
+        <p class="error-description" id="error-description">
+            This path leads to contemplative exploration of uncharted territory. 
+            Let's redirect this moment toward transformative mastery.
+        </p>
+        
+        <div class="cta-container">
+            <a href="https://ricrios.com" class="cta-primary">
+                Return to ricrios.com
+                <span>→</span>
+            </a>
+            <a href="javascript:history.back()" class="cta-secondary">
+                Go Back
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Time-Aware Content Framework
+        function getTimeOfDay() {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) return 'morning';
+            if (hour >= 12 && hour < 18) return 'afternoon';
+            return 'evening';
+        }
+
+        // Time-Aware Content Variants
+        const timeContent = {
+            morning: {
+                title: "Early Exploration Led You Here",
+                description: "This path sparks curiosity about uncharted possibilities. Let's channel this fresh energy toward strategic discovery."
+            },
+            afternoon: {
+                title: "Systematic Navigation Detour",
+                description: "This route reveals structured exploration opportunities. Let's redirect this systematic approach toward proven mastery."
+            },
+            evening: {
+                title: "Reflective Journey Pause",
+                description: "This path leads to contemplative exploration of uncharted territory. Let's redirect this moment toward transformative mastery."
+            }
+        };
+
+        // Theme Management
+        function initializeTheme() {
+            const timeOfDay = getTimeOfDay();
+            const body = document.body;
+            const icon = document.getElementById('theme-toggle');
+            
+            // Time-based default theme
+            const defaultDark = timeOfDay === 'evening';
+            body.classList.toggle('dark', defaultDark);
+            if (icon) icon.textContent = defaultDark ? '☀️' : '🌙';
+            
+            console.log(`🌌 404 Theme initialized: ${defaultDark ? 'dark' : 'light'} (${timeOfDay})`);
+        }
+
+        function updateContent() {
+            const timeOfDay = getTimeOfDay();
+            const content = timeContent[timeOfDay];
+            
+            document.getElementById('error-title').textContent = content.title;
+            document.getElementById('error-description').textContent = content.description;
+            
+            console.log(`🌌 404 Content updated for ${timeOfDay}`);
+        }
+
+        // Theme Toggle
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const body = document.body;
+            const isDark = body.classList.toggle('dark');
+            this.textContent = isDark ? '☀️' : '🌙';
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            updateContent();
+        });
+    </script>
+</body>
+</html>

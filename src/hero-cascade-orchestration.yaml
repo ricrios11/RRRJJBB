@@ -1,0 +1,177 @@
+# Ric Rios Hero Section Cascade Orchestration
+# Time-aware hero copy with real-time routing and UI injection
+
+metadata:
+  name: "Hero Section Time-Aware Cascade"
+  version: "1.0"
+  description: "Dynamic hero copy rendering based on time of day with real-time interactivity"
+  session_id: "hero_cascade_{{timestamp}}_{{random}}"
+
+# 🎯 1. Hero Elevation Agent
+agents:
+  - id: hero-elevation
+    description: "Elevate hero section based on time-aware user context"
+    agent: claude
+    input:
+      prompt: |
+        You are Ric Rios' Agent Studio. Elevate the hero copy using your existing site message:
+
+        EXISTING HEADLINE:
+        "Strategic Design Leadership for Tomorrow's Builders"
+
+        EXISTING DESCRIPTION:
+        "When ambitious founders and executives need systematic design leadership that bridges deep craft mastery with emerging technology—delivering strategic innovation that defines tomorrow's standards."
+
+        Using this as foundation, generate three versions (Morning/Afternoon/Evening) with:
+        - Headline
+        - Primary Description (~2 sentences)
+        - Secondary Description (~1 sentence)
+        - CTA text (action-oriented, time-aware)
+        
+        Follow these stylistic rules:
+        • Keep carefully rhythmic pacing, as seen on ricrios.com  
+        • Use "authentically mine, never generic" voice  
+        • Day = strategic clarity; Afternoon = applied rigor; Evening = reflective mastery  
+        
+        Return JSON:
+        {
+          "morning": {...},
+          "afternoon": {...},
+          "evening": {...}
+        }
+    output: heroVariants
+
+  # 🧭 2. Time-Aware Routing Logic
+  - id: time-aware-routing
+    description: "Route hero copy based on current time of day"
+    agent: router
+    input:
+      timeOfDay: "{{user.timeOfDay}}"
+      variants: "{{heroVariants}}"
+    logic:
+      if: "timeOfDay == 'morning'"
+      then: "set heroCopy = variants.morning"
+      elif: "timeOfDay == 'afternoon'"
+      then: "set heroCopy = variants.afternoon"
+      else: "set heroCopy = variants.evening"
+    output: heroCopy
+
+  # 🖼️ 3. UI Renderer Agent
+  - id: inject-to-ui
+    description: "Inject final hero copy into rendering layer"
+    agent: uiRenderer
+    input:
+      section: "Hero"
+      content: "{{heroCopy}}"
+      theme: "{{user.theme}}"
+      device: "{{user.device}}"
+    output: renderedHero
+
+  # 🧠 4. User Input Handler (Optional Interactive)
+  - id: userInputPrompt
+    description: "Handle user custom prompts for hero personalization"
+    agent: claude
+    condition: "{{userInput}} != null"
+    input:
+      prompt: "{{userInput}}"
+      context: "{{heroCopy}}"
+      timeOfDay: "{{user.timeOfDay}}"
+    output: customHeroCopy
+
+  # 📊 5. Preview Logger
+  - id: previewLogger
+    description: "Log hero rendering for debugging and analytics"
+    agent: console
+    input:
+      log: "Rendering Hero: {{heroCopy.headline}}"
+      session: "{{session_id}}"
+      timeOfDay: "{{user.timeOfDay}}"
+      variant: "{{heroCopy.variant}}"
+    output: logEntry
+
+  # 🔄 6. Agent-X Session Logger
+  - id: agent-x-logger
+    description: "Archive session data and insights"
+    agent: agent-x
+    input:
+      action: "logHeroUpdate"
+      section: "Hero"
+      variants: "{{heroVariants}}"
+      selectedVariant: "{{heroCopy}}"
+      userContext: "{{user}}"
+      insights: [
+        "Hero copy dynamically adapted to time of day",
+        "Editorial minimalism maintained across variants",
+        "Authentic Ric Rios voice preserved",
+        "Time-aware CTAs implemented (Start/Apply/Explore)"
+      ]
+    output: sessionLog
+
+# 🔄 Cascade Execution Flow
+cascade:
+  - hero-elevation
+  - time-aware-routing
+  - inject-to-ui
+  - previewLogger
+  - agent-x-logger
+  - userInputPrompt  # Conditional execution
+
+# 🔄 Real-Time Refresh Triggers
+refresh_triggers:
+  - event: "timeOfDayChange"
+    condition: "user.timeOfDay != previous.timeOfDay"
+    action: "restart_cascade"
+  
+  - event: "userPromptSubmit"
+    condition: "userInput != null"
+    action: "execute_userInputPrompt"
+  
+  - event: "lowConfidenceScore"
+    condition: "confidence < 0.7"
+    action: "request_refinement"
+
+# 📱 Context Variables
+context:
+  user:
+    timeOfDay: "{{getCurrentTimeOfDay()}}"
+    theme: "{{getThemePreference()}}"
+    device: "{{getDeviceType()}}"
+    location: "{{getTimezone()}}"
+  
+  session:
+    id: "{{generateSessionId()}}"
+    timestamp: "{{getCurrentTimestamp()}}"
+    variant_history: []
+    interaction_count: 0
+
+# 🎯 Output Schema
+output_schema:
+  heroCopy:
+    headline: "string"
+    primary_description: "string"
+    secondary_description: "string"
+    cta_text: "string"
+    variant: "morning|afternoon|evening"
+    confidence: "number"
+    
+  renderedHero:
+    html: "string"
+    css_classes: "array"
+    animations: "object"
+    accessibility: "object"
+
+# 🔧 Configuration
+config:
+  time_boundaries:
+    morning: "05:00-11:59"
+    afternoon: "12:00-17:59"
+    evening: "18:00-04:59"
+  
+  fallback_variant: "afternoon"
+  confidence_threshold: 0.7
+  refresh_interval: 300000  # 5 minutes
+  
+  ui_settings:
+    animation_duration: 300
+    fade_transition: true
+    responsive_breakpoints: [768, 1024, 1440]

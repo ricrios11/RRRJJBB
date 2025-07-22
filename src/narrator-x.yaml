@@ -1,0 +1,407 @@
+name: "Narrator-X - Dynamic Case Study Storyteller"
+description: "Adaptive agent for transforming case studies into living, breathing stories based on context"
+version: "1.0"
+session_id: "narrator_x_${timestamp}_${random}"
+
+# Narrator-X Agent Configuration
+narratorAgent:
+  enabled: true
+  confidenceThreshold: 0.85
+  adaptiveVoice: true
+  timeAwareNarration: true
+  styleIntegration: true
+  remixAwareness: true
+
+# Narrator-X Orchestration Blocks
+orchestration:
+
+  # Narrator Trigger Event
+  - block:
+      id: narratorTrigger
+      type: event
+      trigger: "caseStudy.opened"
+      description: "Triggered when case study opens to assess narration opportunity"
+      onTrigger:
+        - runBlock: assessNarrationConfidence
+        - runBlock: runNarrationIfConfident
+      logging:
+        event: "narrator_trigger_activated"
+        context: "case_study_narration"
+
+  # Narration Confidence Assessment
+  - block:
+      id: assessNarrationConfidence
+      type: confidenceAnalyzer
+      description: "Assesses whether narration should be generated based on context"
+      inputs:
+        timeOfDay: "{{ user.timeOfDay }}"
+        userPrompt: "{{ memory.lastPrompt }}"
+        evolutionMode: "{{ selectedEvolutionMode.mode }}"
+        styleTheme: "{{ localStorage.ricrios_ui_prefs.visualTheme }}"
+        engagementLevel: "{{ memory.interactionDepth }}"
+        caseStudyId: "{{ caseStudy.id }}"
+      processing:
+        - analyzeContextRichness
+        - evaluatePromptClarity
+        - assessStyleAlignment
+        - calculateNarrationValue
+      output:
+        save_to: narrationConfidence
+        structure:
+          confidence: "number"
+          shouldNarrate: "boolean"
+          reasoning: "string"
+          voiceRecommendation: "string"
+
+  # Conditional Narration Runner
+  - block:
+      id: runNarrationIfConfident
+      type: conditional
+      description: "Runs narration generation if confidence threshold is met"
+      condition: "{{ narrationConfidence.confidence >= 0.85 }}"
+      onTrue:
+        - runBlock: generateNarration
+        - runBlock: showNarrationButton
+      onFalse:
+        - runBlock: logLowConfidence
+      logging:
+        event: "narration_confidence_check"
+        confidence: "{{ narrationConfidence.confidence }}"
+
+  # Narration Generation
+  - block:
+      id: generateNarration
+      type: claude
+      description: "Generates adaptive case study narration"
+      inputs:
+        context:
+          timeOfDay: "{{ user.timeOfDay }}"
+          prompt: "{{ memory.lastPrompt }}"
+          remixMode: "{{ selectedEvolutionMode.mode }}"
+          style: "{{ localStorage.ricrios_ui_prefs.visualTheme }}"
+          engagementLevel: "{{ memory.interactionDepth }}"
+          caseStudyId: "{{ caseStudy.id }}"
+          voiceRecommendation: "{{ narrationConfidence.voiceRecommendation }}"
+      prompt: |
+        You are Narrator-X, a dynamic design storyteller for RicRios.com.
+        
+        Transform this case study into a compelling narrative using the visitor's context.
+        
+        CONTEXT:
+        - Case Study: {{ context.caseStudyId }}
+        - Time of Day: {{ context.timeOfDay }}
+        - User Prompt: "{{ context.prompt }}"
+        - Evolution Mode: {{ context.remixMode }}
+        - Visual Style: {{ context.style }}
+        - Engagement Level: {{ context.engagementLevel }}
+        - Voice Recommendation: {{ context.voiceRecommendation }}
+        
+        NARRATOR-X TONE MATRIX:
+        
+        MORNING + STRATEGIC:
+        - Voice: Crisp & Analytical
+        - Keywords: Methodical, Bold, Clean
+        - Style: Direct, systematic, energetic
+        
+        AFTERNOON + GROWTH/METRIC:
+        - Voice: Confident & Driven
+        - Keywords: ROI, Systems, Results
+        - Style: Results-focused, professional, assertive
+        
+        EVENING + EMOTIONAL:
+        - Voice: Reflective & Empathetic
+        - Keywords: Journey, Leadership, Poise
+        - Style: Contemplative, wise, human-centered
+        
+        ANY TIME + VISUAL/REMIX:
+        - Voice: Expressive & Dynamic
+        - Keywords: Pattern, Remix, Form
+        - Style: Creative, adaptive, visually-rich
+        
+        EVOLUTION MODE ADAPTATION:
+        - METRIC: Focus on impact, results, transformation
+        - METHOD: Emphasize process, systematic thinking, methodology
+        - VISUAL: Highlight design decisions, aesthetic choices, visual problem-solving
+        - EMOTIONAL: Center on leadership, team dynamics, human elements
+        - REMIX: Offer fresh perspective, alternative angle, surprising insights
+        
+        STYLE THEME INTEGRATION:
+        - Editorial Card: Clean, professional, journalistic voice
+        - Zen Mono: Minimalist, contemplative, essential voice
+        - Neon Grid: Modern, dynamic, tech-forward voice
+        - NeoBlueprint: Technical, systematic, architectural voice
+        - Minimal Glass: Elegant, refined, sophisticated voice
+        - Strategic Canvas: Warm, strategic, leadership-focused voice
+        
+        OUTPUT REQUIREMENTS:
+        - 2-4 sentences maximum
+        - Match the time-aware tone
+        - Integrate evolution mode focus
+        - Align with visual style theme
+        - Keep voice human, focused, and alive
+        - Avoid corporate speak or generic language
+        
+        EXAMPLE OUTPUT FORMATS:
+        
+        Evening + Emotional + Zen Mono:
+        "Leading under pressure required more than design instincts—it took clarity, kindness, and conviction. This case traces how Ric turned complexity into calm, aligning vision with every line of code and contour of interface."
+        
+        Morning + Strategic + Editorial Card:
+        "When systematic thinking meets strategic execution, transformation becomes inevitable. This case study breaks down the methodology that turned ambitious vision into measurable impact."
+        
+        Afternoon + Metric + NeoBlueprint:
+        "The numbers tell the story: 40% increase in user engagement, 60% reduction in support tickets, 25% boost in conversion rates. Here's the systematic approach that delivered these results."
+        
+        Generate narration now:
+      output:
+        save_to: caseStudyNarration
+        structure:
+          narration: "string"
+          tone: "string"
+          voice: "string"
+          confidence: "number"
+        validation:
+          - validateNarrationLength
+          - ensureToneAlignment
+          - checkVoiceConsistency
+
+  # Narration Button Display
+  - block:
+      id: showNarrationButton
+      type: button
+      description: "Shows narration button in case study interface"
+      label: "🗣 Narrate This"
+      styling:
+        classes: ["narration-btn", "time-aware-{{ user.timeOfDay }}", "{{ localStorage.ricrios_ui_prefs.visualTheme | lowercase }}"]
+        icon: "🗣"
+        position: "case-study-toolbar"
+        tooltip: "Hear this case study as a story"
+      onClick:
+        - showModal: caseStudyNarrationModal
+      analytics:
+        event: "narration_button_shown"
+        context: "case_study_interface"
+
+  # Narration Modal
+  - block:
+      id: caseStudyNarrationModal
+      type: modal
+      description: "Modal displaying case study narration"
+      styling:
+        theme: "{{ localStorage.ricrios_ui_prefs.visualTheme | lowercase }}"
+        classes: ["narration-modal", "time-aware-{{ user.timeOfDay }}", "narrator-x"]
+        animations: ["fade-in", "voice-wave"]
+      content: |
+        <div class="narration-modal-container">
+          <div class="narration-header">
+            <h2>🎙 Narrator-X: Your Case Study Story</h2>
+            <p class="narration-subtitle">Adaptive storytelling for {{ caseStudy.id }}</p>
+          </div>
+          
+          <div class="narration-context">
+            <div class="context-grid">
+              <div class="context-item">
+                <span class="context-label">Voice:</span>
+                <span class="context-value">{{ caseStudyNarration.voice }}</span>
+              </div>
+              <div class="context-item">
+                <span class="context-label">Tone:</span>
+                <span class="context-value">{{ caseStudyNarration.tone }}</span>
+              </div>
+              <div class="context-item">
+                <span class="context-label">Mode:</span>
+                <span class="context-value">{{ selectedEvolutionMode.mode | capitalize }}</span>
+              </div>
+              <div class="context-item">
+                <span class="context-label">Time:</span>
+                <span class="context-value">{{ user.timeOfDay | capitalize }}</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="narration-content">
+            <div class="narration-text">
+              {{ caseStudyNarration.narration }}
+            </div>
+            
+            <div class="narration-attribution">
+              <span class="narrator-signature">— Narrator-X</span>
+              <span class="confidence-display">{{ caseStudyNarration.confidence | percentage }}% confidence</span>
+            </div>
+          </div>
+          
+          <div class="narration-actions">
+            <button class="regenerate-btn primary" data-action="regenerateNarration">
+              🔁 Regenerate
+            </button>
+            <button class="save-narration-btn secondary" data-action="saveNarration">
+              💾 Save
+            </button>
+            <button class="share-narration-btn tertiary" data-action="shareNarration">
+              📤 Share
+            </button>
+            <button class="close-narration-btn quaternary" data-action="closeNarration">
+              ↩ Close
+            </button>
+          </div>
+          
+          <div class="narration-enhancement">
+            <h3>🎨 Enhance Narration</h3>
+            <div class="enhancement-options">
+              <button class="voice-option" data-voice="analytical">Analytical</button>
+              <button class="voice-option" data-voice="empathetic">Empathetic</button>
+              <button class="voice-option" data-voice="dynamic">Dynamic</button>
+              <button class="voice-option" data-voice="contemplative">Contemplative</button>
+            </div>
+          </div>
+        </div>
+      interactions:
+        - action: "regenerateNarration"
+          trigger: "click"
+          handler: "regenerateNarrationWithContext"
+        - action: "saveNarration"
+          trigger: "click"
+          handler: "saveNarrationToMemory"
+        - action: "shareNarration"
+          trigger: "click"
+          handler: "shareNarrationContent"
+        - action: "closeNarration"
+          trigger: "click"
+          handler: "closeModal"
+        - action: "voice-option"
+          trigger: "click"
+          handler: "applyVoiceEnhancement"
+
+  # Narration Regeneration
+  - block:
+      id: regenerateNarrationWithContext
+      type: claude
+      description: "Regenerates narration with enhanced context or different voice"
+      inputs:
+        originalNarration: "{{ caseStudyNarration }}"
+        enhancementRequest: "{{ enhancementRequest }}"
+        voiceOverride: "{{ voiceOverride }}"
+        regenerationCount: "{{ session.narrationRegenCount || 0 }}"
+      prompt: |
+        Regenerate the case study narration with enhanced context or different voice.
+        
+        ORIGINAL NARRATION: "{{ originalNarration.narration }}"
+        ENHANCEMENT REQUEST: {{ enhancementRequest }}
+        VOICE OVERRIDE: {{ voiceOverride }}
+        REGENERATION #{{ regenerationCount + 1 }}
+        
+        Create a fresh narration that:
+        - Maintains the core story and insights
+        - Applies the requested voice enhancement
+        - Offers a different angle or emphasis
+        - Keeps the same length and quality standards
+        
+        Use the same context and tone matrix as the original generation.
+      output:
+        save_to: regeneratedNarration
+        increment: session.narrationRegenCount
+
+  # Save Narration to Memory
+  - block:
+      id: saveNarrationToMemory
+      type: localStorage
+      description: "Saves narration to visitor memory for future reference"
+      inputs:
+        key: "ricrios_saved_narrations"
+        value:
+          timestamp: "{{ now }}"
+          caseStudyId: "{{ caseStudy.id }}"
+          narration: "{{ caseStudyNarration.narration }}"
+          voice: "{{ caseStudyNarration.voice }}"
+          tone: "{{ caseStudyNarration.tone }}"
+          context: "{{ narrationContext }}"
+      processing:
+        - validateNarrationData
+        - addToNarrationHistory
+        - updatePreferences
+      success:
+        message: "🎙 Narration saved to your memory!"
+        actions:
+          - trackNarrationSave
+          - updateNarrationPreferences
+
+  # Low Confidence Logging
+  - block:
+      id: logLowConfidence
+      type: logger
+      description: "Logs when narration confidence is below threshold"
+      inputs:
+        confidence: "{{ narrationConfidence.confidence }}"
+        reasoning: "{{ narrationConfidence.reasoning }}"
+        context: "{{ narrationContext }}"
+      message: "Narration skipped due to low confidence: {{ narrationConfidence.confidence }}"
+      analytics:
+        event: "narration_skipped_low_confidence"
+        confidence: "{{ narrationConfidence.confidence }}"
+
+# Narrator-X Voice Profiles
+voiceProfiles:
+  
+  analytical:
+    description: "Crisp, systematic, methodical voice"
+    keywords: ["systematic", "methodical", "strategic", "analytical"]
+    toneMarkers: ["precision", "clarity", "logic"]
+    timeAlignment: ["morning", "afternoon"]
+    
+  empathetic:
+    description: "Warm, human-centered, leadership-focused voice"
+    keywords: ["leadership", "team", "human", "empathetic"]
+    toneMarkers: ["warmth", "understanding", "connection"]
+    timeAlignment: ["evening", "afternoon"]
+    
+  dynamic:
+    description: "Energetic, creative, visually-rich voice"
+    keywords: ["dynamic", "creative", "innovative", "expressive"]
+    toneMarkers: ["energy", "creativity", "movement"]
+    timeAlignment: ["morning", "afternoon", "evening"]
+    
+  contemplative:
+    description: "Reflective, wise, depth-focused voice"
+    keywords: ["contemplative", "reflective", "wise", "thoughtful"]
+    toneMarkers: ["depth", "wisdom", "reflection"]
+    timeAlignment: ["evening", "late-night"]
+
+# Integration with Evolution Modes
+evolutionIntegration:
+  
+  modeNarrationFocus:
+    metric: "impact, results, transformation, measurable outcomes"
+    method: "process, systematic thinking, methodology, step-by-step approach"
+    visual: "design decisions, aesthetic choices, visual problem-solving, interface evolution"
+    emotional: "leadership journey, team dynamics, human elements, personal growth"
+    remix: "fresh perspective, alternative angle, surprising insights, different lens"
+
+# Analytics & Monitoring
+analytics:
+  events:
+    - narrator_trigger_activated
+    - narration_generated
+    - narration_button_clicked
+    - narration_regenerated
+    - narration_saved
+    - voice_enhancement_applied
+  
+  metrics:
+    - narration_generation_rate
+    - narration_engagement_rate
+    - voice_preference_distribution
+    - narration_quality_scores
+
+# Error Handling
+errorHandling:
+  narrationGenerationFailure:
+    fallback: "default_case_study_introduction"
+    message: "Using default case study introduction"
+  
+  confidenceAssessmentFailure:
+    fallback: "skip_narration"
+    message: "Skipping narration due to assessment issues"
+  
+  voiceProfileFailure:
+    fallback: "analytical_voice"
+    message: "Using analytical voice as fallback"

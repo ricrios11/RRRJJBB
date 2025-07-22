@@ -1,0 +1,512 @@
+name: "Lab 3: Journey Builder"
+description: "Advanced journey builder combining remix styles, time travel, and visitor prompts"
+version: "1.0"
+id: journey-builder-lab3
+label: "🧪 Lab 3: Journey Builder"
+type: cascade
+session_id: "journey_builder_${timestamp}_${random}"
+
+# Journey Builder Configuration
+journeyBuilder:
+  enabled: true
+  cascadeComponents: true
+  exportCapabilities: true
+  memoryIntegration: true
+  timeAwareAdaptation: true
+
+# Component Dependencies
+components:
+  - use: remix-style-selector-ui.yaml
+  - use: narrator-remix-mode.yaml
+  - use: time-travel-mode.yaml
+
+# Journey Builder Orchestration
+orchestration:
+
+  # Journey Builder Initialization
+  - block:
+      id: initializeJourneyBuilder
+      type: initialization
+      description: "Initialize journey builder with visitor context"
+      onLoad:
+        - runBlock: loadVisitorMemory
+        - runBlock: detectTimeContext
+        - runBlock: showJourneyInterface
+      logging:
+        event: "journey_builder_initialized"
+        context: "lab3_journey_creation"
+
+  # Visitor Memory Loading
+  - block:
+      id: loadVisitorMemory
+      type: memory
+      description: "Load visitor memory and preferences"
+      inputs:
+        visitorId: "{{ visitor.sessionId }}"
+        memoryKeys: ["prompt_style_preference", "time_preference", "journey_history"]
+      processing:
+        - retrieveStoredPreferences
+        - analyzeJourneyHistory
+        - calculatePersonalizationScore
+      output:
+        save_to: visitorMemory
+        structure:
+          promptStylePreference: "string"
+          timePreference: "string"
+          journeyHistory: "array"
+          personalizationScore: "number"
+
+  # Time Context Detection
+  - block:
+      id: detectTimeContext
+      type: timeDetector
+      description: "Detect current time context and preferences"
+      inputs:
+        currentTime: "{{ now }}"
+        visitorPreference: "{{ visitorMemory.timePreference }}"
+      processing:
+        - getCurrentTimeOfDay
+        - checkVisitorTimePreference
+        - recommendTimeContext
+      output:
+        save_to: timeContext
+        structure:
+          currentTimeOfDay: "string"
+          recommendedTimeContext: "string"
+          timePreferenceOverride: "boolean"
+
+  # Journey Interface Display
+  - block:
+      id: showJourneyInterface
+      type: interface
+      description: "Display journey builder interface"
+      styling:
+        theme: "journey-builder"
+        classes: ["lab3-interface", "journey-creation", "time-aware-{{ timeContext.currentTimeOfDay }}"]
+        animations: ["fade-in", "component-reveal"]
+      content: |
+        <div class="journey-builder-container">
+          <div class="journey-header">
+            <h2>🧪 Lab 3: Journey Builder</h2>
+            <p class="journey-subtitle">Create your personalized storytelling experience</p>
+            <div class="time-context-display">
+              <span class="current-time">{{ timeContext.currentTimeOfDay | capitalize }} Context</span>
+              <span class="personalization-score">{{ visitorMemory.personalizationScore | percentage }}% Personalized</span>
+            </div>
+          </div>
+          
+          <div class="journey-components">
+            <!-- Storytelling Lens Selector -->
+            <div class="component-section">
+              <h3>🎭 Choose Your Storytelling Lens</h3>
+              <div class="lens-selector">
+                <select id="prompt-style-selector" class="style-selector">
+                  <option value="">Select storytelling approach...</option>
+                  <option value="editorial" {{ visitorMemory.promptStylePreference == 'editorial' ? 'selected' : '' }}>
+                    📝 Editorial - Clean, journalistic, professional
+                  </option>
+                  <option value="analytical" {{ visitorMemory.promptStylePreference == 'analytical' ? 'selected' : '' }}>
+                    🧠 Analytical - Data-driven, systematic, precise
+                  </option>
+                  <option value="poetic" {{ visitorMemory.promptStylePreference == 'poetic' ? 'selected' : '' }}>
+                    🎨 Poetic - Metaphorical, expressive, artistic
+                  </option>
+                  <option value="bold" {{ visitorMemory.promptStylePreference == 'bold' ? 'selected' : '' }}>
+                    🚀 Bold - Dynamic, energetic, breakthrough-focused
+                  </option>
+                  <option value="minimalist" {{ visitorMemory.promptStylePreference == 'minimalist' ? 'selected' : '' }}>
+                    ⚡ Minimalist - Essential, refined, distilled
+                  </option>
+                </select>
+              </div>
+              
+              <div class="lens-descriptions">
+                <div class="lens-description" data-lens="editorial" style="display: none;">
+                  <p>Clean, journalistic approach with professional clarity and systematic structure.</p>
+                </div>
+                <div class="lens-description" data-lens="analytical" style="display: none;">
+                  <p>Data-driven storytelling with systematic analysis and measurable insights.</p>
+                </div>
+                <div class="lens-description" data-lens="poetic" style="display: none;">
+                  <p>Metaphorical and expressive approach with artistic depth and emotional resonance.</p>
+                </div>
+                <div class="lens-description" data-lens="bold" style="display: none;">
+                  <p>Dynamic, energetic storytelling focused on breakthrough moments and transformation.</p>
+                </div>
+                <div class="lens-description" data-lens="minimalist" style="display: none;">
+                  <p>Essential, refined approach that distills complex ideas into elegant simplicity.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Visitor Prompt Input -->
+            <div class="component-section">
+              <h3>💭 What's Your Vision?</h3>
+              <div class="prompt-input-container">
+                <textarea 
+                  id="visitor-prompt" 
+                  class="visitor-prompt-input"
+                  placeholder="Write a prompt to shape your journey... What story do you want to explore?"
+                  rows="4"
+                ></textarea>
+                
+                <div class="prompt-suggestions">
+                  <h4>💡 Prompt Suggestions</h4>
+                  <div class="suggestion-buttons">
+                    <button class="suggestion-btn" data-prompt="Show me how systematic thinking creates breakthrough results">
+                      Show me systematic thinking in action
+                    </button>
+                    <button class="suggestion-btn" data-prompt="Tell me about leadership under pressure and uncertainty">
+                      Leadership under pressure
+                    </button>
+                    <button class="suggestion-btn" data-prompt="Explain how design thinking transforms complex challenges">
+                      Design thinking transformation
+                    </button>
+                    <button class="suggestion-btn" data-prompt="Reveal the methodology behind strategic innovation">
+                      Strategic innovation methodology
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Time Travel Integration -->
+            <div class="component-section">
+              <h3>🕰️ Time Perspective</h3>
+              <div class="time-controls">
+                <div class="current-time-display">
+                  <span class="time-label">Current Context:</span>
+                  <span class="time-value">{{ timeContext.currentTimeOfDay | capitalize }}</span>
+                </div>
+                
+                <div class="time-options">
+                  <button class="time-option-btn" data-time="morning">
+                    🌅 Morning (Analytical)
+                  </button>
+                  <button class="time-option-btn" data-time="afternoon">
+                    🌞 Afternoon (Strategic)
+                  </button>
+                  <button class="time-option-btn" data-time="evening">
+                    🌙 Evening (Reflective)
+                  </button>
+                  <button class="time-travel-btn" data-action="enableTimeTravel">
+                    🕰️ Enable Time Travel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="journey-actions">
+            <button class="create-journey-btn primary" data-action="createJourney" disabled>
+              ✨ Create Journey
+            </button>
+            <button class="preview-journey-btn secondary" data-action="previewJourney" disabled>
+              👁 Preview Journey
+            </button>
+            <button class="reset-journey-btn tertiary" data-action="resetJourney">
+              🔄 Reset
+            </button>
+          </div>
+        </div>
+      interactions:
+        - action: "createJourney"
+          trigger: "click"
+          handler: "processJourneyCreation"
+        - action: "previewJourney"
+          trigger: "click"
+          handler: "showJourneyPreview"
+        - action: "resetJourney"
+          trigger: "click"
+          handler: "resetJourneyBuilder"
+        - action: "enableTimeTravel"
+          trigger: "click"
+          handler: "activateTimeTravel"
+
+  # Prompt Style Selection
+  - block:
+      id: selectPromptMode
+      type: select
+      label: "Choose Your Storytelling Lens"
+      description: "Select the narrative approach for your journey"
+      options:
+        - value: "editorial"
+          label: "📝 Editorial"
+          description: "Clean, journalistic, professional"
+        - value: "analytical"
+          label: "🧠 Analytical"
+          description: "Data-driven, systematic, precise"
+        - value: "poetic"
+          label: "🎨 Poetic"
+          description: "Metaphorical, expressive, artistic"
+        - value: "bold"
+          label: "🚀 Bold"
+          description: "Dynamic, energetic, breakthrough-focused"
+        - value: "minimalist"
+          label: "⚡ Minimalist"
+          description: "Essential, refined, distilled"
+      store_as: prompt_style_preference
+      validation:
+        required: true
+        defaultValue: "{{ visitorMemory.promptStylePreference || 'editorial' }}"
+
+  # Visitor Prompt Input
+  - block:
+      id: visitorPrompt
+      type: input
+      label: "What's your vision?"
+      description: "Write a prompt to shape your journey"
+      inputType: "textarea"
+      placeholder: "Write a prompt to shape your journey… What story do you want to explore?"
+      store_as: visitor_prompt
+      validation:
+        required: true
+        minLength: 10
+        maxLength: 500
+        sanitize: true
+
+  # Journey Creation Agent
+  - block:
+      id: renderCaseStudy
+      type: agent
+      model: "claude-sonnet-4"
+      description: "Create personalized journey based on visitor inputs"
+      inputs:
+        promptStyle: "{{ memory.prompt_style_preference }}"
+        visitorPrompt: "{{ memory.visitor_prompt }}"
+        timeOfDay: "{{ context.time_of_day }}"
+        visitorContext: "{{ visitorMemory }}"
+        caseStudyData: "{{ selected_case_study_data }}"
+      prompt: |
+        You are the Journey Builder Agent, creating a personalized visitor journey based on their preferences and context.
+        
+        VISITOR INPUTS:
+        - Style Preference: {{ promptStyle }}
+        - Visitor Prompt: "{{ visitorPrompt }}"
+        - Time Context: {{ timeOfDay }}
+        - Personalization Score: {{ visitorContext.personalizationScore }}
+        
+        STYLE SPECIFICATIONS:
+        
+        📝 EDITORIAL:
+        - Approach: Clean, journalistic, professional clarity
+        - Structure: Systematic, well-organized, logical flow
+        - Language: Precise, accessible, authoritative
+        - Focus: Facts, methodology, clear outcomes
+        
+        🧠 ANALYTICAL:
+        - Approach: Data-driven, systematic analysis
+        - Structure: Logical progression, evidence-based
+        - Language: Precise, technical, insight-focused
+        - Focus: Metrics, validation, measurable results
+        
+        🎨 POETIC:
+        - Approach: Metaphorical, expressive, artistic
+        - Structure: Narrative flow, emotional arc
+        - Language: Vivid, evocative, symbolic
+        - Focus: Emotion, transformation, human elements
+        
+        🚀 BOLD:
+        - Approach: Dynamic, energetic, breakthrough-focused
+        - Structure: Momentum-driven, action-oriented
+        - Language: Punchy, decisive, transformative
+        - Focus: Innovation, disruption, rapid transformation
+        
+        ⚡ MINIMALIST:
+        - Approach: Essential, refined, distilled
+        - Structure: Clean, uncluttered, focused
+        - Language: Concise, elegant, purposeful
+        - Focus: Core insights, essential elements
+        
+        TIME ADAPTATION:
+        - Morning: Add analytical clarity and systematic approach
+        - Afternoon: Emphasize strategic thinking and professional confidence
+        - Evening: Include reflective wisdom and contemplative depth
+        
+        JOURNEY REQUIREMENTS:
+        - Address the visitor's specific prompt directly
+        - Adapt tone and approach to their selected style
+        - Integrate time-aware elements naturally
+        - Maintain editorial minimalism and authentic voice
+        - Create engaging, personalized narrative (3-5 sentences)
+        - Include actionable insights or next steps
+        
+        Create the personalized journey now:
+      output:
+        save_to: personalizedJourney
+        structure:
+          journey_narration: "string"
+          style_applied: "string"
+          time_adaptation: "string"
+          personalization_level: "number"
+          confidence: "number"
+          next_steps: "array"
+        validation:
+          - validateJourneyLength
+          - ensureStyleAlignment
+          - checkPersonalizationLevel
+
+  # Journey Export Button
+  - block:
+      id: saveExperienceButton
+      type: button
+      label: "📦 Save this Journey"
+      description: "Export and save the created journey experience"
+      styling:
+        classes: ["save-journey-btn", "export-action"]
+        icon: "📦"
+      action: export
+      export_fields:
+        - memory.visitor_prompt
+        - memory.prompt_style_preference
+        - output.personalizedJourney
+        - timeContext.currentTimeOfDay
+        - visitorMemory.personalizationScore
+      exportFormat: "json"
+      exportFilename: "ricrios_journey_{{ timestamp }}.json"
+      onExport:
+        - runBlock: trackJourneyExport
+        - runBlock: updateVisitorMemory
+        - runBlock: showExportConfirmation
+
+  # Journey Preview Modal
+  - block:
+      id: showJourneyPreview
+      type: modal
+      description: "Preview the created journey before finalizing"
+      styling:
+        theme: "journey-preview"
+        classes: ["journey-preview-modal", "lab3-preview"]
+        size: "large"
+      content: |
+        <div class="journey-preview-container">
+          <div class="preview-header">
+            <h2>👁 Journey Preview</h2>
+            <p class="preview-subtitle">Your personalized storytelling experience</p>
+          </div>
+          
+          <div class="journey-details">
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span class="detail-label">Style:</span>
+                <span class="detail-value">{{ personalizedJourney.style_applied | capitalize }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Time Context:</span>
+                <span class="detail-value">{{ personalizedJourney.time_adaptation | capitalize }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Personalization:</span>
+                <span class="detail-value">{{ personalizedJourney.personalization_level | percentage }}%</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label">Confidence:</span>
+                <span class="detail-value">{{ personalizedJourney.confidence | percentage }}%</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="journey-content">
+            <h3>📖 Your Journey</h3>
+            <div class="journey-narration">
+              {{ personalizedJourney.journey_narration }}
+            </div>
+            
+            <div class="journey-prompt">
+              <h4>💭 Your Prompt</h4>
+              <div class="original-prompt">
+                "{{ memory.visitor_prompt }}"
+              </div>
+            </div>
+            
+            <div class="next-steps">
+              <h4>🎯 Next Steps</h4>
+              <ul class="steps-list">
+                {% for step in personalizedJourney.next_steps %}
+                <li class="step-item">{{ step }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          
+          <div class="preview-actions">
+            <button class="finalize-journey-btn primary" data-action="finalizeJourney">
+              ✅ Finalize Journey
+            </button>
+            <button class="edit-journey-btn secondary" data-action="editJourney">
+              ✏️ Edit Journey
+            </button>
+            <button class="save-preview-btn tertiary" data-action="saveJourneyPreview">
+              💾 Save Preview
+            </button>
+            <button class="close-preview-btn quaternary" data-action="closePreview">
+              ↩ Close Preview
+            </button>
+          </div>
+        </div>
+      interactions:
+        - action: "finalizeJourney"
+          trigger: "click"
+          handler: "finalizeJourneyCreation"
+        - action: "editJourney"
+          trigger: "click"
+          handler: "returnToJourneyBuilder"
+        - action: "saveJourneyPreview"
+          trigger: "click"
+          handler: "saveJourneyToMemory"
+        - action: "closePreview"
+          trigger: "click"
+          handler: "closeModal"
+
+  # Journey Memory Update
+  - block:
+      id: updateVisitorMemory
+      type: memory
+      description: "Update visitor memory with journey creation"
+      inputs:
+        journeyData: "{{ personalizedJourney }}"
+        visitorInputs: "{{ memory }}"
+        sessionContext: "{{ session }}"
+      processing:
+        - addJourneyToHistory
+        - updateStylePreferences
+        - calculateEngagementScore
+        - persistMemoryUpdates
+      output:
+        save_to: memoryUpdate
+        structure:
+          journeyAdded: "boolean"
+          preferencesUpdated: "boolean"
+          engagementScore: "number"
+
+# Journey Builder Analytics
+analytics:
+  events:
+    - journey_builder_initialized
+    - style_preference_selected
+    - visitor_prompt_submitted
+    - journey_created
+    - journey_previewed
+    - journey_exported
+    - journey_finalized
+  
+  metrics:
+    - journey_creation_rate
+    - style_preference_distribution
+    - prompt_complexity_scores
+    - journey_completion_rate
+    - export_usage_rate
+
+# Error Handling
+errorHandling:
+  journeyCreationFailure:
+    fallback: "default_journey_template"
+    message: "Using default journey template due to creation issues"
+  
+  styleSelectionFailure:
+    fallback: "editorial_style"
+    message: "Using editorial style as fallback"
+  
+  exportFailure:
+    fallback: "local_storage_save"
+    message: "Saving journey to local storage instead of export"

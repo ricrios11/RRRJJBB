@@ -1,0 +1,305 @@
+# Ric Rios Visitor Memory & Agent-Orchestrated Personalization System
+# Persistent visitor memory, interaction capture, and dynamic refinement
+
+# =====================================
+# VISITOR MEMORY CONFIGURATION
+# =====================================
+visitor_memory_system:
+  metadata:
+    system: "Visitor Memory & Personalization"
+    purpose: "Persistent visitor memory with agent-orchestrated refinement for deeper personalization"
+    version: "1.0"
+    generated: "2025-07-18"
+
+  memory:
+    id: "userMemory"
+    type: "persistent"
+    scope: "visitor"
+    storage: "localStorage"
+    encryption: "basic_hash"
+    retention: "30_days"
+    keys:
+      - lastPrompt:
+          type: "string"
+          maxLength: 500
+          sanitized: true
+          description: "Last user prompt or interaction"
+      - lastVisitTimeOfDay:
+          type: "string"
+          enum: ["morning", "afternoon", "evening"]
+          description: "Time of day during last meaningful interaction"
+      - lastAgentBlock:
+          type: "string"
+          description: "Last agent that provided content (Agent Q, G, S, X)"
+      - visitCount:
+          type: "integer"
+          default: 0
+          description: "Number of meaningful visits"
+      - preferredSections:
+          type: "array"
+          items: "string"
+          description: "Sections with highest engagement"
+      - interactionDepth:
+          type: "string"
+          enum: ["surface", "engaged", "deep"]
+          default: "surface"
+          description: "Level of portfolio exploration"
+      - lastSessionDuration:
+          type: "integer"
+          description: "Duration of last session in minutes"
+      - hiddenLabAccess:
+          type: "boolean"
+          default: false
+          description: "Whether visitor has accessed hidden lab"
+
+# =====================================
+# INTERACTION CAPTURE SYSTEM
+# =====================================
+interaction_capture:
+  events:
+    onPromptSubmit:
+      trigger: "user_prompt_submission"
+      actions:
+        - updateMemory:
+            key: "lastPrompt"
+            value: "{{input.prompt}}"
+            timestamp: "{{timestamp}}"
+        - updateMemory:
+            key: "lastVisitTimeOfDay"
+            value: "{{timeOfDay}}"
+        - updateMemory:
+            key: "lastAgentBlock"
+            value: "{{agent.name}}"
+        - incrementCounter:
+            key: "visitCount"
+        - trackEngagement:
+            section: "{{currentSection}}"
+            duration: "{{sessionTime}}"
+
+    onSectionView:
+      trigger: "section_scroll_or_click"
+      actions:
+        - updateMemory:
+            key: "preferredSections"
+            value: "{{section.name}}"
+            method: "append_unique"
+        - updateMemory:
+            key: "interactionDepth"
+            value: "{{calculateDepth(scrollPercentage, timeOnSection)}}"
+
+    onHiddenLabAccess:
+      trigger: "konami_code_or_lab_discovery"
+      actions:
+        - updateMemory:
+            key: "hiddenLabAccess"
+            value: true
+        - updateMemory:
+            key: "interactionDepth"
+            value: "deep"
+
+    onSessionEnd:
+      trigger: "page_unload_or_timeout"
+      actions:
+        - updateMemory:
+            key: "lastSessionDuration"
+            value: "{{sessionDurationMinutes}}"
+        - archiveSession:
+            sessionId: "{{sessionId}}"
+            data: "{{sessionSummary}}"
+
+# =====================================
+# AGENT-ORCHESTRATED REFINEMENT
+# =====================================
+agent_orchestrated_refinement:
+  agent:
+    id: "AgentX"
+    name: "Visitor Memory Synth"
+    purpose: "Merge returning visitor data with live prompt context to enhance relevance"
+    role: "memory_aware_personalizer"
+    
+  refinement_prompt: |
+    You are a memory-aware assistant specializing in visitor personalization for Ric Rios' strategic design leadership portfolio.
+    
+    VISITOR MEMORY CONTEXT:
+    - Last Prompt: {{memory.lastPrompt}}
+    - Last Visit Time: {{memory.lastVisitTimeOfDay}}
+    - Current Time: {{timeOfDay}}
+    - Visit Count: {{memory.visitCount}}
+    - Preferred Sections: {{memory.preferredSections}}
+    - Interaction Depth: {{memory.interactionDepth}}
+    - Hidden Lab Access: {{memory.hiddenLabAccess}}
+    - Last Session Duration: {{memory.lastSessionDuration}} minutes
+    
+    CURRENT CONTEXT:
+    - Current Section: {{currentSection}}
+    - Current Agent: {{currentAgent}}
+    - User Intent: {{userIntent}}
+    
+    REFINEMENT TASK:
+    Based on the visitor's memory and current context, refine the next homepage or CTA content block to reflect deeper personalization while maintaining:
+    1. Editorial minimalism and authentic Ric Rios voice
+    2. Time-aware adaptation (morning/afternoon/evening)
+    3. Strategic coherence with systematic methodology
+    4. Appropriate escalation based on interaction depth
+    
+    PERSONALIZATION STRATEGIES:
+    - Returning visitors (visitCount > 1): Reference continuity and progression
+    - Deep explorers (interactionDepth = "deep"): Offer advanced insights and hidden content
+    - Lab discoverers (hiddenLabAccess = true): Acknowledge experimental mindset
+    - Consistent time visitors: Reinforce time-specific value propositions
+    - Section preferences: Emphasize preferred content areas
+    
+    Generate refined content that feels personally relevant without being intrusive.
+
+  execution_flow:
+    - trigger: "content_block_request"
+    - check: "visitor_memory_exists"
+    - analyze: "memory_patterns_and_preferences"
+    - synthesize: "personalized_content_variant"
+    - validate: "coherence_with_brand_voice"
+    - deliver: "refined_content_block"
+
+# =====================================
+# SESSION CONFIDENCE SCORING
+# =====================================
+session_confidence_scoring:
+  score:
+    id: "personalizationConfidence"
+    method: "tokenCoherence"
+    factors:
+      - memoryRecency:
+          weight: 0.3
+          calculation: "daysSinceLastVisit"
+      - interactionDepth:
+          weight: 0.25
+          values:
+            surface: 0.3
+            engaged: 0.7
+            deep: 1.0
+      - promptCoherence:
+          weight: 0.25
+          calculation: "semanticSimilarity(lastPrompt, currentContext)"
+      - timeConsistency:
+          weight: 0.2
+          calculation: "timeOfDayAlignment(lastVisit, currentVisit)"
+    
+    thresholds:
+      high: 0.85
+      medium: 0.60
+      low: 0.60
+    
+    actions:
+      high_confidence:
+        - enableAdvancedPersonalization: true
+        - showReturnVisitorContent: true
+        - offerDeepDiveOptions: true
+      medium_confidence:
+        - enableBasicPersonalization: true
+        - showProgressiveContinuity: true
+        - maintainTimeAwareDefaults: true
+      low_confidence:
+        - fallbackToDefaultBlock: true
+        - maintainTimeAwareContent: true
+        - logLowConfidenceEvent: true
+
+# =====================================
+# PERSONALIZATION CONTENT VARIANTS
+# =====================================
+personalized_content_variants:
+  returning_visitor:
+    morning:
+      hero_refinement: "Welcome back to strategic clarity—ready to build on yesterday's insights?"
+      cta_refinement: "Continue Your Strategic Journey"
+      agent_insight: "Agent Q recognizes your returning commitment to systematic innovation"
+    afternoon:
+      hero_refinement: "Back for systematic execution—let's apply proven methodology to new challenges"
+      cta_refinement: "Advance Your Methodology"
+      agent_insight: "Agent G acknowledges your consistent pursuit of rigorous design leadership"
+    evening:
+      hero_refinement: "Returning for reflective mastery—where earned wisdom meets new possibilities"
+      cta_refinement: "Deepen Your Mastery"
+      agent_insight: "Agent S honors your commitment to transformative design leadership"
+
+  deep_explorer:
+    morning:
+      hero_refinement: "Strategic depth meets morning clarity—unlock advanced systematic thinking"
+      cta_refinement: "Access Advanced Frameworks"
+      agent_insight: "Agent Q elevates content for visitors who seek comprehensive understanding"
+    afternoon:
+      hero_refinement: "Deep methodology for serious practitioners—enterprise-scale systematic innovation"
+      cta_refinement: "Engage Advanced Methodology"
+      agent_insight: "Agent G provides sophisticated frameworks for committed practitioners"
+    evening:
+      hero_refinement: "Mastery-level exploration for transformative leaders—where depth meets wisdom"
+      cta_refinement: "Enter Mastery Territory"
+      agent_insight: "Agent S reveals advanced insights for visitors who appreciate profound depth"
+
+  lab_discoverer:
+    morning:
+      hero_refinement: "Experimental mindset meets strategic innovation—where curiosity drives breakthrough"
+      cta_refinement: "Explore Advanced Innovation"
+      agent_insight: "Agent Q celebrates your experimental approach to strategic design"
+    afternoon:
+      hero_refinement: "Systematic experimentation for innovation leaders—proven methodology meets bold exploration"
+      cta_refinement: "Apply Experimental Methodology"
+      agent_insight: "Agent G honors your commitment to rigorous innovation exploration"
+    evening:
+      hero_refinement: "Transformative experimentation for visionary leaders—where mastery meets bold possibility"
+      cta_refinement: "Pioneer Transformative Innovation"
+      agent_insight: "Agent S acknowledges your courage to explore transformative possibilities"
+
+# =====================================
+# TECHNICAL IMPLEMENTATION
+# =====================================
+technical_implementation:
+  memory_storage:
+    primary: "localStorage"
+    fallback: "sessionStorage"
+    encryption: "basic_hash_with_salt"
+    compression: "json_minification"
+    
+  privacy_compliance:
+    gdpr_compliant: true
+    data_retention: "30_days_max"
+    user_consent: "implicit_through_interaction"
+    data_deletion: "automatic_expiry"
+    
+  performance_optimization:
+    lazy_loading: "memory_retrieval_on_demand"
+    caching: "agent_response_caching"
+    debouncing: "interaction_event_debouncing"
+    
+  error_handling:
+    memory_corruption: "fallback_to_defaults"
+    agent_failure: "graceful_degradation"
+    storage_full: "oldest_data_cleanup"
+    
+  analytics_integration:
+    track_personalization_effectiveness: true
+    measure_engagement_improvement: true
+    monitor_confidence_score_accuracy: true
+    log_agent_refinement_success: true
+
+# =====================================
+# INTEGRATION WITH EXISTING SYSTEMS
+# =====================================
+system_integration:
+  time_aware_system:
+    - inherit_time_based_content: true
+    - enhance_with_memory_context: true
+    - maintain_editorial_minimalism: true
+    
+  agent_orchestration:
+    - integrate_with_existing_agents: true
+    - add_memory_context_to_prompts: true
+    - maintain_agent_role_clarity: true
+    
+  hidden_lab_system:
+    - track_lab_access_in_memory: true
+    - personalize_lab_content: true
+    - reward_experimental_behavior: true
+    
+  modal_system:
+    - personalize_modal_content: true
+    - adapt_interaction_patterns: true
+    - remember_modal_preferences: true

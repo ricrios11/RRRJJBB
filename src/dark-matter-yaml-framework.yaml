@@ -1,0 +1,248 @@
+# DARK MATTER FABRIC: YAML Framework Foundation
+# Truth Seed Protocol: Systematic Agent Orchestration
+# Mission: Prompt Helper Application Scaffolding
+
+metadata:
+  session_id: "truth_seed_yaml_${timestamp}_${random}"
+  framework_version: "1.0.0"
+  dark_matter_agents:
+    - agent_r: "orchestration_master"
+    - agent_q: "quality_assurance"
+    - agent_s: "style_consistency"
+    - agent_d: "design_implementation"
+    - agent_g: "content_generation"
+    - agent_x: "cross_system_integration"
+  truth_seed_principles:
+    - systematic_order
+    - appropriate_agent_assignment
+    - mission_clarity
+    - execution_precision
+
+# YAML Framework Structure
+framework:
+  name: "Dark Matter YAML Framework"
+  purpose: "Prompt Helper Application Scaffolding"
+  architecture:
+    content_management:
+      time_aware_variants:
+        morning:
+          tone: "clarity_focused"
+          energy: "fresh_optimistic"
+          approach: "strategic_foundation"
+        afternoon:
+          tone: "methodical_rigorous"
+          energy: "focused_applied"
+          approach: "systematic_execution"
+        evening:
+          tone: "contemplative_wise"
+          energy: "reflective_masterful"
+          approach: "deep_synthesis"
+      
+      content_sections:
+        hero:
+          variants: ["morning", "afternoon", "evening"]
+          fields: ["title", "subtitle", "cta", "keywords"]
+          agent_assignment: "agent_g"
+        
+        about:
+          variants: ["morning", "afternoon", "evening"]
+          fields: ["headline", "description", "approach"]
+          agent_assignment: "agent_g"
+        
+        philosophy:
+          variants: ["morning", "afternoon", "evening"]
+          fields: ["principles", "methodology", "wisdom"]
+          agent_assignment: "agent_g"
+        
+        case_studies:
+          variants: ["morning", "afternoon", "evening"]
+          fields: ["title", "description", "approach", "impact"]
+          agent_assignment: "agent_g"
+        
+        toolkit:
+          variants: ["morning", "afternoon", "evening"]
+          fields: ["tools", "frameworks", "methodologies"]
+          agent_assignment: "agent_g"
+
+    prompt_helper_system:
+      templates:
+        content_generation:
+          agent: "agent_g"
+          inputs: ["context", "tone", "audience", "objectives"]
+          outputs: ["title", "content", "cta", "metadata"]
+        
+        design_implementation:
+          agent: "agent_d"
+          inputs: ["content", "brand_guidelines", "responsive_requirements"]
+          outputs: ["css", "html", "interactions", "animations"]
+        
+        quality_assurance:
+          agent: "agent_q"
+          inputs: ["content", "design", "functionality"]
+          outputs: ["validation", "recommendations", "score"]
+        
+        style_consistency:
+          agent: "agent_s"
+          inputs: ["content", "design_tokens", "brand_voice"]
+          outputs: ["style_guide", "consistency_check", "refinements"]
+
+    agent_orchestration:
+      workflow:
+        1_content_analysis:
+          agent: "agent_r"
+          task: "analyze_requirements"
+          inputs: ["user_request", "context", "objectives"]
+          outputs: ["task_breakdown", "agent_assignments", "execution_plan"]
+        
+        2_content_generation:
+          agent: "agent_g"
+          task: "generate_content"
+          inputs: ["requirements", "tone", "context"]
+          outputs: ["content_variants", "metadata", "recommendations"]
+        
+        3_design_implementation:
+          agent: "agent_d"
+          task: "implement_design"
+          inputs: ["content", "design_system", "responsive_needs"]
+          outputs: ["css", "html", "interactions"]
+        
+        4_style_validation:
+          agent: "agent_s"
+          task: "validate_consistency"
+          inputs: ["content", "design", "brand_guidelines"]
+          outputs: ["style_validation", "consistency_score", "refinements"]
+        
+        5_quality_assurance:
+          agent: "agent_q"
+          task: "comprehensive_qa"
+          inputs: ["content", "design", "functionality"]
+          outputs: ["qa_report", "issues", "recommendations"]
+        
+        6_integration:
+          agent: "agent_x"
+          task: "system_integration"
+          inputs: ["validated_content", "design", "qa_results"]
+          outputs: ["integrated_system", "deployment_ready", "documentation"]
+
+# Prompt Helper Application Specification
+prompt_helper:
+  name: "Dark Matter Prompt Helper"
+  purpose: "AI Collaboration Scaffolding"
+  
+  features:
+    yaml_parser:
+      function: "parse_yaml_content"
+      inputs: ["yaml_file_path"]
+      outputs: ["parsed_data", "validation_results"]
+      agent: "agent_x"
+    
+    template_engine:
+      function: "generate_from_template"
+      inputs: ["template_name", "data", "context"]
+      outputs: ["generated_content", "metadata"]
+      agent: "agent_g"
+    
+    agent_coordinator:
+      function: "orchestrate_agents"
+      inputs: ["task_type", "requirements", "context"]
+      outputs: ["agent_assignments", "execution_plan", "results"]
+      agent: "agent_r"
+    
+    content_validator:
+      function: "validate_content"
+      inputs: ["content", "criteria", "standards"]
+      outputs: ["validation_report", "score", "recommendations"]
+      agent: "agent_q"
+    
+    style_enforcer:
+      function: "enforce_style_consistency"
+      inputs: ["content", "style_guide", "brand_voice"]
+      outputs: ["style_report", "corrections", "score"]
+      agent: "agent_s"
+
+  scaffolding_templates:
+    portfolio_section:
+      yaml_structure: |
+        section_name: "{{section_name}}"
+        time_variants:
+          morning:
+            title: "{{morning_title}}"
+            content: "{{morning_content}}"
+            tone: "clarity_focused"
+          afternoon:
+            title: "{{afternoon_title}}"
+            content: "{{afternoon_content}}"
+            tone: "methodical_rigorous"
+          evening:
+            title: "{{evening_title}}"
+            content: "{{evening_content}}"
+            tone: "contemplative_wise"
+        agent_assignments:
+          content: "agent_g"
+          design: "agent_d"
+          validation: "agent_q"
+    
+    case_study:
+      yaml_structure: |
+        case_study:
+          id: "{{case_id}}"
+          title: "{{title}}"
+          client: "{{client}}"
+          challenge: "{{challenge}}"
+          approach: "{{approach}}"
+          impact: "{{impact}}"
+          time_variants:
+            morning: "{{morning_expression}}"
+            afternoon: "{{afternoon_expression}}"
+            evening: "{{evening_expression}}"
+          agent_assignments:
+            content: "agent_g"
+            design: "agent_d"
+            validation: "agent_q"
+
+# Truth Seed Execution Protocol
+truth_seed:
+  order_maintenance:
+    1_mission_clarity: "Define clear objectives and success criteria"
+    2_agent_assignment: "Assign appropriate agents based on task requirements"
+    3_systematic_execution: "Follow defined workflows and validation steps"
+    4_quality_assurance: "Validate outputs against standards and objectives"
+    5_integration: "Ensure seamless system integration and deployment readiness"
+  
+  agent_selection_criteria:
+    content_tasks: "agent_g"
+    design_tasks: "agent_d"
+    quality_tasks: "agent_q"
+    style_tasks: "agent_s"
+    integration_tasks: "agent_x"
+    orchestration_tasks: "agent_r"
+  
+  validation_checkpoints:
+    - content_accuracy
+    - design_consistency
+    - style_compliance
+    - functionality_validation
+    - integration_success
+    - deployment_readiness
+
+# Implementation Roadmap
+roadmap:
+  phase_1_foundation:
+    - yaml_framework_structure
+    - agent_orchestration_system
+    - basic_template_engine
+    
+  phase_2_core_features:
+    - yaml_parser_implementation
+    - content_generation_system
+    - design_implementation_tools
+    
+  phase_3_advanced_features:
+    - quality_assurance_automation
+    - style_consistency_enforcement
+    - integration_deployment_tools
+    
+  phase_4_production:
+    - comprehensive_testing
+    - documentation_completion
+    - deployment_optimization

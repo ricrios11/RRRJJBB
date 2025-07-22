@@ -1,0 +1,74 @@
+# 🎛 Prompt-to-Module Routing Cascade Block for RicRios.com
+version: 1.0
+
+description: >
+  Maps Claude prompt themes to live homepage modules using memory state and time-aware context.
+
+blocks:
+  - id: user_prompt_input
+    type: text_input
+    label: "What's your focus today?"
+    placeholder: "e.g., Show me systems design examples for startups"
+    memory_key: last_prompt
+
+  - id: time_of_day_context
+    type: system
+    source: "datetime"
+    format: "HH"
+    output_variable: time_block
+
+  - id: classify_prompt_intent
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: |
+      Analyze the prompt and classify it into one of these homepage modules:
+      - Hero
+      - Toolkit
+      - CaseStudies
+      - Philosophy
+      - Innovation
+      Return JSON: { "targetModule": "<ModuleName>", "rationale": "<why>" }
+
+  - id: render_module
+    type: conditional
+    conditions:
+      - if: "{{ classify_prompt_intent.targetModule == 'Hero' }}"
+        then:
+          render: hero_section_block
+      - if: "{{ classify_prompt_intent.targetModule == 'Toolkit' }}"
+        then:
+          render: toolkit_section_block
+      - if: "{{ classify_prompt_intent.targetModule == 'CaseStudies' }}"
+        then:
+          render: case_study_block
+      - if: "{{ classify_prompt_intent.targetModule == 'Philosophy' }}"
+        then:
+          render: philosophy_block
+      - if: "{{ classify_prompt_intent.targetModule == 'Innovation' }}"
+        then:
+          render: innovation_block
+
+  - id: hero_section_block
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: "Use the prompt to generate a homepage headline, subhead, and CTA for the Hero section."
+
+  - id: toolkit_section_block
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: "Return 3 Toolkit cards tailored to the user's interest."
+
+  - id: case_study_block
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: "Suggest 2–3 relevant Case Studies with short summaries."
+
+  - id: philosophy_block
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: "Generate a Philosophy Pillar that reflects the user prompt and time of day."
+
+  - id: innovation_block
+    type: claude
+    input: "{{ user_prompt_input }}"
+    instructions: "Return a strategic innovation highlight that aligns with the user prompt."

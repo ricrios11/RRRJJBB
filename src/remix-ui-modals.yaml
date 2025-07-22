@@ -1,0 +1,417 @@
+name: "Remix UI Modals - Dynamic Visual Theme System"
+description: "YAML-driven visual remixing based on prompt tone and time of day with style locking and main UI integration"
+version: "1.0"
+session_id: "remix_ui_${timestamp}_${random}"
+
+# Remix UI Modals Orchestration Blocks
+orchestration:
+
+  # Visual Cue Analysis Block
+  - block:
+      id: remixVisualCue
+      type: claude
+      description: "Analyzes prompt tone and context to suggest visual theme variants"
+      inputs:
+        context:
+          timeOfDay: "{{ user.timeOfDay }}"
+          promptTone: "{{ memory.lastPrompt | analyzeTone }}"
+          visitedSections: "{{ memory.visitedSections }}"
+          engagementLevel: "{{ memory.interactionDepth }}"
+          sessionDuration: "{{ memory.lastSessionDuration }}"
+          currentSection: "{{ user.currentSection }}"
+      prompt: |
+        You are the visual remix engine for RicRios.com, specializing in dynamic theme adaptation.
+        
+        CONTEXT ANALYSIS:
+        - Time of Day: {{ user.timeOfDay }}
+        - Prompt Tone: {{ memory.lastPrompt | analyzeTone }}
+        - Visited Sections: {{ memory.visitedSections }}
+        - Engagement Level: {{ memory.interactionDepth }}
+        - Session Duration: {{ memory.lastSessionDuration }} minutes
+        - Current Section: {{ user.currentSection }}
+        
+        Based on this context, suggest a cohesive visual remix that includes:
+        
+        1. VISUAL THEME VARIANT:
+        Choose from: Editorial Card, Zen Mono, Neon Grid, NeoBlueprint, Minimal Glass, 
+        Strategic Canvas, Contemplative Paper, Innovation Lab, Systematic Grid, Wisdom Scroll
+        
+        2. MODAL BACKGROUND TREATMENT:
+        Choose from: Light Grain, Dark Glass, Paper Grain, Blueprint Grid, Frosted Glass,
+        Canvas Texture, Minimal Blur, Strategic Overlay, Contemplative Fade, Innovation Glow
+        
+        3. PROMPT UI STYLE:
+        Choose from: Floating Panel, Inline, Sticky Drawer, Modal Overlay, Side Panel,
+        Bottom Sheet, Contextual Popup, Minimal Input, Strategic Command, Contemplative Field
+        
+        SELECTION CRITERIA:
+        - Morning + Strategic tone → Clean, bright, systematic themes
+        - Afternoon + Visual tone → Structured, professional, grid-based themes  
+        - Evening + Emotional tone → Contemplative, elegant, minimal themes
+        - High engagement → More sophisticated visual treatments
+        - Philosophy section → Contemplative and wisdom-focused themes
+        - Toolkit section → Systematic and blueprint-style themes
+        
+        OUTPUT FORMAT:
+        {
+          "visualTheme": "Editorial Card",
+          "modalBackground": "Light Grain", 
+          "promptUI": "Floating Panel",
+          "reasoning": "Morning strategic tone calls for clean editorial presentation",
+          "confidence": 0.85,
+          "timeAlignment": "morning_strategic",
+          "sectionAlignment": "toolkit_systematic"
+        }
+      output:
+        save_to: visualRemixParams
+        validation:
+          - validateThemeSelection
+          - ensureTimeAlignment
+          - checkConfidenceThreshold
+
+  # Style Application Block
+  - block:
+      id: applyRemixVisuals
+      type: styleController
+      description: "Applies visual remix parameters to UI elements"
+      inputs:
+        theme: "{{ visualRemixParams.visualTheme }}"
+        modalStyle: "{{ visualRemixParams.modalBackground }}"
+        promptStyle: "{{ visualRemixParams.promptUI }}"
+        confidence: "{{ visualRemixParams.confidence }}"
+      processing:
+        - generateThemeCSS
+        - updateModalStyles
+        - modifyPromptInterface
+        - applyTransitionEffects
+      output:
+        save_to: appliedStyles
+        structure:
+          cssClasses: "array"
+          modalCSS: "string"
+          promptCSS: "string"
+          transitionDuration: "number"
+
+  # Modal Style Update Interface
+  - block:
+      id: modalStyleUpdate
+      type: modal
+      description: "Interactive modal for remix results and style locking"
+      styling:
+        theme: "{{ visualRemixParams.visualTheme | lowercase }}"
+        background: "{{ visualRemixParams.modalBackground | lowercase }}"
+        classes: ["remix-modal", "style-update", "time-aware-{{ user.timeOfDay }}"]
+        animations: ["fade-in", "scale-up", "theme-transition"]
+      content: |
+        <div class="remix-modal-container">
+          <div class="remix-header">
+            <h1 class="remix-title">🎨 Style Remix Activated</h1>
+            <p class="remix-subtitle">Visual theme adapted to your context</p>
+          </div>
+          
+          <div class="remix-analysis">
+            <div class="context-detection">
+              <h3>🧠 Context Detected</h3>
+              <div class="context-grid">
+                <div class="context-item">
+                  <span class="context-label">Time:</span>
+                  <span class="context-value">{{ user.timeOfDay | capitalize }}</span>
+                </div>
+                <div class="context-item">
+                  <span class="context-label">Tone:</span>
+                  <span class="context-value">{{ memory.lastPrompt | analyzeTone | capitalize }}</span>
+                </div>
+                <div class="context-item">
+                  <span class="context-label">Section:</span>
+                  <span class="context-value">{{ user.currentSection | capitalize }}</span>
+                </div>
+                <div class="context-item">
+                  <span class="context-label">Engagement:</span>
+                  <span class="context-value">{{ memory.interactionDepth | capitalize }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="remix-suggestion">
+              <h3>✨ Claude's Remix Suggestion</h3>
+              <p class="remix-reasoning">{{ visualRemixParams.reasoning }}</p>
+              
+              <div class="style-preview">
+                <div class="style-item">
+                  <span class="style-label">Visual Theme:</span>
+                  <span class="style-value theme-preview">{{ visualRemixParams.visualTheme }}</span>
+                </div>
+                <div class="style-item">
+                  <span class="style-label">Modal Background:</span>
+                  <span class="style-value modal-preview">{{ visualRemixParams.modalBackground }}</span>
+                </div>
+                <div class="style-item">
+                  <span class="style-label">Prompt UI:</span>
+                  <span class="style-value prompt-preview">{{ visualRemixParams.promptUI }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="remix-actions">
+            <button class="remix-btn primary" data-action="lockStyle">
+              ✅ Yes, Make It Mine
+            </button>
+            <button class="remix-btn secondary" data-action="tryAnother">
+              🔁 Try Another Remix
+            </button>
+            <button class="remix-btn tertiary" data-action="returnDefault">
+              ↩ Return to Default
+            </button>
+          </div>
+          
+          <div class="confidence-display">
+            <span class="confidence-label">Remix Confidence:</span>
+            <div class="confidence-bar">
+              <div class="confidence-fill" style="width: {{ visualRemixParams.confidence | percentage }}%"></div>
+            </div>
+            <span class="confidence-score">{{ visualRemixParams.confidence | percentage }}%</span>
+          </div>
+        </div>
+      interactions:
+        - action: "lockStyle"
+          trigger: "click"
+          handler: "lockUserStyle"
+        - action: "tryAnother"
+          trigger: "click"
+          handler: "regenerateRemix"
+        - action: "returnDefault"
+          trigger: "click"
+          handler: "resetToDefault"
+
+  # Style Locking Block
+  - block:
+      id: lockUserStyle
+      type: localStorage
+      description: "Persists user's preferred style profile"
+      trigger: "✅ Yes, Make It Mine"
+      inputs:
+        key: "ricrios_style_profile"
+        value:
+          timestamp: "{{ now }}"
+          sessionId: "{{ session.id }}"
+          visualTheme: "{{ visualRemixParams.visualTheme }}"
+          modalBackground: "{{ visualRemixParams.modalBackground }}"
+          promptUI: "{{ visualRemixParams.promptUI }}"
+          contextAlignment: "{{ visualRemixParams.timeAlignment }}"
+          confidence: "{{ visualRemixParams.confidence }}"
+          lockedAt: "{{ user.timeOfDay }}"
+      processing:
+        - validateStyleData
+        - compressForStorage
+        - setStyleExpiration
+      success:
+        message: "🎨 Your style profile has been locked in!"
+        actions:
+          - applyStyleGlobally
+          - updateUserPreferences
+          - showStyleConfirmation
+      error:
+        message: "❌ Unable to save style profile. Please try again."
+        fallback: "sessionStorage"
+
+  # Remix Regeneration Block
+  - block:
+      id: regenerateRemix
+      type: claude
+      description: "Generates alternative visual remix with fresh perspective"
+      inputs:
+        context: "{{ originalContext }}"
+        previousRemix: "{{ visualRemixParams }}"
+        regenerationCount: "{{ session.remixCount || 0 }}"
+      prompt: |
+        Generate an alternative visual remix with a fresh perspective.
+        
+        PREVIOUS REMIX: {{ visualRemixParams.visualTheme }}
+        REGENERATION #{{ session.remixCount + 1 }}
+        
+        Create a different visual approach while maintaining context appropriateness:
+        - Try a different visual theme from the available options
+        - Suggest alternative modal background treatment
+        - Recommend different prompt UI style
+        - Maintain time-of-day and tone alignment
+        
+        Provide fresh reasoning and maintain high confidence.
+      output:
+        save_to: visualRemixParams
+        increment: session.remixCount
+
+  # Default Reset Block
+  - block:
+      id: resetToDefault
+      type: styleController
+      description: "Resets UI to default time-aware styling"
+      inputs:
+        resetTarget: "all"
+        preserveTimeAware: true
+      processing:
+        - clearCustomStyles
+        - restoreDefaultTheme
+        - maintainTimeAwareness
+      success:
+        message: "🔄 Returned to default styling"
+        actions:
+          - updateStyleClasses
+          - refreshInterface
+
+# Style Remix Button Integration
+promptUIIntegration:
+  
+  # Main Prompt UI Style Remix Button
+  - component:
+      id: styleRemixButton
+      type: button
+      placement: "prompt-ui-toolbar"
+      styling:
+        classes: ["style-remix-btn", "time-aware-{{ user.timeOfDay }}"]
+        icon: "🪄"
+        text: "Style Remix"
+        position: "right"
+      trigger:
+        event: "click"
+        handler: "triggerStyleRemix"
+      tooltip: "Remix visual theme based on your context"
+
+  # Style Remix Trigger Handler
+  - handler:
+      id: triggerStyleRemix
+      type: orchestration
+      workflow:
+        - runBlock: remixVisualCue
+        - runBlock: applyRemixVisuals
+        - showModal: modalStyleUpdate
+      analytics:
+        event: "style_remix_triggered"
+        context: "main_prompt_ui"
+
+# Visual Theme Definitions
+themeDefinitions:
+  
+  "Editorial Card":
+    description: "Clean editorial presentation with card-based layout"
+    cssClasses: ["editorial-card", "clean-typography", "strategic-spacing"]
+    colorScheme: "light-editorial"
+    bestFor: ["morning", "strategic", "professional"]
+    
+  "Zen Mono":
+    description: "Minimalist monochromatic design with contemplative spacing"
+    cssClasses: ["zen-mono", "minimal-contrast", "contemplative-spacing"]
+    colorScheme: "monochromatic"
+    bestFor: ["evening", "emotional", "philosophy"]
+    
+  "Neon Grid":
+    description: "Modern grid system with subtle neon accents"
+    cssClasses: ["neon-grid", "modern-grid", "accent-highlights"]
+    colorScheme: "dark-neon"
+    bestFor: ["evening", "visual", "innovation"]
+    
+  "NeoBlueprint":
+    description: "Technical blueprint aesthetic with systematic organization"
+    cssClasses: ["neo-blueprint", "technical-grid", "systematic-layout"]
+    colorScheme: "blueprint-blue"
+    bestFor: ["afternoon", "strategic", "toolkit"]
+    
+  "Minimal Glass":
+    description: "Frosted glass aesthetic with elegant transparency"
+    cssClasses: ["minimal-glass", "frosted-elements", "elegant-transparency"]
+    colorScheme: "glass-neutral"
+    bestFor: ["morning", "visual", "about"]
+    
+  "Strategic Canvas":
+    description: "Canvas texture with strategic visual hierarchy"
+    cssClasses: ["strategic-canvas", "textured-background", "hierarchical-layout"]
+    colorScheme: "canvas-warm"
+    bestFor: ["afternoon", "strategic", "case_studies"]
+
+# Modal Background Treatments
+modalBackgrounds:
+  
+  "Light Grain":
+    css: "background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); backdrop-filter: blur(10px);"
+    texture: "subtle-grain"
+    
+  "Dark Glass":
+    css: "background: rgba(33, 37, 41, 0.85); backdrop-filter: blur(15px);"
+    texture: "glass-smooth"
+    
+  "Paper Grain":
+    css: "background: #fefefe; background-image: url('data:image/svg+xml,<svg>...</svg>');"
+    texture: "paper-grain"
+    
+  "Blueprint Grid":
+    css: "background: #1a1a2e; background-image: radial-gradient(circle, #16213e 1px, transparent 1px);"
+    texture: "blueprint-grid"
+
+# Prompt UI Styles
+promptUIStyles:
+  
+  "Floating Panel":
+    css: "position: fixed; bottom: 2rem; right: 2rem; border-radius: 1rem; box-shadow: 0 8px 32px rgba(0,0,0,0.1);"
+    behavior: "floating"
+    
+  "Inline":
+    css: "position: relative; width: 100%; margin: 1rem 0; border-radius: 0.5rem;"
+    behavior: "inline"
+    
+  "Sticky Drawer":
+    css: "position: sticky; bottom: 0; width: 100%; transform: translateY(0); transition: transform 0.3s ease;"
+    behavior: "sticky"
+
+# Integration with Existing Systems
+integration:
+  
+  # Konami Code Integration
+  konamiIntegration:
+    workflow:
+      - runBlock: recallMemorySnapshot
+      - runBlock: remixCaseStudies
+      - runBlock: remixVisualCue
+      - runBlock: applyRemixVisuals
+      - showModal: hiddenLabV2Modal
+      - showModal: modalStyleUpdate
+  
+  # Time-Aware System Integration
+  timeAwareIntegration:
+    preserveTimeContext: true
+    adaptToTimeChanges: true
+    maintainConsistency: true
+  
+  # Visitor Memory Integration
+  memoryIntegration:
+    trackStylePreferences: true
+    rememberRemixChoices: true
+    personalizeDefaults: true
+
+# Analytics & Logging
+analytics:
+  events:
+    - style_remix_triggered
+    - visual_theme_applied
+    - style_profile_locked
+    - remix_regenerated
+    - default_reset
+  
+  metrics:
+    - remix_confidence_score
+    - style_lock_conversion_rate
+    - theme_preference_distribution
+    - time_context_accuracy
+
+# Error Handling
+errorHandling:
+  remixGenerationFailure:
+    fallback: "default_time_aware_theme"
+    message: "Using default theme due to remix generation issues"
+  
+  styleApplicationFailure:
+    fallback: "preserve_current_styles"
+    message: "Unable to apply new styles, maintaining current appearance"
+  
+  storageFailure:
+    fallback: "sessionStorage"
+    message: "Style preferences saved to session storage"

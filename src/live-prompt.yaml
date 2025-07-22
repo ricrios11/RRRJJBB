@@ -1,0 +1,394 @@
+name: "Live Prompt Integration - Dynamic Style Remix"
+description: "Integrated live prompt system with style remix capabilities and Konami Lab integration"
+version: "1.0"
+session_id: "live_prompt_${timestamp}_${random}"
+
+# Live Prompt Integration Blocks
+orchestration:
+
+  # User Prompt Input Block
+  - block:
+      id: getUserPrompt
+      type: input
+      description: "Main prompt input with integrated style remix capability"
+      label: "What's your prompt today?"
+      placeholder: "e.g. Help me reframe my design philosophy for morning clarity"
+      styling:
+        classes: ["live-prompt-input", "time-aware-{{ user.timeOfDay }}", "contextual-input"]
+        theme: "adaptive"
+        position: "contextual"
+      validation:
+        minLength: 3
+        maxLength: 500
+        sanitize: true
+      save_to: userPrompt
+      actions:
+        - label: "🪄 Remix Style"
+          action: runBlock
+          block: remixVisualCue
+          tooltip: "Adapt visual theme to your prompt"
+          styling:
+            classes: ["remix-trigger-btn", "time-aware-{{ user.timeOfDay }}"]
+            icon: "🪄"
+            position: "inline-right"
+        - label: "💭 Process Prompt"
+          action: runBlock
+          block: processUserPrompt
+          tooltip: "Analyze and respond to your prompt"
+          styling:
+            classes: ["process-prompt-btn", "primary"]
+            icon: "💭"
+            position: "inline-right"
+        - label: "🧠 Memory Context"
+          action: runBlock
+          block: recallMemoryContext
+          tooltip: "Include your visit history"
+          styling:
+            classes: ["memory-context-btn", "secondary"]
+            icon: "🧠"
+            position: "inline-left"
+
+  # Prompt Processing Block
+  - block:
+      id: processUserPrompt
+      type: claude
+      description: "Main prompt processing with time-aware and memory context"
+      inputs:
+        userPrompt: "{{ userPrompt }}"
+        timeOfDay: "{{ user.timeOfDay }}"
+        memoryContext: "{{ visitorMemory }}"
+        currentSection: "{{ user.currentSection }}"
+        visualTheme: "{{ visualRemixParams.visualTheme || 'default' }}"
+      prompt: |
+        You are Ric Rios' portfolio AI, responding to visitor prompts with time-aware, memory-enhanced insights.
+        
+        VISITOR PROMPT: "{{ userPrompt }}"
+        
+        CONTEXT:
+        - Time of Day: {{ user.timeOfDay }}
+        - Current Section: {{ user.currentSection }}
+        - Visual Theme: {{ visualRemixParams.visualTheme || 'default' }}
+        - Memory Context: {{ visitorMemory.summary || 'First visit' }}
+        
+        Respond with:
+        1. Direct, helpful response to their prompt
+        2. Time-aware tone (morning: energetic, afternoon: systematic, evening: contemplative)
+        3. Memory-aware continuity if returning visitor
+        4. Editorial minimalism maintaining Ric's authentic voice
+        5. Strategic insights relevant to their inquiry
+        
+        Keep response concise, actionable, and aligned with the current visual theme.
+      output:
+        save_to: promptResponse
+        structure:
+          response: "string"
+          tone: "string"
+          insights: "array"
+          followUp: "string"
+
+  # Memory Context Recall Block
+  - block:
+      id: recallMemoryContext
+      type: localMemory
+      description: "Retrieves visitor memory for prompt context enhancement"
+      inputs:
+        keys: ["promptHistory", "visitedSections", "engagementMap", "timeOfDayPreference"]
+      processing:
+        - analyzeVisitPattern
+        - identifyInterests
+        - calculateContinuity
+      output:
+        save_to: visitorMemory
+        structure:
+          summary: "string"
+          interests: "array"
+          continuity: "number"
+          lastInteraction: "string"
+
+  # Integrated Style Remix Block (Enhanced)
+  - block:
+      id: remixVisualCue
+      type: claude
+      description: "Enhanced visual cue analysis with live prompt integration"
+      inputs:
+        context:
+          timeOfDay: "{{ user.timeOfDay }}"
+          promptTone: "{{ userPrompt | analyzeTone }}"
+          userPrompt: "{{ userPrompt }}"
+          visitedSections: "{{ visitorMemory.visitedSections }}"
+          engagementLevel: "{{ visitorMemory.engagementLevel }}"
+          currentSection: "{{ user.currentSection }}"
+      prompt: |
+        Analyze the user's live prompt and suggest optimal UI remix for enhanced experience.
+        
+        USER PROMPT: "{{ userPrompt }}"
+        CONTEXT: {{ user.timeOfDay }} / {{ user.currentSection }} / {{ visitorMemory.engagementLevel }}
+        
+        Based on prompt tone analysis and context, suggest:
+        
+        VISUAL THEME OPTIONS:
+        - Editorial Card: Clean editorial presentation (strategic/professional prompts)
+        - Zen Mono: Minimalist contemplative design (emotional/philosophical prompts)
+        - Neon Grid: Modern grid with accents (visual/creative prompts)
+        - NeoBlueprint: Technical systematic layout (methodology/framework prompts)
+        - Minimal Glass: Elegant transparency (clarity/simplicity prompts)
+        - Strategic Canvas: Textured hierarchy (leadership/strategy prompts)
+        
+        MODAL BACKGROUND OPTIONS:
+        - Light Grain: Morning brightness, strategic clarity
+        - Dark Glass: Evening sophistication, contemplative depth
+        - Paper Grain: Contemplative texture, philosophical depth
+        - Blueprint Grid: Technical systematic, methodology focus
+        - Frosted Glass: High engagement, sophisticated interaction
+        - Canvas Texture: Strategic warmth, leadership context
+        
+        PROMPT UI STYLE OPTIONS:
+        - Floating Panel: High engagement, sophisticated positioning
+        - Inline: Integrated flow, contemplative interaction
+        - Sticky Drawer: Persistent access, systematic workflow
+        - Modal Overlay: Focused interaction, deep engagement
+        - Side Panel: Extended interaction, comprehensive exploration
+        
+        OUTPUT FORMAT:
+        {
+          "visualTheme": "selected_theme",
+          "modalBackground": "selected_background",
+          "promptUI": "selected_ui_style",
+          "reasoning": "why this combination works for this prompt",
+          "confidence": 0.85,
+          "promptAlignment": "how theme aligns with prompt intent",
+          "timeAlignment": "how theme works with current time"
+        }
+      output:
+        save_to: visualRemixParams
+        validation:
+          - validateThemeSelection
+          - ensurePromptAlignment
+          - checkTimeConsistency
+
+  # Apply Visual Remix Block
+  - block:
+      id: applyVisualRemix
+      type: styleController
+      description: "Applies visual remix to live interface"
+      inputs:
+        theme: "{{ visualRemixParams.visualTheme }}"
+        modalStyle: "{{ visualRemixParams.modalBackground }}"
+        promptStyle: "{{ visualRemixParams.promptUI }}"
+        userPrompt: "{{ userPrompt }}"
+        confidence: "{{ visualRemixParams.confidence }}"
+      processing:
+        - generateAdaptiveCSS
+        - updateLiveInterface
+        - applyTransitions
+        - trackStyleChange
+      output:
+        save_to: appliedRemixStyles
+        structure:
+          cssClasses: "array"
+          interfaceCSS: "string"
+          transitionDuration: "number"
+          styleChangeId: "string"
+
+  # Style Confirmation Modal
+  - block:
+      id: showStyleConfirmation
+      type: modal
+      description: "Confirms style remix application with user"
+      trigger: "after_remix_application"
+      styling:
+        theme: "{{ visualRemixParams.visualTheme | lowercase }}"
+        background: "{{ visualRemixParams.modalBackground | lowercase }}"
+        classes: ["style-confirmation-modal", "live-prompt-integration"]
+        animations: ["fade-in", "theme-transition"]
+      content: |
+        <div class="style-confirmation-container">
+          <div class="confirmation-header">
+            <h2>🎨 Style Remixed</h2>
+            <p>Interface adapted to your prompt</p>
+          </div>
+          
+          <div class="remix-summary">
+            <div class="prompt-echo">
+              <span class="prompt-label">Your Prompt:</span>
+              <span class="prompt-text">"{{ userPrompt }}"</span>
+            </div>
+            
+            <div class="style-applied">
+              <span class="style-label">Applied Style:</span>
+              <span class="style-value">{{ visualRemixParams.visualTheme }}</span>
+            </div>
+            
+            <div class="reasoning-display">
+              <span class="reasoning-label">Why:</span>
+              <span class="reasoning-text">{{ visualRemixParams.reasoning }}</span>
+            </div>
+          </div>
+          
+          <div class="confirmation-actions">
+            <button class="confirm-btn primary" data-action="keepStyle">
+              ✅ Keep This Style
+            </button>
+            <button class="adjust-btn secondary" data-action="adjustStyle">
+              🔧 Adjust Style
+            </button>
+            <button class="dismiss-btn tertiary" data-action="dismissConfirmation">
+              Continue
+            </button>
+          </div>
+        </div>
+      interactions:
+        - action: "keepStyle"
+          trigger: "click"
+          handler: "lockStylePreference"
+        - action: "adjustStyle"
+          trigger: "click"
+          handler: "showStyleAdjustment"
+        - action: "dismissConfirmation"
+          trigger: "click"
+          handler: "closeModal"
+
+# Konami Integration Patch
+konamiIntegration:
+  
+  # Enhanced Konami Sequence with Style Remix
+  - sequence:
+      id: enhancedKonamiSequence
+      trigger: "↑ ↑ ↓ ↓ ← → ← → B A"
+      workflow:
+        - runBlock: recallMemorySnapshot
+        - runBlock: remixCaseStudies
+        - runBlock: remixVisualCue
+        - runBlock: applyVisualRemix
+        - showModal: hiddenLabV2Modal
+        - showModal: styleConfirmation
+      description: "Konami code now includes visual remix as part of Hidden Lab 2.0"
+
+# Style Controller Reference Implementation
+styleController:
+  
+  # Theme Definitions (Enhanced)
+  themes:
+    "Editorial Card":
+      description: "Clean editorial presentation with card-based layout"
+      cssClasses: ["editorial-card", "clean-typography", "strategic-spacing"]
+      colorScheme: "light-editorial"
+      promptAlignment: ["strategic", "professional", "methodology"]
+      timeAlignment: ["morning", "afternoon"]
+      
+    "Zen Mono":
+      description: "Minimalist monochromatic design with contemplative spacing"
+      cssClasses: ["zen-mono", "minimal-contrast", "contemplative-spacing"]
+      colorScheme: "monochromatic"
+      promptAlignment: ["emotional", "philosophical", "contemplative"]
+      timeAlignment: ["evening", "late-night"]
+      
+    "Neon Grid":
+      description: "Modern grid system with subtle neon accents"
+      cssClasses: ["neon-grid", "modern-grid", "accent-highlights"]
+      colorScheme: "dark-neon"
+      promptAlignment: ["visual", "creative", "innovative"]
+      timeAlignment: ["evening", "night"]
+      
+    "NeoBlueprint":
+      description: "Technical blueprint aesthetic with systematic organization"
+      cssClasses: ["neo-blueprint", "technical-grid", "systematic-layout"]
+      colorScheme: "blueprint-blue"
+      promptAlignment: ["strategic", "systematic", "technical"]
+      timeAlignment: ["afternoon", "work-hours"]
+
+  # Modal Styles (Enhanced)
+  modalStyles:
+    "Light Grain":
+      css: "background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); backdrop-filter: blur(10px);"
+      texture: "subtle-grain"
+      timeAlignment: ["morning", "early-afternoon"]
+      
+    "Dark Glass":
+      css: "background: rgba(33, 37, 41, 0.85); backdrop-filter: blur(15px);"
+      texture: "glass-smooth"
+      timeAlignment: ["evening", "night"]
+      
+    "Blueprint Grid":
+      css: "background: #1a1a2e; background-image: radial-gradient(circle, #16213e 1px, transparent 1px);"
+      texture: "blueprint-grid"
+      promptAlignment: ["technical", "systematic"]
+
+  # Prompt UI Styles (Enhanced)
+  promptUIStyles:
+    "Floating Panel":
+      css: "position: fixed; bottom: 2rem; right: 2rem; border-radius: 1rem; box-shadow: 0 8px 32px rgba(0,0,0,0.1);"
+      behavior: "floating"
+      engagementLevel: ["high", "focused"]
+      
+    "Inline":
+      css: "position: relative; width: 100%; margin: 1rem 0; border-radius: 0.5rem;"
+      behavior: "inline"
+      engagementLevel: ["medium", "contemplative"]
+      
+    "Sticky Drawer":
+      css: "position: sticky; bottom: 0; width: 100%; transform: translateY(0); transition: transform 0.3s ease;"
+      behavior: "sticky"
+      engagementLevel: ["high", "systematic"]
+
+# Prompt Tone Analysis Cheatsheet
+promptToneMapping:
+  
+  # Tone Detection Patterns
+  tonePatterns:
+    strategic: ["strategy", "strategic", "methodology", "framework", "approach", "systematic", "leadership"]
+    visual: ["show", "visual", "see", "display", "diagram", "image", "visualize", "demonstrate"]
+    emotional: ["feel", "emotion", "meaningful", "inspiring", "personal", "resonate", "connect"]
+    technical: ["technical", "system", "process", "implementation", "architecture", "structure"]
+    philosophical: ["philosophy", "wisdom", "principle", "belief", "value", "meaning", "purpose"]
+    creative: ["creative", "innovative", "design", "artistic", "aesthetic", "beautiful", "elegant"]
+    playful: ["fun", "playful", "experiment", "explore", "discover", "adventure", "curious"]
+
+  # Time-Based Theme Mapping
+  timeThemeMapping:
+    morning:
+      strategic: "Editorial Card"
+      visual: "Minimal Glass"
+      emotional: "Strategic Canvas"
+      default: "Editorial Card"
+    afternoon:
+      strategic: "NeoBlueprint"
+      technical: "NeoBlueprint"
+      visual: "Strategic Canvas"
+      default: "Strategic Canvas"
+    evening:
+      emotional: "Zen Mono"
+      philosophical: "Zen Mono"
+      visual: "Neon Grid"
+      creative: "Neon Grid"
+      default: "Zen Mono"
+
+# Analytics & Monitoring
+analytics:
+  events:
+    - live_prompt_submitted
+    - style_remix_triggered
+    - theme_applied_from_prompt
+    - style_confirmation_shown
+    - style_preference_locked
+    - konami_style_remix_activated
+  
+  metrics:
+    - prompt_to_theme_accuracy
+    - style_remix_engagement_rate
+    - theme_preference_retention
+    - konami_integration_usage
+
+# Error Handling & Fallbacks
+errorHandling:
+  promptProcessingFailure:
+    fallback: "default_response_template"
+    message: "Processing your prompt with default styling"
+  
+  styleRemixFailure:
+    fallback: "current_time_aware_theme"
+    message: "Maintaining current visual theme"
+  
+  memoryContextFailure:
+    fallback: "first_visit_context"
+    message: "Treating as first-time visitor interaction"

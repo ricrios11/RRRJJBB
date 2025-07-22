@@ -1,0 +1,441 @@
+# Ric Rios Enhanced Agent Orchestration System
+# Agent-orchestrated refinement with structured output and section-specialized agents
+
+# =====================================
+# ENHANCED AGENT ORCHESTRATION SYSTEM
+# =====================================
+ricrios_enhanced_agent_orchestration:
+  metadata:
+    system: "Enhanced Agent Orchestration"
+    purpose: "Agent-orchestrated refinement with structured output and section-specialized agents"
+    version: "1.0"
+    generated: "2025-07-18"
+
+  # =====================================
+  # CORE AGENT ROUTING EVENTS
+  # =====================================
+  events:
+    onRefinePrompt:
+      trigger: "user_prompt_refinement_request"
+      actions:
+        - route:
+            to: "AgentX"
+            context:
+              previousPrompt: "{{memory.lastPrompt}}"
+              currentTimeOfDay: "{{timeOfDay}}"
+              visitorProfile: "{{memory.visitorProfile}}"
+              interactionDepth: "{{memory.interactionDepth}}"
+              preferredSections: "{{memory.preferredSections}}"
+        - logInteraction:
+            event: "prompt_refinement_requested"
+            agent: "AgentX"
+            timestamp: "{{timestamp}}"
+
+    onSectionPersonalization:
+      trigger: "section_content_personalization_request"
+      actions:
+        - route:
+            to: "{{sectionAgent}}"
+            context:
+              section: "{{targetSection}}"
+              previousPrompt: "{{memory.lastPrompt}}"
+              currentTimeOfDay: "{{timeOfDay}}"
+              visitorProfile: "{{memory.visitorProfile}}"
+              baseContent: "{{section.baseContent}}"
+        - updateMemory:
+            key: "lastPersonalizedSection"
+            value: "{{targetSection}}"
+
+    onCaseStudyEnhancement:
+      trigger: "case_study_customization_request"
+      actions:
+        - route:
+            to: "AgentCase"
+            context:
+              previousPrompt: "{{memory.lastPrompt}}"
+              currentTimeOfDay: "{{timeOfDay}}"
+              domainInterest: "{{memory.domainInterest}}"
+              caseStudyData: "{{caseStudy.baseData}}"
+
+    onToolkitRefinement:
+      trigger: "toolkit_enhancement_request"
+      actions:
+        - route:
+            to: "AgentTools"
+            context:
+              previousPrompt: "{{memory.lastPrompt}}"
+              currentTimeOfDay: "{{timeOfDay}}"
+              toolkitPreferences: "{{memory.toolkitPreferences}}"
+              baseToolkit: "{{toolkit.baseContent}}"
+
+  # =====================================
+  # SPECIALIZED AGENTS
+  # =====================================
+  agents:
+    AgentX:
+      id: "AgentX"
+      name: "Visitor Memory Synth"
+      role: "memory_aware_personalizer"
+      specialization: "hero_section_personalization"
+      prompt: |
+        You are a memory-aware agent helping personalize the Hero section of RicRios.com.
+        
+        CONTEXT:
+        - Last prompt: {{previousPrompt}}
+        - Time of day: {{currentTimeOfDay}}
+        - Visitor profile: {{visitorProfile}}
+        - Interaction depth: {{interactionDepth}}
+        - Preferred sections: {{preferredSections}}
+        
+        TASK:
+        Generate refined Hero section content that reflects the user's last input and current time context.
+        Use Ric Rios' voice — succinct, strategic, and authentically his.
+        
+        VOICE GUIDELINES:
+        - Editorial minimalism with rhythmic pacing
+        - Strategic clarity without jargon
+        - Authentic authority earned through three decades of mastery
+        - Time-aware adaptation (morning clarity, afternoon rigor, evening wisdom)
+        
+        OUTPUT REQUIREMENTS:
+        - Refined headline that connects to user's last interaction
+        - Strategic CTA that reflects time context and visitor depth
+        - Brief insight explaining the personalization approach
+      
+      output:
+        type: "object"
+        properties:
+          refinedHeadline:
+            type: "string"
+            description: "Personalized headline reflecting user context"
+          refinedCTA:
+            type: "string"
+            description: "Strategic CTA adapted to time and visitor depth"
+          personalizationInsight:
+            type: "string"
+            description: "Brief explanation of personalization approach"
+          confidence:
+            type: "number"
+            description: "Confidence score for personalization (0-1)"
+
+    AgentCase:
+      id: "AgentCase"
+      name: "Case Study Customizer"
+      role: "case_study_personalizer"
+      specialization: "case_study_storytelling"
+      prompt: |
+        You are a case study storytelling specialist for RicRios.com.
+        
+        CONTEXT:
+        - Last prompt: {{previousPrompt}}
+        - Time of day: {{currentTimeOfDay}}
+        - Domain interest: {{domainInterest}}
+        - Case study data: {{caseStudyData}}
+        
+        TASK:
+        Enhance the case study storytelling to reflect user's last interaction, time context, and domain interest.
+        Maintain strategic, succinct tone while highlighting relevant methodology and outcomes.
+        
+        VOICE GUIDELINES:
+        - Strategic narrative with systematic methodology focus
+        - Concrete outcomes and measurable impact
+        - Time-aware emphasis (morning: innovation, afternoon: execution, evening: transformation)
+        - Domain-relevant insights when applicable
+        
+        OUTPUT REQUIREMENTS:
+        - Refined case summary that connects to user interests
+        - Key methodology highlight relevant to user context
+        - Strategic outcome emphasis
+      
+      output:
+        type: "object"
+        properties:
+          refinedCaseSummary:
+            type: "string"
+            description: "Personalized case study summary"
+          methodologyHighlight:
+            type: "string"
+            description: "Key methodology relevant to user context"
+          strategicOutcome:
+            type: "string"
+            description: "Strategic outcome emphasis"
+          relevanceScore:
+            type: "number"
+            description: "Relevance score to user interests (0-1)"
+
+    AgentTools:
+      id: "AgentTools"
+      name: "Toolkit Enhancer"
+      role: "toolkit_personalizer"
+      specialization: "toolkit_methodology"
+      prompt: |
+        You are a toolkit methodology specialist for RicRios.com.
+        
+        CONTEXT:
+        - Last prompt: {{previousPrompt}}
+        - Time of day: {{currentTimeOfDay}}
+        - Toolkit preferences: {{toolkitPreferences}}
+        - Base toolkit: {{baseToolkit}}
+        
+        TASK:
+        Refine toolkit descriptions based on user's previous interests and time of day.
+        Respond in Ric Rios' voice, strategic and crisp.
+        
+        VOICE GUIDELINES:
+        - Systematic methodology with practical application
+        - Strategic frameworks over tactical tools
+        - Time-aware emphasis (morning: exploration, afternoon: application, evening: mastery)
+        - Proven results and enterprise-scale validation
+        
+        OUTPUT REQUIREMENTS:
+        - Refined toolkit descriptions
+        - Strategic application context
+        - Methodology emphasis relevant to user
+      
+      output:
+        type: "object"
+        properties:
+          refinedTools:
+            type: "string"
+            description: "Personalized toolkit descriptions"
+          strategicApplication:
+            type: "string"
+            description: "Strategic application context"
+          methodologyEmphasis:
+            type: "string"
+            description: "Methodology emphasis relevant to user"
+          applicabilityScore:
+            type: "number"
+            description: "Applicability score to user context (0-1)"
+
+    AgentPhilosophy:
+      id: "AgentPhilosophy"
+      name: "Philosophy Contextualizer"
+      role: "philosophy_personalizer"
+      specialization: "strategic_philosophy"
+      prompt: |
+        You are a strategic philosophy specialist for RicRios.com.
+        
+        CONTEXT:
+        - Last prompt: {{previousPrompt}}
+        - Time of day: {{currentTimeOfDay}}
+        - Visitor profile: {{visitorProfile}}
+        - Philosophy preferences: {{philosophyPreferences}}
+        
+        TASK:
+        Contextualize philosophical principles based on user's interaction history and current time.
+        Maintain depth while ensuring practical relevance.
+        
+        VOICE GUIDELINES:
+        - Timeless principles with contemporary application
+        - Strategic depth without academic abstraction
+        - Time-aware wisdom (morning: principles, afternoon: application, evening: mastery)
+        - Earned authority through three decades of practice
+        
+        OUTPUT REQUIREMENTS:
+        - Contextualized philosophical insight
+        - Practical application relevance
+        - Strategic principle emphasis
+      
+      output:
+        type: "object"
+        properties:
+          contextualizedInsight:
+            type: "string"
+            description: "Philosophical insight contextualized to user"
+          practicalRelevance:
+            type: "string"
+            description: "Practical application relevance"
+          principleEmphasis:
+            type: "string"
+            description: "Strategic principle emphasis"
+          wisdomDepth:
+            type: "number"
+            description: "Wisdom depth score (0-1)"
+
+  # =====================================
+  # RENDERING COMPONENTS
+  # =====================================
+  rendering:
+    components:
+      PersonalizedHero:
+        component: "PersonalizedHero"
+        props:
+          headline: "{{agent.output.refinedHeadline}}"
+          cta: "{{agent.output.refinedCTA}}"
+          insight: "{{agent.output.personalizationInsight}}"
+          confidence: "{{agent.output.confidence}}"
+        styling:
+          timeAware: true
+          responsive: true
+          accessibility: "full_compliance"
+
+      DynamicCaseStudy:
+        component: "DynamicCaseStudy"
+        props:
+          summary: "{{agent.output.refinedCaseSummary}}"
+          methodology: "{{agent.output.methodologyHighlight}}"
+          outcome: "{{agent.output.strategicOutcome}}"
+          relevance: "{{agent.output.relevanceScore}}"
+        styling:
+          layout: "narrative_focus"
+          emphasis: "methodology_outcomes"
+
+      DynamicToolkit:
+        component: "DynamicToolkit"
+        props:
+          tools: "{{agent.output.refinedTools}}"
+          application: "{{agent.output.strategicApplication}}"
+          methodology: "{{agent.output.methodologyEmphasis}}"
+          applicability: "{{agent.output.applicabilityScore}}"
+        styling:
+          layout: "systematic_grid"
+          emphasis: "practical_application"
+
+      PersonalizedPhilosophy:
+        component: "PersonalizedPhilosophy"
+        props:
+          insight: "{{agent.output.contextualizedInsight}}"
+          relevance: "{{agent.output.practicalRelevance}}"
+          principle: "{{agent.output.principleEmphasis}}"
+          depth: "{{agent.output.wisdomDepth}}"
+        styling:
+          layout: "contemplative_flow"
+          emphasis: "timeless_principles"
+
+      PersonalizedPromptOutput:
+        component: "PersonalizedPromptOutput"
+        props:
+          headline: "{{agent.output.refinedHeadline}}"
+          cta: "{{agent.output.refinedCTA}}"
+          context: "{{agent.context}}"
+          timestamp: "{{timestamp}}"
+        styling:
+          layout: "prompt_response"
+          emphasis: "personalized_refinement"
+
+  # =====================================
+  # ORCHESTRATION WORKFLOWS
+  # =====================================
+  workflows:
+    hero_personalization:
+      trigger: "hero_section_request"
+      steps:
+        - retrieveVisitorMemory:
+            keys: ["lastPrompt", "visitorProfile", "interactionDepth"]
+        - routeToAgent:
+            agent: "AgentX"
+            context: "{{memory}}"
+        - validateOutput:
+            schema: "{{agents.AgentX.output}}"
+        - renderComponent:
+            component: "PersonalizedHero"
+            props: "{{agent.output}}"
+        - logPersonalization:
+            section: "hero"
+            agent: "AgentX"
+            confidence: "{{agent.output.confidence}}"
+
+    case_study_personalization:
+      trigger: "case_study_section_request"
+      steps:
+        - retrieveVisitorMemory:
+            keys: ["lastPrompt", "domainInterest", "preferredSections"]
+        - routeToAgent:
+            agent: "AgentCase"
+            context: "{{memory}}"
+        - validateOutput:
+            schema: "{{agents.AgentCase.output}}"
+        - renderComponent:
+            component: "DynamicCaseStudy"
+            props: "{{agent.output}}"
+        - logPersonalization:
+            section: "case_studies"
+            agent: "AgentCase"
+            relevance: "{{agent.output.relevanceScore}}"
+
+    toolkit_personalization:
+      trigger: "toolkit_section_request"
+      steps:
+        - retrieveVisitorMemory:
+            keys: ["lastPrompt", "toolkitPreferences", "interactionDepth"]
+        - routeToAgent:
+            agent: "AgentTools"
+            context: "{{memory}}"
+        - validateOutput:
+            schema: "{{agents.AgentTools.output}}"
+        - renderComponent:
+            component: "DynamicToolkit"
+            props: "{{agent.output}}"
+        - logPersonalization:
+            section: "toolkit"
+            agent: "AgentTools"
+            applicability: "{{agent.output.applicabilityScore}}"
+
+    philosophy_personalization:
+      trigger: "philosophy_section_request"
+      steps:
+        - retrieveVisitorMemory:
+            keys: ["lastPrompt", "philosophyPreferences", "visitorProfile"]
+        - routeToAgent:
+            agent: "AgentPhilosophy"
+            context: "{{memory}}"
+        - validateOutput:
+            schema: "{{agents.AgentPhilosophy.output}}"
+        - renderComponent:
+            component: "PersonalizedPhilosophy"
+            props: "{{agent.output}}"
+        - logPersonalization:
+            section: "philosophy"
+            agent: "AgentPhilosophy"
+            depth: "{{agent.output.wisdomDepth}}"
+
+  # =====================================
+  # INTEGRATION SPECIFICATIONS
+  # =====================================
+  integration:
+    visitor_memory_system:
+      - inherit_memory_context: true
+      - enhance_with_agent_outputs: true
+      - maintain_confidence_scoring: true
+      - preserve_interaction_capture: true
+
+    time_aware_system:
+      - integrate_time_context: true
+      - maintain_time_based_adaptation: true
+      - enhance_with_memory_personalization: true
+      - preserve_editorial_minimalism: true
+
+    modal_system:
+      - personalize_modal_content: true
+      - adapt_interaction_patterns: true
+      - maintain_accessibility: true
+      - integrate_agent_insights: true
+
+    hidden_lab_system:
+      - track_experimental_preferences: true
+      - personalize_lab_features: true
+      - maintain_discovery_patterns: true
+      - integrate_advanced_personalization: true
+
+  # =====================================
+  # PERFORMANCE & MONITORING
+  # =====================================
+  performance:
+    agent_execution:
+      timeout: "5_seconds"
+      fallback: "base_time_aware_content"
+      caching: "agent_response_cache"
+      monitoring: "execution_time_tracking"
+
+    rendering:
+      lazy_loading: "component_based"
+      progressive_enhancement: true
+      accessibility: "full_compliance"
+      responsive: "mobile_first"
+
+    analytics:
+      track_personalization_effectiveness: true
+      measure_agent_confidence_accuracy: true
+      monitor_user_engagement_improvement: true
+      log_refinement_success_rates: true

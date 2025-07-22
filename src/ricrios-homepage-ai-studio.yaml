@@ -1,0 +1,46 @@
+name: ricrios_homepage_personal_ai_studio
+description: Modular orchestration of homepage using Ric's AI Studio (SeedOS, LyraOS, and Agents S/D/G)
+
+onPageLoad:
+  steps:
+    - agent: seedos
+      action: clarify_goal
+      input: "Ric wants to evolve the homepage of RicRios.com"
+      output: reframed_goal
+
+    - agent: agent-r
+      action: orchestrateHomepage
+      input:
+        goal: "{{reframed_goal}}"
+      output: agent_plan
+
+    - parallel:
+        - agent: agent-s
+          action: renderCopy
+          input:
+            intentToken: "{{intent_token}}"
+            toneProfile: "{{agent_plan.agent-s}}"
+          output: hero_copy
+
+        - agent: agent-d
+          action: renderLayout
+          input:
+            intentToken: "{{intent_token}}"
+            layoutProfile: "{{agent_plan.agent-d}}"
+          output: layout_blocks
+
+        - agent: agent-g
+          action: defineJourneyFlow
+          input:
+            intentToken: "{{intent_token}}"
+          output: module_sequence
+
+    - agent: agent-x
+      action: logSession
+      input:
+        sessionId: "{{session.id}}"
+        intentToken: "{{intent_token}}"
+        timestamp: "{{timestamp}}"
+        renderedCopy: "{{hero_copy}}"
+        layoutBlocks: "{{layout_blocks}}"
+        moduleSequence: "{{module_sequence}}"

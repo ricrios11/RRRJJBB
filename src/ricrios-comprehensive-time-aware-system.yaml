@@ -1,0 +1,279 @@
+# Ric Rios Comprehensive Time-Aware Content System
+# Complete portfolio orchestration with agent-enhanced rendering
+
+metadata:
+  name: "RicRios Time-Aware Portfolio System"
+  version: "1.0"
+  purpose: "Complete time-aware content orchestration across all portfolio sections"
+  generated: "2025-07-18"
+  session_id: "comprehensive_system_{{timestamp}}_{{random}}"
+
+# 🎯 HERO SECTION (Already Implemented)
+sections:
+  hero:
+    metadata:
+      section: "Hero"
+      purpose: "Time-aware hero copy with strategic messaging"
+      version: "1.0"
+    variants:
+      morning:
+        headline: "Strategic Design Leadership for Tomorrow's Builders"
+        primary_description: "When ambitious founders need systematic design leadership that bridges deep craft mastery with emerging technology. Strategic innovation that defines tomorrow's standards, delivered with morning clarity."
+        secondary_description: "Fresh perspective meets proven methodology—building futures that scale."
+        cta_text: "Start Building Tomorrow"
+        brand_attributes: ["Morning Clarity", "Systems-Level Thinking", "Proven Methodology", "Authentic Leadership"]
+      afternoon:
+        headline: "Applied Design Leadership for Systematic Innovation"
+        primary_description: "When executives need rigorous design leadership that transforms complex challenges into scalable solutions. Methodical craft meets strategic vision—delivering innovation with systematic precision."
+        secondary_description: "Where deep expertise meets applied rigor in service of ambitious outcomes."
+        cta_text: "Apply This Methodology"
+        brand_attributes: ["Strategic Execution", "Creative Systems", "Disciplined Innovation", "Applied Wisdom"]
+      evening:
+        headline: "Mastery-Driven Design Leadership for Defining Moments"
+        primary_description: "When seasoned leaders recognize the moment for transformative design leadership. Three decades of craft mastery meets emerging technology—creating standards that endure."
+        secondary_description: "Reflective wisdom applied to tomorrow's most defining challenges."
+        cta_text: "Explore This Mastery"
+        brand_attributes: ["Evening Insight", "Timeless Principles", "Future-Aware Strategy", "Earned Authority"]
+
+  # 📖 ABOUT SECTION
+  about:
+    metadata:
+      section: "About"
+      purpose: "Time-aware & agent-enhanced rendering of Ric's Operating System introduction"
+      version: "1.0"
+      generated: "2025-07-18"
+    block:
+      id: "about-os"
+      type: "dynamicContent"
+      trigger: "timeOfDay"
+      variants:
+        morning:
+          heading: "Strategic Design Leadership"
+          paragraph: >
+            I'm Ric Rios — a design leader who translates early vision into market-ready,
+            systematized innovation. In the freshness of morning, I offer a clear path from
+            idea to execution. Let's begin with mastery.
+          agentInjectedInsight: >
+            Agent Q ensures coherence of Ric's long-range design philosophy with today's startup urgency.
+          tags: ["leadership", "clarity", "early stage"]
+        afternoon:
+          heading: "Systematic Innovation Authority"
+          paragraph: >
+            At midday, I embody three decades of applied leadership: systems that scale,
+            methods that endure, and outcomes that speak louder than trends.
+          agentInjectedInsight: >
+            Agent G refines the synthesis: every book read, every method applied — woven into a repeatable system.
+          tags: ["execution", "maturity", "real-world results"]
+        evening:
+          heading: "Three Decades of Applied Wisdom"
+          paragraph: >
+            As evening settles, so does strategic clarity. My work isn't theoretical — it's earned authority.
+            Let's explore how timeless design principles fuel tomorrow's innovation.
+          agentInjectedInsight: >
+            Agent S elevates voice to signal: now is the time to trust the enduring over the trendy.
+          tags: ["reflection", "wisdom", "legacy"]
+    fallback:
+      defaultHeading: "Design Leadership Across Time"
+      defaultParagraph: >
+        Ric Rios blends strategic clarity with deep craft mastery. Explore how systems-level thinking
+        and earned experience deliver lasting impact.
+    renderingHints:
+      animation: "fadeUp"
+      responsive: true
+      typography: "jetbrains"
+
+  # 🧠 PHILOSOPHY SECTION
+  philosophy:
+    metadata:
+      section: "Philosophy"
+      purpose: "Time-aware & agent-enhanced explanation of Ric's strategic principles"
+      version: "1.0"
+      generated: "2025-07-18"
+    block:
+      id: "philosophy-core"
+      type: "dynamicContent"
+      trigger: "timeOfDay"
+      variants:
+        morning:
+          heading: "Strategic Foundation"
+          points:
+            - "Systems-Level Leadership: Seeing connections where others see features."
+            - "Application Earns Authority: Three decades of measurable design transformation."
+            - "Innovation with Foresight: Designing tomorrow's standards today."
+          agentInjectedInsight: "Agent Q reveals the logic ladder from first principles to creative execution."
+        afternoon:
+          heading: "Systematic Methodology"
+          points:
+            - "Thirty years, every major design book read and applied to results."
+            - "Design patterns, rigorously battle-tested."
+            - "Authenticity coded in — never generic."
+          agentInjectedInsight: "Agent G reinforces the repeatability of Ric's process under enterprise constraints."
+        evening:
+          heading: "Proven Leadership Pillars"
+          points:
+            - "Timeless systems with future-state readiness."
+            - "Earned wisdom applied to scalable innovation."
+            - "Design with gravity, not gimmicks."
+          agentInjectedInsight: "Agent S ensures tone and gravitas align with earned trust."
+    fallback:
+      defaultHeading: "Strategic Design Pillars"
+      defaultPoints:
+        - "30 years of applied leadership"
+        - "Systematic innovation methodology"
+        - "Future-facing principles with practical rigor"
+
+  # 🛠️ TOOLKIT SECTION
+  toolkit:
+    metadata:
+      section: "Toolkit"
+      purpose: "Showcasing Ric's applied capabilities with agent-enhanced framing"
+      version: "1.0"
+      generated: "2025-07-18"
+    block:
+      id: "toolkit-core"
+      type: "dynamicContent"
+      trigger: "timeOfDay"
+      variants:
+        morning:
+          heading: "Strategic Capabilities"
+          tools:
+            - "🧠 Behavioral Systems Architecture"
+            - "⚡ Systematic Innovation Process"
+            - "🔮 Forward-Looking Systems Design"
+          agentInjectedInsight: "Agent Q tailors introductions based on user's problem maturity."
+        afternoon:
+          heading: "Systematic Methodologies"
+          tools:
+            - "End-to-end UX process backed by behavioral psychology"
+            - "AI-driven content systems for personalized scaling"
+            - "Time-aware interface logic for business logic modeling"
+          agentInjectedInsight: "Agent G ensures content frames real-world application."
+        evening:
+          heading: "Applied Leadership Tools"
+          tools:
+            - "30 years of rigor meets AI fluency"
+            - "Strategic pattern libraries, custom-built"
+            - "Scalable governance via systems-level design"
+          agentInjectedInsight: "Agent S injects reflection and vision for decision-makers browsing at night."
+    fallback:
+      defaultHeading: "Ric's Toolkit"
+      defaultTools:
+        - "Behavioral Systems"
+        - "Systematic Innovation"
+        - "Future-Proof Design"
+
+# 🔄 ORCHESTRATION AGENTS
+agents:
+  - id: content-orchestrator
+    description: "Master orchestrator for all time-aware content sections"
+    agent: orchestrator
+    input:
+      timeOfDay: "{{user.timeOfDay}}"
+      sections: ["hero", "about", "philosophy", "toolkit"]
+      userContext: "{{user}}"
+    output: orchestratedContent
+
+  - id: agent-q
+    description: "Question and coherence agent for strategic alignment"
+    agent: claude
+    role: "questioner"
+    input:
+      content: "{{orchestratedContent}}"
+      context: "startup urgency vs long-range philosophy"
+    output: coherenceInsights
+
+  - id: agent-g
+    description: "Guide agent for systematic methodology reinforcement"
+    agent: claude
+    role: "guide"
+    input:
+      content: "{{orchestratedContent}}"
+      context: "repeatability under enterprise constraints"
+    output: methodologyGuidance
+
+  - id: agent-s
+    description: "Style agent for tone and voice elevation"
+    agent: claude
+    role: "stylist"
+    input:
+      content: "{{orchestratedContent}}"
+      context: "earned trust and gravitas alignment"
+    output: styleEnhancements
+
+  - id: ui-renderer
+    description: "Render all sections with time-aware styling"
+    agent: uiRenderer
+    input:
+      content: "{{orchestratedContent}}"
+      insights: "{{coherenceInsights}}"
+      guidance: "{{methodologyGuidance}}"
+      style: "{{styleEnhancements}}"
+    output: renderedPortfolio
+
+  - id: agent-x
+    description: "Archive complete session with strategic insights"
+    agent: agent-x
+    input:
+      action: "logComprehensiveUpdate"
+      sections: ["hero", "about", "philosophy", "toolkit"]
+      content: "{{renderedPortfolio}}"
+      insights: "{{coherenceInsights}}"
+      guidance: "{{methodologyGuidance}}"
+      style: "{{styleEnhancements}}"
+    output: comprehensiveLog
+
+# 🔄 CASCADE EXECUTION
+cascade:
+  - content-orchestrator
+  - agent-q
+  - agent-g
+  - agent-s
+  - ui-renderer
+  - agent-x
+
+# 🔄 REAL-TIME SYSTEM
+realtime:
+  refresh_triggers:
+    - event: "timeOfDayChange"
+      condition: "user.timeOfDay != previous.timeOfDay"
+      action: "restart_cascade"
+    
+    - event: "sectionInteraction"
+      condition: "user.interactedSection != null"
+      action: "enhance_section"
+    
+    - event: "agentInsightRequest"
+      condition: "user.requestsInsight == true"
+      action: "activate_agent_insights"
+
+  time_boundaries:
+    morning: "05:00-11:59"
+    afternoon: "12:00-17:59"
+    evening: "18:00-04:59"
+
+  fallback_strategy: "afternoon"
+  confidence_threshold: 0.7
+  refresh_interval: 300000  # 5 minutes
+
+# 🎨 RENDERING CONFIGURATION
+rendering:
+  global_hints:
+    animation: "fadeUp"
+    responsive: true
+    typography: "jetbrains"
+    theme_adaptation: true
+    
+  css_classes:
+    time_aware: "time-aware-{{timeOfDay}}"
+    section_base: "section-{{sectionName}}"
+    agent_enhanced: "agent-enhanced"
+    
+  accessibility:
+    aria_labels: true
+    semantic_structure: true
+    keyboard_navigation: true
+    
+  performance:
+    lazy_loading: true
+    content_caching: true
+    progressive_enhancement: true

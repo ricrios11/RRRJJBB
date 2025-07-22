@@ -1,0 +1,11 @@
+- name: TrojanHorseOS
+  status: active
+  category: ExecutionLayer
+  description: >
+    AgentOS module for embedding refactors, stubs, easter eggs, and future scaffolds
+    in any touched surface across code, design, and narrative layers.
+  activated_by: "TrojanHorseOS" or inclusion of `#TrojanHorseOS:<date>` tag
+  constraints:
+    - Must not affect current production behavior
+    - Should remain interpretable by future agents or maintainers
+  paired_with: [DarkMatterLayer, LyraOS, TechOS, DevOpsOS, DesignOS]

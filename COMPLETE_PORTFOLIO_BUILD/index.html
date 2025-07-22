@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ric Rios - Design Leadership for Tomorrow's Builders</title>
+    <meta name="description" content="Strategic design leadership for tomorrow's builders">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- Complete CSS System -->
+    <style>
+        /* COMPLETE TAILWIND V4 SYSTEM FROM YOUR GLOBALS.CSS */
+        @custom-variant dark (&:is(.dark *));
+
+        :root {
+          --font-size: 14px;
+          
+          /* Light theme variables - Enhanced for visual sophistication */
+          --background: #ffffff;
+          --foreground: #1a1a1a;
+          --card: #ffffff;
+          --card-foreground: #1a1a1a;
+          --popover: #ffffff;
+          --popover-foreground: #1a1a1a;
+          --primary: #1a73e8;
+          --primary-foreground: #ffffff;
+          --secondary: #f8fafc;
+          --secondary-foreground: #1e293b;
+          --muted: #f1f5f9;
+          --muted-foreground: #64748b;
+          --accent: #e0f2fe;
+          --accent-foreground: #0c4a6e;
+          --destructive: #dc2626;
+          --destructive-foreground: #ffffff;
+          --border: #e2e8f0;
+          --input: #e2e8f0;
+          --input-background: #f8fafc;
+          --switch-background: #cbd5e1;
+          --ring: #1a73e8;
+          
+          /* Time-aware color variables */
+          --morning-primary: #f59e0b;
+          --morning-secondary: #fbbf24;
+          --afternoon-primary: #3b82f6;
+          --afternoon-secondary: #6366f1;
+          --evening-primary: #8b5cf6;
+          --evening-secondary: #a855f7;
+          --night-primary: #ec4899;
+          --night-secondary: #f43f5e;
+          
+          /* Enhanced gradients */
+          --gradient-light: linear-gradient(135deg, #eff6ff 0%, #faf5ff 100%);
+          --gradient-card: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+          --gradient-hero: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 50%, #faf5ff 100%);
+          
+          /* Premium shadows */
+          --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+          --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+          --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+          --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+          --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+          
+          /* Border radius */
+          --radius: 0.75rem;
+          --radius-sm: 0.5rem;
+          --radius-lg: 1rem;
+          --radius-xl: 1.5rem;
+        }
+
+        .dark {
+          --background: #0f0f0f;
+          --foreground: #fafafa;
+          --card: #1a1a1a;
+          --card-foreground: #fafafa;
+          --popover: #1a1a1a;
+          --popover-foreground: #fafafa;
+          --primary: #60a5fa;
+          --primary-foreground: #0f0f0f;
+          --secondary: #262626;
+          --secondary-foreground: #fafafa;
+          --muted: #2a2a2a;
+          --muted-foreground: #a1a1aa;
+          --accent: #1e293b;
+          --accent-foreground: #f1f5f9;
+          --destructive: #dc2626;
+          --destructive-foreground: #fafafa;
+          --border: #333333;
+          --input: #333333;
+          --input-background: #1a1a1a;
+          --switch-background: #404040;
+          --ring: #60a5fa;
+          
+          /* Dark mode time-aware colors */
+          --morning-primary: #fbbf24;
+          --morning-secondary: #f59e0b;
+          --afternoon-primary: #60a5fa;
+          --afternoon-secondary: #818cf8;
+          --evening-primary: #a78bfa;
+          --evening-secondary: #c084fc;
+          --night-primary: #f472b6;
+          --night-secondary: #fb7185;
+          
+          /* Dark mode gradients */
+          --gradient-light: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+          --gradient-card: linear-gradient(135deg, #1a1a1a 0%, #262626 100%);
+          --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+          
+          /* Dark mode shadows */
+          --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+          --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+          --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+          --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+          --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
+        }
+
+        /* Base styles */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          background: var(--background);
+          color: var(--foreground);
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+          line-height: 1.6;
+          antialiased: true;
+          transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        html {
+          scroll-behavior: smooth;
+          scroll-padding-top: 100px;
+        }
+
+        /* Container */
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+
+        @media (min-width: 640px) {
+          .container { padding: 0 1.5rem; }
+        }
+
+        /* Hero Section Enhancement */
+        .hero-gradient {
+          background: var(--gradient-hero);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .hero-gradient::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.02) 100%);
+          pointer-events: none;
+        }
+
+        .hero-title {
+          background: linear-gradient(135deg, var(--afternoon-primary), var(--evening-primary), var(--afternoon-secondary));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-size: 200% 200%;
+          animation: gradientShift 8s ease-in-out infinite;
+          font-size: clamp(2rem, 5vw, 4rem);
+          line-height: 1.1;
+          font-weight: 700;
+          letter-spacing: -0.03em;
+          margin-bottom: 1.5rem;
+          text-align: center;
+        }
+
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        /* Premium Card System */
+        .premium-card {
+          background: var(--gradient-card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          box-shadow: var(--shadow-sm);
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+          padding: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .premium-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-2xl);
+          border-color: var(--primary);
+        }
+
+        .featured-card {
+          background: linear-gradient(135deg, var(--afternoon-primary), var(--evening-primary));
+          color: white;
+          border: none;
+          box-shadow: var(--shadow-xl);
+        }
+
+        .featured-card:hover {
+          transform: translateY(-6px) scale(1.02);
+          box-shadow: 0 32px 64px -12px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Premium Button */
+        .btn-premium {
+          position: relative;
+          overflow: hidden;
+          border-radius: var(--radius);
+          font-weight: 500;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          background: linear-gradient(135deg, var(--primary), var(--afternoon-secondary));
+          border: none;
+          color: white;
+          box-shadow: var(--shadow-md);
+          padding: 1rem 2.5rem;
+          font-size: 1.125rem;
+          cursor: pointer;
+          display: inline-block;
+          text-decoration: none;
+        }
+
+        .btn-premium::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .btn-premium:hover {
+          transform: translateY(-2px);
+          box-shadow: var(--shadow-xl);
+        }
+
+        .btn-premium:hover::before {
+          left: 100%;
+        }
+
+        /* Navigation */
+        .nav-premium {
+          backdrop-filter: blur(16px);
+          background: rgba(255, 255, 255, 0.95);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.08);
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 50;
+          padding: 1rem 0;
+        }
+
+        .dark .nav-premium {
+          background: rgba(15, 15, 15, 0.95);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-link {
+          color: var(--muted-foreground);
+          text-decoration: none;
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .nav-link:hover {
+          color: var(--foreground);
+          background: var(--accent);
+        }
+
+        /* Typography */
+        .text-premium-lg {
+          font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+          line-height: 1.4;
+          font-weight: 500;
+          letter-spacing: -0.01em;
+        }
+
+        .text-muted-foreground {
+          color: var(--muted-foreground);
+        }
+
+        /* Animations */
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+
+        /* Grid Systems */
+        .grid {
+          display: grid;
+        }
+
+        .grid-cols-1 {
+          grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        .grid-cols-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .grid-cols-3 {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .gap-6 {
+          gap: 1.5rem;
+        }
+
+        .gap-8 {
+          gap: 2rem;
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+          .md\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .lg\:grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        /* Spacing */
+        .space-y-16 > * + * {
+          margin-top: 4rem;
+        }
+
+        .space-y-8 > * + * {
+          margin-top: 2rem;
+        }
+
+        .space-y-4 > * + * {
+          margin-top: 1rem;
+        }
+
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-12 { margin-bottom: 3rem; }
+        .mb-16 { margin-bottom: 4rem; }
+
+        .py-16 { padding: 4rem 0; }
+        .py-20 { padding: 5rem 0; }
+        .py-24 { padding: 6rem 0; }
+        .px-4 { padding: 0 1rem; }
+        .px-6 { padding: 0 1.5rem; }
+
+        /* Text Alignment */
+        .text-center { text-align: center; }
+        .text-left { text-align: left; }
+
+        /* Max Width */
+        .max-w-5xl { max-width: 64rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .max-w-2xl { max-width: 42rem; }
+        .mx-auto { margin: 0 auto; }
+
+        /* Typography Sizing */
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-4xl { font-size: 2.25rem; line-height: 2.5rem; }
+        .text-5xl { font-size: 3rem; line-height: 1; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-base { font-size: 1rem; line-height: 1.5rem; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-xs { font-size: 0.75rem; line-height: 1rem; }
+
+        /* Utility Classes */
+        .leading-relaxed { line-height: 1.625; }
+        .leading-tight { line-height: 1.25; }
+        .tracking-tight { letter-spacing: -0.025em; }
+        .tracking-wide { letter-spacing: 0.025em; }
+
+        /* Dark Mode Toggle */
+        .dark-mode-toggle {
+          background: var(--muted);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 0.5rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .dark-mode-toggle:hover {
+          background: var(--accent);
+        }
+
+        /* Badge Styles */
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          border-radius: var(--radius-sm);
+          padding: 0.25rem 0.75rem;
+          font-size: 0.875rem;
+          font-weight: 500;
+          background: var(--muted);
+          color: var(--muted-foreground);
+          margin-right: 0.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        /* Case Study Styles */
+        .case-study-card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          padding: 2rem;
+          transition: all 0.3s ease;
+          cursor: pointer;
+        }
+
+        .case-study-card:hover {
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+          border-color: var(--primary);
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 1000;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        .modal {
+          background: var(--background);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-lg);
+          max-width: 90vw;
+          max-height: 90vh;
+          overflow-y: auto;
+          padding: 2rem;
+          position: relative;
+          transform: scale(0.95);
+          transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+          transform: scale(1);
+        }
+
+        .modal-close {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          background: none;
+          border: none;
+          font-size: 1.5rem;
+          cursor: pointer;
+          color: var(--muted-foreground);
+          transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+          color: var(--foreground);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+          position: fixed;
+          top: 0;
+          right: -100%;
+          width: 300px;
+          height: 100vh;
+          background: var(--background);
+          border-left: 1px solid var(--border);
+          transition: right 0.3s ease;
+          z-index: 100;
+          padding: 2rem;
+          overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+          right: 0;
+        }
+
+        .mobile-menu-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 99;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+          opacity: 1;
+          visibility: visible;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .container {
+            padding: 0 1rem;
+          }
+          
+          .hero-title {
+            font-size: 2rem;
+          }
+          
+          .btn-premium {
+            padding: 0.875rem 2rem;
+            font-size: 1rem;
+          }
+
+          .premium-card {
+            padding: 1.5rem;
+          }
+
+          .grid-cols-2 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+
+          .grid-cols-3 {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+          }
+        }
+
+        @media (min-width: 768px) {
+          .md\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .lg\:grid-cols-3 {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+          }
+        }
+
+        /* Hidden by default */
+        .hidden {
+          display: none;
+        }
+
+        /* Flex utilities */
+        .flex {
+          display: flex;
+        }
+
+        .items-center {
+          align-items: center;
+        }
+
+        .justify-between {
+          justify-content: space-between;
+        }
+
+        .justify-center {
+          justify-content: center;
+        }
+
+        .space-x-2 > * + * {
+          margin-left: 0.5rem;
+        }
+
+        .space-x-4 > * + * {
+          margin-left: 1rem;
+        }
+
+        .space-x-6 > * + * {
+          margin-left: 1.5rem;
+        }
+
+        /* Time-aware enhancements */
+        .time-morning .hero-title {
+          background: linear-gradient(135deg, var(--morning-primary), var(--morning-secondary));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .time-afternoon .hero-title {
+          background: linear-gradient(135deg, var(--afternoon-primary), var(--afternoon-secondary));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .time-evening .hero-title {
+          background: linear-gradient(135deg, var(--evening-primary), var(--evening-secondary));
+          background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+    
+        /* Comprehensive Vertical Rhythm System */
+        :root {
+            --rhythm-base: 24px;
+            --rhythm-scale: 1.618; /* Golden ratio */
+            --rhythm-xs: calc(var(--rhythm-base) * 0.5);
+            --rhythm-sm: calc(var(--rhythm-base) * 0.75);
+            --rhythm-md: var(--rhythm-base);
+            --rhythm-lg: calc(var(--rhythm-base) * var(--rhythm-scale));
+            --rhythm-xl: calc(var(--rhythm-base) * var(--rhythm-scale) * var(--rhythm-scale));
+        }
+        
+        /* Enhanced typography rhythm */
+        .rhythm-typography h1,
+        .rhythm-typography h2,
+        .rhythm-typography h3,
+        .rhythm-typography h4,
+        .rhythm-typography h5,
+        .rhythm-typography h6 {
+            margin-top: 0;
+            margin-bottom: var(--rhythm-lg);
+            line-height: 1.2;
+        }
+        
+        .rhythm-typography p,
+        .rhythm-typography ul,
+        .rhythm-typography ol {
+            margin-top: 0;
+            margin-bottom: var(--rhythm-md);
+            line-height: 1.6;
+        }
+        
+        .rhythm-typography li {
+            margin-bottom: var(--rhythm-xs);
+        }
+        
+        /* Section rhythm */
+        .rhythm-section {
+            padding-top: var(--rhythm-xl);
+            padding-bottom: var(--rhythm-xl);
+        }
+        
+        .rhythm-section-hero {
+            padding-top: calc(var(--rhythm-xl) * 1.5);
+            padding-bottom: calc(var(--rhythm-xl) * 1.5);
+        }
+        
+        /* Card rhythm */
+        .rhythm-card {
+            margin-bottom: var(--rhythm-lg);
+        }
+        
+        .rhythm-card > * + * {
+            margin-top: var(--rhythm-sm);
+        }
+        
+        /* Grid rhythm */
+        .rhythm-grid {
+            gap: var(--rhythm-lg);
+            margin-bottom: var(--rhythm-xl);
+        }
+        
+        /* Responsive rhythm adjustments */
+        @media (max-width: 640px) {
+            :root {
+                --rhythm-base: 20px;
+                --rhythm-scale: 1.5;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            :root {
+                --rhythm-base: 28px;
+                --rhythm-scale: 1.75;
+            }
+        }
+        
+        /* Apply rhythm to body */
+        body {
+            line-height: 1.6;
+        }
+        
+        /* Ensure consistent baseline */
+        * {
+            box-sizing: border-box;
+        }
+        
+        /* Rhythm debugging (remove in production) */
+        .rhythm-debug {
+            background-image: linear-gradient(to bottom, rgba(255,0,0,0.1) 1px, transparent 1px);
+            background-size: 100% var(--rhythm-base);
+        }
+        
+        /* Hero Square Gradient System */
+        @keyframes heroGradientPulse {
+            0%, 100% {
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% {
+                transform: scale(1.02);
+                filter: brightness(1.05);
+            }
+        }
+        
+        @keyframes heroGradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        .hero-gradient-square::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 255, 255, 0.1) 0%, 
+                rgba(255, 255, 255, 0.05) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+        }
+        
+        /* Enhanced text styling within square */
+        .hero-gradient-square h1 {
+            color: white !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            font-weight: 700 !important;
+        }
+        
+        .hero-gradient-square p {
+            color: rgba(255, 255, 255, 0.9) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-gradient-square button {
+            background: rgba(255, 255, 255, 0.2) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important;
+            color: white !important;
+            font-weight: 600 !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .hero-gradient-square button:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        .hero-gradient-square .animate-float {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .hero-gradient-square {
+                width: 95vw !important;
+                height: 95vw !important;
+                max-width: 400px !important;
+                max-height: 400px !important;
+                border-radius: 1.5rem !important;
+            }
+            
+            .hero-gradient-square .container {
+                padding: 2rem !important;
+            }
+            
+            .hero-gradient-square h1 {
+                font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
+                line-height: 1.2 !important;
+            }
+            
+            .hero-gradient-square p {
+                font-size: clamp(0.875rem, 2vw, 1rem) !important;
+            }
+        }
+        
+        @media (min-width: 641px) and (max-width: 1024px) {
+            .hero-gradient-square {
+                width: min(85vw, 85vh, 600px) !important;
+                height: min(85vw, 85vh, 600px) !important;
+            }
+            
+            .hero-gradient-square .container {
+                padding: 2.5rem !important;
+            }
+        }
+        
+        @media (min-width: 1025px) {
+            .hero-gradient-square {
+                width: min(80vw, 80vh, 800px) !important;
+                height: min(80vw, 80vh, 800px) !important;
+            }
+            
+            .hero-gradient-square .container {
+                padding: 3rem !important;
+            }
+        }
+        </style>
+
+<style>
+/* Hero Square Container Styling */
+.hero-square-container {
+    transition: all 0.3s ease;
+}
+
+.hero-square-container:hover {
+    transform: scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+/* Gradient Animation */
+@keyframes gradientDance {
+    0% { background-position: 0% 50%; }
+    25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-square-container {
+        width: min(95vw, 95vh, 600px) !important;
+        height: min(95vw, 95vh, 600px) !important;
+        padding: clamp(1.5rem, 3vw, 3rem) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-square-container {
+        width: min(98vw, 90vh, 400px) !important;
+        height: min(98vw, 90vh, 400px) !important;
+        padding: clamp(1rem, 2vw, 2rem) !important;
+        border-radius: clamp(0.5rem, 1vw, 1rem) !important;
+    }
+}
+
+/* Enhanced CTA spacing */
+.hero-cta-spacing {
+    margin-bottom: clamp(3rem, 6vh, 5rem) !important;
+}
+
+/* Dark mode adjustments */
+@media (prefers-color-scheme: dark) {
+    .hero-square-container {
+        background: linear-gradient(135deg, 
+            rgba(59, 130, 246, 0.15) 0%, 
+            rgba(147, 51, 234, 0.15) 25%, 
+            rgba(236, 72, 153, 0.15) 50%, 
+            rgba(59, 130, 246, 0.15) 75%, 
+            rgba(147, 51, 234, 0.15) 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .hero-square-container:hover {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4) !important;
+    }
+}
+</style></head>
+<body id="app-root">
+    <!-- Navigation -->
+    <nav class="nav-premium">
+        <div class="container">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="text-2xl animate-float">🎛️</div>
+                    <div class="flex flex-col">
+                        <h1 class="text-4xl lg:text-5xl font-bold leading-tight tracking-wide">Ric Rios</h1>
+                        <span class="text-xs text-muted-foreground">DOS</span>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#philosophy" class="nav-link">Philosophy</a>
+                    <a href="#toolkit" class="nav-link">Toolkit</a>
+                    <a href="#case-studies" class="nav-link">Work</a>
+                    <a href="#innovation-lab" class="nav-link">Innovation</a>
+                </div>
+                
+                <!-- Controls -->
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-muted-foreground hidden lg:inline" id="nav-greeting">
+                        Morning mastery
+                    </span>
+                    
+                    <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
+                        <span id="dark-mode-icon">🌙</span>
+                    </button>
+                    
+                    <button class="btn-premium hidden lg:inline-flex" onclick="smoothScroll('case-studies')" id="nav-cta">
+                        Begin with proven mastery
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button class="dark-mode-toggle md:hidden" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+                        <span>☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay" id="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center space-x-2">
+                <span class="text-xl">🎛️</span>
+                <span>Ric Rios DOS</span>
+            </div>
+            <button onclick="toggleMobileMenu()" class="text-2xl">&times;</button>
+        </div>
+        
+        <div class="space-y-4">
+            <p class="text-sm text-muted-foreground mb-6" id="mobile-greeting">
+                Good morning. Ready for systematic innovation?
+            </p>
+            
+            <div class="space-y-4">
+                <a href="#about" class="nav-link block" onclick="toggleMobileMenu()">About</a>
+                <a href="#philosophy" class="nav-link block" onclick="toggleMobileMenu()">Philosophy</a>
+                <a href="#toolkit" class="nav-link block" onclick="toggleMobileMenu()">Toolkit</a>
+                <a href="#case-studies" class="nav-link block" onclick="toggleMobileMenu()">Work</a>
+                <a href="#innovation-lab" class="nav-link block" onclick="toggleMobileMenu()">Innovation</a>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-border">
+                <button class="btn-premium w-full" onclick="smoothScroll('case-studies'); toggleMobileMenu();" id="mobile-cta">
+                    Begin with proven mastery
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div style="min-height: 100vh; padding-top: 80px;">
+        <!-- Hero Section -->
+        <section class="hero-section" style="
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: clamp(2rem, 4vh, 4rem) 1rem;
+        ">
+            <div class="container mx-auto">
+                <div class="hero-container" style="
+                    max-width: 800px;
+                    width: 100%;
+                    margin: 0 auto;
+                    background: linear-gradient(135deg, 
+                        rgba(59, 130, 246, 0.05) 0%, 
+                        rgba(147, 51, 234, 0.05) 25%, 
+                        rgba(236, 72, 153, 0.05) 50%, 
+                        rgba(59, 130, 246, 0.05) 75%, 
+                        rgba(147, 51, 234, 0.05) 100%);
+                    border-radius: clamp(1rem, 2vw, 2rem);
+                    padding: clamp(3rem, 6vw, 6rem) clamp(2rem, 4vw, 4rem);
+                    text-align: center;
+                    backdrop-filter: blur(10px);
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+                ">
+                    <div class="animate-float mb-6 text-5xl">
+                        🎛️
+                    </div>
+                    
+                    <h1 class="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight" id="hero-title">
+                        Strategic Design Leadership for Tomorrow's Builders
+                    </h1>
+                    
+                    <p class="text-lg lg:text-xl mb-8 leading-relaxed text-muted-foreground max-w-3xl mx-auto" id="hero-description">
+                        When ambitious founders and executives need systematic design leadership that bridges deep craft mastery with emerging technology—delivering strategic innovation that defines tomorrow's standards.
+                    </p>
+                    
+                    <p class="text-base lg:text-lg mb-8 leading-relaxed max-w-2xl mx-auto" id="hero-subtitle">
+                        Fresh perspective meets proven methodology. Building futures that scale with morning clarity and strategic precision.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-6">
+                        <button class="btn-premium" onclick="smoothScroll('case-studies')" id="hero-cta">
+                            Start Building Tomorrow
+                        </button>
+                        <a href="#about" class="btn-secondary">
+                            Learn More
+                        </a>
+                    </div>
+                    
+                    <p class="text-sm text-muted-foreground" id="hero-keywords">
+                        Strategic Leadership • Systematic Innovation • Future-State Design • Morning Clarity
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="container mx-auto pb-20">
+            <div class="space-y-24">
+                <!-- About Section -->
+                <section id="about" class="px-4">
+                    <div class="max-w-4xl">
+                        <h2 class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-semibold leading-tight" id="about-title">
+                            Design Leadership
+                        </h2>
+                        <div class="space-y-6">
+                            <p class="leading-relaxed mb-6 text-lg">
+                                <span id="about-greeting">Good morning.</span> I am Ric Rios, a design leader who transforms ambitious vision into competitive advantage. For decades, I've guided founders and executives through the intersection of creative excellence, disciplined methodology, and emerging technology.
+                            </p>
+                            <p class="leading-relaxed mb-6 text-lg" id="about-description">
+                                As morning brings fresh possibilities, I bring thinking that connects design, technology, culture, and business outcomes into coherent strategies that define tomorrow's standards.
+                            </p>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-base" id="about-subtitle">
+                                For leaders who understand that exceptional design isn't decoration—it's competitive advantage. Calm authority earned through application, always with relentless curiosity about what's possible.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Philosophy Section -->
+                <section id="philosophy" class="px-4">
+                    <h2 class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-semibold leading-tight" id="philosophy-title">
+                        Foundation
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                        <div class="premium-card">
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Leadership Architecture</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-base">
+                                I see the architecture others miss—connecting design, technology, culture, and business outcomes into coherent strategies that create sustainable advantage.
+                            </p>
+                        </div>
+                        <div class="premium-card">
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Earned Authority</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-base">
+                                Decades of real-world integration. Every major design book read and applied. Wisdom earned through transforming ambitious vision into measurable results.
+                            </p>
+                        </div>
+                        <div class="premium-card">
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Future-State Innovation</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-base">
+                                While others optimize for yesterday's metrics, I architect tomorrow's realities. Emerging technologies guided by timeless principles, creating lasting impact.
+                            </p>
+                        </div>
+                        <div class="premium-card">
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Disciplined Excellence</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-base">
+                                World-class quality through proven methodologies. Rigor that remains human and creatively inspiring. Results that speak louder than trends.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Focus Section -->
+                <section id="focus" class="px-4">
+                    <h2 class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-semibold leading-tight" id="focus-title">
+                        Current Innovation Focus
+                    </h2>
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+                        <div class="premium-card">
+                            <div class="mb-4 text-3xl">🧠</div>
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Behavioral Architecture</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                                User psychology combined with AI-powered pattern recognition. I reveal hidden decision-making architectures that transform digital experiences.
+                            </p>
+                        </div>
+                        <div class="premium-card">
+                            <div class="mb-4 text-3xl">⚡</div>
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Innovation Process</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                                Rigorous methodology born from design mastery, refined through real-world application. Creative excellence guided by disciplined precision.
+                            </p>
+                        </div>
+                        <div class="premium-card">
+                            <div class="mb-4 text-3xl">🔮</div>
+                            <h3 class="mb-6 lg:mb-8 text-2xl lg:text-3xl font-semibold leading-snug">Forward-Looking Design</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6 text-sm">
+                                Building tomorrow's standards with emerging technologies. Future-state prototyping that bridges current capabilities with next-generation possibilities.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Case Studies Section -->
+                <section id="case-studies" class="px-4">
+                    <div class="mb-12">
+                        <h2 class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-semibold leading-tight" id="case-studies-title">
+                            Morning Portfolio: Systems in Action
+                        </h2>
+                        <p class="text-muted-foreground leading-relaxed mb-6 max-w-4xl text-base">
+                            Three decades of systematic design leadership applied across diverse domains—from luxury travel to wealth management to community building. Each project demonstrates the intersection of deep craft knowledge, strategic rigor, and forward-looking innovation.
+                        </p>
+                    </div>
+
+                    <!-- Featured Case Study -->
+                    <div class="mb-16">
+                        <div class="featured-card premium-card">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-2xl">🎯</span>
+                                    <div>
+                                        <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Chase Travel Transformation</h3>
+                                        <p class="text-sm opacity-90">AI-Enhanced Luxury Travel Experience</p>
+                                    </div>
+                                </div>
+                                <button class="btn-premium text-sm px-4 py-2" onclick="openCaseStudyModal('chase-travel')">
+                                    View Case Study
+                                </button>
+                            </div>
+                            <div class="mb-4">
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="badge">Cross-Platform Unification</span>
+                                    <span class="badge">Progressive Disclosure</span>
+                                    <span class="badge">Brand DNA Integration</span>
+                                    <span class="badge">UX Gap Reduction</span>
+                                </div>
+                            </div>
+                            <p class="text-sm leading-relaxed mb-6">
+                                Led strategic redesign of Chase's travel booking experience, unifying desktop and mobile channels through systematic brand DNA alignment and refined progressive disclosure patterns that honor both editorial storytelling and transactional precision.
+                            </p>
+                            <div class="text-xs opacity-75">
+                                88% reduction in prioritized UX gaps • 20% year-over-year transaction growth
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Case Studies Grid -->
+                    <div class="grid mb-12 gap-6 lg:gap-8 grid-cols-1 md:grid-cols-2">
+                        <div class="case-study-card" onclick="openCaseStudyModal('wealth-management')">
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">💼</span>
+                                <div>
+                                    <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Digital Wealth Management</h3>
+                                    <p class="text-sm text-muted-foreground">Unified Investment Platform</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="badge">Wealth Management</span>
+                                    <span class="badge">Design Systems</span>
+                                    <span class="badge">Platform Unification</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Introduced full-featured wealth management UI into Chase's ecosystem—desktop and native mobile—serving high-net-worth clients with systematic precision.
+                            </p>
+                            <div class="text-xs text-muted-foreground">
+                                30% reduction in support calls • $2B in new assets onboarded
+                            </div>
+                        </div>
+
+                        <div class="case-study-card" onclick="openCaseStudyModal('chase-dining')">
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">🍽️</span>
+                                <div>
+                                    <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Chase Dining Platform</h3>
+                                    <p class="text-sm text-muted-foreground">Editorial Meets Utility</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="badge">Editorial Design</span>
+                                    <span class="badge">Transaction Optimization</span>
+                                    <span class="badge">Content Integration</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Created Chase Dining, a hybrid editorial-booking platform marrying The Infatuation's rich content with OpenTable's reservation engine, plus exclusive Reserve Card perks.
+                            </p>
+                            <div class="text-xs text-muted-foreground">
+                                50% increase in on-platform reservations • 20% boost in Reserve card spending
+                            </div>
+                        </div>
+
+                        <div class="case-study-card" onclick="openCaseStudyModal('bjj-movement')">
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">🥋</span>
+                                <div>
+                                    <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">BJJ Training & Design Practice</h3>
+                                    <p class="text-sm text-muted-foreground">Mat Skills Applied to Design Leadership</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="badge">Skill Transfer</span>
+                                    <span class="badge">Problem Solving</span>
+                                    <span class="badge">Emotional Intelligence</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Applied problem solving, perseverance, and emotional intelligence developed through Brazilian Jiu-Jitsu training to design leadership.
+                            </p>
+                            <div class="text-xs text-muted-foreground">
+                                Enhanced stakeholder management through emotional intelligence application
+                            </div>
+                        </div>
+
+                        <div class="case-study-card" onclick="openCaseStudyModal('meta-workflow')">
+                            <div class="flex items-center mb-3">
+                                <span class="text-xl mr-2">🤖</span>
+                                <div>
+                                    <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Meta: AI-Powered Design Workflow</h3>
+                                    <p class="text-sm text-muted-foreground">Multi-Agent Creative Engine</p>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex flex-wrap gap-1">
+                                    <span class="badge">Design Operations</span>
+                                    <span class="badge">AI Workflow</span>
+                                    <span class="badge">Systems Innovation</span>
+                                </div>
+                            </div>
+                            <p class="text-sm text-muted-foreground leading-relaxed mb-6">
+                                Systematized the end-to-end realization of ricrios.com through structured human-AI collaboration, delivering a live portfolio with zero manual updates.
+                            </p>
+                            <div class="text-xs text-muted-foreground">
+                                3× faster content releases • 100% template adherence across all case studies
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Portfolio Summary -->
+                    <div class="premium-card bg-muted text-center">
+                        <p class="leading-relaxed mb-6 text-lg" id="portfolio-summary">
+                            Each morning brings new opportunities to apply systematic precision to emerging challenges—bridging timeless craft with tomorrow's possibilities.
+                        </p>
+                        <div class="text-muted-foreground leading-relaxed text-sm">
+                            Systems-level thinking. Disciplined methodology. Future-aware innovation.
+                            <br>
+                            <span class="block sm:inline sm:ml-2">
+                                Authentically mine, never generic.
+                            </span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Hidden Lab Section -->
+                <section id="hidden-lab" class="py-16 lg:py-24 px-4">
+                    <div class="text-center mb-10">
+                        <h2 class="mb-6 lg:mb-8 text-3xl lg:text-4xl font-semibold leading-tight" id="hidden-lab-title">
+                            Innovation Laboratory
+                        </h2>
+                        <p class="text-muted-foreground mb-4 text-base">
+                            🎮 <span class="italic" id="hidden-lab-subtitle">Where innovation meets playful discovery...</span>
+                        </p>
+                        <div class="w-16 h-px bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 mx-auto mb-6"></div>
+                        <p class="text-xs text-muted-foreground max-w-md mx-auto" id="hidden-lab-hint">
+                            ⬆⬆⬇⬇⬅➡⬅➡🅱🅰 — For leaders who appreciate precision
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm text-muted-foreground mb-4">
+                            Some features are unlocked through classic sequences...
+                        </p>
+                        <div class="premium-card max-w-md mx-auto">
+                            <p class="text-sm">
+                                TechOS Innovation Laboratory
+                            </p>
+                            <p class="text-xs text-muted-foreground mt-2">
+                                Experiment with emerging design patterns and AI collaboration frameworks
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-muted py-12 mt-16">
+            <div class="container text-center">
+                <p class="text-muted-foreground text-sm">
+                    © 2025 Ric Rios. Strategic design leadership for tomorrow's builders.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Case Study Modal -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div id="modal-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Time-aware content system
+        function getTimeOfDay() {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) return 'morning';
+            if (hour >= 12 && hour < 18) return 'afternoon';
+            return 'evening';
+        }
+
+        // Case study data
+        const caseStudies = {
+            'chase-travel': {
+                title: 'Chase Travel Transformation',
+                subtitle: 'AI-Enhanced Luxury Travel Experience',
+                icon: '🎯',
+                overview: 'Led strategic redesign of Chase\'s travel booking experience, unifying desktop and mobile channels through systematic brand DNA alignment and refined progressive disclosure patterns that honor both editorial storytelling and transactional precision.',
+                challenge: 'Fragmented interfaces across web and app created friction in the booking journey post-rebrand. Federated touch points lacked cohesion, resulting in inconsistent pricing displays and reduced engagement with premium inventory offerings.',
+                approach: [
+                    'Aligned brand and experience DNA: Led cross-functional workshops with marketing, product and engineering to audit the federated journey post-rebrand, uncovering and prioritizing critical pain points',
+                    'Hypothesized impact of cohesion: Framed the problem—"If we unify UI patterns, elevate typography, and introduce elegant progressive disclosure, we\'ll reduce friction and reinforce the new brand at every step"',
+                    'Modularized and modernized interactions: Built and iterated on refined interface modules—chunked content, responsive typographic scales, and clean layouts—benchmarking against best-in-class analogs',
+                    'Validated with measurable results: Pressure-tested prototypes in mixed-method sessions and gap-mapping exercises, confirming an 88% reduction in prioritized UX issues and setting a new standard for cross-platform harmony'
+                ],
+                impact: {
+                    metrics: [
+                        '88% reduction in prioritized UX gaps',
+                        '20% year-over-year transaction growth across strategic lines'
+                    ],
+                    qualitative: 'Despite pricing constraints outside our direct control, this cohesive redesign drove sustained growth across our most strategic business lines, boosted NPS, and strengthened cross-product coherence.'
+                },
+                keyLearnings: 'Friction reduction is fundamental: Clear pricing displays + contextually surfaced premium inventory drive both satisfaction and conversion. From transactional to experiential: Progressive disclosure of curated offers shifts perception, increasing engagement and brand affinity. Design DNA scales impact: Consistent UI, accessibility compliance, and cohesive cross-product patterns fuel higher NPS, cross-sell lift, and sustained year-over-year transaction growth.'
+            },
+            'wealth-management': {
+                title: 'Digital Wealth Management',
+                subtitle: 'Unified Investment Platform',
+                icon: '💼',
+                overview: 'Introduced full-featured wealth management UI into Chase\'s ecosystem—desktop and native mobile—serving high-net-worth clients with systematic precision.',
+                challenge: 'Legacy online application lacked investment tools, mobile app had no managed-account surfaces, causing client churn to competitors offering more comprehensive digital experiences.',
+                approach: [
+                    'Conducted comprehensive audit of existing online flows and mobile usage analytics',
+                    'Designed modular Dashboard, Portfolio, and Advice components with systematic token architecture',
+                    'Built responsive patterns ensuring feature parity and usability across all platforms'
+                ],
+                impact: {
+                    metrics: [
+                        '30% reduction in support calls',
+                        '$2B in new assets onboarded within six months'
+                    ],
+                    qualitative: 'Created seamless wealth management experience that builds client trust through consistent, world-class interface design.'
+                },
+                keyLearnings: 'Unified design systems accelerate feature parity and client trust across platforms. Systematic approach to component architecture enables rapid scaling without compromising quality.'
+            },
+            'chase-dining': {
+                title: 'Chase Dining Platform',
+                subtitle: 'Editorial Meets Utility',
+                icon: '🍽️',
+                overview: 'Created Chase Dining, a hybrid editorial-booking platform marrying The Infatuation\'s rich content with OpenTable\'s reservation engine, plus exclusive Reserve Card perks.',
+                challenge: 'Customers loved Infatuation\'s storytelling but bounced when forced offsite to book. Booking drop-off undermined transaction credits value and premium card engagement.',
+                approach: [
+                    'Integrated curated editorial modules directly into booking flows',
+                    'Designed unified "Reserve" button with in-context previews of editorial highlights',
+                    'Surfaced transaction-credit reminders at key decision points in user journey'
+                ],
+                impact: {
+                    metrics: [
+                        '50% increase in on-platform reservations',
+                        '20% boost in Chase Reserve card spending'
+                    ],
+                    qualitative: 'Transformed dining discovery from fragmented experience into seamless editorial-transaction journey.'
+                },
+                keyLearnings: 'Seamless editorial-transaction experiences deepen engagement and lift spend on premium benefits. The key is eliminating friction while preserving the editorial magic that drives discovery.'
+            },
+            'bjj-movement': {
+                title: 'BJJ Training & Design Practice',
+                subtitle: 'Mat Skills Applied to Design Leadership',
+                icon: '🥋',
+                overview: 'Applied problem solving, perseverance, and emotional intelligence developed through Brazilian Jiu-Jitsu training to design leadership—transferring mat-learned principles to business objectives and customer pain points.',
+                challenge: 'High-pressure design environments demand the same mental resilience, problem-solving clarity, and emotional regulation required in martial arts competition. The challenge was systematically transferring these skills.',
+                approach: [
+                    'Developed systematic problem-solving approach through consistent mat training',
+                    'Applied emotional intelligence and pressure management from sparring to design critiques and stakeholder management',
+                    'Transferred perseverance and iterative improvement mindset to product development cycles'
+                ],
+                impact: {
+                    metrics: [
+                        'Improved team dynamics through authentic leadership approach',
+                        'Enhanced stakeholder management through emotional intelligence'
+                    ],
+                    qualitative: 'Demonstrated relentless work ethic and authentic approach that others respect, admire, and emulate to accelerate their own professional development.'
+                },
+                keyLearnings: 'Authentic skill transfer from martial arts to design work creates genuine leadership presence. Problem-solving under pressure, emotional regulation, and systematic improvement translate directly to design excellence.'
+            },
+            'meta-workflow': {
+                title: 'Meta: AI-Powered Design Workflow',
+                subtitle: 'Multi-Agent Creative Engine',
+                icon: '🤖',
+                overview: 'Systematized the end-to-end realization of ricrios.com through structured human-AI collaboration, delivering a live portfolio with zero manual updates and rapid case study deployment.',
+                challenge: 'Traditional portfolio development creates maintenance overhead and limits content velocity. Goal was to architect a self-sustaining system with time-aware personalization and bulletproof scalability.',
+                approach: [
+                    'Established COS/IOS/TechOS framework as systematic creative lens',
+                    'Built modular content architecture with JSON schema-driven components',
+                    'Implemented automated quality gates with pre-deployment validation'
+                ],
+                impact: {
+                    metrics: [
+                        '3× faster content releases with 30-minute deployment cycles',
+                        '100% template adherence across all case studies',
+                        '90% reduction in editorial errors via single source of truth'
+                    ],
+                    qualitative: 'Transformed portfolio maintenance from manual overhead into systematic creative engine that scales content velocity while enforcing brand rigor.'
+                },
+                keyLearnings: 'Systematic frameworks unlock AI collaboration potential. Position Before Submission applies to prompting: establish structure, then execute. Human domain expertise + AI execution precision = sustainable creative advantage.'
+            }
+        };
+
+        // Time-aware content updates
+        function updateTimeAwareContent() {
+            const timeOfDay = getTimeOfDay();
+            
+            // Update body class for time-aware styling
+            document.body.className = document.body.className.replace(/time-\w+/g, '') + ` time-${timeOfDay}`;
+            
+            const content = {
+                morning: {
+                    heroTitle: "Design Leadership for Tomorrow's Builders",
+                    heroDescription: "When ambitious leaders need disciplined design innovation that bridges craft mastery with emerging technology—delivering standards that define tomorrow.",
+                    heroSubtitle: "For leaders who understand exceptional design isn't decoration—it's competitive advantage. Strategic, disciplined, relentlessly forward-looking.",
+                    heroCta: "Begin with proven mastery",
+                    heroKeywords: "Leadership • Innovation • Future-Aware • Authentically Mine",
+                    navGreeting: "Morning mastery",
+                    navCta: "Begin with mastery",
+                    mobileCta: "Begin with mastery",
+                    mobileGreeting: "Good morning. Ready for systematic innovation?",
+                    aboutTitle: "Design Leadership",
+                    aboutGreeting: "Good morning.",
+                    aboutDescription: "As morning brings fresh possibilities, I bring thinking that connects design, technology, culture, and business outcomes into coherent strategies that define tomorrow's standards.",
+                    aboutSubtitle: "For leaders who understand that exceptional design isn't decoration—it's competitive advantage. Calm authority earned through application, always with relentless curiosity about what's possible.",
+                    philosophyTitle: "Foundation",
+                    focusTitle: "Current Innovation Focus",
+                    caseStudiesTitle: "Morning Portfolio: Systems in Action",
+                    portfolioSummary: "Each morning brings new opportunities to apply systematic precision to emerging challenges—bridging timeless craft with tomorrow's possibilities.",
+                    hiddenLabTitle: "Innovation Laboratory",
+                    hiddenLabSubtitle: "Where innovation meets playful discovery...",
+                    hiddenLabHint: "⬆⬆⬇⬇⬅➡⬅➡🅱🅰 — For leaders who appreciate precision",
+                    konamiHint: "⬆⬆⬇⬇⬅➡⬅➡🅱🅰 — For visionaries who remember the classics"
+                },
+                afternoon: {
+                    heroTitle: "Innovation at the Intersection of Mastery",
+                    heroDescription: "Design leadership distilled into proven methodologies. Creative excellence guided by disciplined precision that transforms outcomes.",
+                    heroSubtitle: "Calm authority through applied mastery. Rigor that remains human and creatively inspiring. Results that speak louder than trends.",
+                    heroCta: "Discover disciplined innovation",
+                    heroKeywords: "Applied Mastery • Strategic Thinking • Creative Excellence • Disciplined Precision",
+                    navGreeting: "Systematic innovation",
+                    navCta: "Systems-level thinking",
+                    mobileCta: "Systems-level thinking",
+                    mobileGreeting: "Good afternoon. Time for strategic thinking?",
+                    aboutTitle: "Innovation Authority",
+                    aboutGreeting: "Good afternoon.",
+                    aboutDescription: "In the clarity of midday, my approach synthesizes years of real-world application—every major design book read, integrated, and refined through measurable transformation.",
+                    aboutSubtitle: "Rigor grounded in real-world integration. World-class quality that honors both heritage and possibility, authentically mine, never generic.",
+                    philosophyTitle: "Methodology",
+                    focusTitle: "Innovation Laboratory",
+                    caseStudiesTitle: "Strategic Applications: Proven at Scale",
+                    portfolioSummary: "Strategic applications that demonstrate how deep mastery scales across domains—from luxury experiences to community building to AI-powered workflows.",
+                    hiddenLabTitle: "Hidden Architecture",
+                    hiddenLabSubtitle: "Experimental workspace for minds...",
+                    hiddenLabHint: "Some innovations are unlocked through classic sequences...",
+                    konamiHint: "Curious leaders may discover hidden innovations below..."
+                },
+                evening: {
+                    heroTitle: "Earned Wisdom Applied to Future-State Design",
+                    heroDescription: "Where timeless principles meet forward-looking innovation. Earned wisdom applied to emerging technologies for lasting impact.",
+                    heroSubtitle: "Authentically mine, never generic. World-class quality honoring both heritage and possibility. Mastery meets relentless curiosity.",
+                    heroCta: "Access proven methodologies",
+                    heroKeywords: "Timeless Principles • Forward-Looking • World-Class Quality • Earned Authority",
+                    navGreeting: "Evening wisdom",
+                    navCta: "Future-aware innovation",
+                    mobileCta: "Future-aware innovation",
+                    mobileGreeting: "Good evening. Evening wisdom awaits.",
+                    aboutTitle: "Applied Wisdom",
+                    aboutGreeting: "Good evening.",
+                    aboutDescription: "With evening's reflective wisdom, I offer the rare combination of deep craft mastery and forward-looking innovation—timeless principles applied to emerging possibilities.",
+                    aboutSubtitle: "Where timeless principles meet forward-looking approaches. My commitment remains constant: disciplined excellence that transforms business outcomes through innovation.",
+                    philosophyTitle: "Leadership Pillars",
+                    focusTitle: "Evening Innovation Archive",
+                    caseStudiesTitle: "Evening Archive: Three Decades of Impact",
+                    portfolioSummary: "Evening reflection reveals the connecting thread: every project benefits from three decades of integrated design knowledge, authentically applied.",
+                    hiddenLabTitle: "Evening Innovation Archive",
+                    hiddenLabSubtitle: "Evening wisdom meets forward-looking experimentation...",
+                    hiddenLabHint: "Minds who remember the fundamentals unlock hidden capabilities...",
+                    konamiHint: "Some wisdom reveals itself to the persistent..."
+                }
+            };
+
+            const current = content[timeOfDay];
+            
+            // Update all time-aware elements
+            document.getElementById('hero-title').textContent = current.heroTitle;
+            document.getElementById('hero-description').textContent = current.heroDescription;
+            document.getElementById('hero-subtitle').textContent = current.heroSubtitle;
+            document.getElementById('hero-cta').textContent = current.heroCta;
+            document.getElementById('hero-keywords').textContent = current.heroKeywords;
+            document.getElementById('nav-greeting').textContent = current.navGreeting;
+            document.getElementById('nav-cta').textContent = current.navCta;
+            document.getElementById('mobile-cta').textContent = current.mobileCta;
+            document.getElementById('mobile-greeting').textContent = current.mobileGreeting;
+            document.getElementById('about-title').textContent = current.aboutTitle;
+            document.getElementById('about-greeting').textContent = current.aboutGreeting;
+            document.getElementById('about-description').textContent = current.aboutDescription;
+            document.getElementById('about-subtitle').textContent = current.aboutSubtitle;
+            document.getElementById('philosophy-title').textContent = current.philosophyTitle;
+            document.getElementById('focus-title').textContent = current.focusTitle;
+            document.getElementById('case-studies-title').textContent = current.caseStudiesTitle;
+            document.getElementById('portfolio-summary').textContent = current.portfolioSummary;
+            document.getElementById('hidden-lab-title').textContent = current.hiddenLabTitle;
+            document.getElementById('hidden-lab-subtitle').textContent = current.hiddenLabSubtitle;
+            document.getElementById('hidden-lab-hint').textContent = current.hiddenLabHint;
+            document.getElementById('konami-hint').textContent = current.konamiHint;
+        }
+
+        // Dark mode functionality
+        function toggleDarkMode() {
+            const body = document.body;
+            const icon = document.getElementById('dark-mode-icon');
+            
+            body.classList.toggle('dark');
+            icon.textContent = body.classList.contains('dark') ? '☀️' : '🌙';
+            
+            localStorage.setItem('darkMode', body.classList.contains('dark'));
+        }
+
+        // Initialize dark mode from localStorage
+        function initializeDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode === 'true') {
+                document.body.classList.add('dark');
+                document.getElementById('dark-mode-icon').textContent = '☀️';
+            }
+        }
+
+        // Mobile menu functionality
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('mobile-menu-overlay');
+            
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // Smooth scrolling
+        function smoothScroll(targetId) {
+            const target = document.getElementById(targetId);
+            if (target) {
+                const offsetTop = target.offsetTop - 100;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Case study modal
+        function openCaseStudyModal(caseStudyId) {
+            const study = caseStudies[caseStudyId];
+            if (!study) return;
+
+            const modalContent = `
+                <div class="max-w-4xl">
+                    <div class="flex items-center mb-6">
+                        <span class="text-3xl mr-3">${study.icon}</span>
+                        <div>
+                            <h2 class="text-3xl lg:text-4xl font-semibold leading-tight mb-6 lg:mb-8">${study.title}</h2>
+                            <p class="text-muted-foreground">${study.subtitle}</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Overview</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6">${study.overview}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Challenge</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6">${study.challenge}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Approach</h3>
+                            <ul class="space-y-2">
+                                ${study.approach.map(item => `<li class="text-muted-foreground leading-relaxed">• ${item}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Impact</h3>
+                            <div class="space-y-2">
+                                ${study.impact.metrics.map(metric => `<p class="text-muted-foreground">• ${metric}</p>`).join('')}
+                            </div>
+                            <p class="text-muted-foreground leading-relaxed mb-6 mt-3">${study.impact.qualitative}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-2xl lg:text-3xl font-semibold leading-snug mb-6 lg:mb-8">Key Learnings</h3>
+                            <p class="text-muted-foreground leading-relaxed mb-6">${study.keyLearnings}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-content').innerHTML = modalContent;
+            document.getElementById('modal-overlay').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
+        }
+
+        // Close modal when clicking overlay
+        document.getElementById('modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Konami Code Easter Egg
+        let konamiCode = [];
+        const konamiSequence = [
+            'ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown',
+            'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
+            'KeyB', 'KeyA'
+        ];
+
+        function handleKonamiCode(event) {
+            konamiCode.push(event.code);
+            
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.length === konamiSequence.length) {
+                const matches = konamiCode.every((code, index) => code === konamiSequence[index]);
+                if (matches) {
+                    alert('🎯 TechOS Activated! Hidden features unlocked for visionaries who remember the classics.');
+                    konamiCode = [];
+                }
+            }
+        }
+
+        // Initialize everything when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDarkMode();
+            updateTimeAwareContent();
+            
+            // Update time-aware content every minute
+            setInterval(updateTimeAwareContent, 60000);
+            
+            // Add Konami code listener
+            document.addEventListener('keydown', handleKonamiCode);
+            
+            // Add navigation event listeners
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = this.getAttribute('href').substring(1);
+                    smoothScroll(target);
+                });
+            });
+            
+            console.log('🎛️ TechOS Portfolio System Initialized');
+            console.log('⚡ Time-aware content active');
+            console.log('🌙 Dark mode ready');
+            console.log('🎮 Konami code listener active');
+            console.log('📱 Mobile optimization active');
+        });
+    </script>
+    <!-- Presentation Layer Elevation Script -->
+    <script>
+        /**
+         * Presentation Layer Elevation Script
+         * Transforms the portfolio to match production ricrios.com elegance and sophistication
+         * Focus: Visual hierarchy, gradient systems, typography, spacing, and design harmony
+         */
+
+        class PresentationLayerElevation {
+            constructor() {
+                this.productionStyles = {
+                    gradients: {
+                        hero: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #ec4899 50%, #8b5cf6 75%, #6366f1 100%)',
+                        heroEvening: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 25%, #ec4899 50%, #8b5cf6 75%, #6366f1 100%)',
+                        heroMorning: 'linear-gradient(135deg, #60a5fa 0%, #3b82f6 25%, #8b5cf6 50%, #ec4899 75%, #f59e0b 100%)',
+                        heroAfternoon: 'linear-gradient(135deg, #34d399 0%, #10b981 25%, #06b6d4 50%, #3b82f6 75%, #8b5cf6 100%)',
+                        section: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%)',
+                        card: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)'
+                    },
+                    typography: {
+                        hero: {
+                            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                            fontWeight: '700',
+                            lineHeight: '1.1',
+                            letterSpacing: '-0.02em'
+                        },
+                        heroSubtitle: {
+                            fontSize: 'clamp(1.125rem, 2vw, 1.25rem)',
+                            fontWeight: '400',
+                            lineHeight: '1.6',
+                            opacity: '0.9'
+                        },
+                        sectionTitle: {
+                            fontSize: 'clamp(1.875rem, 3vw, 2.25rem)',
+                            fontWeight: '600',
+                            lineHeight: '1.2',
+                            letterSpacing: '-0.01em'
+                        }
+                    },
+                    spacing: {
+                        hero: {
+                            paddingTop: 'clamp(4rem, 10vh, 8rem)',
+                            paddingBottom: 'clamp(4rem, 10vh, 8rem)',
+                            marginBottom: '4rem'
+                        },
+                        section: {
+                            paddingTop: 'clamp(3rem, 8vh, 6rem)',
+                            paddingBottom: 'clamp(3rem, 8vh, 6rem)',
+                            marginBottom: '2rem'
+                        },
+                        container: {
+                            maxWidth: '1200px',
+                            paddingLeft: 'clamp(1rem, 4vw, 2rem)',
+                            paddingRight: 'clamp(1rem, 4vw, 2rem)'
+                        }
+                    },
+                    colors: {
+                        text: {
+                            primary: '#1f2937',
+                            secondary: '#6b7280',
+                            accent: '#8b5cf6'
+                        },
+                        background: {
+                            primary: '#ffffff',
+                            secondary: '#f9fafb',
+                            accent: '#fef7ff'
+                        }
+                    }
+                };
+            }
+
+            /**
+             * Apply production-quality visual hierarchy and spacing
+             */
+            elevateVisualHierarchy() {
+                console.log('🎨 Elevating visual hierarchy...');
+                
+                // Hero section elevation
+                const heroSection = document.querySelector('.hero-section, #hero, [data-section="hero"]');
+                if (heroSection) {
+                    this.elevateHeroSection(heroSection);
+                }
+
+                // Section spacing and hierarchy
+                const sections = document.querySelectorAll('section, .section, [data-section]');
+                sections.forEach((section, index) => {
+                    this.elevateSectionHierarchy(section, index);
+                });
+
+                // Typography elevation
+                this.elevateTypography();
+
+                // Navigation elevation
+                this.elevateNavigation();
+
+                console.log('✨ Visual hierarchy elevated');
+            }
+
+            /**
+             * Transform hero section to match production elegance
+             */
+            elevateHeroSection(heroSection) {
+                const timeOfDay = this.getTimeOfDay();
+                const gradient = this.productionStyles.gradients[`hero${timeOfDay}`] || this.productionStyles.gradients.hero;
+                
+                // Apply gradient background
+                heroSection.style.background = gradient;
+                heroSection.style.borderRadius = '1.5rem';
+                heroSection.style.margin = '2rem auto';
+                heroSection.style.maxWidth = '1400px';
+                heroSection.style.position = 'relative';
+                heroSection.style.overflow = 'hidden';
+                
+                // Apply spacing
+                Object.assign(heroSection.style, this.productionStyles.spacing.hero);
+                
+                // Ensure proper container
+                const container = heroSection.querySelector('.container') || heroSection;
+                Object.assign(container.style, this.productionStyles.spacing.container);
+                container.style.margin = '0 auto';
+                container.style.textAlign = 'center';
+                
+                // Elevate hero title
+                const heroTitle = heroSection.querySelector('h1, .hero-title, [data-hero-title]');
+                if (heroTitle) {
+                    Object.assign(heroTitle.style, this.productionStyles.typography.hero);
+                    heroTitle.style.color = '#1f2937';
+                    heroTitle.style.marginBottom = '1.5rem';
+                }
+                
+                // Elevate hero subtitle
+                const heroSubtitle = heroSection.querySelector('.hero-subtitle, p, [data-hero-subtitle]');
+                if (heroSubtitle && heroSubtitle !== heroTitle) {
+                    Object.assign(heroSubtitle.style, this.productionStyles.typography.heroSubtitle);
+                    heroSubtitle.style.color = '#374151';
+                    heroSubtitle.style.marginBottom = '2rem';
+                }
+                
+                // Elevate CTA button
+                const ctaButton = heroSection.querySelector('button, .cta-button, [data-cta]');
+                if (ctaButton) {
+                    this.elevateCTAButton(ctaButton);
+                }
+            }
+
+            /**
+             * Elevate section hierarchy and spacing
+             */
+            elevateSectionHierarchy(section, index) {
+                // Skip hero section (already handled)
+                if (section.classList.contains('hero-section') || section.id === 'hero') {
+                    return;
+                }
+                
+                // Apply section spacing
+                Object.assign(section.style, this.productionStyles.spacing.section);
+                
+                // Subtle background for alternating sections
+                if (index % 2 === 1) {
+                    section.style.backgroundColor = this.productionStyles.colors.background.secondary;
+                }
+                
+                // Section container
+                const container = section.querySelector('.container') || section;
+                Object.assign(container.style, this.productionStyles.spacing.container);
+                container.style.margin = '0 auto';
+                
+                // Section title
+                const sectionTitle = section.querySelector('h2, .section-title, [data-section-title]');
+                if (sectionTitle) {
+                    Object.assign(sectionTitle.style, this.productionStyles.typography.sectionTitle);
+                    sectionTitle.style.color = this.productionStyles.colors.text.primary;
+                    sectionTitle.style.marginBottom = '2rem';
+                    sectionTitle.style.textAlign = 'center';
+                }
+            }
+
+            /**
+             * Elevate typography across the site
+             */
+            elevateTypography() {
+                // Body text
+                document.body.style.fontFamily = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif';
+                document.body.style.lineHeight = '1.6';
+                document.body.style.color = this.productionStyles.colors.text.primary;
+                
+                // Headings
+                const headings = document.querySelectorAll('h1, h2, h3, h4, h5, h6');
+                headings.forEach(heading => {
+                    heading.style.fontWeight = '600';
+                    heading.style.letterSpacing = '-0.01em';
+                    heading.style.color = this.productionStyles.colors.text.primary;
+                });
+                
+                // Paragraphs
+                const paragraphs = document.querySelectorAll('p');
+                paragraphs.forEach(p => {
+                    p.style.color = this.productionStyles.colors.text.secondary;
+                    p.style.lineHeight = '1.7';
+                    p.style.marginBottom = '1rem';
+                });
+            }
+
+            /**
+             * Elevate navigation to match production
+             */
+            elevateNavigation() {
+                const nav = document.querySelector('nav, .navigation, [data-nav]');
+                if (!nav) return;
+                
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                nav.style.backdropFilter = 'blur(10px)';
+                nav.style.borderBottom = '1px solid rgba(0, 0, 0, 0.1)';
+                nav.style.position = 'sticky';
+                nav.style.top = '0';
+                nav.style.zIndex = '50';
+                nav.style.padding = '1rem 0';
+                
+                // Navigation links
+                const navLinks = nav.querySelectorAll('a, .nav-link');
+                navLinks.forEach(link => {
+                    link.style.color = this.productionStyles.colors.text.primary;
+                    link.style.textDecoration = 'none';
+                    link.style.fontWeight = '500';
+                    link.style.transition = 'color 0.2s ease';
+                    
+                    link.addEventListener('mouseenter', () => {
+                        link.style.color = this.productionStyles.colors.text.accent;
+                    });
+                    
+                    link.addEventListener('mouseleave', () => {
+                        link.style.color = this.productionStyles.colors.text.primary;
+                    });
+                });
+            }
+
+            /**
+             * Elevate CTA button styling
+             */
+            elevateCTAButton(button) {
+                button.style.backgroundColor = '#ffffff';
+                button.style.color = '#1f2937';
+                button.style.border = 'none';
+                button.style.borderRadius = '0.75rem';
+                button.style.padding = '0.875rem 2rem';
+                button.style.fontSize = '1rem';
+                button.style.fontWeight = '600';
+                button.style.cursor = 'pointer';
+                button.style.transition = 'all 0.2s ease';
+                button.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-2px)';
+                    button.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                    button.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)';
+                });
+            }
+
+            /**
+             * Apply responsive design improvements
+             */
+            elevateResponsiveDesign() {
+                console.log('📱 Elevating responsive design...');
+                
+                // Mobile-first responsive styles
+                const style = document.createElement('style');
+                style.textContent = `
+                    @media (max-width: 768px) {
+                        .hero-section, #hero, [data-section="hero"] {
+                            margin: 1rem !important;
+                            border-radius: 1rem !important;
+                            padding: 3rem 1.5rem !important;
+                        }
+                        
+                        section, .section, [data-section] {
+                            padding: 2rem 1rem !important;
+                        }
+                        
+                        .container {
+                            padding-left: 1rem !important;
+                            padding-right: 1rem !important;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .hero-section h1, .hero-title, [data-hero-title] {
+                            font-size: 2rem !important;
+                            line-height: 1.2 !important;
+                        }
+                        
+                        .hero-section p, .hero-subtitle, [data-hero-subtitle] {
+                            font-size: 1rem !important;
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                console.log('✨ Responsive design elevated');
+            }
+
+            /**
+             * Add subtle animations and interactions
+             */
+            elevateInteractions() {
+                console.log('🎭 Elevating interactions...');
+                
+                // Smooth scroll behavior
+                document.documentElement.style.scrollBehavior = 'smooth';
+                
+                // Fade-in animation for sections
+                const sections = document.querySelectorAll('section, .section, [data-section]');
+                sections.forEach((section, index) => {
+                    section.style.opacity = '0';
+                    section.style.transform = 'translateY(20px)';
+                    section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    
+                    setTimeout(() => {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+                
+                // Intersection Observer for scroll animations
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                sections.forEach(section => observer.observe(section));
+                
+                console.log('✨ Interactions elevated');
+            }
+
+            /**
+             * Get current time of day for time-aware styling
+             */
+            getTimeOfDay() {
+                const hour = new Date().getHours();
+                if (hour >= 5 && hour < 12) return 'Morning';
+                if (hour >= 12 && hour < 17) return 'Afternoon';
+                return 'Evening';
+            }
+
+            /**
+             * Apply dark mode enhancements
+             */
+            elevateDarkMode() {
+                const isDarkMode = document.documentElement.classList.contains('dark') || 
+                                  document.body.classList.contains('dark-mode');
+                
+                if (isDarkMode) {
+                    // Dark mode color adjustments
+                    this.productionStyles.colors.text.primary = '#f9fafb';
+                    this.productionStyles.colors.text.secondary = '#d1d5db';
+                    this.productionStyles.colors.background.primary = '#111827';
+                    this.productionStyles.colors.background.secondary = '#1f2937';
+                    
+                    // Dark mode gradients
+                    this.productionStyles.gradients.hero = 'linear-gradient(135deg, #1f2937 0%, #374151 25%, #4c1d95 50%, #7c3aed 75%, #a855f7 100%)';
+                }
+            }
+
+            /**
+             * Apply final polish and refinements
+             */
+            async applyFinalPolish() {
+                console.log('✨ Applying final polish...');
+                
+                // Ensure proper focus states
+                const focusableElements = document.querySelectorAll('button, a, input, select, textarea, [tabindex]');
+                focusableElements.forEach(el => {
+                    el.style.outline = 'none';
+                    el.addEventListener('focus', () => {
+                        el.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.3)';
+                    });
+                    el.addEventListener('blur', () => {
+                        el.style.boxShadow = '';
+                    });
+                });
+                
+                // Add subtle page transitions
+                document.body.style.transition = 'background-color 0.3s ease';
+                
+                // Optimize performance
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    img.loading = 'lazy';
+                    img.style.transition = 'opacity 0.3s ease';
+                });
+                
+                console.log('✨ Final polish applied');
+            }
+
+            /**
+             * Main execution method
+             */
+            async execute() {
+                console.log('🚀 Starting Presentation Layer Elevation...');
+                
+                try {
+                    // Apply dark mode considerations first
+                    this.elevateDarkMode();
+                    
+                    // Core elevation steps
+                    this.elevateVisualHierarchy();
+                    this.elevateResponsiveDesign();
+                    this.elevateInteractions();
+                    
+                    // Final polish
+                    await this.applyFinalPolish();
+                    
+                    console.log('✅ Presentation Layer Elevation Complete!');
+                    console.log('🎨 Portfolio now matches production ricrios.com elegance');
+                    
+                    return {
+                        success: true,
+                        message: 'Presentation layer elevated to production standards',
+                        improvements: [
+                            'Sophisticated gradient hero section',
+                            'Professional typography hierarchy',
+                            'Elegant spacing and rhythm',
+                            'Responsive design optimization',
+                            'Subtle animations and interactions',
+                            'Production-quality visual polish'
+                        ]
+                    };
+                    
+                } catch (error) {
+                    console.error('❌ Presentation Layer Elevation Error:', error);
+                    return {
+                        success: false,
+                        error: error.message
+                    };
+                }
+            }
+        }
+
+        // Auto-execute when DOM is ready
+        const elevation = new PresentationLayerElevation();
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => elevation.execute());
+        } else {
+            elevation.execute();
+        }
+    </script>
+    </body>
+</html>

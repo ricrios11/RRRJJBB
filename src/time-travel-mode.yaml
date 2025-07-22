@@ -1,0 +1,497 @@
+name: "Time Travel Mode"
+description: "Replay the same case study from three different time-of-day perspectives"
+version: "1.0"
+id: time-travel-mode
+label: "🕰️ Time Traveler"
+type: agent
+session_id: "time_travel_${timestamp}_${random}"
+
+# Time Travel Agent Configuration
+timeTravel:
+  enabled: true
+  model: "claude-sonnet-4"
+  confidenceThreshold: 0.85
+  timeVariations: 3
+  consistentStructure: true
+  adaptiveTone: true
+
+# Time Travel Orchestration
+orchestration:
+
+  # Time Travel Trigger
+  - block:
+      id: timeTravelTrigger
+      type: event
+      trigger: "caseStudy.timeTravelRequested"
+      description: "Triggered when visitor requests time travel narration"
+      onTrigger:
+        - runBlock: validateCaseStudy
+        - runBlock: generateTimeVariations
+        - runBlock: showTimeTravelModal
+      logging:
+        event: "time_travel_triggered"
+        context: "case_study_time_variations"
+
+  # Case Study Validation
+  - block:
+      id: validateCaseStudy
+      type: validator
+      description: "Validates case study availability for time travel"
+      inputs:
+        caseStudyId: "{{ selected_case_study }}"
+        caseStudyData: "{{ case_study_data }}"
+      validation:
+        - checkCaseStudyExists
+        - validateContentLength
+        - ensureNarrationPotential
+      output:
+        save_to: caseStudyValidation
+        structure:
+          isValid: "boolean"
+          caseStudyId: "string"
+          contentLength: "number"
+          narrationPotential: "number"
+
+  # Generate Time Variations
+  - block:
+      id: generateTimeVariations
+      type: claude
+      model: "sonnet4"
+      description: "Generate three time-aware variations of the same case study"
+      inputs:
+        caseStudyId: "{{ selected_case_study }}"
+        caseStudyData: "{{ case_study_data }}"
+        originalNarration: "{{ original_narration }}"
+        visitorContext: "{{ visitor_memory }}"
+      prompt: |
+        You are the Time Travel Narrator, creating three distinct time-aware variations of the same case study.
+        
+        CASE STUDY: {{ caseStudyId }}
+        ORIGINAL CONTENT: {{ caseStudyData.summary }}
+        VISITOR CONTEXT: {{ visitorContext.engagementLevel }}
+        
+        Create 3 narrated variations of this case study, each adapted for a different time of day while maintaining consistent structure and core insights.
+        
+        TIME-AWARE ADAPTATION SPECIFICATIONS:
+        
+        🌅 MORNING (Analytical):
+        - Tone: Crisp, systematic, methodical
+        - Focus: Clear methodology, systematic thinking, strategic execution
+        - Language: Precise, energetic, solution-focused
+        - Emphasis: Process, logic, measurable outcomes
+        - Voice: Confident, analytical, forward-looking
+        - Keywords: "systematic", "methodical", "strategic", "clear", "precise"
+        
+        🌞 AFTERNOON (Strategic):
+        - Tone: Confident, authoritative, results-driven
+        - Focus: Business impact, strategic decisions, proven outcomes
+        - Language: Professional, assertive, outcome-oriented
+        - Emphasis: Results, leadership, strategic thinking
+        - Voice: Authoritative, strategic, business-focused
+        - Keywords: "strategic", "results", "impact", "leadership", "proven"
+        
+        🌙 EVENING (Reflective):
+        - Tone: Contemplative, wise, narrative-driven
+        - Focus: Journey, growth, wisdom, human elements
+        - Language: Thoughtful, reflective, story-driven
+        - Emphasis: Learning, transformation, personal growth
+        - Voice: Wise, contemplative, human-centered
+        - Keywords: "journey", "wisdom", "growth", "reflection", "transformation"
+        
+        STRUCTURAL CONSISTENCY REQUIREMENTS:
+        - Each variation should be 2-4 sentences
+        - Maintain the same core insights and outcomes
+        - Preserve the essential story arc and key learnings
+        - Keep the same case study focus and domain
+        - Ensure editorial minimalism throughout
+        
+        ADAPTIVE ELEMENTS:
+        - Adjust tone and voice for time context
+        - Modify emphasis and focus areas
+        - Adapt language patterns and rhythm
+        - Change storytelling lens while preserving facts
+        - Maintain authentic Ric Rios voice across all variations
+        
+        EXAMPLE OUTPUT FORMAT:
+        
+        Morning (Analytical):
+        "Systematic design thinking transformed complex user friction into measurable business impact. This case demonstrates how strategic methodology delivered 40% engagement increase and 25% conversion boost through disciplined, analytical execution."
+        
+        Afternoon (Strategic):
+        "Strategic design leadership applied to high-stakes transformation challenges, delivering measurable business outcomes through proven methodology. This case reveals how systematic thinking creates competitive advantage and sustainable growth."
+        
+        Evening (Reflective):
+        "Leading through uncertainty required more than design skills—it demanded clarity, patience, and conviction. This journey traces how three decades of craft mastery guided complex challenges toward breakthrough solutions."
+        
+        Generate three time-aware variations now:
+      output:
+        save_to: timeVariations
+        structure:
+          morning_version:
+            narration: "string"
+            tone: "string"
+            focus: "string"
+            voice: "analytical"
+            confidence: "number"
+          afternoon_version:
+            narration: "string"
+            tone: "string"
+            focus: "string"
+            voice: "strategic"
+            confidence: "number"
+          evening_version:
+            narration: "string"
+            tone: "string"
+            focus: "string"
+            voice: "reflective"
+            confidence: "number"
+        validation:
+          - validateStructuralConsistency
+          - ensureTimeAdaptation
+          - checkNarrationLength
+
+  # Time Travel Modal Display
+  - block:
+      id: showTimeTravelModal
+      type: modal
+      description: "Display time travel variations in interactive modal"
+      styling:
+        theme: "time-travel"
+        classes: ["time-travel-modal", "narrator-variations", "time-aware-display"]
+        animations: ["fade-in", "time-shift", "variation-reveal"]
+        size: "extra-large"
+      content: |
+        <div class="time-travel-container">
+          <div class="time-travel-header">
+            <h2>🕰️ Time Travel Narrator</h2>
+            <p class="time-travel-subtitle">{{ caseStudyValidation.caseStudyId }} - Three Time Perspectives</p>
+            <div class="current-time-indicator">
+              <span class="current-time">Current: {{ user.timeOfDay | capitalize }}</span>
+              <span class="time-badge {{ user.timeOfDay }}">{{ user.timeOfDay | timeEmoji }}</span>
+            </div>
+          </div>
+          
+          <div class="time-variations-grid">
+            <!-- Morning Variation -->
+            <div class="time-variation morning-variation">
+              <div class="variation-header">
+                <div class="time-icon">🌅</div>
+                <h3>Morning (Analytical)</h3>
+                <div class="time-range">5:00 AM - 12:00 PM</div>
+              </div>
+              
+              <div class="variation-content">
+                <div class="narration-text morning">
+                  {{ timeVariations.morning_version.narration }}
+                </div>
+                
+                <div class="variation-meta">
+                  <div class="meta-grid">
+                    <div class="meta-item">
+                      <span class="meta-label">Tone:</span>
+                      <span class="meta-value">{{ timeVariations.morning_version.tone }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Focus:</span>
+                      <span class="meta-value">{{ timeVariations.morning_version.focus }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Voice:</span>
+                      <span class="meta-value">{{ timeVariations.morning_version.voice }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Confidence:</span>
+                      <span class="meta-value">{{ timeVariations.morning_version.confidence | percentage }}%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="variation-actions">
+                  <button class="use-variation-btn" data-time="morning" data-action="useVariation">
+                    🌅 Use Morning Version
+                  </button>
+                  <button class="preview-variation-btn" data-time="morning" data-action="previewVariation">
+                    👁 Preview
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Afternoon Variation -->
+            <div class="time-variation afternoon-variation">
+              <div class="variation-header">
+                <div class="time-icon">🌞</div>
+                <h3>Afternoon (Strategic)</h3>
+                <div class="time-range">12:00 PM - 6:00 PM</div>
+              </div>
+              
+              <div class="variation-content">
+                <div class="narration-text afternoon">
+                  {{ timeVariations.afternoon_version.narration }}
+                </div>
+                
+                <div class="variation-meta">
+                  <div class="meta-grid">
+                    <div class="meta-item">
+                      <span class="meta-label">Tone:</span>
+                      <span class="meta-value">{{ timeVariations.afternoon_version.tone }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Focus:</span>
+                      <span class="meta-value">{{ timeVariations.afternoon_version.focus }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Voice:</span>
+                      <span class="meta-value">{{ timeVariations.afternoon_version.voice }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Confidence:</span>
+                      <span class="meta-value">{{ timeVariations.afternoon_version.confidence | percentage }}%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="variation-actions">
+                  <button class="use-variation-btn" data-time="afternoon" data-action="useVariation">
+                    🌞 Use Afternoon Version
+                  </button>
+                  <button class="preview-variation-btn" data-time="afternoon" data-action="previewVariation">
+                    👁 Preview
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Evening Variation -->
+            <div class="time-variation evening-variation">
+              <div class="variation-header">
+                <div class="time-icon">🌙</div>
+                <h3>Evening (Reflective)</h3>
+                <div class="time-range">6:00 PM - 5:00 AM</div>
+              </div>
+              
+              <div class="variation-content">
+                <div class="narration-text evening">
+                  {{ timeVariations.evening_version.narration }}
+                </div>
+                
+                <div class="variation-meta">
+                  <div class="meta-grid">
+                    <div class="meta-item">
+                      <span class="meta-label">Tone:</span>
+                      <span class="meta-value">{{ timeVariations.evening_version.tone }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Focus:</span>
+                      <span class="meta-value">{{ timeVariations.evening_version.focus }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Voice:</span>
+                      <span class="meta-value">{{ timeVariations.evening_version.voice }}</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Confidence:</span>
+                      <span class="meta-value">{{ timeVariations.evening_version.confidence | percentage }}%</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="variation-actions">
+                  <button class="use-variation-btn" data-time="evening" data-action="useVariation">
+                    🌙 Use Evening Version
+                  </button>
+                  <button class="preview-variation-btn" data-time="evening" data-action="previewVariation">
+                    👁 Preview
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="time-travel-controls">
+            <div class="controls-header">
+              <h3>🎛️ Time Travel Controls</h3>
+            </div>
+            
+            <div class="controls-grid">
+              <button class="time-switch-btn" data-action="switchToMorning">
+                🌅 Switch to Morning
+              </button>
+              <button class="time-switch-btn" data-action="switchToAfternoon">
+                🌞 Switch to Afternoon
+              </button>
+              <button class="time-switch-btn" data-action="switchToEvening">
+                🌙 Switch to Evening
+              </button>
+              <button class="auto-time-btn" data-action="useAutoTime">
+                🕰️ Use Current Time
+              </button>
+            </div>
+            
+            <div class="advanced-controls">
+              <button class="compare-all-btn" data-action="compareAllVariations">
+                📊 Compare All Variations
+              </button>
+              <button class="save-variations-btn" data-action="saveAllVariations">
+                💾 Save All Variations
+              </button>
+              <button class="share-time-travel-btn" data-action="shareTimeTravel">
+                📤 Share Time Travel
+              </button>
+            </div>
+          </div>
+          
+          <div class="time-travel-footer">
+            <button class="close-time-travel-btn" data-action="closeTimeTravel">
+              ↩ Close Time Travel
+            </button>
+          </div>
+        </div>
+      interactions:
+        - action: "useVariation"
+          trigger: "click"
+          handler: "adoptTimeVariation"
+        - action: "previewVariation"
+          trigger: "click"
+          handler: "previewTimeVariation"
+        - action: "switchToMorning"
+          trigger: "click"
+          handler: "switchTimeContext"
+        - action: "switchToAfternoon"
+          trigger: "click"
+          handler: "switchTimeContext"
+        - action: "switchToEvening"
+          trigger: "click"
+          handler: "switchTimeContext"
+        - action: "useAutoTime"
+          trigger: "click"
+          handler: "useCurrentTimeContext"
+        - action: "compareAllVariations"
+          trigger: "click"
+          handler: "showVariationComparison"
+        - action: "saveAllVariations"
+          trigger: "click"
+          handler: "saveTimeVariations"
+        - action: "shareTimeTravel"
+          trigger: "click"
+          handler: "shareTimeTravelExperience"
+        - action: "closeTimeTravel"
+          trigger: "click"
+          handler: "closeModal"
+
+  # Time Context Switching
+  - block:
+      id: switchTimeContext
+      type: function
+      description: "Switch the current time context and update content"
+      inputs:
+        targetTime: "{{ targetTime }}"
+        currentVariations: "{{ timeVariations }}"
+      processing:
+        - updateTimeContext
+        - rerenderTimeAwareContent
+        - updateVisitorPreferences
+      output:
+        save_to: timeContextSwitch
+        structure:
+          newTimeContext: "string"
+          contentUpdated: "boolean"
+          preferencesUpdated: "boolean"
+
+  # Variation Comparison
+  - block:
+      id: showVariationComparison
+      type: modal
+      description: "Show side-by-side comparison of all time variations"
+      styling:
+        theme: "comparison"
+        classes: ["variation-comparison-modal", "time-analysis"]
+        size: "full-screen"
+      content: |
+        <div class="variation-comparison-container">
+          <div class="comparison-header">
+            <h2>📊 Time Variation Analysis</h2>
+            <p class="comparison-subtitle">{{ caseStudyValidation.caseStudyId }} - Comparative Analysis</p>
+          </div>
+          
+          <div class="comparison-table">
+            <table class="variations-table">
+              <thead>
+                <tr>
+                  <th>Aspect</th>
+                  <th>🌅 Morning</th>
+                  <th>🌞 Afternoon</th>
+                  <th>🌙 Evening</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="aspect-label">Narration</td>
+                  <td class="morning-cell">{{ timeVariations.morning_version.narration }}</td>
+                  <td class="afternoon-cell">{{ timeVariations.afternoon_version.narration }}</td>
+                  <td class="evening-cell">{{ timeVariations.evening_version.narration }}</td>
+                </tr>
+                <tr>
+                  <td class="aspect-label">Tone</td>
+                  <td class="morning-cell">{{ timeVariations.morning_version.tone }}</td>
+                  <td class="afternoon-cell">{{ timeVariations.afternoon_version.tone }}</td>
+                  <td class="evening-cell">{{ timeVariations.evening_version.tone }}</td>
+                </tr>
+                <tr>
+                  <td class="aspect-label">Focus</td>
+                  <td class="morning-cell">{{ timeVariations.morning_version.focus }}</td>
+                  <td class="afternoon-cell">{{ timeVariations.afternoon_version.focus }}</td>
+                  <td class="evening-cell">{{ timeVariations.evening_version.focus }}</td>
+                </tr>
+                <tr>
+                  <td class="aspect-label">Voice</td>
+                  <td class="morning-cell">{{ timeVariations.morning_version.voice }}</td>
+                  <td class="afternoon-cell">{{ timeVariations.afternoon_version.voice }}</td>
+                  <td class="evening-cell">{{ timeVariations.evening_version.voice }}</td>
+                </tr>
+                <tr>
+                  <td class="aspect-label">Confidence</td>
+                  <td class="morning-cell">{{ timeVariations.morning_version.confidence | percentage }}%</td>
+                  <td class="afternoon-cell">{{ timeVariations.afternoon_version.confidence | percentage }}%</td>
+                  <td class="evening-cell">{{ timeVariations.evening_version.confidence | percentage }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="comparison-actions">
+            <button class="close-comparison-btn" data-action="closeComparison">
+              ↩ Close Comparison
+            </button>
+          </div>
+        </div>
+
+# Time Travel Analytics
+analytics:
+  events:
+    - time_travel_triggered
+    - variation_generated
+    - variation_adopted
+    - time_context_switched
+    - variation_compared
+    - variations_saved
+  
+  metrics:
+    - time_travel_usage_rate
+    - variation_preference_distribution
+    - time_context_switch_frequency
+    - variation_adoption_rate
+
+# Error Handling
+errorHandling:
+  variationGenerationFailure:
+    fallback: "single_time_variation"
+    message: "Generating single time variation due to generation issues"
+  
+  invalidCaseStudy:
+    fallback: "default_case_study"
+    message: "Using default case study for time travel"
+  
+  timeContextSwitchFailure:
+    fallback: "current_time_context"
+    message: "Maintaining current time context"
