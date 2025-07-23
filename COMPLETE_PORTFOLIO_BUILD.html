@@ -244,12 +244,14 @@
         
         /* #TrojanHorseOS:2025-07-19 - EXPRESSIVE TIME-AWARE HERO GRADIENTS WITH SEAMLESS FADE */
         .time-morning .ric-hero-section {
-            /* Morning: Fresh, optimistic gradient with warm golden undertones */
+            /* Morning: Energetic yellow-orange gradient with warm golden undertones */
             background: linear-gradient(180deg, 
-                rgba(240, 249, 255, 1.0) 0%,     /* Sky blue at full opacity */
-                rgba(224, 242, 254, 0.9) 15%,    /* Lighter blue fading */
-                rgba(255, 251, 235, 0.7) 35%,    /* Warm cream transition */
-                rgba(248, 250, 252, 0.4) 60%,    /* Subtle gray fade */
+                rgba(255, 193, 7, 1.0) 0%,       /* Vibrant morning yellow at full opacity */
+                rgba(255, 152, 0, 0.95) 15%,     /* Orange transition */
+                rgba(255, 87, 34, 0.9) 30%,      /* Deep orange */
+                rgba(255, 111, 97, 0.8) 45%,     /* Coral fade */
+                rgba(255, 138, 128, 0.6) 60%,    /* Light coral */
+                rgba(248, 250, 252, 0.4) 75%,    /* Light gray fade */
                 rgba(248, 250, 252, 0.2) 80%,    /* Nearly transparent */
                 transparent 100%                  /* Complete fade to background */
             );
@@ -268,13 +270,15 @@
         }
         
         .time-evening .ric-hero-section {
-            /* Evening: Contemplative, masterful gradient with rich depth */
+            /* Evening: Deep purple gradient with late night pink accent */
             background: linear-gradient(180deg, 
-                rgba(30, 27, 75, 1.0) 0%,        /* Deep indigo at full opacity */
-                rgba(49, 46, 129, 0.9) 15%,      /* Rich purple fading */
-                rgba(67, 56, 202, 0.7) 35%,      /* Vibrant purple transition */
-                rgba(31, 41, 55, 0.4) 60%,       /* Dark gray fade */
-                rgba(15, 23, 42, 0.2) 80%,       /* Nearly transparent */
+                rgba(147, 51, 234, 1.0) 0%,      /* Rich purple at full opacity */
+                rgba(168, 85, 247, 0.95) 15%,    /* Bright purple */
+                rgba(196, 181, 253, 0.9) 30%,    /* Light purple */
+                rgba(221, 214, 254, 0.8) 45%,    /* Very light purple */
+                rgba(236, 72, 153, 0.6) 60%,     /* Late night pink accent */
+                rgba(71, 85, 105, 0.4) 75%,      /* Gray fade */
+                rgba(100, 116, 139, 0.2) 80%,    /* Nearly transparent */
                 transparent 100%                  /* Complete fade to background */
             );
         }
@@ -2990,6 +2994,11 @@
             const body = document.body;
             const icon = document.getElementById('dark-mode-icon');
             
+            // 🎯 CRITICAL FIX: Apply time-aware classes to body
+            body.classList.remove('time-morning', 'time-afternoon', 'time-evening');
+            body.classList.add(`time-${timeOfDay}`);
+            console.log(`⏰ Time class applied: time-${timeOfDay}`);
+            
             // Check if user has manually set preference
             const userPreference = localStorage.getItem('darkMode');
             const hasUserPreference = userPreference !== null;
@@ -3032,6 +3041,7 @@
             updateHeroThemeExpression(shouldUseDarkMode);
             
             console.log(`🌌✅ DNA PHASE 1: Theme system initialized - ${shouldUseDarkMode ? 'dark' : 'light'} mode active at ${new Date().getHours()}:${new Date().getMinutes().toString().padStart(2, '0')}`);
+            console.log(`🎨 Time-aware gradient: ${timeOfDay} gradient should now be visible`);
             
             return shouldUseDarkMode;
         }
@@ -12042,14 +12052,23 @@ document.addEventListener('DOMContentLoaded', function() {
             this.applyThemeAtomic = (theme) => {
                 const startTime = performance.now();
                 
-                // Update DOM atomically
+                // 🎯 CRITICAL FIX: Get current time and preserve time classes
+                const timeOfDay = this.getTimeOfDay();
+                const docElement = document.documentElement;
+                
+                // Update DOM atomically while preserving time classes
                 if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.classList.remove('light');
+                    docElement.classList.add('dark');
+                    docElement.classList.remove('light');
                 } else {
-                    document.documentElement.classList.add('light');
-                    document.documentElement.classList.remove('dark');
+                    docElement.classList.add('light');
+                    docElement.classList.remove('dark');
                 }
+                
+                // 🎯 ENSURE TIME CLASSES PERSIST
+                docElement.classList.remove('time-morning', 'time-afternoon', 'time-evening');
+                docElement.classList.add(`time-${timeOfDay}`);
+                console.log(`⏰ UTA: Time class preserved: time-${timeOfDay}`);
                 
                 // Update state and persist
                 this.currentTheme = theme;
@@ -12063,17 +12082,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.eventBus.emit('themeChanged', { 
                     theme, 
                     timestamp: Date.now(),
-                    transitionTime
+                    transitionTime,
+                    timeOfDay: timeOfDay
                 });
                 
                 this.updateMetrics(transitionTime);
                 console.log(`⚡ UTA: Atomic theme transition to ${theme} in ${transitionTime.toFixed(2)}ms`);
+                console.log(`🎨 UTA: ${theme} theme with ${timeOfDay} gradient active`);
             };
             
             console.log('🏗️ UTA PHASE 2: Unified controller built');
             return true;
         }
 
+{{ ... }}
+        // Time detection method for UTA
+        getTimeOfDay() {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) return 'morning';
+            if (hour >= 12 && hour < 18) return 'afternoon';
+            return 'evening';
+        }
+        
         // Update theme UI elements
         updateThemeUI(theme) {
             // Update theme toggle icons
