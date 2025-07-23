@@ -12262,23 +12262,73 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('🚀 UTA: System ready for production');
                 console.log('📊 UTA Status:', window.UTA.getStatus());
                 
-                // 🎯 TECHOS+DOS SURGICAL FIX: Reconnect event handlers after Nuclear Reset
-                console.log('🔧 SURGICAL FIX: Reconnecting event handlers...');
+                // 🎯 DEFINITIVE THEME FLICKER FIX: Eliminate all competing theme controllers
+                console.log('🔧 DEFINITIVE FIX: Eliminating theme flicker and competing controllers...');
                 
-                // Fix 1: Reconnect theme toggle button
+                // PHASE 1: Nuclear elimination of ALL competing theme functions
+                const competingThemeFunctions = [
+                    'toggleDarkMode', 'toggleTheme', 'initializeThemeSystem', 'applyTheme',
+                    'detectAndApplyTheme', 'updateThemeExpression', 'reapplyHeroGradient'
+                ];
+                
+                competingThemeFunctions.forEach(funcName => {
+                    if (window[funcName]) {
+                        console.log(`🚫 ELIMINATING: ${funcName}`);
+                        window[funcName] = function() {
+                            console.warn(`⚠️ ${funcName} disabled - UTA controls all theme operations`);
+                            return window.UTA.toggleTheme();
+                        };
+                    }
+                });
+                
+                // PHASE 2: Disable all competing theme event listeners
+                document.querySelectorAll('[onclick*="toggleDarkMode"], [onclick*="toggleTheme"]').forEach(el => {
+                    el.removeAttribute('onclick');
+                    console.log('🚫 Removed competing onclick handler from:', el.className);
+                });
+                
+                // PHASE 3: Eliminate competing theme detection systems
+                const competingThemeObjects = ['AtomicTrojanFeed', 'DNAOrchestration', 'themeSystem'];
+                competingThemeObjects.forEach(objName => {
+                    if (window[objName] && window[objName].detectAndApplyTheme) {
+                        console.log(`🚫 DISABLING: ${objName}.detectAndApplyTheme`);
+                        window[objName].detectAndApplyTheme = () => {
+                            console.warn(`⚠️ ${objName} theme detection disabled - UTA controls all theme operations`);
+                        };
+                    }
+                });
+                
+                // PHASE 4: Reconnect theme toggle with exclusive UTA control
                 const themeToggle = document.querySelector('.ric-dark-mode-toggle');
                 if (themeToggle) {
-                    // Remove any existing listeners
-                    themeToggle.replaceWith(themeToggle.cloneNode(true));
-                    const newToggle = document.querySelector('.ric-dark-mode-toggle');
+                    // Complete replacement to eliminate all legacy listeners
+                    const newToggle = themeToggle.cloneNode(true);
+                    themeToggle.parentNode.replaceChild(newToggle, themeToggle);
                     
+                    // Single, definitive event listener
                     newToggle.addEventListener('click', (e) => {
                         e.preventDefault();
-                        console.log('🎭 Theme toggle clicked - delegating to UTA');
-                        window.UTA.toggleTheme();
+                        e.stopImmediatePropagation();
+                        console.log('🎭 DEFINITIVE: Theme toggle - UTA exclusive control');
+                        
+                        // Prevent any competing systems from interfering
+                        setTimeout(() => {
+                            window.UTA.toggleTheme();
+                        }, 0);
                     });
-                    console.log('✅ Theme toggle reconnected');
+                    
+                    console.log('✅ DEFINITIVE: Theme toggle with exclusive UTA control');
                 }
+                
+                // PHASE 5: Lock UTA as the single source of truth
+                Object.defineProperty(window, 'THEME_CONTROLLER', {
+                    value: 'UTA_EXCLUSIVE',
+                    writable: false,
+                    configurable: false
+                });
+                
+                console.log('🔒 THEME SYSTEM LOCKED: UTA has exclusive control');
+                console.log('🎯 FLICKER FIX COMPLETE: Theme toggle should now hold state properly');
                 
                 // Fix 2: Reconnect Innovation Lab Konami activation
                 let konamiSequence = [];
