@@ -200,10 +200,14 @@ class TimeAwareHeroGradientSystem {
      * Apply gradient based on current time and theme - HERO CONTAINER ONLY
      */
     applyGradient(timeContext, theme) {
-        // Try both hero element selectors for compatibility
-        const heroElement = document.querySelector('.hero-gradient') || document.querySelector('.ric-hero-section');
+        // Try multiple hero element selectors for maximum compatibility
+        const heroElement = document.querySelector('#hero.ric-hero-section') || 
+                           document.querySelector('.ric-hero-section') || 
+                           document.querySelector('.hero-gradient') ||
+                           document.querySelector('#hero');
+        
         if (!heroElement) {
-            console.warn('⚠️ Hero element not found (.hero-gradient or .ric-hero-section) - retrying in 100ms');
+            console.warn('⚠️ Hero element not found (tried #hero.ric-hero-section, .ric-hero-section, .hero-gradient, #hero) - retrying in 100ms');
             setTimeout(() => this.applyGradient(timeContext, theme), 100);
             return;
         }

@@ -1003,30 +1003,168 @@
                     </div>
                 </section>
 
-                <!-- Hidden Lab Section -->
-                <section id="hidden-lab" class="px-4 px-0 py-16 py-20">
-                    <div class="mb-8 mb-10 text-center">
-                        <h2 class="text-2xl text-3xl mb-3" id="hidden-lab-title">
-                            Innovation Laboratory
-                        </h2>
-                        <p class="text-sm text-base text-muted-foreground mb-4">
-                            🎮 <span class="italic" id="hidden-lab-subtitle">Where innovation meets playful discovery...</span>
-                        </p>
-                        <div class="w-16 h-px bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 mx-auto mb-6"></div>
-                        <p class="text-xs text-muted-foreground max-w-md mx-auto" id="hidden-lab-hint">
-                            ⬆⬆⬇⬇⬅➡⬅➡🅱🅰 — For leaders who appreciate precision
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-sm text-muted-foreground mb-4">
-                            Some features are unlocked through classic sequences...
-                        </p>
-                        <div class="premium-card max-w-md mx-auto">
-                            <p class="text-sm">
-                                TechOS Innovation Laboratory
+                <!-- Innovation Lab Section -->
+                <section id="hidden-lab" class="px-4 py-16 bg-muted/30 border-t border-border" style="display: none;">
+                    <div class="container max-w-6xl mx-auto">
+                        <!-- Lab Header -->
+                        <div class="mb-12 text-center">
+                            <div class="flex items-center justify-center mb-4">
+                                <div class="w-8 h-px bg-gradient-to-r from-blue-500 via-purple-500 to-green-500"></div>
+                                <h2 class="text-2xl font-bold mx-4" id="hidden-lab-title">
+                                    Innovation Laboratory
+                                </h2>
+                                <div class="w-8 h-px bg-gradient-to-r from-green-500 via-purple-500 to-blue-500"></div>
+                            </div>
+                            <p class="text-muted-foreground mb-6" id="hidden-lab-subtitle">
+                                🎮 Where innovation meets playful discovery...
                             </p>
-                            <p class="text-xs text-muted-foreground mt-2">
-                                Experiment with emerging design patterns and AI collaboration frameworks
+                            <button onclick="exitLab()" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-3 py-1 border border-border rounded-full hover:bg-muted">
+                                ← Exit Lab
+                            </button>
+                        </div>
+
+                        <!-- Future Feature Cards Grid -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                            <!-- Snake Game Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('snake-game')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">🐍</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">DOS Snake Game</h3>
+                                        <span class="text-xs px-2 py-1 bg-green-500/10 text-green-600 rounded-full">READY</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    Classic arcade gameplay with modern responsive design. Theme-aware and device-optimized.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">Interactive Experience</span>
+                                    <button class="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full hover:bg-primary/90 transition-colors">
+                                        Launch →
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Agent Expression Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('agent-expression')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-purple-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">🤖</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">Agent Expression</h3>
+                                        <span class="text-xs px-2 py-1 bg-blue-500/10 text-blue-600 rounded-full">BETA</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    AI-powered design collaboration with contextual intelligence and creative synthesis.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">AI Collaboration</span>
+                                    <button class="text-xs bg-secondary text-secondary-foreground px-3 py-1 rounded-full hover:bg-secondary/90 transition-colors">
+                                        Explore →
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Graffiti Slap Game Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('graffiti-slap')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">🎨</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">Graffiti Slap Game</h3>
+                                        <span class="text-xs px-2 py-1 bg-orange-500/10 text-orange-600 rounded-full">STRATEGY</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    Urban creativity meets strategic design thinking in this experimental interaction.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">Creative Strategy</span>
+                                    <button class="text-xs bg-muted text-muted-foreground px-3 py-1 rounded-full cursor-not-allowed">
+                                        In Development
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Time Machine Enhancement Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('time-machine')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">⏰</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">Time Machine Plus</h3>
+                                        <span class="text-xs px-2 py-1 bg-green-500/10 text-green-600 rounded-full">ACTIVE</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    Enhanced temporal case study navigation with auto-scroll and contextual transitions.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">UX Enhancement</span>
+                                    <button class="text-xs bg-primary text-primary-foreground px-3 py-1 rounded-full hover:bg-primary/90 transition-colors">
+                                        Configure →
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Visual Suggestion Agent Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('visual-agent')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-pink-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">👁️</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">Visual Suggestion Agent</h3>
+                                        <span class="text-xs px-2 py-1 bg-purple-500/10 text-purple-600 rounded-full">RESEARCH</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    Contextual design recommendations based on user behavior and aesthetic preferences.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">AI Design Assistant</span>
+                                    <button class="text-xs bg-secondary text-secondary-foreground px-3 py-1 rounded-full hover:bg-secondary/90 transition-colors">
+                                        Preview →
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Prompt Tuner UI Card -->
+                            <div class="future-feature-card bg-card border border-border rounded-lg p-6 hover:shadow-lg transition-all duration-300 cursor-pointer" onclick="openFeatureModal('prompt-tuner')">
+                                <div class="flex items-center mb-4">
+                                    <div class="w-10 h-10 bg-cyan-500/10 rounded-lg flex items-center justify-center mr-3">
+                                        <span class="text-xl">🎛️</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-foreground">Prompt Tuner UI</h3>
+                                        <span class="text-xs px-2 py-1 bg-cyan-500/10 text-cyan-600 rounded-full">ALPHA</span>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-muted-foreground mb-4">
+                                    Fine-tune AI interactions with sophisticated parameter control and context awareness.
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs text-muted-foreground">AI Interface</span>
+                                    <button class="text-xs bg-secondary text-secondary-foreground px-3 py-1 rounded-full hover:bg-secondary/90 transition-colors">
+                                        Test →
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lab Footer -->
+                        <div class="text-center pt-8 border-t border-border">
+                            <p class="text-xs text-muted-foreground mb-2" id="hidden-lab-hint">
+                                ⬆⬆⬇⬇⬅➡⬅➡🅱🅰 — For leaders who appreciate precision
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                Innovation Lab • Experimental Features • Strategic Design Leadership
                             </p>
                         </div>
                     </div>
@@ -1442,6 +1580,476 @@
             }
         }
 
+        // Exit Lab functionality
+        function exitLab() {
+            const lab = document.getElementById('hidden-lab');
+            lab.style.display = 'none';
+            
+            // Smooth scroll back to main content
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            
+            console.log('🚪 Innovation Lab closed');
+        }
+
+        // Feature Modal System
+        function openFeatureModal(featureId) {
+            const featureData = {
+                'snake-game': {
+                    title: 'DOS Snake Game',
+                    icon: '🐍',
+                    status: 'READY',
+                    statusColor: 'green',
+                    description: 'Classic arcade gameplay with modern responsive design. Theme-aware and device-optimized for strategic leaders who appreciate precision.',
+                    features: [
+                        'Responsive controls (WASD, Arrow Keys, Touch)',
+                        'Theme-aware visual design (Light/Dark mode)',
+                        'Progressive difficulty scaling',
+                        'Score tracking and leaderboard integration',
+                        'Mobile-optimized touch controls',
+                        'Retro DOS aesthetic with modern polish'
+                    ],
+                    action: 'Launch Game',
+                    actionFunction: 'launchSnakeGame()'
+                },
+                'agent-expression': {
+                    title: 'Agent Expression',
+                    icon: '🤖',
+                    status: 'BETA',
+                    statusColor: 'blue',
+                    description: 'AI-powered design collaboration with contextual intelligence and creative synthesis for strategic design leadership.',
+                    features: [
+                        'Contextual design recommendations',
+                        'Creative synthesis and ideation',
+                        'Strategic framework integration',
+                        'Multi-modal interaction patterns',
+                        'Adaptive learning from user preferences',
+                        'Professional workflow optimization'
+                    ],
+                    action: 'Explore Beta',
+                    actionFunction: 'exploreAgentExpression()'
+                },
+                'graffiti-slap': {
+                    title: 'Graffiti Slap Game',
+                    icon: '🎨',
+                    status: 'STRATEGY',
+                    statusColor: 'orange',
+                    description: 'Urban creativity meets strategic design thinking in this experimental interaction exploring the intersection of street art and systematic design.',
+                    features: [
+                        'Creative expression mechanics',
+                        'Strategic design thinking integration',
+                        'Urban aesthetic exploration',
+                        'Experimental interaction patterns',
+                        'Community collaboration features',
+                        'Cultural context awareness'
+                    ],
+                    action: 'In Development',
+                    actionFunction: null
+                },
+                'time-machine': {
+                    title: 'Time Machine Plus',
+                    icon: '⏰',
+                    status: 'ACTIVE',
+                    statusColor: 'green',
+                    description: 'Enhanced temporal case study navigation with auto-scroll and contextual transitions for immersive portfolio exploration.',
+                    features: [
+                        'Auto-scroll to activated states',
+                        'Contextual transition animations',
+                        'Time-aware content adaptation',
+                        'Seamless case study navigation',
+                        'Enhanced user experience flow',
+                        'Accessibility-compliant interactions'
+                    ],
+                    action: 'Configure Settings',
+                    actionFunction: 'configureTimeMachine()'
+                },
+                'visual-agent': {
+                    title: 'Visual Suggestion Agent',
+                    icon: '👁️',
+                    status: 'RESEARCH',
+                    statusColor: 'purple',
+                    description: 'Contextual design recommendations based on user behavior and aesthetic preferences with AI-powered visual intelligence.',
+                    features: [
+                        'Behavioral pattern analysis',
+                        'Aesthetic preference learning',
+                        'Contextual design suggestions',
+                        'Visual hierarchy optimization',
+                        'Color palette recommendations',
+                        'Typography and spacing guidance'
+                    ],
+                    action: 'Preview Research',
+                    actionFunction: 'previewVisualAgent()'
+                },
+                'prompt-tuner': {
+                    title: 'Prompt Tuner UI',
+                    icon: '🎛️',
+                    status: 'ALPHA',
+                    statusColor: 'cyan',
+                    description: 'Fine-tune AI interactions with sophisticated parameter control and context awareness for strategic design leadership.',
+                    features: [
+                        'Advanced parameter control',
+                        'Context-aware tuning',
+                        'Strategic framework integration',
+                        'Real-time preview and testing',
+                        'Professional workflow optimization',
+                        'Multi-agent coordination'
+                    ],
+                    action: 'Test Alpha',
+                    actionFunction: 'testPromptTuner()'
+                }
+            };
+
+            const feature = featureData[featureId];
+            if (!feature) return;
+
+            const modalContent = `
+                <div class="max-w-2xl">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-${feature.statusColor}-500/10 rounded-lg flex items-center justify-center mr-4">
+                            <span class="text-2xl">${feature.icon}</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold mb-1">${feature.title}</h2>
+                            <span class="text-xs px-2 py-1 bg-${feature.statusColor}-500/10 text-${feature.statusColor}-600 rounded-full">${feature.status}</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3">Overview</h3>
+                            <p class="text-muted-foreground leading-relaxed">${feature.description}</p>
+                        </div>
+
+                        <div>
+                            <h3 class="text-lg font-semibold mb-3">Features</h3>
+                            <ul class="space-y-2">
+                                ${feature.features.map(f => `<li class="text-muted-foreground leading-relaxed flex items-start"><span class="text-${feature.statusColor}-500 mr-2">•</span>${f}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        ${feature.actionFunction ? `
+                        <div class="pt-4 border-t border-border">
+                            <button onclick="${feature.actionFunction}" class="w-full bg-primary text-primary-foreground px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors font-medium">
+                                ${feature.action} →
+                            </button>
+                        </div>
+                        ` : `
+                        <div class="pt-4 border-t border-border">
+                            <div class="w-full bg-muted text-muted-foreground px-6 py-3 rounded-lg text-center font-medium">
+                                ${feature.action}
+                            </div>
+                        </div>
+                        `}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modal-content').innerHTML = modalContent;
+            document.getElementById('modal-overlay').classList.add('active');
+            
+            console.log(`💬 Feature modal opened: ${feature.title}`);
+        }
+
+        // Snake Game Launch Function
+        function launchSnakeGame() {
+            closeModal();
+            
+            // Create Snake Game Modal
+            const snakeModalContent = `
+                <div class="max-w-4xl w-full">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🐍</span>
+                            <h2 class="text-2xl font-bold">DOS Snake Game</h2>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                            <div class="text-sm text-muted-foreground">
+                                Score: <span id="snake-score" class="font-mono font-bold">0</span>
+                            </div>
+                            <button onclick="closeModal()" class="text-muted-foreground hover:text-foreground">×</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card border border-border rounded-lg p-6">
+                        <div id="snake-game-container" class="relative">
+                            <canvas id="snake-canvas" width="400" height="400" class="border border-border rounded bg-background mx-auto block"></canvas>
+                            
+                            <div class="mt-4 text-center space-y-2">
+                                <div class="flex justify-center space-x-4 text-sm text-muted-foreground">
+                                    <span>WASD or Arrow Keys to move</span>
+                                    <span>•</span>
+                                    <span>Space to pause</span>
+                                </div>
+                                <button id="snake-start-btn" onclick="startSnakeGame()" class="bg-primary text-primary-foreground px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
+                                    Start Game
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal-content').innerHTML = snakeModalContent;
+            document.getElementById('modal-overlay').classList.add('active');
+            
+            console.log('🐍 Snake Game modal launched');
+        }
+
+        // Snake Game Implementation
+        let snakeGame = {
+            canvas: null,
+            ctx: null,
+            snake: [{x: 200, y: 200}],
+            food: {x: 0, y: 0},
+            dx: 0,
+            dy: 0,
+            score: 0,
+            gameRunning: false,
+            gameLoop: null,
+            gridSize: 20,
+            tileCount: 20
+        };
+
+        function startSnakeGame() {
+            const canvas = document.getElementById('snake-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            snakeGame.canvas = canvas;
+            snakeGame.ctx = ctx;
+            snakeGame.snake = [{x: 200, y: 200}];
+            snakeGame.dx = 0;
+            snakeGame.dy = 0;
+            snakeGame.score = 0;
+            snakeGame.gameRunning = true;
+            
+            // Generate initial food
+            generateFood();
+            
+            // Update UI
+            document.getElementById('snake-score').textContent = snakeGame.score;
+            document.getElementById('snake-start-btn').textContent = 'Game Running...';
+            document.getElementById('snake-start-btn').disabled = true;
+            
+            // Add keyboard listeners
+            document.addEventListener('keydown', handleSnakeKeydown);
+            
+            // Start game loop
+            snakeGame.gameLoop = setInterval(updateSnakeGame, 150);
+            
+            console.log('🐍 Snake Game started');
+        }
+
+        function updateSnakeGame() {
+            if (!snakeGame.gameRunning) return;
+            
+            // Move snake
+            const head = {x: snakeGame.snake[0].x + snakeGame.dx, y: snakeGame.snake[0].y + snakeGame.dy};
+            
+            // Check wall collision
+            if (head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400) {
+                gameOver();
+                return;
+            }
+            
+            // Check self collision
+            for (let segment of snakeGame.snake) {
+                if (head.x === segment.x && head.y === segment.y) {
+                    gameOver();
+                    return;
+                }
+            }
+            
+            snakeGame.snake.unshift(head);
+            
+            // Check food collision
+            if (head.x === snakeGame.food.x && head.y === snakeGame.food.y) {
+                snakeGame.score += 10;
+                document.getElementById('snake-score').textContent = snakeGame.score;
+                generateFood();
+            } else {
+                snakeGame.snake.pop();
+            }
+            
+            drawSnakeGame();
+        }
+
+        function drawSnakeGame() {
+            const ctx = snakeGame.ctx;
+            const isDarkMode = document.body.classList.contains('dark');
+            
+            // Clear canvas with theme-aware background
+            ctx.fillStyle = isDarkMode ? '#0a0a0a' : '#ffffff';
+            ctx.fillRect(0, 0, 400, 400);
+            
+            // Draw grid (subtle)
+            ctx.strokeStyle = isDarkMode ? '#1a1a1a' : '#f5f5f5';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 20; i++) {
+                ctx.beginPath();
+                ctx.moveTo(i * 20, 0);
+                ctx.lineTo(i * 20, 400);
+                ctx.stroke();
+                
+                ctx.beginPath();
+                ctx.moveTo(0, i * 20);
+                ctx.lineTo(400, i * 20);
+                ctx.stroke();
+            }
+            
+            // Draw snake with gradient
+            snakeGame.snake.forEach((segment, index) => {
+                const alpha = 1 - (index * 0.05); // Fade tail
+                if (index === 0) {
+                    // Head - special styling
+                    ctx.fillStyle = isDarkMode ? '#22c55e' : '#16a34a';
+                } else {
+                    // Body - gradient effect
+                    ctx.fillStyle = isDarkMode ? `rgba(34, 197, 94, ${Math.max(alpha, 0.3)})` : `rgba(22, 163, 74, ${Math.max(alpha, 0.3)})`;
+                }
+                
+                ctx.fillRect(segment.x, segment.y, 18, 18);
+                
+                // Add subtle border
+                ctx.strokeStyle = isDarkMode ? '#16a34a' : '#15803d';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(segment.x, segment.y, 18, 18);
+            });
+            
+            // Draw food with pulsing effect
+            const time = Date.now() * 0.005;
+            const pulse = Math.sin(time) * 0.1 + 0.9;
+            const foodSize = 18 * pulse;
+            const offset = (18 - foodSize) / 2;
+            
+            ctx.fillStyle = isDarkMode ? '#ef4444' : '#dc2626';
+            ctx.fillRect(snakeGame.food.x + offset, snakeGame.food.y + offset, foodSize, foodSize);
+            
+            // Add food glow effect
+            ctx.shadowColor = isDarkMode ? '#ef4444' : '#dc2626';
+            ctx.shadowBlur = 10;
+            ctx.fillRect(snakeGame.food.x + offset, snakeGame.food.y + offset, foodSize, foodSize);
+            ctx.shadowBlur = 0;
+        }
+
+        function generateFood() {
+            let newFood;
+            do {
+                newFood = {
+                    x: Math.floor(Math.random() * 20) * 20,
+                    y: Math.floor(Math.random() * 20) * 20
+                };
+            } while (snakeGame.snake.some(segment => segment.x === newFood.x && segment.y === newFood.y));
+            
+            snakeGame.food = newFood;
+        }
+
+        function handleSnakeKeydown(event) {
+            if (!snakeGame.gameRunning) return;
+            
+            const key = event.key.toLowerCase();
+            
+            // Prevent snake from reversing into itself
+            switch (key) {
+                case 'arrowup':
+                case 'w':
+                    if (snakeGame.dy === 0) {
+                        snakeGame.dx = 0;
+                        snakeGame.dy = -20;
+                    }
+                    break;
+                case 'arrowdown':
+                case 's':
+                    if (snakeGame.dy === 0) {
+                        snakeGame.dx = 0;
+                        snakeGame.dy = 20;
+                    }
+                    break;
+                case 'arrowleft':
+                case 'a':
+                    if (snakeGame.dx === 0) {
+                        snakeGame.dx = -20;
+                        snakeGame.dy = 0;
+                    }
+                    break;
+                case 'arrowright':
+                case 'd':
+                    if (snakeGame.dx === 0) {
+                        snakeGame.dx = 20;
+                        snakeGame.dy = 0;
+                    }
+                    break;
+                case ' ':
+                    event.preventDefault();
+                    togglePause();
+                    break;
+            }
+        }
+
+        function togglePause() {
+            if (snakeGame.gameRunning) {
+                clearInterval(snakeGame.gameLoop);
+                snakeGame.gameRunning = false;
+                document.getElementById('snake-start-btn').textContent = 'Resume Game';
+                document.getElementById('snake-start-btn').disabled = false;
+                document.getElementById('snake-start-btn').onclick = resumeGame;
+            }
+        }
+
+        function resumeGame() {
+            snakeGame.gameRunning = true;
+            snakeGame.gameLoop = setInterval(updateSnakeGame, 150);
+            document.getElementById('snake-start-btn').textContent = 'Game Running...';
+            document.getElementById('snake-start-btn').disabled = true;
+        }
+
+        function gameOver() {
+            snakeGame.gameRunning = false;
+            clearInterval(snakeGame.gameLoop);
+            document.removeEventListener('keydown', handleSnakeKeydown);
+            
+            // Show game over message
+            const ctx = snakeGame.ctx;
+            const isDarkMode = document.body.classList.contains('dark');
+            
+            ctx.fillStyle = isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)';
+            ctx.fillRect(0, 0, 400, 400);
+            
+            ctx.fillStyle = isDarkMode ? '#ffffff' : '#000000';
+            ctx.font = 'bold 24px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('GAME OVER', 200, 180);
+            
+            ctx.font = '16px monospace';
+            ctx.fillText(`Final Score: ${snakeGame.score}`, 200, 210);
+            ctx.fillText('Click "Start Game" to play again', 200, 240);
+            
+            // Reset UI
+            document.getElementById('snake-start-btn').textContent = 'Start Game';
+            document.getElementById('snake-start-btn').disabled = false;
+            document.getElementById('snake-start-btn').onclick = startSnakeGame;
+            
+            console.log(`🐍 Game Over! Final Score: ${snakeGame.score}`);
+        }
+
+        // Placeholder functions for other features
+        function exploreAgentExpression() {
+            alert('🤖 Agent Expression Beta coming soon! This will enable AI-powered design collaboration.');
+        }
+
+        function configureTimeMachine() {
+            alert('⏰ Time Machine Plus configuration panel coming soon!');
+        }
+
+        function previewVisualAgent() {
+            alert('👁️ Visual Suggestion Agent research preview coming soon!');
+        }
+
+        function testPromptTuner() {
+            alert('🎛️ Prompt Tuner UI alpha test coming soon!');
+        }
+
         // Initialize everything when the page loads
         document.addEventListener('DOMContentLoaded', function() {
             initializeDarkMode();
@@ -1467,6 +2075,7 @@
             console.log('🌙 Dark mode ready');
             console.log('🎮 Konami code listener active');
             console.log('📱 Mobile optimization active');
+            console.log('🎮 Innovation Lab modals ready');
         });
     </script>
     
