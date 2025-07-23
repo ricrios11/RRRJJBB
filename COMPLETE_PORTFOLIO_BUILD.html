@@ -11945,5 +11945,328 @@ document.addEventListener('DOMContentLoaded', function() {
     } // End disabled execution block
     </script>
 
+    <!-- NUCLEAR RESET: UNIFIED THEME ARCHITECTURE (UTA) -->
+    <!-- TOP 0.1% ARCHITECTURAL SOLUTION - ELIMINATES ALL THEME CHAOS -->
+    <script>
+    /**
+     * NUCLEAR RESET: UNIFIED THEME ARCHITECTURE (UTA)
+     * 
+     * TOP 0.1% ARCHITECTURAL SOLUTION
+     * Eliminates all theme system chaos with single source of truth
+     */
+    class UnifiedThemeArchitecture {
+        constructor() {
+            this.currentTheme = 'dark';
+            this.isInitialized = false;
+            this.subscribers = new Set();
+            this.transitionQueue = [];
+            this.isTransitioning = false;
+            this.metrics = {
+                transitionCount: 0,
+                averageTransitionTime: 0,
+                lastTransitionTime: 0
+            };
+            console.log('🚀 UTA: Unified Theme Architecture initializing...');
+        }
+
+        // PHASE 1: COMPLETE TEARDOWN
+        async executeNuclearTeardown() {
+            console.log('💥 UTA PHASE 1: Nuclear teardown initiated...');
+            
+            // Remove all existing theme event listeners
+            const themeToggles = document.querySelectorAll('.ric-dark-mode-toggle, [onclick*="toggleDarkMode"], [onclick*="toggleTheme"]');
+            themeToggles.forEach(toggle => {
+                const newToggle = toggle.cloneNode(true);
+                toggle.parentNode.replaceChild(newToggle, toggle);
+            });
+            
+            // Clear all theme-related classes
+            const elements = document.querySelectorAll('*');
+            const themeClasses = ['dark', 'light', 'dark-mode', 'light-mode', 'theme-dark', 'theme-light'];
+            elements.forEach(element => {
+                themeClasses.forEach(className => {
+                    element.classList.remove(className);
+                });
+            });
+            
+            // Disable competing functions
+            const legacyFunctions = ['toggleDarkMode', 'toggleTheme', 'initializeThemeSystem', 'applyTheme'];
+            legacyFunctions.forEach(funcName => {
+                if (window[funcName]) {
+                    window[`_legacy_${funcName}`] = window[funcName];
+                    window[funcName] = () => {
+                        console.warn(`🚫 UTA: Legacy function ${funcName} disabled. Use UTA.toggleTheme() instead.`);
+                    };
+                }
+            });
+            
+            // Clear conflicting storage
+            ['theme', 'darkMode', 'lightMode', 'userTheme', 'themePreference'].forEach(key => {
+                localStorage.removeItem(key);
+            });
+            
+            console.log('💥 UTA PHASE 1: Nuclear teardown complete');
+            return true;
+        }
+
+        // PHASE 2: BUILD UNIFIED CONTROLLER
+        async buildUnifiedController() {
+            console.log('🏗️ UTA PHASE 2: Building unified controller...');
+            
+            // Initialize theme state
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const userPreference = localStorage.getItem('uta-theme');
+            this.currentTheme = userPreference || (systemPrefersDark ? 'dark' : 'light');
+            
+            // Create event system
+            this.eventBus = {
+                emit: (event, data) => {
+                    const customEvent = new CustomEvent(`uta:${event}`, { 
+                        detail: data,
+                        bubbles: true,
+                        cancelable: false
+                    });
+                    document.dispatchEvent(customEvent);
+                },
+                on: (event, callback) => {
+                    document.addEventListener(`uta:${event}`, callback);
+                    this.subscribers.add({ event, callback });
+                },
+                off: (event, callback) => {
+                    document.removeEventListener(`uta:${event}`, callback);
+                    this.subscribers.delete({ event, callback });
+                }
+            };
+            
+            // Build atomic operations
+            this.applyThemeAtomic = (theme) => {
+                const startTime = performance.now();
+                
+                // Update DOM atomically
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                    document.documentElement.classList.remove('light');
+                } else {
+                    document.documentElement.classList.add('light');
+                    document.documentElement.classList.remove('dark');
+                }
+                
+                // Update state and persist
+                this.currentTheme = theme;
+                localStorage.setItem('uta-theme', theme);
+                
+                // Update UI elements
+                this.updateThemeUI(theme);
+                
+                // Emit change event
+                const transitionTime = performance.now() - startTime;
+                this.eventBus.emit('themeChanged', { 
+                    theme, 
+                    timestamp: Date.now(),
+                    transitionTime
+                });
+                
+                this.updateMetrics(transitionTime);
+                console.log(`⚡ UTA: Atomic theme transition to ${theme} in ${transitionTime.toFixed(2)}ms`);
+            };
+            
+            console.log('🏗️ UTA PHASE 2: Unified controller built');
+            return true;
+        }
+
+        // Update theme UI elements
+        updateThemeUI(theme) {
+            // Update theme toggle icons
+            const icons = document.querySelectorAll('#dark-mode-icon, .theme-icon');
+            icons.forEach(icon => {
+                if (icon) {
+                    icon.textContent = theme === 'dark' ? '☀️' : '🌙';
+                }
+            });
+            
+            // Update time-aware gradients
+            if (typeof applyTimeAwareHeroGradient === 'function') {
+                applyTimeAwareHeroGradient();
+            }
+            
+            // Update Innovation Lab
+            const innovationLab = document.getElementById('innovation-lab');
+            if (innovationLab) {
+                innovationLab.setAttribute('data-theme', theme);
+            }
+            
+            // Update modals
+            const modals = document.querySelectorAll('.ric-modal, .modal');
+            modals.forEach(modal => {
+                modal.setAttribute('data-theme', theme);
+            });
+        }
+
+        // Update performance metrics
+        updateMetrics(transitionTime) {
+            this.metrics.transitionCount++;
+            this.metrics.lastTransitionTime = transitionTime;
+            this.metrics.averageTransitionTime = 
+                (this.metrics.averageTransitionTime * (this.metrics.transitionCount - 1) + transitionTime) / 
+                this.metrics.transitionCount;
+        }
+
+        // PHASE 3: SYSTEM INTEGRATION
+        async integrateAllSystems() {
+            console.log('🔗 UTA PHASE 3: System integration initiated...');
+            
+            // Reconnect theme toggles
+            const themeToggles = document.querySelectorAll('.ric-dark-mode-toggle');
+            themeToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleTheme();
+                });
+            });
+            
+            // Create global functions
+            window.toggleTheme = () => this.toggleTheme();
+            window.toggleDarkMode = () => this.toggleTheme();
+            
+            // Subscribe components to theme changes
+            this.eventBus.on('themeChanged', (e) => {
+                const { theme } = e.detail;
+                
+                // Update TrojanHorse Feed
+                const feed = document.querySelector('.trojan-horse-feed, #trojan-horse-feed');
+                if (feed) {
+                    feed.setAttribute('data-theme', theme);
+                }
+            });
+            
+            // Apply initial theme
+            this.applyThemeAtomic(this.currentTheme);
+            
+            console.log('🔗 UTA PHASE 3: System integration complete');
+        }
+
+        // Main theme toggle function
+        toggleTheme() {
+            if (this.isTransitioning) {
+                console.log('⏳ UTA: Theme transition in progress, queueing request...');
+                this.transitionQueue.push(() => this.toggleTheme());
+                return;
+            }
+            
+            this.isTransitioning = true;
+            const newTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+            
+            this.applyThemeAtomic(newTheme);
+            
+            // Process queue
+            setTimeout(() => {
+                this.isTransitioning = false;
+                if (this.transitionQueue.length > 0) {
+                    const nextTransition = this.transitionQueue.shift();
+                    nextTransition();
+                }
+            }, 100);
+        }
+
+        // PHASE 4: VALIDATION & POLISH
+        async validateAndPolish() {
+            console.log('✨ UTA PHASE 4: Validation & polish initiated...');
+            
+            // Enable continuous monitoring
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'attributes' && 
+                        mutation.attributeName === 'class' &&
+                        mutation.target === document.documentElement) {
+                        
+                        const classes = Array.from(document.documentElement.classList);
+                        const themeClasses = classes.filter(c => ['dark', 'light'].includes(c));
+                        
+                        if (themeClasses.length > 1) {
+                            console.warn('🚨 UTA: Theme conflict detected, resolving...');
+                            this.applyThemeAtomic(this.currentTheme);
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(document.documentElement, { 
+                attributes: true, 
+                attributeFilter: ['class'] 
+            });
+            
+            this.isInitialized = true;
+            console.log('✨ UTA PHASE 4: Validation & polish complete');
+            console.log('👁️ UTA: Continuous monitoring enabled');
+        }
+
+        // Get system status
+        getStatus() {
+            return {
+                initialized: this.isInitialized,
+                currentTheme: this.currentTheme,
+                isTransitioning: this.isTransitioning,
+                queueLength: this.transitionQueue.length,
+                subscriberCount: this.subscribers.size,
+                metrics: { ...this.metrics }
+            };
+        }
+
+        // Execute complete nuclear reset
+        async executeNuclearReset() {
+            console.log('🚀 UTA: NUCLEAR RESET INITIATED - TOP 0.1% ARCHITECTURAL SOLUTION');
+            
+            try {
+                await this.executeNuclearTeardown();
+                await this.buildUnifiedController();
+                await this.integrateAllSystems();
+                await this.validateAndPolish();
+                
+                console.log('🎉 UTA: NUCLEAR RESET COMPLETE - UNIFIED THEME ARCHITECTURE OPERATIONAL');
+                
+                return {
+                    success: true,
+                    status: this.getStatus()
+                };
+                
+            } catch (error) {
+                console.error('💥 UTA: Nuclear reset failed:', error);
+                return {
+                    success: false,
+                    error: error.message,
+                    status: this.getStatus()
+                };
+            }
+        }
+    }
+
+    // Initialize UTA and execute nuclear reset
+    window.UTA = new UnifiedThemeArchitecture();
+    
+    // Execute nuclear reset when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            window.UTA.executeNuclearReset().then(result => {
+                if (result.success) {
+                    console.log('🚀 UTA: System ready for production');
+                    console.log('📊 UTA Status:', window.UTA.getStatus());
+                } else {
+                    console.error('💥 UTA: System initialization failed');
+                }
+            });
+        });
+    } else {
+        // DOM already loaded, execute immediately
+        window.UTA.executeNuclearReset().then(result => {
+            if (result.success) {
+                console.log('🚀 UTA: System ready for production');
+                console.log('📊 UTA Status:', window.UTA.getStatus());
+            } else {
+                console.error('💥 UTA: System initialization failed');
+            }
+        });
+    }
+    </script>
+
 </body>
 </html>
