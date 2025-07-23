@@ -243,7 +243,7 @@
         }
         
         /* #TrojanHorseOS:2025-07-19 - EXPRESSIVE TIME-AWARE HERO GRADIENTS WITH SEAMLESS FADE */
-        .time-morning .ric-hero-section {
+        body.time-morning .ric-hero-section {
             /* Morning: Energetic yellow-orange gradient with warm golden undertones */
             background: linear-gradient(180deg, 
                 rgba(255, 193, 7, 1.0) 0%,       /* Vibrant morning yellow at full opacity */
@@ -257,19 +257,19 @@
             );
         }
         
-        .time-afternoon .ric-hero-section {
-            /* Afternoon: Focused, methodical gradient with professional depth */
+        body.time-afternoon .ric-hero-section {
+            /* Afternoon: Professional, focused gradient with sophisticated blue tones */
             background: linear-gradient(180deg, 
-                rgba(219, 234, 254, 1.0) 0%,     /* Professional blue at full opacity */
-                rgba(191, 219, 254, 0.9) 15%,    /* Mid blue fading */
-                rgba(224, 231, 255, 0.7) 35%,    /* Purple-blue transition */
-                rgba(241, 245, 249, 0.4) 60%,    /* Neutral fade */
+                rgba(59, 130, 246, 1.0) 0%,      /* Professional blue at full opacity */
+                rgba(96, 165, 250, 0.9) 15%,     /* Lighter blue fading */
+                rgba(147, 197, 253, 0.7) 35%,    /* Sky blue transition */
+                rgba(248, 250, 252, 0.4) 60%,    /* Subtle gray fade */
                 rgba(248, 250, 252, 0.2) 80%,    /* Nearly transparent */
                 transparent 100%                  /* Complete fade to background */
             );
         }
         
-        .time-evening .ric-hero-section {
+        body.time-evening .ric-hero-section {
             /* Evening: Deep purple gradient with late night pink accent */
             background: linear-gradient(180deg, 
                 rgba(147, 51, 234, 1.0) 0%,      /* Rich purple at full opacity */
@@ -284,39 +284,46 @@
         }
         
         /* #TrojanHorseOS:2025-07-19 - DARK MODE EXPRESSIVE HERO GRADIENTS WITH SEAMLESS FADE */
-        .dark .time-morning .ric-hero-section {
-            /* Dark Morning: Deep, sophisticated gradient with warm undertones */
+        body.dark.time-morning .ric-hero-section {
+            /* Dark Morning: Warm golden sunrise with deep amber undertones */
             background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 1.0) 0%,        /* Deep slate at full opacity */
-                rgba(30, 41, 59, 0.9) 15%,       /* Rich slate fading */
-                rgba(51, 65, 85, 0.7) 35%,       /* Warm gray transition */
-                rgba(71, 85, 105, 0.4) 60%,      /* Lighter gray fade */
-                rgba(100, 116, 139, 0.2) 80%,    /* Nearly transparent */
-                transparent 100%                  /* Complete fade to background */
+                rgba(245, 158, 11, 1.0) 0%,      /* Warm amber at full opacity */
+                rgba(217, 119, 6, 0.95) 15%,     /* Deep amber */
+                rgba(180, 83, 9, 0.9) 30%,       /* Rich brown-orange */
+                rgba(120, 53, 15, 0.8) 45%,      /* Dark amber */
+                rgba(78, 46, 20, 0.6) 60%,       /* Deep brown fade */
+                rgba(55, 65, 81, 0.4) 75%,       /* Dark gray fade */
+                rgba(31, 41, 55, 0.2) 80%,       /* Nearly transparent dark */
+                transparent 100%                  /* Complete fade to dark background */
             );
         }
         
-        .dark .time-afternoon .ric-hero-section {
-            /* Dark Afternoon: Professional depth with sophisticated warmth */
+        body.dark.time-afternoon .ric-hero-section {
+            /* Dark Afternoon: Deep professional blue with sophisticated depth */
             background: linear-gradient(180deg, 
-                rgba(30, 41, 59, 1.0) 0%,        /* Professional slate at full opacity */
-                rgba(51, 65, 85, 0.9) 15%,       /* Mid slate fading */
-                rgba(71, 85, 105, 0.7) 35%,      /* Warm transition */
-                rgba(100, 116, 139, 0.4) 60%,    /* Lighter fade */
-                rgba(148, 163, 184, 0.2) 80%,    /* Nearly transparent */
-                transparent 100%                  /* Complete fade to background */
+                rgba(30, 64, 175, 1.0) 0%,       /* Deep professional blue */
+                rgba(37, 99, 235, 0.95) 15%,     /* Rich blue */
+                rgba(59, 130, 246, 0.9) 30%,     /* Bright blue */
+                rgba(96, 165, 250, 0.8) 45%,     /* Light blue fade */
+                rgba(147, 197, 253, 0.6) 60%,    /* Sky blue fade */
+                rgba(55, 65, 81, 0.4) 75%,       /* Dark gray fade */
+                rgba(31, 41, 55, 0.2) 80%,       /* Nearly transparent dark */
+                transparent 100%                  /* Complete fade to dark background */
             );
         }
         
-        .dark .time-evening .ric-hero-section {
-            /* Dark Evening: Rich, dramatic gradient with deep contemplative tones */
+        body.dark.time-evening .ric-hero-section {
+            /* Dark Evening: Rich purple with mysterious late night pink */
             background: linear-gradient(180deg, 
-                rgba(12, 10, 9, 1.0) 0%,         /* Deep brown-black at full opacity */
-                rgba(28, 25, 23, 0.9) 15%,       /* Rich brown fading */
-                rgba(39, 39, 42, 0.7) 35%,       /* Warm gray transition */
-                rgba(63, 63, 70, 0.4) 60%,       /* Lighter gray fade */
-                rgba(82, 82, 91, 0.2) 80%,       /* Nearly transparent */
-                transparent 100%                  /* Complete fade to background */
+                rgba(88, 28, 135, 1.0) 0%,       /* Deep purple at full opacity */
+                rgba(126, 34, 206, 0.95) 15%,    /* Rich purple */
+                rgba(147, 51, 234, 0.9) 30%,     /* Bright purple */
+                rgba(168, 85, 247, 0.8) 45%,     /* Light purple */
+                rgba(196, 181, 253, 0.6) 60%,    /* Very light purple */
+                rgba(219, 39, 119, 0.5) 70%,     /* Late night pink accent */
+                rgba(55, 65, 81, 0.4) 80%,       /* Dark gray fade */
+                rgba(31, 41, 55, 0.2) 85%,       /* Nearly transparent dark */
+                transparent 100%                  /* Complete fade to dark background */
             );
         }
         
