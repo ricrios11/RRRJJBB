@@ -12261,6 +12261,261 @@ document.addEventListener('DOMContentLoaded', function() {
             if (result.success) {
                 console.log('🚀 UTA: System ready for production');
                 console.log('📊 UTA Status:', window.UTA.getStatus());
+                
+                // 🎯 TECHOS+DOS SURGICAL FIX: Reconnect event handlers after Nuclear Reset
+                console.log('🔧 SURGICAL FIX: Reconnecting event handlers...');
+                
+                // Fix 1: Reconnect theme toggle button
+                const themeToggle = document.querySelector('.ric-dark-mode-toggle');
+                if (themeToggle) {
+                    // Remove any existing listeners
+                    themeToggle.replaceWith(themeToggle.cloneNode(true));
+                    const newToggle = document.querySelector('.ric-dark-mode-toggle');
+                    
+                    newToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        console.log('🎭 Theme toggle clicked - delegating to UTA');
+                        window.UTA.toggleTheme();
+                    });
+                    console.log('✅ Theme toggle reconnected');
+                }
+                
+                // Fix 2: Reconnect Innovation Lab Konami activation
+                let konamiSequence = [];
+                const konamiCode = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+                
+                document.addEventListener('keydown', (e) => {
+                    konamiSequence.push(e.keyCode);
+                    if (konamiSequence.length > konamiCode.length) {
+                        konamiSequence.shift();
+                    }
+                    
+                    if (JSON.stringify(konamiSequence) === JSON.stringify(konamiCode)) {
+                        console.log('🎮 KONAMI CODE ACTIVATED!');
+                        const innovationLab = document.getElementById('innovation-lab');
+                        if (innovationLab) {
+                            innovationLab.style.display = 'block';
+                            innovationLab.scrollIntoView({ behavior: 'smooth' });
+                        }
+                        konamiSequence = [];
+                    }
+                });
+                console.log('✅ Konami code reconnected');
+                
+                // Fix 3: Reconnect Innovation Lab feature card modals
+                const featureCards = document.querySelectorAll('.lab-feature-card button, .ric-launch-btn, .launch-btn');
+                featureCards.forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const card = button.closest('.lab-feature-card, .ric-future-card, .feature-card');
+                        const title = card?.querySelector('h3')?.textContent || 'Feature';
+                        
+                        console.log(`🚀 Feature card clicked: ${title}`);
+                        
+                        // Special handling for Snake Game
+                        if (title.includes('SNAKE') || title.includes('Snake')) {
+                            console.log('🐍 Launching Snake Game modal...');
+                            launchSnakeGameModal();
+                        } else {
+                            console.log(`🎯 Launching ${title} modal...`);
+                            launchGenericModal(title);
+                        }
+                    });
+                });
+                console.log(`✅ ${featureCards.length} feature card buttons reconnected`);
+                
+                // Fix 4: Snake Game Modal Function
+                window.launchSnakeGameModal = function() {
+                    const modalOverlay = document.getElementById('modal-overlay') || document.querySelector('.ric-modal-overlay');
+                    const modalContent = document.getElementById('modal-content') || document.querySelector('.ric-modal');
+                    
+                    if (modalOverlay && modalContent) {
+                        modalContent.innerHTML = `
+                            <div class="modal-header">
+                                <h2>🐍 DOS Snake Game</h2>
+                                <button class="modal-close" onclick="closeModal()">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="snake-game-modal" style="text-align: center; padding: 20px;">
+                                    <canvas id="snake-canvas" width="400" height="400" style="border: 2px solid #00ff88; background: #000;"></canvas>
+                                    <div style="margin-top: 20px;">
+                                        <button id="snake-start" class="ric-button ric-button-primary">START</button>
+                                        <button id="snake-pause" class="ric-button ric-button-secondary">PAUSE</button>
+                                        <button id="snake-reset" class="ric-button ric-button-secondary">RESET</button>
+                                    </div>
+                                    <p style="margin-top: 10px; color: #888;">Use arrow keys or WASD to control</p>
+                                    <div id="snake-score" style="font-size: 18px; margin-top: 10px;">Score: 0</div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        modalOverlay.style.display = 'flex';
+                        initializeSnakeGame();
+                        console.log('🐍 Snake Game modal launched successfully');
+                    } else {
+                        console.error('❌ Modal elements not found');
+                    }
+                };
+                
+                // Fix 5: Generic Modal Function
+                window.launchGenericModal = function(title) {
+                    const modalOverlay = document.getElementById('modal-overlay') || document.querySelector('.ric-modal-overlay');
+                    const modalContent = document.getElementById('modal-content') || document.querySelector('.ric-modal');
+                    
+                    if (modalOverlay && modalContent) {
+                        modalContent.innerHTML = `
+                            <div class="modal-header">
+                                <h2>${title}</h2>
+                                <button class="modal-close" onclick="closeModal()">×</button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Feature coming soon! This ${title} is under development.</p>
+                            </div>
+                        `;
+                        
+                        modalOverlay.style.display = 'flex';
+                        console.log(`🎯 ${title} modal launched`);
+                    }
+                };
+                
+                // Fix 6: Close Modal Function
+                window.closeModal = function() {
+                    const modalOverlay = document.getElementById('modal-overlay') || document.querySelector('.ric-modal-overlay');
+                    if (modalOverlay) {
+                        modalOverlay.style.display = 'none';
+                    }
+                };
+                
+                // Fix 7: Snake Game Logic
+                window.initializeSnakeGame = function() {
+                    const canvas = document.getElementById('snake-canvas');
+                    if (!canvas) return;
+                    
+                    const ctx = canvas.getContext('2d');
+                    const gridSize = 20;
+                    const tileCount = canvas.width / gridSize;
+                    
+                    let snake = [{x: 10, y: 10}];
+                    let food = {x: 15, y: 15};
+                    let dx = 0;
+                    let dy = 0;
+                    let score = 0;
+                    let gameRunning = false;
+                    
+                    function drawGame() {
+                        // Clear canvas
+                        ctx.fillStyle = '#000';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+                        
+                        // Draw snake
+                        ctx.fillStyle = '#00ff88';
+                        snake.forEach(segment => {
+                            ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize - 2, gridSize - 2);
+                        });
+                        
+                        // Draw food
+                        ctx.fillStyle = '#ff0088';
+                        ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize - 2, gridSize - 2);
+                    }
+                    
+                    function moveSnake() {
+                        if (!gameRunning) return;
+                        
+                        const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                        
+                        // Check wall collision
+                        if (head.x < 0 || head.x >= tileCount || head.y < 0 || head.y >= tileCount) {
+                            gameRunning = false;
+                            alert('Game Over! Score: ' + score);
+                            return;
+                        }
+                        
+                        // Check self collision
+                        if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                            gameRunning = false;
+                            alert('Game Over! Score: ' + score);
+                            return;
+                        }
+                        
+                        snake.unshift(head);
+                        
+                        // Check food collision
+                        if (head.x === food.x && head.y === food.y) {
+                            score += 10;
+                            document.getElementById('snake-score').textContent = 'Score: ' + score;
+                            food = {
+                                x: Math.floor(Math.random() * tileCount),
+                                y: Math.floor(Math.random() * tileCount)
+                            };
+                        } else {
+                            snake.pop();
+                        }
+                    }
+                    
+                    function gameLoop() {
+                        moveSnake();
+                        drawGame();
+                    }
+                    
+                    // Game controls
+                    document.getElementById('snake-start').addEventListener('click', () => {
+                        gameRunning = true;
+                        console.log('🐍 Snake game started');
+                    });
+                    
+                    document.getElementById('snake-pause').addEventListener('click', () => {
+                        gameRunning = !gameRunning;
+                        console.log('🐍 Snake game paused/resumed');
+                    });
+                    
+                    document.getElementById('snake-reset').addEventListener('click', () => {
+                        snake = [{x: 10, y: 10}];
+                        food = {x: 15, y: 15};
+                        dx = 0;
+                        dy = 0;
+                        score = 0;
+                        gameRunning = false;
+                        document.getElementById('snake-score').textContent = 'Score: 0';
+                        drawGame();
+                        console.log('🐍 Snake game reset');
+                    });
+                    
+                    // Keyboard controls
+                    document.addEventListener('keydown', (e) => {
+                        if (!gameRunning) return;
+                        
+                        switch(e.key) {
+                            case 'ArrowUp':
+                            case 'w':
+                            case 'W':
+                                if (dy !== 1) { dx = 0; dy = -1; }
+                                break;
+                            case 'ArrowDown':
+                            case 's':
+                            case 'S':
+                                if (dy !== -1) { dx = 0; dy = 1; }
+                                break;
+                            case 'ArrowLeft':
+                            case 'a':
+                            case 'A':
+                                if (dx !== 1) { dx = -1; dy = 0; }
+                                break;
+                            case 'ArrowRight':
+                            case 'd':
+                            case 'D':
+                                if (dx !== -1) { dx = 1; dy = 0; }
+                                break;
+                        }
+                    });
+                    
+                    // Start game loop
+                    setInterval(gameLoop, 150);
+                    drawGame();
+                    console.log('🐍 Snake game initialized successfully');
+                };
+                
+                console.log('🎯 SURGICAL FIX COMPLETE: All event handlers reconnected');
+                
             } else {
                 console.error('💥 UTA: System initialization failed');
             }
