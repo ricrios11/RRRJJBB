@@ -7884,10 +7884,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                         <div class="feed-item" data-index="1">
-                            <div class="item-icon">🎮</div>
-                            <div class="item-content">
-                                <h4>DOS Snake Game</h4>
-                                <p>Classic gaming with modern responsive design</p>
+                            <div class="lab-feature-card" onclick="launchSnakeGameModal()">
+                            <div class="card-status active">ACTIVE</div>
+                            <h3>🐍 DOS SNAKE GAME</h3>
+                            <p>Classic Snake game with DOS aesthetics and cyberpunk styling. Navigate with arrow keys or WASD.</p>
+                            <div class="card-footer">
+                                <span class="tech-stack">Canvas • JavaScript • DOS Theme</span>
+                                <button class="launch-btn">LAUNCH GAME</button>
                             </div>
                         </div>
                         <div class="feed-item" data-index="2">
@@ -8724,13 +8727,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <button class="launch-btn beta" onclick="launchFeature('saveto')">TRY BETA</button>
             </div>
             
-            <div class="feature-card live">
-                <div class="card-header">
-                    <h3>🐍 Snake Game</h3>
-                    <span class="status-badge live">LIVE</span>
+            <div class="ric-future-card" data-feature="snake-game">
+                <div class="ric-card-header">
+                    <h3>Snake Game</h3>
+                    <span class="ric-status-badge ric-status-live">LIVE</span>
                 </div>
-                <p>Classic arcade experience</p>
-                <button class="launch-btn" onclick="showSnakeGame()">LAUNCH</button>
+                <p>Classic arcade gaming with a cyberpunk twist. Test your reflexes in this retro-futuristic Snake experience.</p>
+                <button class="ric-launch-btn" onclick="launchSnakeGame()">Launch Game</button>
             </div>
             
             <div class="feature-card beta">
@@ -9371,96 +9374,256 @@ document.addEventListener('DOMContentLoaded', function() {
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     
     <script>
-    // Innovation Lab Foundation Theme Integration System
+    // UNIFIED INNOVATION LAB THEME SYSTEM
+    // Consolidates all competing theme systems into one unified solution
     (function() {
-        console.log('🎨 THEME INTEGRATION: Innovation Lab Foundation theme system loading...');
+        console.log('🎨 UNIFIED THEME: Initializing consolidated Innovation Lab theme system...');
         
-        // Theme integration function
-        function applyInnovationLabTheme() {
-            const foundation = document.getElementById('innovation-lab-foundation');
-            if (!foundation) {
-                console.log('🎨 THEME: Foundation not found, will retry...');
+        // Single unified theme application function
+        function applyUnifiedInnovationLabTheme() {
+            // Target the actual Innovation Lab section (not foundation)
+            const innovationLab = document.getElementById('innovation-lab');
+            if (!innovationLab) {
+                console.log('🎨 UNIFIED: Innovation Lab not found, will retry...');
                 return false;
             }
             
-            console.log('🎨 THEME: Applying theme-aware styling to Innovation Lab Foundation');
+            console.log('🎨 UNIFIED: Applying unified theme-aware styling to Innovation Lab');
             
-            // Get current theme
+            // CRITICAL FIX: Hide TrojanHorse Feed when Innovation Lab is active to prevent overlap
+            const trojanHorseFeeds = document.querySelectorAll('.atomic-trojan-horse-feed, .trojan-horse-feed, [class*="trojan"]');
+            trojanHorseFeeds.forEach(feed => {
+                if (feed && !feed.closest('#innovation-lab')) {
+                    feed.style.display = 'none';
+                    console.log('🎨 UNIFIED: Hidden TrojanHorse Feed to prevent overlap');
+                }
+            });
+            
+            // CRITICAL FIX: Initialize Snake game system when Innovation Lab is activated
+            if (window.dosInnovationLab && typeof window.dosInnovationLab.initializeSnakeGameSystem === 'function') {
+                window.dosInnovationLab.initializeSnakeGameSystem();
+                console.log('🐍 UNIFIED: Snake game system initialized');
+            }
+            
+            // CRITICAL FIX: Ensure Innovation Lab object is properly initialized
+            if (!window.InnovationLab) {
+                window.InnovationLab = {
+                    isLabActive: true,
+                    currentTheme: isDark ? 'dark' : 'light',
+                    initialized: Date.now()
+                };
+                console.log('🏭 UNIFIED: Innovation Lab object initialized');
+            } else {
+                window.InnovationLab.isLabActive = true;
+                window.InnovationLab.currentTheme = isDark ? 'dark' : 'light';
+                console.log('🏭 UNIFIED: Innovation Lab object updated');
+            }
+            
+            // CRITICAL FIX: Initialize DOS modal system if not present
+            if (!window.dosModalSystem && window.DOSCyberpunkModalSystem) {
+                window.dosModalSystem = new window.DOSCyberpunkModalSystem();
+                console.log('🎭 UNIFIED: DOS modal system initialized');
+            }
+            
+            // Get current theme - single source of truth
             const isDark = document.body.classList.contains('dark');
             
-            // Base styling with technical typography
-            foundation.style.padding = '2rem';
-            foundation.style.margin = '2rem 0';
-            foundation.style.borderRadius = '12px';
-            foundation.style.textAlign = 'center';
-            foundation.style.transition = 'all 0.3s ease';
-            foundation.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", "Courier New", monospace';
-            foundation.style.letterSpacing = '0.025em';
-            
-            // Theme-aware styling
+            // Apply unified theme-aware background
             if (isDark) {
-                // Dark mode - cyberpunk aesthetic
-                foundation.style.background = 'rgba(0, 255, 65, 0.05)';
-                foundation.style.border = '2px solid #00ff41';
-                foundation.style.color = '#00ff41';
+                // Dark mode - cyberpunk aesthetic with DOS styling
+                innovationLab.style.background = 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 11, 46, 0.3) 50%, rgba(0, 0, 0, 0.95) 100%)';
+                innovationLab.style.borderTop = '2px solid #00ff41';
+                innovationLab.style.borderBottom = '2px solid #00ff41';
                 
-                // Dark mode text elements
-                const headings = foundation.querySelectorAll('h2, h3');
-                headings.forEach(h => {
+                // Apply cyberpunk styling to all child elements
+                const headers = innovationLab.querySelectorAll('h1, h2, h3, .innovation-lab-header');
+                headers.forEach(h => {
                     h.style.color = '#00ff41';
+                    h.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace';
                     h.style.fontWeight = '700';
-                    h.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", monospace';
                     h.style.letterSpacing = '0.05em';
                     h.style.textTransform = 'uppercase';
-                    h.style.fontSize = '1.25rem';
                 });
                 
-                const statusElements = foundation.querySelectorAll('.foundation-status, .foundation-marker');
-                statusElements.forEach(el => {
-                    el.style.color = 'rgba(0, 255, 65, 0.8)';
-                    el.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", monospace';
-                    el.style.fontSize = '0.95rem';
-                    el.style.fontWeight = '500';
-                    el.style.letterSpacing = '0.025em';
+                // Style feature cards for dark mode
+                const cards = innovationLab.querySelectorAll('.lab-feature-card, .feature-card');
+                cards.forEach(card => {
+                    card.style.background = 'rgba(0, 255, 65, 0.05)';
+                    card.style.border = '1px solid #00ff41';
+                    card.style.color = '#00ff41';
                 });
                 
-                const metrics = foundation.querySelectorAll('.foundation-metrics, .foundation-metrics span');
-                metrics.forEach(el => {
-                    el.style.color = 'rgba(0, 255, 65, 0.6)';
-                    el.style.opacity = '0.9';
-                    el.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", monospace';
-                    el.style.fontSize = '0.75rem';
-                    el.style.fontWeight = '400';
-                    el.style.letterSpacing = '0.05em';
-                    el.style.textTransform = 'uppercase';
-                });
             } else {
-                // Light mode - improved contrast
-                foundation.style.background = 'rgba(0, 255, 65, 0.03)';
-                foundation.style.border = '2px solid rgba(0, 200, 50, 0.4)';
-                foundation.style.color = '#1a5f2e';
+                // Light mode - clean, readable aesthetic
+                innovationLab.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(255, 255, 255, 0.95) 100%)';
+                innovationLab.style.borderTop = '2px solid rgba(139, 92, 246, 0.3)';
+                innovationLab.style.borderBottom = '2px solid rgba(139, 92, 246, 0.3)';
                 
-                // Light mode text elements
-                const headings = foundation.querySelectorAll('h2, h3');
-                headings.forEach(h => {
-                    h.style.color = '#0d4f1c';
-                    h.style.fontWeight = '700';
-                    h.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", monospace';
-                    h.style.letterSpacing = '0.05em';
-                    h.style.textTransform = 'uppercase';
-                    h.style.fontSize = '1.25rem';
+                // Apply light mode styling to all child elements
+                const headers = innovationLab.querySelectorAll('h1, h2, h3, .innovation-lab-header');
+                headers.forEach(h => {
+                    h.style.color = '#1f2937';
+                    h.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace';
+                    h.style.fontWeight = '600';
+                    h.style.letterSpacing = '0.025em';
                 });
                 
-                const statusElements = foundation.querySelectorAll('.foundation-status, .foundation-marker');
-                statusElements.forEach(el => {
-                    el.style.color = '#2d7a3e';
-                    el.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", monospace';
-                    el.style.fontSize = '0.95rem';
-                    el.style.fontWeight = '500';
-                    el.style.letterSpacing = '0.025em';
+                // Style feature cards for light mode
+                const cards = innovationLab.querySelectorAll('.lab-feature-card, .feature-card');
+                cards.forEach(card => {
+                    card.style.background = 'rgba(255, 255, 255, 0.8)';
+                    card.style.border = '1px solid rgba(139, 92, 246, 0.2)';
+                    card.style.color = '#1f2937';
                 });
-                
-                const metrics = foundation.querySelectorAll('.foundation-metrics, .foundation-metrics span');
+            }
+            
+            // Common styling for both themes
+            innovationLab.style.transition = 'all 0.3s ease';
+            
+            console.log(`✅ UNIFIED: Innovation Lab theme applied for ${isDark ? 'dark' : 'light'} mode`);
+            return true;
+        }
+        
+        // Single unified event listener for theme changes
+        function setupUnifiedThemeListener() {
+            // Listen for theme toggle events
+            document.addEventListener('themeToggle', function() {
+                console.log('🎨 UNIFIED: Theme toggle detected, reapplying unified theme...');
+                setTimeout(applyUnifiedInnovationLabTheme, 50);
+            });
+            
+            // Watch for body class changes (theme toggle)
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                        console.log('🎨 UNIFIED: Body class change detected, reapplying unified theme...');
+                        setTimeout(applyUnifiedInnovationLabTheme, 50);
+                    }
+                });
+            });
+            
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['class']
+            });
+            
+            console.log('👁️ UNIFIED: Theme listener established');
+        }
+        
+        // Watch for Innovation Lab creation
+        function setupUnifiedLabWatcher() {
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    mutation.addedNodes.forEach(function(node) {
+                        if (node.nodeType === 1) { // Element node
+                            if (node.id === 'innovation-lab' || 
+                                (node.querySelector && node.querySelector('#innovation-lab'))) {
+                                console.log('🧪 UNIFIED: Innovation Lab detected, applying unified theme...');
+                                setTimeout(applyUnifiedInnovationLabTheme, 100);
+                            }
+                        }
+                    });
+                });
+            });
+            
+            observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+            
+            console.log('👁️ UNIFIED: Lab watcher established');
+        }
+        
+        // Initialize unified system
+        function initUnifiedSystem() {
+            console.log('🚀 UNIFIED: Initializing unified Innovation Lab theme system...');
+            
+            // Try immediate application
+            if (!applyUnifiedInnovationLabTheme()) {
+                // Set up watchers if lab doesn't exist yet
+                setupUnifiedLabWatcher();
+            }
+            
+            // Always set up theme listener
+            setupUnifiedThemeListener();
+            
+            console.log('✅ UNIFIED: Unified Innovation Lab theme system initialized');
+        }
+        
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initUnifiedSystem);
+        } else {
+            initUnifiedSystem();
+        }
+        
+        // Make function globally available for manual triggering
+        window.applyUnifiedInnovationLabTheme = applyUnifiedInnovationLabTheme;
+        
+        console.log('🎯 UNIFIED INNOVATION LAB THEME SYSTEM: Initialized and ready');
+    })();
+    
+    // SNAKE GAME FUNCTIONS
+    function launchSnakeGame() {
+        console.log('🐍 SNAKE GAME: Launch requested');
+        
+        const container = document.getElementById('snake-game-container');
+        if (container) {
+            container.style.display = 'block';
+            console.log('✅ SNAKE GAME: Container displayed');
+            
+            // Initialize game if DOSSnakeGame class exists
+            if (window.DOSSnakeGame) {
+                try {
+                    const canvas = document.getElementById('snake-game-canvas');
+                    if (canvas) {
+                        window.currentSnakeGame = new window.DOSSnakeGame(canvas);
+                        console.log('✅ SNAKE GAME: Game initialized successfully');
+                    } else {
+                        console.error('❌ SNAKE GAME: Canvas not found');
+                    }
+                } catch (error) {
+                    console.error('❌ SNAKE GAME: Initialization failed:', error);
+                    alert('GAME INITIALIZATION FAILED: ' + error.message);
+                }
+            } else {
+                console.error('❌ SNAKE GAME: DOSSnakeGame class not found');
+                alert('GAME INITIALIZATION FAILED: Snake game class not loaded');
+            }
+        } else {
+            console.error('❌ SNAKE GAME: Container not found');
+            alert('GAME INITIALIZATION FAILED: Container not found');
+        }
+    }
+    
+    function closeSnakeGame() {
+        const container = document.getElementById('snake-game-container');
+        if (container) {
+            container.style.display = 'none';
+            console.log('🐍 SNAKE GAME: Container closed');
+        }
+    }
+    
+    function startSnakeGame() {
+        if (window.currentSnakeGame && typeof window.currentSnakeGame.start === 'function') {
+            window.currentSnakeGame.start();
+            console.log('🐍 SNAKE GAME: Game started');
+        }
+    }
+    
+    function pauseSnakeGame() {
+        if (window.currentSnakeGame && typeof window.currentSnakeGame.pause === 'function') {
+            window.currentSnakeGame.pause();
+            console.log('🐍 SNAKE GAME: Game paused');
+        }
+    }
+    
+    function resetSnakeGame() {
+        if (window.currentSnakeGame && typeof window.currentSnakeGame.reset === 'function') {
+            window.currentSnakeGame.reset();
+            console.log('🐍 SNAKE GAME: Game reset');
+        }
+    }
                 metrics.forEach(el => {
                     el.style.color = '#4a7c59';
                     el.style.opacity = '0.9';
@@ -9590,7 +9753,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 🎯 WINDSPRINT DEPLOYMENT: Enhanced Exit Lab - DOS-Aligned UX Best Practice
     function exitInnovationLab() {
-        console.log('🚪 EXIT LAB: Collapsing Innovation Laboratory to entry point...');
+        console.log('🚺 EXIT LAB: Collapsing Innovation Laboratory to entry point...');
         
         const innovationLabSection = document.getElementById('innovation-lab');
         if (!innovationLabSection) {
@@ -9607,9 +9770,23 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(() => {
             innovationLabSection.style.display = 'none';
             
+            // CRITICAL FIX: Restore TrojanHorse Feed visibility when exiting lab
+            const trojanHorseFeeds = document.querySelectorAll('.atomic-trojan-horse-feed, .trojan-horse-feed, [class*="trojan"]');
+            trojanHorseFeeds.forEach(feed => {
+                if (feed && !feed.closest('#innovation-lab')) {
+                    feed.style.display = '';
+                    console.log('🎨 EXIT LAB: Restored TrojanHorse Feed visibility');
+                }
+            });
+            
             // Reset Innovation Lab state for next activation
             if (window.InnovationLab && window.InnovationLab.isLabActive) {
                 window.InnovationLab.isLabActive = false;
+            }
+            
+            // Reset DOSCyberpunkInnovationLab state
+            if (window.dosInnovationLab && window.dosInnovationLab.isLabActive) {
+                window.dosInnovationLab.isLabActive = false;
             }
             
             // Create contextually cogent entry point (succinct, inline with TrojanHorse Feed)
@@ -9721,15 +9898,33 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Launch Feature Modal (WIP)
+    // Launch Feature Modal (Enhanced with Snake Game Support)
     function launchFeatureModal(featureId) {
         console.log(`🚀 LAUNCHING: ${featureId} modal...`);
         
         // Track click for leaderboard
         trackFeatureClick(featureId);
         
-        // Create WIP modal
-        createWIPModal(featureId);
+        // CRITICAL FIX: Handle Snake game specifically
+        if (featureId === 'snake-game' || featureId === 'dos-snake-game') {
+            console.log('🐍 LAUNCHING: Snake game modal...');
+            
+            // Check if DOSSnakeGame class is available
+            if (typeof window.DOSSnakeGame === 'function') {
+                // Launch Snake game via DOS modal system
+                if (window.dosModalSystem && typeof window.dosModalSystem.launchSnakeGame === 'function') {
+                    window.dosModalSystem.launchSnakeGame();
+                    return;
+                }
+            }
+            
+            // Fallback: Show initialization error with helpful message
+            createSnakeGameErrorModal();
+            return;
+        }
+        
+        // For other features, create enhanced modal with proper functionality
+        createEnhancedFeatureModal(featureId);
     }
     
     // Create WIP Modal
@@ -9932,19 +10127,147 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = document.getElementById('snake-game-modal-container');
         if (!container) return;
         
-        // Check if DOSSnakeGame is available
-        if (typeof DOSSnakeGame !== 'undefined') {
-            const snakeGame = new DOSSnakeGame(container);
+        // Create game canvas directly
+        container.innerHTML = `
+            <div id="snake-canvas" style="
+                width: 400px;
+                height: 400px;
+                border: 2px solid #00ff88;
+                background: #000;
+                margin: 0 auto;
+                position: relative;
+            "></div>
+            <div id="snake-score" style="
+                margin-top: 1rem;
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #00ff88;
+            ">Score: 0</div>
+        `;
+        
+        // Initialize simple snake game
+        const canvas = document.getElementById('snake-canvas');
+        let snake = [{x: 200, y: 200}];
+        let food = {x: 100, y: 100};
+        let direction = {x: 0, y: 0};
+        let score = 0;
+        let gameRunning = false;
+        let gameLoop;
+        
+        function drawGame() {
+            canvas.innerHTML = '';
             
-            // Connect modal buttons
-            document.getElementById('modal-start-btn')?.addEventListener('click', () => snakeGame.start());
-            document.getElementById('modal-pause-btn')?.addEventListener('click', () => snakeGame.pause());
-            document.getElementById('modal-reset-btn')?.addEventListener('click', () => snakeGame.reset());
+            // Draw snake
+            snake.forEach((segment, index) => {
+                const div = document.createElement('div');
+                div.style.cssText = `
+                    position: absolute;
+                    left: ${segment.x}px;
+                    top: ${segment.y}px;
+                    width: 18px;
+                    height: 18px;
+                    background: ${index === 0 ? '#00ff88' : '#00cc66'};
+                    border: 1px solid #000;
+                `;
+                canvas.appendChild(div);
+            });
             
-            console.log('✅ SNAKE MODAL: Snake Game initialized in modal');
-        } else {
-            console.error('❌ SNAKE MODAL: DOSSnakeGame class not found');
-            container.innerHTML = '<p style="color: var(--ric-color-muted);">Snake Game is loading...</p>';
+            // Draw food
+            const foodDiv = document.createElement('div');
+            foodDiv.style.cssText = `
+                position: absolute;
+                left: ${food.x}px;
+                top: ${food.y}px;
+                width: 18px;
+                height: 18px;
+                background: #ff4444;
+                border: 1px solid #000;
+                border-radius: 50%;
+            `;
+            canvas.appendChild(foodDiv);
+            
+            document.getElementById('snake-score').textContent = `Score: ${score}`;
+        }
+        
+        function moveSnake() {
+            if (!gameRunning) return;
+            
+            const head = {x: snake[0].x + direction.x, y: snake[0].y + direction.y};
+            
+            if (head.x < 0 || head.x >= 380 || head.y < 0 || head.y >= 380) {
+                gameRunning = false;
+                clearInterval(gameLoop);
+                alert(`Game Over! Score: ${score}`);
+                return;
+            }
+            
+            if (snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                gameRunning = false;
+                clearInterval(gameLoop);
+                alert(`Game Over! Score: ${score}`);
+                return;
+            }
+            
+            snake.unshift(head);
+            
+            if (head.x === food.x && head.y === food.y) {
+                score += 10;
+                food = {
+                    x: Math.floor(Math.random() * 19) * 20,
+                    y: Math.floor(Math.random() * 19) * 20
+                };
+            } else {
+                snake.pop();
+            }
+            
+            drawGame();
+        }
+        
+        // Connect modal buttons
+        document.getElementById('modal-start-btn').onclick = function() {
+            if (!gameRunning) {
+                gameRunning = true;
+                gameLoop = setInterval(moveSnake, 150);
+            }
+        };
+        
+        document.getElementById('modal-pause-btn').onclick = function() {
+            gameRunning = false;
+            clearInterval(gameLoop);
+        };
+        
+        document.getElementById('modal-reset-btn').onclick = function() {
+            gameRunning = false;
+            clearInterval(gameLoop);
+            snake = [{x: 200, y: 200}];
+            direction = {x: 0, y: 0};
+            score = 0;
+            food = {x: 100, y: 100};
+            drawGame();
+        };
+        
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (!gameRunning) return;
+            switch(e.key) {
+                case 'ArrowUp': case 'w': case 'W':
+                    if (direction.y === 0) direction = {x: 0, y: -20};
+                    break;
+                case 'ArrowDown': case 's': case 'S':
+                    if (direction.y === 0) direction = {x: 0, y: 20};
+                    break;
+                case 'ArrowLeft': case 'a': case 'A':
+                    if (direction.x === 0) direction = {x: -20, y: 0};
+                    break;
+                case 'ArrowRight': case 'd': case 'D':
+                    if (direction.x === 0) direction = {x: 20, y: 0};
+                    break;
+            }
+        });
+        
+        // Initial draw
+        drawGame();
+        console.log('✅ SNAKE MODAL: Direct Snake Game initialized');
         }
     }
     
@@ -10245,6 +10568,846 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Also execute after a short delay to ensure DOM is fully rendered
     setTimeout(applyTimeAwareHeroGradient, 500);
+    
+    // Add theme toggle listener for hero gradient re-application
+    document.addEventListener('themeToggle', function() {
+        console.log('🎨 THEME TOGGLE: Hero gradient system re-applied for hot-swap');
+        setTimeout(applyTimeAwareHeroGradient, 100);
+    });
+    </script>
+    
+    <!-- INNOVATION LAB THEME AWARENESS SYSTEM -->
+    <script>
+    // REMOVED: Competing theme system 2 - consolidated into unified system above
+    </script>
+    
+    <!-- COMPREHENSIVE DOS CYBERPUNK INNOVATION LAB REFINEMENT SYSTEM -->
+    <script>
+    console.log('🚀 DOS CYBERPUNK REFINEMENT: Initializing comprehensive Innovation Lab system...');
+    
+    // PHASE 1: Enhanced Konami Code System with DOS Aesthetics
+    class DOSCyberpunkInnovationLab {
+        constructor() {
+            this.konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑ ↑ ↓ ↓ ← → ← → B A
+            this.userSequence = [];
+            this.isLabActive = false;
+            this.isInitialized = false;
+            
+            console.log('🧪 DOS LAB: Initializing cyberpunk Innovation Lab system...');
+            this.initialize();
+        }
+        
+        initialize() {
+            if (this.isInitialized) return;
+            
+            // Initialize Konami listener
+            this.handleKonamiInput = this.handleKonamiInput.bind(this);
+            document.addEventListener('keydown', this.handleKonamiInput, { passive: true });
+            
+            // Use unified theme system instead of separate theme handling
+            // Theme awareness is now handled by the unified system above
+            
+            // Initialize Snake game system
+            this.initializeSnakeGameSystem();
+            
+            this.isInitialized = true;
+            console.log('✅ DOS LAB: Cyberpunk Innovation Lab system initialized');
+        }
+        
+        handleKonamiInput(event) {
+            if (this.isLabActive) return;
+            
+            this.userSequence.push(event.keyCode);
+            console.log(`🎮 KONAMI PROGRESS: ${this.userSequence.length}/${this.konamiSequence.length} - Key: ${event.keyCode}`);
+            
+            // Check if sequence matches so far
+            for (let i = 0; i < this.userSequence.length; i++) {
+                if (this.userSequence[i] !== this.konamiSequence[i]) {
+                    console.log('🌌❌ Invalid sequence, resetting');
+                    this.userSequence = [];
+                    this.hideKonamiProgress();
+                    return;
+                }
+            }
+            
+            // Show progress
+            this.showKonamiProgress();
+            
+            // Check if complete
+            if (this.userSequence.length === this.konamiSequence.length) {
+                console.log('🎉 KONAMI CODE COMPLETE! ACTIVATING DOS INNOVATION LAB!');
+                this.activateInnovationLab();
+                this.hideKonamiProgress();
+                this.userSequence = [];
+            }
+        }
+        
+        showKonamiProgress() {
+            this.hideKonamiProgress();
+            
+            const progress = document.createElement('div');
+            progress.id = 'konami-progress';
+            progress.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 0, 0, 0.9);
+                color: #00ff88;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 12px;
+                z-index: 10000;
+                border: 1px solid rgba(0, 255, 136, 0.3);
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+                animation: konamiGlow 1s ease-in-out infinite alternate;
+            `;
+            
+            const sequenceDisplay = this.konamiSequence.map((keyCode, index) => {
+                const isCompleted = index < this.userSequence.length;
+                const symbol = this.getKeySymbol(keyCode);
+                return `<span style="color: ${isCompleted ? '#00ff88' : '#666'}">${symbol}</span>`;
+            }).join(' ');
+            
+            progress.innerHTML = `
+                <div style="margin-bottom: 4px;">🎮 KONAMI SEQUENCE</div>
+                <div>${sequenceDisplay}</div>
+                <div style="font-size: 10px; color: #666; margin-top: 4px;">(${this.userSequence.length}/${this.konamiSequence.length})</div>
+            `;
+            
+            document.body.appendChild(progress);
+            
+            // Add glow animation if not exists
+            if (!document.getElementById('konami-progress-style')) {
+                const style = document.createElement('style');
+                style.id = 'konami-progress-style';
+                style.textContent = `
+                    @keyframes konamiGlow {
+                        from { box-shadow: 0 0 5px rgba(0, 255, 136, 0.3); }
+                        to { box-shadow: 0 0 20px rgba(0, 255, 136, 0.6); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        hideKonamiProgress() {
+            const existing = document.getElementById('konami-progress');
+            if (existing) existing.remove();
+        }
+        
+        getKeySymbol(keyCode) {
+            const keyMap = {
+                38: '↑', 40: '↓', 37: '←', 39: '→',
+                66: 'B', 65: 'A'
+            };
+            return keyMap[keyCode] || keyCode;
+        }
+        
+        activateInnovationLab() {
+            const innovationLab = document.getElementById('innovation-lab');
+            if (!innovationLab) {
+                console.error('❌ DOS LAB: Innovation Lab section not found!');
+                return;
+            }
+            
+            console.log('🚀 DOS LAB: Activating Innovation Lab with cyberpunk aesthetics...');
+            
+            // Apply DOS cyberpunk activation animation
+            innovationLab.style.display = 'block';
+            innovationLab.style.opacity = '0';
+            innovationLab.style.transform = 'translateY(20px)';
+            
+            // Trigger unified theme system immediately
+            if (window.applyUnifiedInnovationLabTheme) {
+                window.applyUnifiedInnovationLabTheme();
+            }
+            
+            // Smooth reveal animation
+            requestAnimationFrame(() => {
+                innovationLab.style.transition = 'all 0.8s cubic-bezier(0.23, 1, 0.32, 1)';
+                innovationLab.style.opacity = '1';
+                innovationLab.style.transform = 'translateY(0)';
+            });
+            
+            this.isLabActive = true;
+            
+            // Scroll to Innovation Lab with smooth animation
+            setTimeout(() => {
+                innovationLab.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 400);
+            
+            console.log('✅ DOS LAB: Innovation Lab activated successfully');
+        }
+        
+        initializeThemeAwareness() {
+            // Listen for theme toggle events
+            document.addEventListener('themeToggle', () => {
+                if (this.isLabActive) {
+                    setTimeout(() => this.applyDOSCyberpunkTheme(), 100);
+                }
+            });
+            
+            console.log('🎨 DOS LAB: Theme awareness system initialized');
+        }
+        
+        applyDOSCyberpunkTheme() {
+            const innovationLab = document.getElementById('innovation-lab');
+            if (!innovationLab || !this.isLabActive) return;
+            
+            const isDark = document.body.classList.contains('dark');
+            
+            console.log(`🎨 DOS LAB: Applying ${isDark ? 'dark' : 'light'} mode cyberpunk theme`);
+            
+            // Apply theme-aware background with DOS cyberpunk aesthetics
+            if (isDark) {
+                innovationLab.style.background = `
+                    linear-gradient(135deg, 
+                        rgba(0, 0, 0, 0.95) 0%, 
+                        rgba(26, 11, 46, 0.4) 25%,
+                        rgba(0, 20, 40, 0.3) 50%,
+                        rgba(26, 11, 46, 0.4) 75%,
+                        rgba(0, 0, 0, 0.95) 100%
+                    )
+                `;
+                innovationLab.style.borderTop = '1px solid rgba(0, 255, 136, 0.2)';
+                innovationLab.style.borderBottom = '1px solid rgba(0, 255, 136, 0.2)';
+            } else {
+                innovationLab.style.background = `
+                    linear-gradient(135deg, 
+                        rgba(255, 255, 255, 0.95) 0%, 
+                        rgba(139, 92, 246, 0.08) 25%,
+                        rgba(59, 130, 246, 0.05) 50%,
+                        rgba(139, 92, 246, 0.08) 75%,
+                        rgba(255, 255, 255, 0.95) 100%
+                    )
+                `;
+                innovationLab.style.borderTop = '1px solid rgba(139, 92, 246, 0.2)';
+                innovationLab.style.borderBottom = '1px solid rgba(139, 92, 246, 0.2)';
+            }
+            
+            // Apply contrast-compliant feature card theme adjustments
+            this.applyFeatureCardThemes(isDark);
+        }
+        
+        applyFeatureCardThemes(isDark) {
+            const featureCards = document.querySelectorAll('.lab-feature-card');
+            
+            featureCards.forEach((card, index) => {
+                const cardTypes = [
+                    { color: '#00ff88', rgba: '0, 255, 136' }, // TrojanHorse - Green
+                    { color: '#ff6b35', rgba: '255, 107, 53' }, // Agent Expression - Orange
+                    { color: '#6b7280', rgba: '107, 114, 128' }, // Graffiti - Gray
+                    { color: '#00ff88', rgba: '0, 255, 136' }  // Snake - Green
+                ];
+                
+                const cardType = cardTypes[index] || cardTypes[0];
+                
+                if (isDark) {
+                    card.style.background = `rgba(${cardType.rgba}, 0.08)`;
+                    card.style.borderColor = `rgba(${cardType.rgba}, 0.3)`;
+                } else {
+                    card.style.background = `rgba(${cardType.rgba}, 0.03)`;
+                    card.style.borderColor = `rgba(${cardType.rgba}, 0.2)`;
+                }
+            });
+        }
+        
+        initializeSnakeGameSystem() {
+            // Create DOSSnakeGame class for modal integration
+            window.DOSSnakeGame = class DOSSnakeGame {
+                constructor(containerId) {
+                    this.container = typeof containerId === 'string' 
+                        ? document.getElementById(containerId) 
+                        : containerId;
+                    
+                    if (!this.container) {
+                        console.error('❌ SNAKE: Container not found:', containerId);
+                        return;
+                    }
+                    
+                    this.canvas = null;
+                    this.ctx = null;
+                    this.gameState = 'stopped';
+                    this.snake = [{ x: 10, y: 10 }];
+                    this.food = { x: 15, y: 15 };
+                    this.direction = { x: 0, y: 0 };
+                    this.score = 0;
+                    
+                    this.initializeGame();
+                    console.log('🐍 DOS SNAKE: Game initialized');
+                }
+                
+                initializeGame() {
+                    this.container.innerHTML = `
+                        <div style="text-align: center; font-family: 'JetBrains Mono', monospace;">
+                            <div style="margin-bottom: 16px; color: #00ff88; font-size: 18px; font-weight: bold;">🐍 DOS SNAKE GAME</div>
+                            <canvas id="snake-canvas" width="400" height="400" style="border: 2px solid #00ff88; background: #000; border-radius: 8px;"></canvas>
+                            <div style="margin-top: 16px; color: #00ff88; font-size: 14px;">Score: <span id="snake-score">0</span></div>
+                            <div style="margin-top: 8px; color: #666; font-size: 12px;">Use arrow keys or WASD to play</div>
+                        </div>
+                    `;
+                    
+                    this.canvas = this.container.querySelector('#snake-canvas');
+                    this.ctx = this.canvas.getContext('2d');
+                    this.scoreElement = this.container.querySelector('#snake-score');
+                    
+                    this.setupControls();
+                    this.render();
+                }
+                
+                setupControls() {
+                    document.addEventListener('keydown', (e) => {
+                        if (this.gameState !== 'running') return;
+                        
+                        const key = e.key.toLowerCase();
+                        switch (key) {
+                            case 'arrowup':
+                            case 'w':
+                                if (this.direction.y === 0) this.direction = { x: 0, y: -1 };
+                                break;
+                            case 'arrowdown':
+                            case 's':
+                                if (this.direction.y === 0) this.direction = { x: 0, y: 1 };
+                                break;
+                            case 'arrowleft':
+                            case 'a':
+                                if (this.direction.x === 0) this.direction = { x: -1, y: 0 };
+                                break;
+                            case 'arrowright':
+                            case 'd':
+                                if (this.direction.x === 0) this.direction = { x: 1, y: 0 };
+                                break;
+                        }
+                    });
+                }
+                
+                start() {
+                    if (this.gameState === 'running') return;
+                    
+                    this.gameState = 'running';
+                    this.direction = { x: 1, y: 0 };
+                    this.gameLoop();
+                    console.log('🐍 DOS SNAKE: Game started');
+                }
+                
+                pause() {
+                    this.gameState = this.gameState === 'running' ? 'paused' : 'running';
+                    if (this.gameState === 'running') this.gameLoop();
+                    console.log('🐍 DOS SNAKE: Game', this.gameState);
+                }
+                
+                reset() {
+                    this.gameState = 'stopped';
+                    this.snake = [{ x: 10, y: 10 }];
+                    this.food = { x: 15, y: 15 };
+                    this.direction = { x: 0, y: 0 };
+                    this.score = 0;
+                    this.updateScore();
+                    this.render();
+                    console.log('🐍 DOS SNAKE: Game reset');
+                }
+                
+                gameLoop() {
+                    if (this.gameState !== 'running') return;
+                    
+                    this.update();
+                    this.render();
+                    
+                    setTimeout(() => this.gameLoop(), 150);
+                }
+                
+                update() {
+                    const head = { ...this.snake[0] };
+                    head.x += this.direction.x;
+                    head.y += this.direction.y;
+                    
+                    // Check wall collision
+                    if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                        this.gameState = 'stopped';
+                        return;
+                    }
+                    
+                    // Check self collision
+                    if (this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
+                        this.gameState = 'stopped';
+                        return;
+                    }
+                    
+                    this.snake.unshift(head);
+                    
+                    // Check food collision
+                    if (head.x === this.food.x && head.y === this.food.y) {
+                        this.score += 10;
+                        this.updateScore();
+                        this.generateFood();
+                    } else {
+                        this.snake.pop();
+                    }
+                }
+                
+                generateFood() {
+                    do {
+                        this.food = {
+                            x: Math.floor(Math.random() * 20),
+                            y: Math.floor(Math.random() * 20)
+                        };
+                    } while (this.snake.some(segment => segment.x === this.food.x && segment.y === this.food.y));
+                }
+                
+                render() {
+                    // Clear canvas
+                    this.ctx.fillStyle = '#000';
+                    this.ctx.fillRect(0, 0, 400, 400);
+                    
+                    // Draw snake
+                    this.ctx.fillStyle = '#00ff88';
+                    this.snake.forEach(segment => {
+                        this.ctx.fillRect(segment.x * 20, segment.y * 20, 18, 18);
+                    });
+                    
+                    // Draw food
+                    this.ctx.fillStyle = '#ff6b35';
+                    this.ctx.fillRect(this.food.x * 20, this.food.y * 20, 18, 18);
+                }
+                
+                updateScore() {
+                    if (this.scoreElement) {
+                        this.scoreElement.textContent = this.score;
+                    }
+                }
+            };
+            
+            console.log('🐍 DOS LAB: Snake game system initialized');
+        }
+        
+        exitLab() {
+            const innovationLab = document.getElementById('innovation-lab');
+            if (!innovationLab) return;
+            
+            console.log('🚪 DOS LAB: Exiting Innovation Lab...');
+            
+            innovationLab.style.transition = 'all 0.6s ease-in-out';
+            innovationLab.style.opacity = '0';
+            innovationLab.style.transform = 'translateY(-20px)';
+            
+            setTimeout(() => {
+                innovationLab.style.display = 'none';
+                this.isLabActive = false;
+                
+                // Scroll back to main content
+                document.querySelector('#case-studies')?.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }, 600);
+            
+            console.log('✅ DOS LAB: Innovation Lab closed');
+        }
+    }
+    
+    // Initialize the DOS Cyberpunk Innovation Lab system
+    let dosInnovationLab;
+    
+    function initializeDOSInnovationLab() {
+        if (!dosInnovationLab) {
+            dosInnovationLab = new DOSCyberpunkInnovationLab();
+            
+            // Make exit function globally available
+            window.exitInnovationLab = () => dosInnovationLab.exitLab();
+            
+            console.log('🚀 DOS CYBERPUNK REFINEMENT: System fully operational!');
+        }
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeDOSInnovationLab);
+    } else {
+        initializeDOSInnovationLab();
+    }
+    
+    // UNIFIED DOS CYBERPUNK MODAL SYSTEM - TRIPLE VALIDATED
+    class DOSCyberpunkModalSystem {
+        constructor() {
+            this.activeModals = new Set();
+            this.modalAnimations = null;
+            this.initializeAnimations();
+            console.log('🎭 DOS MODAL SYSTEM: Initialized with cyberpunk standards');
+        }
+        
+        initializeAnimations() {
+            if (document.getElementById('dos-modal-animations')) return;
+            
+            const style = document.createElement('style');
+            style.id = 'dos-modal-animations';
+            style.textContent = `
+                @keyframes dosModalFadeIn {
+                    from { opacity: 0; backdrop-filter: blur(0px); }
+                    to { opacity: 1; backdrop-filter: blur(10px); }
+                }
+                @keyframes dosModalFadeOut {
+                    from { opacity: 1; backdrop-filter: blur(10px); }
+                    to { opacity: 0; backdrop-filter: blur(0px); }
+                }
+                @keyframes dosModalSlideIn {
+                    from { 
+                        transform: translateY(-30px) scale(0.9); 
+                        opacity: 0;
+                        filter: blur(5px);
+                    }
+                    to { 
+                        transform: translateY(0) scale(1); 
+                        opacity: 1;
+                        filter: blur(0px);
+                    }
+                }
+                .dos-modal-backdrop {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    animation: dosModalFadeIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+                }
+                .dos-modal-container {
+                    position: relative;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                    overflow: auto;
+                    animation: dosModalSlideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+                }
+                .dos-modal-close {
+                    position: absolute;
+                    top: 16px;
+                    right: 16px;
+                    background: none;
+                    border: none;
+                    font-size: 20px;
+                    cursor: pointer;
+                    padding: 8px;
+                    border-radius: 6px;
+                    transition: all 0.2s ease;
+                    z-index: 10001;
+                    font-family: 'JetBrains Mono', monospace;
+                    font-weight: bold;
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        createModal(config) {
+            const modalId = `dos-modal-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+            const isDark = document.body.classList.contains('dark');
+            
+            // Create backdrop
+            const backdrop = document.createElement('div');
+            backdrop.id = modalId;
+            backdrop.className = 'dos-modal-backdrop';
+            backdrop.style.background = isDark 
+                ? 'rgba(0, 0, 0, 0.92)' 
+                : 'rgba(255, 255, 255, 0.92)';
+            
+            // Create container
+            const container = document.createElement('div');
+            container.className = 'dos-modal-container';
+            
+            // Apply theme-aware styling
+            if (isDark) {
+                container.style.cssText = `
+                    background: linear-gradient(135deg, #000 0%, #1a0b2e 50%, #000 100%);
+                    border: 2px solid #00ff88;
+                    border-radius: 16px;
+                    padding: 32px;
+                    box-shadow: 
+                        0 0 40px rgba(0, 255, 136, 0.3),
+                        inset 0 1px 0 rgba(0, 255, 136, 0.1);
+                `;
+            } else {
+                container.style.cssText = `
+                    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
+                    border: 2px solid rgba(139, 92, 246, 0.4);
+                    border-radius: 16px;
+                    padding: 32px;
+                    box-shadow: 
+                        0 0 40px rgba(139, 92, 246, 0.2),
+                        inset 0 1px 0 rgba(139, 92, 246, 0.1);
+                `;
+            }
+            
+            // Create close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'dos-modal-close';
+            closeBtn.innerHTML = '✕';
+            closeBtn.style.color = isDark ? '#00ff88' : '#8b5cf6';
+            closeBtn.onmouseover = () => {
+                closeBtn.style.background = isDark 
+                    ? 'rgba(0, 255, 136, 0.1)' 
+                    : 'rgba(139, 92, 246, 0.1)';
+                closeBtn.style.color = isDark ? '#fff' : '#000';
+            };
+            closeBtn.onmouseout = () => {
+                closeBtn.style.background = 'none';
+                closeBtn.style.color = isDark ? '#00ff88' : '#8b5cf6';
+            };
+            closeBtn.onclick = () => this.closeModal(modalId);
+            
+            // Create content area
+            const content = document.createElement('div');
+            content.className = 'dos-modal-content';
+            content.innerHTML = config.content || '';
+            
+            // Assemble modal
+            container.appendChild(closeBtn);
+            container.appendChild(content);
+            backdrop.appendChild(container);
+            
+            // Add to DOM and track
+            document.body.appendChild(backdrop);
+            this.activeModals.add(modalId);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+            
+            console.log(`🎭 DOS MODAL: Created modal ${modalId}`);
+            return { modalId, backdrop, container, content };
+        }
+        
+        closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!modal) return;
+            
+            modal.style.animation = 'dosModalFadeOut 0.3s ease-in-out';
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.parentNode.removeChild(modal);
+                }
+                this.activeModals.delete(modalId);
+                
+                // Restore body scroll if no active modals
+                if (this.activeModals.size === 0) {
+                    document.body.style.overflow = '';
+                }
+            }, 300);
+            
+            console.log(`🎭 DOS MODAL: Closed modal ${modalId}`);
+        }
+        
+        launchSnakeGame() {
+            console.log('🐍 LAUNCHING: DOS Snake Game with unified modal system...');
+            
+            const modal = this.createModal({
+                content: `
+                    <div id="unified-snake-game-container" style="text-align: center;"></div>
+                `
+            });
+            
+            // Initialize Snake game
+            setTimeout(() => {
+                try {
+                    const gameContainer = modal.content.querySelector('#unified-snake-game-container');
+                    const snakeGame = new DOSSnakeGame(gameContainer);
+                    
+                    // Add unified DOS controls
+                    const controlsContainer = document.createElement('div');
+                    const isDark = document.body.classList.contains('dark');
+                    
+                    controlsContainer.style.cssText = `
+                        display: flex;
+                        gap: 12px;
+                        justify-content: center;
+                        margin-top: 20px;
+                        font-family: 'JetBrains Mono', monospace;
+                    `;
+                    
+                    const buttons = [
+                        { text: 'START', action: () => snakeGame.start(), color: isDark ? '#00ff88' : '#10b981' },
+                        { text: 'PAUSE', action: () => snakeGame.pause(), color: '#ff6b35' },
+                        { text: 'RESET', action: () => snakeGame.reset(), color: '#6b7280' }
+                    ];
+                    
+                    buttons.forEach(btn => {
+                        const button = document.createElement('button');
+                        button.textContent = btn.text;
+                        button.style.cssText = `
+                            background: ${btn.color};
+                            color: ${btn.color === '#6b7280' ? '#fff' : '#000'};
+                            border: none;
+                            padding: 10px 18px;
+                            border-radius: 8px;
+                            font-family: 'JetBrains Mono', monospace;
+                            font-weight: bold;
+                            font-size: 12px;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                        `;
+                        button.onmouseover = () => {
+                            button.style.transform = 'translateY(-1px)';
+                            button.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                        };
+                        button.onmouseout = () => {
+                            button.style.transform = 'translateY(0)';
+                            button.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
+                        };
+                        button.onclick = btn.action;
+                        controlsContainer.appendChild(button);
+                    });
+                    
+                    gameContainer.appendChild(controlsContainer);
+                    console.log('✅ DOS SNAKE: Game initialized in unified modal system');
+                } catch (error) {
+                    console.error('❌ DOS SNAKE: Failed to initialize game:', error);
+                    modal.content.innerHTML = `
+                        <div style="text-align: center; color: #ff6b35; font-family: 'JetBrains Mono', monospace;">
+                            <h3>🚨 GAME INITIALIZATION FAILED</h3>
+                            <p>Unable to load Snake game. Please try again.</p>
+                        </div>
+                    `;
+                }
+            }, 100);
+        }
+        
+        launchFeatureModal(config) {
+            console.log(`🎭 LAUNCHING: Feature modal for ${config.title}`);
+            
+            const isDark = document.body.classList.contains('dark');
+            const modal = this.createModal({
+                content: `
+                    <div style="text-align: center; font-family: 'JetBrains Mono', monospace;">
+                        <div style="font-size: 2rem; margin-bottom: 16px; filter: drop-shadow(0 0 10px ${config.accentColor || (isDark ? '#00ff88' : '#8b5cf6')});">
+                            ${config.icon || '🔧'}
+                        </div>
+                        <h2 style="
+                            color: ${isDark ? '#00ff88' : '#8b5cf6'};
+                            font-size: 1.5rem;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                            margin-bottom: 8px;
+                        ">${config.title}</h2>
+                        <div style="
+                            display: inline-block;
+                            background: ${config.statusColor || (isDark ? '#00ff88' : '#10b981')};
+                            color: #000;
+                            padding: 4px 12px;
+                            border-radius: 6px;
+                            font-size: 0.75rem;
+                            font-weight: bold;
+                            text-transform: uppercase;
+                            letter-spacing: 0.1em;
+                            margin-bottom: 20px;
+                        ">${config.status || 'ACTIVE'}</div>
+                        <p style="
+                            color: ${isDark ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.7)'};
+                            line-height: 1.6;
+                            margin-bottom: 24px;
+                            max-width: 400px;
+                            margin-left: auto;
+                            margin-right: auto;
+                        ">${config.description}</p>
+                        <div style="margin-bottom: 20px;">
+                            <div style="
+                                color: ${isDark ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)'};
+                                font-size: 0.875rem;
+                                margin-bottom: 8px;
+                            ">Tech Stack:</div>
+                            <div style="
+                                color: ${isDark ? '#00ff88' : '#8b5cf6'};
+                                font-size: 0.875rem;
+                            ">${config.techStack || 'JavaScript • CSS • HTML'}</div>
+                        </div>
+                        ${config.ctaLabel ? `
+                            <button onclick="${config.ctaAction || 'console.log(\"Feature clicked\")'};" style="
+                                background: linear-gradient(135deg, ${isDark ? '#00ff88, #0099ff' : '#8b5cf6, #3b82f6'});
+                                border: none;
+                                color: #000;
+                                font-family: 'JetBrains Mono', monospace;
+                                font-weight: bold;
+                                text-transform: uppercase;
+                                letter-spacing: 0.05em;
+                                padding: 12px 24px;
+                                border-radius: 8px;
+                                cursor: pointer;
+                                transition: all 0.2s ease;
+                                box-shadow: 0 0 20px ${isDark ? 'rgba(0, 255, 136, 0.3)' : 'rgba(139, 92, 246, 0.3)'};
+                            " onmouseover="
+                                this.style.transform = 'translateY(-2px)';
+                                this.style.boxShadow = '0 0 30px ${isDark ? 'rgba(0, 255, 136, 0.5)' : 'rgba(139, 92, 246, 0.5)'}';
+                            " onmouseout="
+                                this.style.transform = 'translateY(0)';
+                                this.style.boxShadow = '0 0 20px ${isDark ? 'rgba(0, 255, 136, 0.3)' : 'rgba(139, 92, 246, 0.3)'}';
+                            ">
+                                ${config.ctaLabel}
+                            </button>
+                        ` : ''}
+                    </div>
+                `
+            });
+        }
+    }
+    
+    // Initialize unified modal system
+    const dosModalSystem = new DOSCyberpunkModalSystem();
+    
+    // Global functions for backward compatibility
+    function launchSnakeGame() {
+        dosModalSystem.launchSnakeGame();
+    }
+    
+    function openTrojanHorseModal() {
+        dosModalSystem.launchFeatureModal({
+            title: 'TrojanHorse Feed',
+            icon: '🎯',
+            status: 'ACTIVE',
+            statusColor: '#00ff88',
+            description: 'Intelligent content feed that adapts to user context and time-aware patterns.',
+            techStack: 'JavaScript • CSS • Adaptive AI',
+            ctaLabel: '🚀 LAUNCH FEED',
+            ctaAction: 'console.log("TrojanHorse Feed launched")'
+        });
+    }
+    
+    function openAgentExpressionModal() {
+        dosModalSystem.launchFeatureModal({
+            title: 'Agent Expression',
+            icon: '🤖',
+            status: 'BETA',
+            statusColor: '#ff6b35',
+            description: 'Experimental AI agent that generates contextual design insights and recommendations.',
+            techStack: 'AI • Machine Learning • Design Systems',
+            ctaLabel: '🧠 EXPLORE AGENT',
+            ctaAction: 'console.log("Agent Expression launched")'
+        });
+    }
+    
+    function openGraffitiModal() {
+        dosModalSystem.launchFeatureModal({
+            title: 'Graffiti Slap Game',
+            icon: '🎨',
+            status: 'STRATEGY',
+            statusColor: '#6b7280',
+            description: 'Strategic concept for gamified design exploration and creative expression.',
+            techStack: 'Game Design • Creative Strategy',
+            ctaLabel: null
+        });
+    }
+    
+    // Make functions globally available
+    window.launchSnakeGame = launchSnakeGame;
+    window.openTrojanHorseModal = openTrojanHorseModal;
+    window.openAgentExpressionModal = openAgentExpressionModal;
+    window.openGraffitiModal = openGraffitiModal;
+    
     </script>
 
     <!-- PHASE 4: TIME MACHINE SEGMENTED CONTROLLER - SURGICAL INJECTION -->
@@ -10652,84 +11815,88 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- 🚨 INTEGRATIONOS EMERGENCY DOM RESTORATION - INNOVATION LAB SECTION -->
     <!-- This section was completely missing, causing Snake game integration failure -->
     <!-- 🎯 WINDSPRINT DEPLOYMENT: Innovation Lab (Hidden by Default, Revealed by Konami Code) -->
-    <section id="innovation-lab" class="innovation-lab" style="display: none; opacity: 0; transform: translateY(20px); padding: var(--ric-space-3xl) 0; background: var(--ric-color-background); position: relative; z-index: 1000; transition: all 0.8s ease-out;">
+    <section id="innovation-lab" class="innovation-lab" style="display: none; opacity: 0; transform: translateY(20px); padding: var(--ric-space-3xl) 0; position: relative; z-index: 1000; transition: all 0.8s ease-out;">
         <div class="ric-container" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--ric-space-lg);">
             <!-- Innovation Lab Header -->
-            <div class="innovation-lab-header" style="text-align: center; margin-bottom: var(--ric-space-3xl);">
-                <h2 class="ric-text-3xl ric-font-bold ric-mb-lg" style="background: linear-gradient(135deg, #00ff88, #0099ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;">
-                    🧪 Innovation Laboratory
+            <div class="innovation-lab-header" style="text-align: center; margin-bottom: var(--ric-space-3xl); padding: var(--ric-space-2xl); border-radius: var(--ric-radius-2xl); backdrop-filter: blur(20px); border: 1px solid rgba(0, 255, 136, 0.2);">
+                <h2 class="ric-text-4xl ric-font-bold ric-mb-lg" style="background: linear-gradient(135deg, #00ff88, #0099ff, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace; text-shadow: 0 0 20px rgba(0, 255, 136, 0.3); letter-spacing: -0.02em;">
+                    🧪 INNOVATION LABORATORY
                 </h2>
-                <p class="ric-text-lg ric-text-muted ric-mb-xl">
-                    Experimental features and future-state design patterns
+                <p class="ric-text-lg ric-mb-xl" style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; font-weight: 400; text-transform: uppercase; letter-spacing: 0.1em;">
+                    EXPERIMENTAL FEATURES • FUTURE-STATE DESIGN PATTERNS
                 </p>
-                <button onclick="exitInnovationLab()" class="ric-button ric-button-secondary" style="position: absolute; top: var(--ric-space-lg); right: var(--ric-space-lg);">
-                    ✕ Exit Lab
+                <button onclick="exitInnovationLab()" class="ric-button ric-button-secondary" style="position: absolute; top: var(--ric-space-lg); right: var(--ric-space-lg); background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.3); color: #ff6b35; font-family: 'JetBrains Mono', monospace; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; backdrop-filter: blur(10px);">
+                    ✕ EXIT LAB
                 </button>
             </div>
 
             <!-- Innovation Lab Features Grid -->
             <div class="innovation-features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ric-space-2xl); margin-bottom: var(--ric-space-3xl);">
                 <!-- TrojanHorse Feed Card -->
-                <div class="lab-feature-card" onclick="launchFeatureModal('trojan-horse-feed')" style="padding: var(--ric-space-xl); border: 1px solid var(--ric-color-border); border-radius: var(--ric-radius-lg); background: var(--ric-color-surface);">
+                <div class="lab-feature-card" onclick="launchFeatureModal('trojan-horse-feed')" style="padding: var(--ric-space-xl); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: var(--ric-radius-xl); background: rgba(0, 255, 136, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.background='rgba(0, 255, 136, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.background='rgba(0, 255, 136, 0.05)'; this.style.transform='translateY(0)';">
                     <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem;">🎠</span>
+                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));">🎠</span>
                         <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs">TrojanHorse Feed</h3>
-                            <p class="ric-text-sm ric-text-muted">Dynamic Content Carousel</p>
+                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #00ff88; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">TROJANHORSE FEED</h3>
+                            <p class="ric-text-sm" style="color: rgba(0, 255, 136, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">DYNAMIC CONTENT CAROUSEL</p>
                         </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-size: var(--ric-text-xs); font-weight: 600;">ACTIVE</span>
+                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">ACTIVE</span>
                     </div>
-                    <p class="ric-text-sm ric-text-muted ric-leading-relaxed">
+                    <p class="ric-text-sm ric-leading-relaxed" style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
                         Intelligent content feed that adapts to user context and time-aware patterns.
                     </p>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.5) 50%, transparent 100%);"></div>
                 </div>
 
                 <!-- Agent Expression Card -->
-                <div class="lab-feature-card" onclick="launchFeatureModal('agent-expression')" style="padding: var(--ric-space-xl); border: 1px solid var(--ric-color-border); border-radius: var(--ric-radius-lg); background: var(--ric-color-surface);">
+                <div class="lab-feature-card" onclick="launchFeatureModal('agent-expression')" style="padding: var(--ric-space-xl); border: 2px solid rgba(255, 107, 53, 0.3); border-radius: var(--ric-radius-xl); background: rgba(255, 107, 53, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(255, 107, 53, 0.6)'; this.style.background='rgba(255, 107, 53, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 107, 53, 0.3)'; this.style.background='rgba(255, 107, 53, 0.05)'; this.style.transform='translateY(0)';">
                     <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem;">🤖</span>
+                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(255, 107, 53, 0.5));">🤖</span>
                         <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs">Agent Expression</h3>
-                            <p class="ric-text-sm ric-text-muted">AI-Driven Content</p>
+                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #ff6b35; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">AGENT EXPRESSION</h3>
+                            <p class="ric-text-sm" style="color: rgba(255, 107, 53, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">AI-DRIVEN CONTENT</p>
                         </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #ff6b35; color: #fff; border-radius: var(--ric-radius-sm); font-size: var(--ric-text-xs); font-weight: 600;">BETA</span>
+                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #ff6b35; color: #fff; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(255, 107, 53, 0.5);">BETA</span>
                     </div>
-                    <p class="ric-text-sm ric-text-muted ric-leading-relaxed">
+                    <p class="ric-text-sm ric-leading-relaxed" style="color: rgba(255, 107, 53, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
                         Experimental AI agent that generates contextual design insights and recommendations.
                     </p>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(255, 107, 53, 0.5) 50%, transparent 100%);"></div>
                 </div>
 
                 <!-- Graffiti Slap Game Card -->
-                <div class="lab-feature-card" onclick="launchFeatureModal('graffiti-slap-game')" style="padding: var(--ric-space-xl); border: 1px solid var(--ric-color-border); border-radius: var(--ric-radius-lg); background: var(--ric-color-surface);">
+                <div class="lab-feature-card" onclick="launchFeatureModal('graffiti-slap-game')" style="padding: var(--ric-space-xl); border: 2px solid rgba(107, 114, 128, 0.3); border-radius: var(--ric-radius-xl); background: rgba(107, 114, 128, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(107, 114, 128, 0.6)'; this.style.background='rgba(107, 114, 128, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(107, 114, 128, 0.3)'; this.style.background='rgba(107, 114, 128, 0.05)'; this.style.transform='translateY(0)';">
                     <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem;">🎨</span>
+                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(107, 114, 128, 0.5));">🎨</span>
                         <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs">Graffiti Slap Game</h3>
-                            <p class="ric-text-sm ric-text-muted">Interactive Design Tool</p>
+                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #6b7280; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">GRAFFITI SLAP GAME</h3>
+                            <p class="ric-text-sm" style="color: rgba(107, 114, 128, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">INTERACTIVE DESIGN TOOL</p>
                         </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #6b7280; color: #fff; border-radius: var(--ric-radius-sm); font-size: var(--ric-text-xs); font-weight: 600;">STRATEGY</span>
+                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #6b7280; color: #fff; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(107, 114, 128, 0.5);">STRATEGY</span>
                     </div>
-                    <p class="ric-text-sm ric-text-muted ric-leading-relaxed">
+                    <p class="ric-text-sm ric-leading-relaxed" style="color: rgba(107, 114, 128, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
                         Strategic concept for gamified design exploration and creative expression.
                     </p>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(107, 114, 128, 0.5) 50%, transparent 100%);"></div>
                 </div>
 
                 <!-- Snake Game Card -->
-                <div class="lab-feature-card" style="padding: var(--ric-space-xl); border: 1px solid var(--ric-color-border); border-radius: var(--ric-radius-lg); background: var(--ric-color-surface);">
+                <div class="lab-feature-card" style="padding: var(--ric-space-xl); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: var(--ric-radius-xl); background: rgba(0, 255, 136, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.background='rgba(0, 255, 136, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.background='rgba(0, 255, 136, 0.05)'; this.style.transform='translateY(0)';">
                     <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem;">🐍</span>
+                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));">🐍</span>
                         <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs">DOS Snake Game</h3>
-                            <p class="ric-text-sm ric-text-muted">Retro Gaming Experience</p>
+                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #00ff88; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">DOS SNAKE GAME</h3>
+                            <p class="ric-text-sm" style="color: rgba(0, 255, 136, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">RETRO GAMING EXPERIENCE</p>
                         </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-size: var(--ric-text-xs); font-weight: 600;">ACTIVE</span>
+                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">ACTIVE</span>
                     </div>
-                    <p class="ric-text-sm ric-text-muted ric-leading-relaxed ric-mb-lg">
+                    <p class="ric-text-sm ric-leading-relaxed ric-mb-lg" style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
                         Classic Snake game with DOS-inspired aesthetics and modern web technologies.
                     </p>
-                    <button onclick="launchSnakeGame()" class="ric-button ric-button-primary" style="width: 100%;">
-                        🎮 Launch Game
+                    <button onclick="launchSnakeGame()" class="ric-button ric-button-primary" style="width: 100%; background: linear-gradient(135deg, #00ff88, #0099ff); border: none; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: var(--ric-space-md); border-radius: var(--ric-radius-lg); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 0 30px rgba(0, 255, 136, 0.5)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.boxShadow='0 0 20px rgba(0, 255, 136, 0.3)'; this.style.transform='translateY(0)';">
+                        🎮 LAUNCH GAME
                     </button>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.5) 50%, transparent 100%);"></div>
                 </div>
             </div>
 
