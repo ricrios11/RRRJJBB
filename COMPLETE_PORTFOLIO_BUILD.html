@@ -10482,8 +10482,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('✅ DIRECT HERO GRADIENT: Hero element found:', heroElement);
         
-        // Current time is 21:07 (evening) - apply evening gradient
-        const currentHour = 21; // From user metadata: 2025-07-22T21:07:41-04:00
+        // Get actual current time for proper time-aware gradient application
+        const currentHour = new Date().getHours(); // Dynamic time detection
         
         let timeContext, gradientConfig;
         
@@ -10493,14 +10493,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentHour >= 5 && currentHour < 12) {
             timeContext = 'morning';
             gradientConfig = isDark ? {
-                // Dark mode: Morning gradient with alpha fade to reveal dark theme
-                primary: 'linear-gradient(to bottom, rgba(69, 26, 3, 0.9) 0%, rgba(124, 45, 18, 0.7) 30%, rgba(154, 52, 18, 0.4) 60%, rgba(154, 52, 18, 0) 100%)',
-                overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.15) 0%, transparent 50%)'
-            } : {
-                // Light mode: Yellow/orange with alpha fade to reveal light theme (per Image 4 reference)
-                primary: 'linear-gradient(to bottom, rgba(251, 191, 36, 0.9) 0%, rgba(245, 158, 11, 0.7) 30%, rgba(217, 119, 6, 0.4) 60%, rgba(217, 119, 6, 0) 100%)',
-                overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.08) 0%, transparent 50%)'
-            };
+            // Dark mode: Morning gradient with warm amber and golden undertones
+            primary: 'linear-gradient(to bottom, rgba(245, 158, 11, 1.0) 0%, rgba(217, 119, 6, 0.95) 15%, rgba(180, 83, 9, 0.9) 30%, rgba(120, 53, 15, 0.8) 45%, rgba(78, 46, 20, 0.6) 60%, rgba(55, 65, 81, 0.4) 75%, rgba(31, 41, 55, 0.2) 80%, transparent 100%)',
+            overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.15) 0%, transparent 50%)'
+        } : {
+            // Light mode: Vibrant yellow-orange with golden undertones
+            primary: 'linear-gradient(to bottom, rgba(255, 193, 7, 1.0) 0%, rgba(255, 152, 0, 0.95) 15%, rgba(255, 87, 34, 0.9) 30%, rgba(255, 111, 97, 0.8) 45%, rgba(255, 138, 128, 0.6) 60%, rgba(248, 250, 252, 0.4) 75%, rgba(248, 250, 252, 0.2) 80%, transparent 100%)',
+            overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.08) 0%, transparent 50%)'
+        };
         } else if (currentHour >= 12 && currentHour < 18) {
             timeContext = 'afternoon';
             gradientConfig = isDark ? {
