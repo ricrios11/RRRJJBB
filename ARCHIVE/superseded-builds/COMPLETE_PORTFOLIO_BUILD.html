@@ -7744,11 +7744,292 @@ document.addEventListener('DOMContentLoaded', function() {
             async prepareFoundation() {
                 console.log('🏗️ FOUNDATION: Preparing clean foundation');
                 
-                // Create minimal foundation structure
+                // Create enhanced foundation structure with WORKING TrojanHorse Feed carousel
                 const foundationHTML = `
-                    <section id="innovation-lab-foundation" class="innovation-lab-foundation" style="display: none;">
-                        <div class="foundation-marker" data-phase="foundation-ready">
-                            🏗️ Foundation prepared for Phase 2: Atomic Component Build
+                    <section id="innovation-lab-foundation" class="innovation-lab-foundation" style="display: block; opacity: 1;">
+                        <div class="foundation-status" data-phase="foundation-ready" style="
+                            text-align: center;
+                            padding: var(--ric-space-lg);
+                            color: var(--trojan-title-color, #00ff88);
+                            font-family: 'JetBrains Mono', monospace;
+                            font-size: 1.5rem;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            letter-spacing: 0.1em;
+                            margin-bottom: var(--ric-space-lg);
+                        ">
+                            🧬 Innovation Lab Foundation
+                            <div style="
+                                font-size: 0.875rem;
+                                color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.7));
+                                margin-top: 0.5rem;
+                                font-weight: 400;
+                            ">Clean slate prepared for atomic component build</div>
+                            <div class="foundation-metrics" style="
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                margin-top: var(--ric-space-md);
+                                font-size: 0.75rem;
+                                color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.5));
+                                text-transform: none;
+                                letter-spacing: normal;
+                            ">
+                                <span>Reset ID: direct_reset_${Date.now()}_${Math.random().toString(36).substr(2, 9)}</span>
+                                <span>Status: Ready for Phase 2</span>
+                                <span>Timestamp: ${new Date().toISOString()}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 🎠 CANONICAL TROJANHORSE FEED CAROUSEL - FOUNDATION PRIME POSITION -->
+                        <div id="atomic-trojan-feed" class="atomic-trojan-feed-card" style="
+                            margin: var(--ric-space-2xl) 0;
+                            padding: var(--ric-space-2xl);
+                            border: 2px solid rgba(0, 255, 136, 0.3);
+                            border-radius: var(--ric-radius-xl);
+                            background: rgba(0, 255, 136, 0.05);
+                            backdrop-filter: blur(20px);
+                            position: relative;
+                            overflow: hidden;
+                            transition: all 0.3s ease;
+                        ">
+                            <div class="trojan-feed-header" style="
+                                display: flex;
+                                align-items: center;
+                                gap: var(--ric-space-md);
+                                margin-bottom: var(--ric-space-lg);
+                                padding-bottom: var(--ric-space-md);
+                                border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+                            ">
+                                <span style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5)); animation: pulse 2s ease-in-out infinite;">🎠</span>
+                                <div>
+                                    <h3 class="trojan-feed-title" style="
+                                        color: var(--trojan-title-color, #00ff88);
+                                        font-family: 'JetBrains Mono', monospace;
+                                        text-transform: uppercase;
+                                        letter-spacing: 0.05em;
+                                        font-size: 1.25rem;
+                                        font-weight: bold;
+                                        margin: 0 0 0.25rem 0;
+                                    ">TROJANHORSE FEED</h3>
+                                    <p class="trojan-feed-subtitle" style="
+                                        color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.7));
+                                        font-family: 'JetBrains Mono', monospace;
+                                        text-transform: uppercase;
+                                        font-size: 0.75rem;
+                                        letter-spacing: 0.1em;
+                                        margin: 0;
+                                    ">CANONICAL CONTENT CAROUSEL</p>
+                                </div>
+                                <span style="
+                                    margin-left: auto;
+                                    padding: var(--ric-space-xs) var(--ric-space-sm);
+                                    background: #00ff88;
+                                    color: #000;
+                                    border-radius: var(--ric-radius-sm);
+                                    font-family: 'JetBrains Mono', monospace;
+                                    font-size: 0.7rem;
+                                    font-weight: 700;
+                                    text-transform: uppercase;
+                                    letter-spacing: 0.1em;
+                                    box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+                                ">ACTIVE</span>
+                            </div>
+                            
+                            <!-- CAROUSEL CONTENT -->
+                            <div class="feed-carousel" style="
+                                position: relative;
+                                min-height: 200px;
+                                overflow: hidden;
+                                border-radius: var(--ric-radius-lg);
+                            ">
+                                <!-- Carousel Items -->
+                                <div class="feed-item active" data-index="0" style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    text-align: center;
+                                    padding: var(--ric-space-xl);
+                                    opacity: 1;
+                                    transform: translateX(0);
+                                    transition: all 0.5s ease;
+                                ">
+                                    <div>
+                                        <div style="font-size: 3rem; margin-bottom: 1rem;">🧪</div>
+                                        <h4 style="color: var(--trojan-title-color, #00ff88); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; text-transform: uppercase;">Innovation Lab</h4>
+                                        <p style="color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.8)); font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.6; margin: 0;">Systematic innovation through controlled experimentation</p>
+                                        <div style="margin-top: 1rem;">
+                                            <button onclick="window.triggerKonamiSequence && window.triggerKonamiSequence()" style="background: linear-gradient(135deg, #00ff88, #0099ff); border: none; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.75rem;">EXPLORE LAB</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="feed-item" data-index="1" style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    text-align: center;
+                                    padding: var(--ric-space-xl);
+                                    opacity: 0;
+                                    transform: translateX(100%);
+                                    transition: all 0.5s ease;
+                                ">
+                                    <div>
+                                        <div style="font-size: 3rem; margin-bottom: 1rem;">🐍</div>
+                                        <h4 style="color: var(--trojan-title-color, #00ff88); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; text-transform: uppercase;">DOS Snake Game</h4>
+                                        <p style="color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.8)); font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.6; margin: 0;">Classic Snake game with DOS-inspired aesthetics and modern web technologies</p>
+                                        <div style="margin-top: 1rem;">
+                                            <button onclick="launchFeatureModal('snake-game')" style="background: linear-gradient(135deg, #00ff88, #0099ff); border: none; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.75rem;">LAUNCH GAME</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="feed-item" data-index="2" style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    text-align: center;
+                                    padding: var(--ric-space-xl);
+                                    opacity: 0;
+                                    transform: translateX(100%);
+                                    transition: all 0.5s ease;
+                                ">
+                                    <div>
+                                        <div style="font-size: 3rem; margin-bottom: 1rem;">🕰️</div>
+                                        <h4 style="color: var(--trojan-title-color, #00ff88); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; text-transform: uppercase;">Time Travel Mode</h4>
+                                        <p style="color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.8)); font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.6; margin: 0;">Experience case studies from multiple time perspectives with contextual theming</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="feed-item" data-index="3" style="
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    text-align: center;
+                                    padding: var(--ric-space-xl);
+                                    opacity: 0;
+                                    transform: translateX(100%);
+                                    transition: all 0.5s ease;
+                                ">
+                                    <div>
+                                        <div style="font-size: 3rem; margin-bottom: 1rem;">🧠</div>
+                                        <h4 style="color: var(--trojan-title-color, #00ff88); font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 700; margin: 0 0 0.5rem 0; text-transform: uppercase;">UX Memory Recall</h4>
+                                        <p style="color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.8)); font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; line-height: 1.6; margin: 0;">Intelligent pattern recognition for design decisions and contextual insights</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- CAROUSEL CONTROLS -->
+                            <div class="feed-controls" style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                gap: var(--ric-space-lg);
+                                margin-top: var(--ric-space-lg);
+                                padding-top: var(--ric-space-lg);
+                                border-top: 1px solid rgba(0, 255, 136, 0.2);
+                            ">
+                                <button class="control-btn prev" data-action="prev" style="
+                                    background: rgba(0, 255, 136, 0.1);
+                                    border: 1px solid rgba(0, 255, 136, 0.3);
+                                    color: var(--trojan-title-color, #00ff88);
+                                    font-size: 1.5rem;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    z-index: 10;
+                                    position: relative;
+                                " onmouseover="this.style.background='rgba(0, 255, 136, 0.2)'; this.style.borderColor='rgba(0, 255, 136, 0.6)';" onmouseout="this.style.background='rgba(0, 255, 136, 0.1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)';">‹</button>
+                                
+                                <div class="feed-indicators" style="
+                                    display: flex;
+                                    gap: var(--ric-space-sm);
+                                    align-items: center;
+                                ">
+                                    <span class="indicator active" data-index="0" style="
+                                        width: 12px;
+                                        height: 12px;
+                                        border-radius: 50%;
+                                        background: var(--trojan-title-color, #00ff88);
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                        display: block;
+                                        transform: scale(1.2);
+                                    "></span>
+                                    <span class="indicator" data-index="1" style="
+                                        width: 12px;
+                                        height: 12px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 255, 136, 0.3);
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                        display: block;
+                                    "></span>
+                                    <span class="indicator" data-index="2" style="
+                                        width: 12px;
+                                        height: 12px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 255, 136, 0.3);
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                        display: block;
+                                    "></span>
+                                    <span class="indicator" data-index="3" style="
+                                        width: 12px;
+                                        height: 12px;
+                                        border-radius: 50%;
+                                        background: rgba(0, 255, 136, 0.3);
+                                        cursor: pointer;
+                                        transition: all 0.3s ease;
+                                        display: block;
+                                    "></span>
+                                </div>
+                                
+                                <button class="control-btn next" data-action="next" style="
+                                    background: rgba(0, 255, 136, 0.1);
+                                    border: 1px solid rgba(0, 255, 136, 0.3);
+                                    color: var(--trojan-title-color, #00ff88);
+                                    font-size: 1.5rem;
+                                    width: 40px;
+                                    height: 40px;
+                                    border-radius: 50%;
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    z-index: 10;
+                                    position: relative;
+                                " onmouseover="this.style.background='rgba(0, 255, 136, 0.2)'; this.style.borderColor='rgba(0, 255, 136, 0.6)';" onmouseout="this.style.background='rgba(0, 255, 136, 0.1)'; this.style.borderColor='rgba(0, 255, 136, 0.3)';">›</button>
+                            </div>
+                            
+                            <!-- Cyberpunk border glow -->
+                            <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.5) 50%, transparent 100%);"></div>
                         </div>
                     </section>
                 `;
@@ -7759,20 +8040,31 @@ document.addEventListener('DOMContentLoaded', function() {
                     footer.insertAdjacentHTML('beforebegin', foundationHTML);
                 }
                 
-                // Prepare clean CSS foundation
+                // Prepare enhanced CSS foundation
                 const foundationCSS = `
                     .innovation-lab-foundation {
-                        padding: 2rem;
-                        margin: 2rem 0;
-                        background: var(--bg-secondary, #f8f9fa);
-                        border-radius: 8px;
+                        padding: var(--ric-space-2xl, 2rem);
+                        margin: var(--ric-space-2xl, 2rem) 0;
+                        background: transparent;
+                        border-radius: var(--ric-radius-2xl, 16px);
                         text-align: center;
+                        position: relative;
                     }
                     
-                    .foundation-marker {
+                    .foundation-status {
                         color: var(--text-secondary, #666);
                         font-style: italic;
                         padding: 1rem;
+                    }
+                    
+                    .trojan-feed-teaser {
+                        position: relative;
+                        overflow: hidden;
+                    }
+                    
+                    @keyframes pulse {
+                        0%, 100% { opacity: 1; transform: scale(1); }
+                        50% { opacity: 0.8; transform: scale(1.05); }
                     }
                 `;
                 
@@ -9466,6 +9758,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     h.style.textTransform = 'uppercase';
                 });
                 
+                // Set dark mode CSS variables for TrojanHorse Feed
+                document.documentElement.style.setProperty('--trojan-title-color', '#00ff88');
+                document.documentElement.style.setProperty('--trojan-subtitle-color', 'rgba(0, 255, 136, 0.7)');
+                
                 // Style feature cards for dark mode
                 const cards = innovationLab.querySelectorAll('.lab-feature-card, .feature-card');
                 cards.forEach(card => {
@@ -9475,26 +9771,59 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
                 
             } else {
-                // Light mode - clean, readable aesthetic
-                innovationLab.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(139, 92, 246, 0.1) 50%, rgba(255, 255, 255, 0.95) 100%)';
-                innovationLab.style.borderTop = '2px solid rgba(139, 92, 246, 0.3)';
-                innovationLab.style.borderBottom = '2px solid rgba(139, 92, 246, 0.3)';
+                // Light mode - FIXED: High contrast, readable aesthetic
+                innovationLab.style.background = 'linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(99, 102, 241, 0.08) 50%, rgba(255, 255, 255, 0.98) 100%)';
+                innovationLab.style.borderTop = '2px solid rgba(99, 102, 241, 0.4)';
+                innovationLab.style.borderBottom = '2px solid rgba(99, 102, 241, 0.4)';
+                innovationLab.style.boxShadow = '0 4px 20px rgba(99, 102, 241, 0.1)';
                 
-                // Apply light mode styling to all child elements
+                // FIXED: High contrast headers for light mode
                 const headers = innovationLab.querySelectorAll('h1, h2, h3, .innovation-lab-header');
                 headers.forEach(h => {
-                    h.style.color = '#1f2937';
+                    h.style.color = '#1e293b'; // Darker slate for better contrast
                     h.style.fontFamily = '"JetBrains Mono", "SF Mono", "Monaco", "Inconsolata", "Roboto Mono", monospace';
-                    h.style.fontWeight = '600';
+                    h.style.fontWeight = '700'; // Bolder weight for readability
                     h.style.letterSpacing = '0.025em';
+                    h.style.textShadow = 'none'; // Remove any glow effects
                 });
                 
-                // Style feature cards for light mode
+                // FIXED: High contrast feature cards for light mode
                 const cards = innovationLab.querySelectorAll('.lab-feature-card, .feature-card');
                 cards.forEach(card => {
-                    card.style.background = 'rgba(255, 255, 255, 0.8)';
-                    card.style.border = '1px solid rgba(139, 92, 246, 0.2)';
-                    card.style.color = '#1f2937';
+                    card.style.background = 'rgba(255, 255, 255, 0.95)';
+                    card.style.border = '2px solid rgba(99, 102, 241, 0.3)';
+                    card.style.color = '#1e293b'; // Dark slate text
+                    card.style.boxShadow = '0 2px 10px rgba(99, 102, 241, 0.1)';
+                    
+                    // Fix text elements within cards
+                    const cardTexts = card.querySelectorAll('h3, p, span');
+                    cardTexts.forEach(text => {
+                        if (text.style.color && text.style.color.includes('255, 136')) {
+                            text.style.color = '#1e293b'; // Replace neon green with dark slate
+                        }
+                        if (text.style.color && text.style.color.includes('0, 255, 136')) {
+                            text.style.color = '#1e293b'; // Replace neon green with dark slate
+                        }
+                    });
+                });
+                
+                // FIXED: TrojanHorse Feed light mode styling with CSS variables
+                document.documentElement.style.setProperty('--trojan-title-color', '#1e293b');
+                document.documentElement.style.setProperty('--trojan-subtitle-color', 'rgba(30, 41, 59, 0.7)');
+                
+                const trojanFeeds = innovationLab.querySelectorAll('#atomic-trojan-feed, .atomic-trojan-feed-card');
+                trojanFeeds.forEach(feed => {
+                    feed.style.background = 'rgba(255, 255, 255, 0.95)';
+                    feed.style.border = '2px solid rgba(99, 102, 241, 0.4)';
+                    feed.style.color = '#1e293b';
+                    
+                    // Fix all text within TrojanHorse Feed
+                    const feedTexts = feed.querySelectorAll('h3, p, span, div');
+                    feedTexts.forEach(text => {
+                        if (text.style.color && (text.style.color.includes('0, 255, 136') || text.style.color.includes('#00ff88'))) {
+                            text.style.color = '#1e293b';
+                        }
+                    });
                 });
             }
             
@@ -9947,6 +10276,226 @@ document.addEventListener('DOMContentLoaded', function() {
         // For other features, create enhanced modal with proper functionality
         createEnhancedFeatureModal(featureId);
     }
+    
+    // Create Enhanced Feature Modal (Phase 4 Fix)
+    function createEnhancedFeatureModal(featureId) {
+        console.log(`🎯 CREATING: Enhanced modal for ${featureId}`);
+        
+        // Remove existing modal
+        const existingModal = document.getElementById('enhanced-feature-modal');
+        if (existingModal) existingModal.remove();
+        
+        // Feature configurations
+        const featureConfigs = {
+            'trojan-horse-feed': {
+                title: 'TROJANHORSE FEED',
+                subtitle: 'DYNAMIC CONTENT CAROUSEL',
+                icon: '🎠',
+                color: '#00ff88',
+                description: 'Intelligent content feed that adapts to user context and time-aware patterns. Features dynamic carousel navigation and contextual content delivery.',
+                status: 'ACTIVE',
+                features: ['Dynamic Content Loading', 'Time-Aware Filtering', 'Contextual Recommendations', 'Carousel Navigation']
+            },
+            'agent-expression': {
+                title: 'AGENT EXPRESSION',
+                subtitle: 'AI-DRIVEN CONTENT',
+                icon: '🤖',
+                color: '#ff6b35',
+                description: 'Experimental AI agent that generates contextual design insights and recommendations based on user behavior and design patterns.',
+                status: 'BETA',
+                features: ['AI Content Generation', 'Design Insights', 'Contextual Recommendations', 'Pattern Recognition']
+            },
+            'graffiti-slap-game': {
+                title: 'GRAFFITI SLAP GAME',
+                subtitle: 'INTERACTIVE DESIGN TOOL',
+                icon: '🎨',
+                color: '#6b7280',
+                description: 'Strategic concept for gamified design exploration and creative expression through interactive visual elements.',
+                status: 'STRATEGY',
+                features: ['Interactive Design', 'Creative Expression', 'Visual Elements', 'Gamified Experience']
+            }
+        };
+        
+        const config = featureConfigs[featureId];
+        if (!config) {
+            console.warn(`⚠️ No configuration found for feature: ${featureId}`);
+            return;
+        }
+        
+        // Create modal overlay
+        const modal = document.createElement('div');
+        modal.id = 'enhanced-feature-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        `;
+        
+        // Create modal content
+        modal.innerHTML = `
+            <div class="enhanced-modal-content" style="
+                background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.9));
+                border: 2px solid ${config.color};
+                border-radius: 16px;
+                padding: 2rem;
+                max-width: 600px;
+                width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+                box-shadow: 0 0 50px rgba(${config.color === '#00ff88' ? '0, 255, 136' : config.color === '#ff6b35' ? '255, 107, 53' : '107, 114, 128'}, 0.3);
+                position: relative;
+            ">
+                <!-- Close Button -->
+                <button onclick="closeEnhancedFeatureModal()" style="
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    background: none;
+                    border: none;
+                    color: ${config.color};
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    padding: 0.5rem;
+                    border-radius: 8px;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='none'">✕</button>
+                
+                <!-- Header -->
+                <div class="modal-header" style="text-align: center; margin-bottom: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px ${config.color});">${config.icon}</div>
+                    <h2 style="
+                        color: ${config.color};
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 1.5rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                        margin-bottom: 0.5rem;
+                        text-shadow: 0 0 10px ${config.color};
+                    ">${config.title}</h2>
+                    <p style="
+                        color: rgba(${config.color === '#00ff88' ? '0, 255, 136' : config.color === '#ff6b35' ? '255, 107, 53' : '107, 114, 128'}, 0.7);
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 0.75rem;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                    ">${config.subtitle}</p>
+                    <span style="
+                        display: inline-block;
+                        padding: 0.25rem 0.75rem;
+                        background: ${config.color};
+                        color: ${config.status === 'ACTIVE' ? '#000' : '#fff'};
+                        border-radius: 4px;
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 0.7rem;
+                        font-weight: 700;
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        box-shadow: 0 0 10px rgba(${config.color === '#00ff88' ? '0, 255, 136' : config.color === '#ff6b35' ? '255, 107, 53' : '107, 114, 128'}, 0.5);
+                        margin-top: 1rem;
+                    ">${config.status}</span>
+                </div>
+                
+                <!-- Description -->
+                <div class="modal-body" style="margin-bottom: 2rem;">
+                    <p style="
+                        color: rgba(255, 255, 255, 0.8);
+                        font-family: 'JetBrains Mono', monospace;
+                        line-height: 1.6;
+                        margin-bottom: 1.5rem;
+                        text-align: center;
+                    ">${config.description}</p>
+                    
+                    <div style="margin-top: 1.5rem;">
+                        <h3 style="
+                            color: ${config.color};
+                            font-family: 'JetBrains Mono', monospace;
+                            font-size: 1rem;
+                            font-weight: 700;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                            margin-bottom: 1rem;
+                        ">FEATURES:</h3>
+                        <ul style="
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                        ">
+                            ${config.features.map(feature => `
+                                <li style="
+                                    color: rgba(255, 255, 255, 0.7);
+                                    font-family: 'JetBrains Mono', monospace;
+                                    font-size: 0.9rem;
+                                    margin-bottom: 0.5rem;
+                                    padding-left: 1rem;
+                                    position: relative;
+                                ">
+                                    <span style="
+                                        position: absolute;
+                                        left: 0;
+                                        color: ${config.color};
+                                    ">▶</span>
+                                    ${feature}
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="modal-footer" style="text-align: center;">
+                    <p style="
+                        color: rgba(255, 255, 255, 0.5);
+                        font-family: 'JetBrains Mono', monospace;
+                        font-size: 0.8rem;
+                        font-style: italic;
+                    ">Feature details and functionality coming soon...</p>
+                </div>
+            </div>
+        `;
+        
+        // Add to DOM
+        document.body.appendChild(modal);
+        
+        // Animate in
+        requestAnimationFrame(() => {
+            modal.style.opacity = '1';
+        });
+        
+        // Close on overlay click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeEnhancedFeatureModal();
+            }
+        });
+        
+        console.log(`✅ Enhanced modal created for ${featureId}`);
+    }
+    
+    // Close Enhanced Feature Modal
+    function closeEnhancedFeatureModal() {
+        const modal = document.getElementById('enhanced-feature-modal');
+        if (modal) {
+            modal.style.opacity = '0';
+            setTimeout(() => {
+                modal.remove();
+            }, 300);
+        }
+    }
+    
+    // 🚨 PHASE 4 EMERGENCY FIX: Expose functions to global scope
+    window.launchFeatureModal = launchFeatureModal;
+    window.closeEnhancedFeatureModal = closeEnhancedFeatureModal;
     
     // Create WIP Modal
     function createWIPModal(featureId) {
@@ -11836,7 +12385,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- 🚨 INTEGRATIONOS EMERGENCY DOM RESTORATION - INNOVATION LAB SECTION -->
     <!-- This section was completely missing, causing Snake game integration failure -->
     <!-- 🎯 WINDSPRINT DEPLOYMENT: Innovation Lab (Hidden by Default, Revealed by Konami Code) -->
-    <section id="innovation-lab" class="innovation-lab" style="display: none; opacity: 0; transform: translateY(20px); padding: var(--ric-space-3xl) 0; position: relative; z-index: 1000; transition: all 0.8s ease-out;">
+    <section id="innovation-lab" class="innovation-lab" style="display: none; opacity: 0; transform: translateY(20px); padding: var(--ric-space-3xl) 0; position: relative; z-index: 10; transition: all 0.8s ease-out; background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 153, 255, 0.05) 50%, rgba(139, 92, 246, 0.05) 100%); border: 2px solid rgba(0, 255, 136, 0.2); border-radius: var(--ric-radius-2xl); backdrop-filter: blur(30px); box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);">
         <div class="ric-container" style="max-width: 1200px; margin: 0 auto; padding: 0 var(--ric-space-lg);">
             <!-- Innovation Lab Header -->
             <div class="innovation-lab-header" style="text-align: center; margin-bottom: var(--ric-space-3xl); padding: var(--ric-space-2xl); border-radius: var(--ric-radius-2xl); backdrop-filter: blur(20px); border: 1px solid rgba(0, 255, 136, 0.2);">
@@ -11852,23 +12401,32 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
 
             <!-- Innovation Lab Features Grid -->
-            <div class="innovation-features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ric-space-2xl); margin-bottom: var(--ric-space-3xl);">
-                <!-- TrojanHorse Feed Card -->
-                <div class="lab-feature-card" onclick="launchFeatureModal('trojan-horse-feed')" style="padding: var(--ric-space-xl); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: var(--ric-radius-xl); background: rgba(0, 255, 136, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.background='rgba(0, 255, 136, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.background='rgba(0, 255, 136, 0.05)'; this.style.transform='translateY(0)';">
-                    <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));">🎠</span>
+            <!-- DOS Snake Game - Hero Feature (Full Width) -->
+            <div class="snake-hero-feature" style="margin-bottom: var(--ric-space-3xl);">
+                <div class="lab-feature-card snake-hero" style="padding: var(--ric-space-2xl); border: 3px solid rgba(0, 255, 136, 0.4); border-radius: var(--ric-radius-2xl); background: linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 153, 255, 0.05)); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden; text-align: center;" onmouseover="this.style.borderColor='rgba(0, 255, 136, 0.7)'; this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.12), rgba(0, 153, 255, 0.08))'; this.style.transform='translateY(-4px)';" onmouseout="this.style.borderColor='rgba(0, 255, 136, 0.4)'; this.style.background='linear-gradient(135deg, rgba(0, 255, 136, 0.08), rgba(0, 153, 255, 0.05))'; this.style.transform='translateY(0)';">
+                    <div class="hero-header" style="display: flex; align-items: center; justify-content: center; gap: var(--ric-space-lg); margin-bottom: var(--ric-space-xl);">
+                        <span class="hero-icon" style="font-size: 4rem; filter: drop-shadow(0 0 20px rgba(0, 255, 136, 0.6)); animation: pulse 2s ease-in-out infinite;">🐍</span>
                         <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #00ff88; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">TROJANHORSE FEED</h3>
-                            <p class="ric-text-sm" style="color: rgba(0, 255, 136, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">DYNAMIC CONTENT CAROUSEL</p>
+                            <h3 style="color: #00ff88; font-family: 'JetBrains Mono', monospace; font-size: 2.5rem; font-weight: 700; margin: 0 0 0.5rem 0; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">DOS SNAKE GAME</h3>
+                            <p style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; margin: 0; text-transform: uppercase; letter-spacing: 0.05em;">RETRO GAMING EXPERIENCE • #1 FEATURED</p>
                         </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">ACTIVE</span>
+                        <span style="padding: var(--ric-space-sm) var(--ric-space-lg); background: linear-gradient(135deg, #00ff88, #0099ff); color: #000; border-radius: var(--ric-radius-lg); font-family: 'JetBrains Mono', monospace; font-size: 0.875rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);">HERO</span>
                     </div>
-                    <p class="ric-text-sm ric-leading-relaxed" style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
-                        Intelligent content feed that adapts to user context and time-aware patterns.
+                    <p style="color: rgba(0, 255, 136, 0.9); font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; line-height: 1.6; margin-bottom: var(--ric-space-xl); max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Classic Snake game with DOS-inspired aesthetics and modern web technologies. Experience nostalgic gaming with responsive design and cyberpunk flair.
                     </p>
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.5) 50%, transparent 100%);"></div>
+                    <button onclick="launchFeatureModal('snake-game')" style="background: linear-gradient(135deg, #00ff88, #0099ff); border: none; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: var(--ric-space-lg) var(--ric-space-2xl); border-radius: var(--ric-radius-xl); box-shadow: 0 0 25px rgba(0, 255, 136, 0.4); transition: all 0.3s ease; font-size: 1.125rem; cursor: pointer;" onmouseover="this.style.boxShadow='0 0 35px rgba(0, 255, 136, 0.6)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.boxShadow='0 0 25px rgba(0, 255, 136, 0.4)'; this.style.transform='translateY(0)';">
+                        🎮 LAUNCH SNAKE GAME
+                    </button>
+                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.8) 50%, transparent 100%);"></div>
+                    <div style="position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, rgba(0, 153, 255, 0.8) 50%, transparent 100%);"></div>
                 </div>
-
+            </div>
+            
+            <!-- Secondary Features Grid -->
+            <div class="innovation-features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--ric-space-2xl); margin-bottom: var(--ric-space-3xl);">
+                <!-- LYRA FIX: TrojanHorse Feed card removed to eliminate redundancy -->
+                <!-- Single canonical TrojanHorse Feed maintained in Foundation banner -->
                 <!-- Agent Expression Card -->
                 <div class="lab-feature-card" onclick="launchFeatureModal('agent-expression')" style="padding: var(--ric-space-xl); border: 2px solid rgba(255, 107, 53, 0.3); border-radius: var(--ric-radius-xl); background: rgba(255, 107, 53, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(255, 107, 53, 0.6)'; this.style.background='rgba(255, 107, 53, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(255, 107, 53, 0.3)'; this.style.background='rgba(255, 107, 53, 0.05)'; this.style.transform='translateY(0)';">
                     <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
@@ -11901,25 +12459,59 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(107, 114, 128, 0.5) 50%, transparent 100%);"></div>
                 </div>
 
-                <!-- Snake Game Card -->
-                <div class="lab-feature-card" style="padding: var(--ric-space-xl); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: var(--ric-radius-xl); background: rgba(0, 255, 136, 0.05); backdrop-filter: blur(20px); transition: all 0.3s ease; cursor: pointer; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='rgba(0, 255, 136, 0.6)'; this.style.background='rgba(0, 255, 136, 0.1)'; this.style.transform='translateY(-2px)';" onmouseout="this.style.borderColor='rgba(0, 255, 136, 0.3)'; this.style.background='rgba(0, 255, 136, 0.05)'; this.style.transform='translateY(0)';">
-                    <div class="feature-header" style="display: flex; align-items: center; gap: var(--ric-space-md); margin-bottom: var(--ric-space-lg);">
-                        <span class="feature-icon" style="font-size: 2rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.5));">🐍</span>
-                        <div>
-                            <h3 class="ric-text-xl ric-font-bold ric-mb-xs" style="color: #00ff88; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em;">DOS SNAKE GAME</h3>
-                            <p class="ric-text-sm" style="color: rgba(0, 255, 136, 0.7); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em;">RETRO GAMING EXPERIENCE</p>
-                        </div>
-                        <span class="feature-status" style="margin-left: auto; padding: var(--ric-space-xs) var(--ric-space-sm); background: #00ff88; color: #000; border-radius: var(--ric-radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);">ACTIVE</span>
-                    </div>
-                    <p class="ric-text-sm ric-leading-relaxed ric-mb-lg" style="color: rgba(0, 255, 136, 0.8); font-family: 'JetBrains Mono', monospace; line-height: 1.6;">
-                        Classic Snake game with DOS-inspired aesthetics and modern web technologies.
-                    </p>
-                    <button onclick="launchSnakeGame()" class="ric-button ric-button-primary" style="width: 100%; background: linear-gradient(135deg, #00ff88, #0099ff); border: none; color: #000; font-family: 'JetBrains Mono', monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: var(--ric-space-md); border-radius: var(--ric-radius-lg); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); transition: all 0.3s ease;" onmouseover="this.style.boxShadow='0 0 30px rgba(0, 255, 136, 0.5)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.boxShadow='0 0 20px rgba(0, 255, 136, 0.3)'; this.style.transform='translateY(0)';">
-                        🎮 LAUNCH GAME
-                    </button>
-                    <div style="position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 136, 0.5) 50%, transparent 100%);"></div>
+                <!-- LYRA FIX: Old Snake Game card removed - now featured as hero above -->
+            </div>
+
+            <!-- FOUNDATION-FIRST ARCHITECTURE: TrojanHorse Feed moved to Foundation banner -->
+            <!-- Innovation Lab now focuses on feature showcase without duplicate carousel -->
+            <div style="
+                text-align: center;
+                padding: var(--ric-space-xl);
+                margin: var(--ric-space-2xl) 0;
+                border: 1px solid rgba(0, 255, 136, 0.2);
+                border-radius: var(--ric-radius-lg);
+                background: rgba(0, 255, 136, 0.02);
+            ">
+                <div style="font-size: 2rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.3));">🎠</div>
+                <h3 style="
+                    color: var(--trojan-title-color, #00ff88);
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                    margin: 0 0 0.5rem 0;
+                ">TrojanHorse Feed</h3>
+                <p style="
+                    color: var(--trojan-subtitle-color, rgba(0, 255, 136, 0.7));
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.875rem;
+                    line-height: 1.6;
+                    margin: 0 0 1rem 0;
+                ">The canonical content carousel is now located in the Foundation banner above.<br>Scroll up to experience the full interactive feed.</p>
+                <div style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: var(--ric-space-sm);
+                    padding: var(--ric-space-sm) var(--ric-space-md);
+                    background: rgba(0, 255, 136, 0.1);
+                    border: 1px solid rgba(0, 255, 136, 0.3);
+                    border-radius: var(--ric-radius-md);
+                    color: var(--trojan-title-color, #00ff88);
+                    font-family: 'JetBrains Mono', monospace;
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                ">
+                    <span>⬆</span>
+                    <span>Foundation-First Architecture</span>
+                    <span>⬆</span>
                 </div>
             </div>
+            
+            <!-- FOUNDATION-FIRST ARCHITECTURE: Carousel JavaScript and CSS moved to Foundation banner -->
+            
+
 
             <!-- Snake Game Container -->
             <div id="snake-game-container" class="snake-game-container" style="display: none; text-align: center; padding: var(--ric-space-2xl); border: 1px solid var(--ric-color-border); border-radius: var(--ric-radius-lg); background: var(--ric-color-surface);">
