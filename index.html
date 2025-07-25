@@ -8487,7 +8487,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <style>
-    /* MODAL SYSTEM STYLES - DOS THEME ENHANCED */
+    /* CASE STUDY MODAL SYSTEM - DOS + TECH INTEGRATION OS THEME */
     .modal {
         position: fixed;
         top: 0;
@@ -8498,17 +8498,21 @@ document.addEventListener('DOMContentLoaded', function() {
         display: flex;
         align-items: center;
         justify-content: center;
-        animation: modalFadeIn 0.3s ease-out;
+        animation: modalSystemBoot 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     
-    @keyframes modalFadeIn {
-        from {
+    @keyframes modalSystemBoot {
+        0% {
             opacity: 0;
-            transform: scale(0.95);
+            backdrop-filter: blur(0px);
         }
-        to {
+        50% {
+            opacity: 0.5;
+            backdrop-filter: blur(2px);
+        }
+        100% {
             opacity: 1;
-            transform: scale(1);
+            backdrop-filter: blur(4px);
         }
     }
     
@@ -8518,213 +8522,248 @@ document.addEventListener('DOMContentLoaded', function() {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(8px);
-        animation: overlayFadeIn 0.3s ease-out;
-    }
-    
-    @keyframes overlayFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
+        background: var(--ric-modal-overlay-bg, rgba(0, 0, 0, 0.75));
+        backdrop-filter: blur(6px);
+        transition: all 0.3s ease;
     }
     
     .modal-content {
         position: relative;
-        background: var(--ric-color-surface);
-        border: 2px solid var(--ric-color-terminal-green);
-        border-radius: 8px;
+        background: var(--ric-modal-bg, var(--ric-color-surface));
+        border: 1px solid var(--ric-modal-border, var(--ric-color-border));
+        border-radius: 12px;
         max-width: 900px;
         max-height: 85vh;
         width: 95%;
         overflow: hidden;
-        box-shadow: 
-            0 0 20px rgba(0, 255, 136, 0.3),
-            0 0 40px rgba(0, 255, 136, 0.1),
-            inset 0 1px 0 rgba(0, 255, 136, 0.2);
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        animation: contentSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: var(--ric-modal-shadow, 
+            0 20px 25px -5px rgba(0, 0, 0, 0.1),
+            0 10px 10px -5px rgba(0, 0, 0, 0.04));
+        font-family: var(--ric-font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
+        animation: modalContentLoad 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform-origin: center;
     }
     
-    @keyframes contentSlideIn {
-        from {
-            transform: translateY(-20px) scale(0.95);
+    @keyframes modalContentLoad {
+        0% {
+            transform: translateY(-30px) scale(0.9);
             opacity: 0;
         }
-        to {
+        60% {
+            transform: translateY(5px) scale(1.02);
+            opacity: 0.8;
+        }
+        100% {
             transform: translateY(0) scale(1);
             opacity: 1;
         }
     }
     
     .modal-header {
-        padding: 1.25rem 1.5rem;
-        background: linear-gradient(135deg, 
-            rgba(0, 255, 136, 0.1) 0%, 
-            rgba(0, 255, 136, 0.05) 100%);
-        border-bottom: 1px solid var(--ric-color-terminal-green);
+        padding: 1.5rem 2rem 1.25rem;
+        background: var(--ric-modal-header-bg, var(--ric-color-surface));
+        border-bottom: 1px solid var(--ric-modal-border, var(--ric-color-border));
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         position: relative;
     }
     
-    .modal-header::before {
+    .modal-header::after {
         content: '';
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        bottom: 0;
+        left: 2rem;
+        right: 2rem;
         height: 1px;
         background: linear-gradient(90deg, 
             transparent 0%, 
-            var(--ric-color-terminal-green) 50%, 
+            var(--ric-modal-accent, var(--ric-color-accent)) 20%,
+            var(--ric-modal-accent, var(--ric-color-accent)) 80%,
             transparent 100%);
-        opacity: 0.6;
+        opacity: 0.3;
     }
     
     .modal-header h2 {
         margin: 0;
-        color: var(--ric-color-terminal-green);
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        font-size: 1.25rem;
-        font-weight: 600;
-        text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-        letter-spacing: 0.5px;
+        color: var(--ric-modal-title-color, var(--ric-color-text));
+        font-family: var(--ric-font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
+        font-size: 1.5rem;
+        font-weight: 700;
+        line-height: 1.3;
+        letter-spacing: -0.025em;
+        max-width: 80%;
     }
     
     .modal-close {
-        background: rgba(0, 255, 136, 0.1);
-        border: 1px solid var(--ric-color-terminal-green);
-        color: var(--ric-color-terminal-green);
-        font-size: 1.25rem;
+        background: var(--ric-modal-close-bg, transparent);
+        border: 1px solid var(--ric-modal-close-border, var(--ric-color-border));
+        color: var(--ric-modal-close-color, var(--ric-color-muted));
+        font-size: 1.125rem;
         cursor: pointer;
         padding: 0.5rem;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        font-weight: bold;
-        width: 32px;
-        height: 32px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        width: 36px;
+        height: 36px;
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-shrink: 0;
     }
     
     .modal-close:hover {
-        background: var(--ric-color-terminal-green);
-        color: var(--ric-color-surface);
-        box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+        background: var(--ric-modal-close-hover-bg, var(--ric-color-accent));
+        color: var(--ric-modal-close-hover-color, var(--ric-color-accent-foreground));
+        border-color: var(--ric-modal-close-hover-border, var(--ric-color-accent));
         transform: scale(1.05);
     }
     
     .modal-body {
-        padding: 1.5rem;
+        padding: 0 2rem 2rem;
         max-height: 65vh;
         overflow-y: auto;
-        color: var(--ric-color-text);
+        color: var(--ric-modal-text-color, var(--ric-color-text));
         line-height: 1.7;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        font-family: var(--ric-font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
     }
     
     .modal-body::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
     }
     
     .modal-body::-webkit-scrollbar-track {
-        background: rgba(0, 255, 136, 0.1);
-        border-radius: 4px;
+        background: var(--ric-modal-scrollbar-track, transparent);
     }
     
     .modal-body::-webkit-scrollbar-thumb {
-        background: var(--ric-color-terminal-green);
-        border-radius: 4px;
-        opacity: 0.7;
+        background: var(--ric-modal-scrollbar-thumb, var(--ric-color-border));
+        border-radius: 3px;
     }
     
     .modal-body::-webkit-scrollbar-thumb:hover {
-        background: var(--ric-color-terminal-green);
-        opacity: 1;
+        background: var(--ric-modal-scrollbar-thumb-hover, var(--ric-color-accent));
     }
     
-    /* Case Study Modal Specific Styles */
+    /* Case Study Content Styling */
     .modal-body h3 {
-        color: var(--ric-color-terminal-green);
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-        font-size: 1.1rem;
+        color: var(--ric-modal-heading-color, var(--ric-color-text));
+        font-family: var(--ric-font-system, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif);
+        font-size: 1.125rem;
         font-weight: 600;
-        margin: 1.5rem 0 0.75rem 0;
+        margin: 2rem 0 1rem 0;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        border-left: 3px solid var(--ric-color-terminal-green);
-        padding-left: 0.75rem;
+        letter-spacing: 0.05em;
+        position: relative;
+        padding-left: 1rem;
+    }
+    
+    .modal-body h3::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.125rem;
+        width: 3px;
+        height: 1.25rem;
+        background: var(--ric-modal-accent, var(--ric-color-accent));
+        border-radius: 1.5px;
     }
     
     .modal-body h4 {
-        color: var(--ric-color-accent);
+        color: var(--ric-modal-subheading-color, var(--ric-color-text));
         font-size: 1rem;
         font-weight: 500;
-        margin: 1.25rem 0 0.5rem 0;
+        margin: 1.5rem 0 0.75rem 0;
+        opacity: 0.9;
     }
     
     .modal-body ul {
-        margin: 0.75rem 0;
-        padding-left: 1.5rem;
+        margin: 1rem 0;
+        padding-left: 1.25rem;
     }
     
     .modal-body li {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
         position: relative;
+        padding-left: 0.5rem;
     }
     
     .modal-body li::marker {
-        color: var(--ric-color-terminal-green);
+        color: var(--ric-modal-accent, var(--ric-color-accent));
     }
     
     .modal-body strong {
-        color: var(--ric-color-terminal-green);
+        color: var(--ric-modal-emphasis-color, var(--ric-color-text));
         font-weight: 600;
     }
     
-    /* Time-Aware Modal Enhancements */
+    /* LIGHT MODE THEME */
+    :root {
+        --ric-modal-overlay-bg: rgba(0, 0, 0, 0.4);
+        --ric-modal-bg: var(--ric-color-surface);
+        --ric-modal-border: var(--ric-color-border);
+        --ric-modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        --ric-modal-header-bg: var(--ric-color-surface);
+        --ric-modal-title-color: var(--ric-color-text);
+        --ric-modal-text-color: var(--ric-color-text);
+        --ric-modal-heading-color: var(--ric-color-text);
+        --ric-modal-subheading-color: var(--ric-color-text);
+        --ric-modal-emphasis-color: var(--ric-color-text);
+        --ric-modal-accent: var(--ric-color-accent);
+        --ric-modal-close-bg: transparent;
+        --ric-modal-close-border: var(--ric-color-border);
+        --ric-modal-close-color: var(--ric-color-muted);
+        --ric-modal-close-hover-bg: var(--ric-color-accent);
+        --ric-modal-close-hover-color: var(--ric-color-accent-foreground);
+        --ric-modal-close-hover-border: var(--ric-color-accent);
+        --ric-modal-scrollbar-track: rgba(0, 0, 0, 0.05);
+        --ric-modal-scrollbar-thumb: var(--ric-color-border);
+        --ric-modal-scrollbar-thumb-hover: var(--ric-color-accent);
+    }
+    
+    /* DARK MODE THEME */
+    [data-theme="dark"] {
+        --ric-modal-overlay-bg: rgba(0, 0, 0, 0.8);
+        --ric-modal-bg: var(--ric-color-surface-dark);
+        --ric-modal-border: var(--ric-color-border-dark);
+        --ric-modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        --ric-modal-header-bg: var(--ric-color-surface-dark);
+        --ric-modal-title-color: var(--ric-color-text-dark);
+        --ric-modal-text-color: var(--ric-color-text-dark);
+        --ric-modal-heading-color: var(--ric-color-text-dark);
+        --ric-modal-subheading-color: var(--ric-color-text-dark);
+        --ric-modal-emphasis-color: var(--ric-color-text-dark);
+        --ric-modal-accent: var(--ric-color-accent-dark);
+        --ric-modal-close-bg: transparent;
+        --ric-modal-close-border: var(--ric-color-border-dark);
+        --ric-modal-close-color: var(--ric-color-muted-dark);
+        --ric-modal-close-hover-bg: var(--ric-color-accent-dark);
+        --ric-modal-close-hover-color: var(--ric-color-accent-foreground-dark);
+        --ric-modal-close-hover-border: var(--ric-color-accent-dark);
+        --ric-modal-scrollbar-track: rgba(255, 255, 255, 0.05);
+        --ric-modal-scrollbar-thumb: var(--ric-color-border-dark);
+        --ric-modal-scrollbar-thumb-hover: var(--ric-color-accent-dark);
+    }
+    
+    /* TIME-AWARE ENHANCEMENTS */
+    .time-morning .modal-content {
+        --ric-modal-accent: #3b82f6;
+        border-color: rgba(59, 130, 246, 0.2);
+    }
+    
+    .time-afternoon .modal-content {
+        --ric-modal-accent: #f59e0b;
+        border-color: rgba(245, 158, 11, 0.2);
+    }
+    
     .time-evening .modal-content {
-        box-shadow: 
-            0 0 25px rgba(147, 51, 234, 0.4),
-            0 0 50px rgba(147, 51, 234, 0.2),
-            inset 0 1px 0 rgba(147, 51, 234, 0.3);
-        border-color: rgba(147, 51, 234, 0.8);
+        --ric-modal-accent: #8b5cf6;
+        border-color: rgba(139, 92, 246, 0.2);
     }
     
-    .time-evening .modal-header {
-        background: linear-gradient(135deg, 
-            rgba(147, 51, 234, 0.15) 0%, 
-            rgba(147, 51, 234, 0.08) 100%);
-        border-bottom-color: rgba(147, 51, 234, 0.6);
-    }
-    
-    .time-evening .modal-header h2 {
-        color: rgba(147, 51, 234, 0.9);
-        text-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
-    }
-    
-    .time-evening .modal-close {
-        background: rgba(147, 51, 234, 0.1);
-        border-color: rgba(147, 51, 234, 0.6);
-        color: rgba(147, 51, 234, 0.9);
-    }
-    
-    .time-evening .modal-close:hover {
-        background: rgba(147, 51, 234, 0.8);
-        color: white;
-        box-shadow: 0 0 18px rgba(147, 51, 234, 0.7);
-    }
-    
-    .time-evening .modal-body h3 {
-        color: rgba(147, 51, 234, 0.9);
-        border-left-color: rgba(147, 51, 234, 0.8);
-    }
-    
-    .time-evening .modal-body strong {
-        color: rgba(147, 51, 234, 0.9);
+    .time-night .modal-content {
+        --ric-modal-accent: #06b6d4;
+        border-color: rgba(6, 182, 212, 0.2);
     }
     
     /* FUTURE FEATURE CARDS STYLES */
