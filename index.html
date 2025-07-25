@@ -2076,6 +2076,183 @@
           margin-left: 1.5rem;
         }
 
+        /* 🌅 CLEAN CSS-ONLY TIME-AWARE HERO GRADIENTS */
+        /* Rich color to transparent transitions based on time cycles */
+        
+        /* Late Night (3-5 AM): Pink to Yellow to Transparent */
+        .time-late-night #hero,
+        .time-late-night .ric-hero {
+            background: linear-gradient(180deg, 
+                #ff69b4 0%,     /* Rich pink */
+                #ffb347 30%,    /* Warm orange-yellow */
+                #ffd700 50%,    /* Golden yellow */
+                rgba(255, 215, 0, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Early Morning (5-8 AM): Yellow to Orange to Transparent */
+        .time-early-morning #hero,
+        .time-early-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #ffd700 0%,     /* Golden yellow */
+                #ffa500 30%,    /* Rich orange */
+                #ff8c00 50%,    /* Deep orange */
+                rgba(255, 140, 0, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Morning (8-12 PM): Orange to Light Blue to Transparent */
+        .time-morning #hero,
+        .time-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #ff8c00 0%,     /* Deep orange */
+                #87ceeb 30%,    /* Sky blue */
+                #add8e6 50%,    /* Light blue */
+                rgba(173, 216, 230, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Late Morning (12-2 PM): Baby Blue to Deep Blue to Transparent */
+        .time-late-morning #hero,
+        .time-late-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #87ceeb 0%,     /* Sky blue */
+                #4682b4 30%,    /* Steel blue */
+                #1e90ff 50%,    /* Dodger blue */
+                rgba(30, 144, 255, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Afternoon (2-6 PM): Baby Blue to Deep Blue to Transparent */
+        .time-afternoon #hero,
+        .time-afternoon .ric-hero {
+            background: linear-gradient(180deg, 
+                #87ceeb 0%,     /* Sky blue */
+                #4169e1 30%,    /* Royal blue */
+                #0000cd 50%,    /* Medium blue */
+                rgba(0, 0, 205, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Late Afternoon (6-7 PM): Deep Blue to Purple to Transparent */
+        .time-late-afternoon #hero,
+        .time-late-afternoon .ric-hero {
+            background: linear-gradient(180deg, 
+                #0000cd 0%,     /* Medium blue */
+                #8a2be2 30%,    /* Blue violet */
+                #9932cc 50%,    /* Dark orchid */
+                rgba(153, 50, 204, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Evening (7-11 PM): Deep Blue to Purple to Transparent - CURRENT */
+        .time-evening #hero,
+        .time-evening .ric-hero {
+            background: linear-gradient(180deg, 
+                #4169e1 0%,     /* Royal blue */
+                #8a2be2 30%,    /* Blue violet */
+                #9400d3 50%,    /* Dark violet */
+                rgba(148, 0, 211, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Night (11 PM-3 AM): Purple to Pink to Transparent */
+        .time-night #hero,
+        .time-night .ric-hero {
+            background: linear-gradient(180deg, 
+                #9400d3 0%,     /* Dark violet */
+                #ba55d3 30%,    /* Medium orchid */
+                #ff69b4 50%,    /* Hot pink */
+                rgba(255, 105, 180, 0.3) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Dark Mode Adjustments - Richer, Deeper Colors */
+        .dark .time-late-night #hero,
+        .dark .time-late-night .ric-hero {
+            background: linear-gradient(180deg, 
+                #e91e63 0%,     /* Deeper pink */
+                #ff9800 30%,    /* Richer orange */
+                #ffc107 50%,    /* Amber */
+                rgba(255, 193, 7, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-early-morning #hero,
+        .dark .time-early-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #ffc107 0%,     /* Amber */
+                #ff5722 30%,    /* Deep orange */
+                #f44336 50%,    /* Red */
+                rgba(244, 67, 54, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-morning #hero,
+        .dark .time-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #ff5722 0%,     /* Deep orange */
+                #2196f3 30%,    /* Blue */
+                #03a9f4 50%,    /* Light blue */
+                rgba(3, 169, 244, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-late-morning #hero,
+        .dark .time-late-morning .ric-hero {
+            background: linear-gradient(180deg, 
+                #03a9f4 0%,     /* Light blue */
+                #3f51b5 30%,    /* Indigo */
+                #2196f3 50%,    /* Blue */
+                rgba(33, 150, 243, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-afternoon #hero,
+        .dark .time-afternoon .ric-hero {
+            background: linear-gradient(180deg, 
+                #2196f3 0%,     /* Blue */
+                #3f51b5 30%,    /* Indigo */
+                #673ab7 50%,    /* Deep purple */
+                rgba(103, 58, 183, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-late-afternoon #hero,
+        .dark .time-late-afternoon .ric-hero {
+            background: linear-gradient(180deg, 
+                #673ab7 0%,     /* Deep purple */
+                #9c27b0 30%,    /* Purple */
+                #e91e63 50%,    /* Pink */
+                rgba(233, 30, 99, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-evening #hero,
+        .dark .time-evening .ric-hero {
+            background: linear-gradient(180deg, 
+                #3f51b5 0%,     /* Indigo */
+                #9c27b0 30%,    /* Purple */
+                #673ab7 50%,    /* Deep purple */
+                rgba(103, 58, 183, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        .dark .time-night #hero,
+        .dark .time-night .ric-hero {
+            background: linear-gradient(180deg, 
+                #673ab7 0%,     /* Deep purple */
+                #9c27b0 30%,    /* Purple */
+                #e91e63 50%,    /* Pink */
+                rgba(233, 30, 99, 0.4) 80%,
+                transparent 100%) !important;
+        }
+        
+        /* Smooth transitions between time states */
+        #hero, .ric-hero {
+            transition: background 2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        
         /* Time-aware enhancements */
         .time-morning .hero-title {
           background: linear-gradient(135deg, var(--morning-primary), var(--morning-secondary));
@@ -2096,6 +2273,23 @@
           background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+
+        /* TIER 1 HIT 1A: Hero Content Legibility Enhancement */
+        /* Theme-aware hero content container for optimal gradient/text balance */
+        .dark .ric-hero-content {
+          background: rgba(0, 0, 0, 0.12) !important;
+          border: 1px solid rgba(255, 255, 255, 0.08) !important;
+          backdrop-filter: blur(24px) !important;
+        }
+        
+        .ric-hero-content:hover {
+          background: rgba(255, 255, 255, 0.12) !important;
+        }
+        
+        .dark .ric-hero-content:hover {
+          background: rgba(0, 0, 0, 0.18) !important;
+          border: 1px solid rgba(255, 255, 255, 0.12) !important;
         }
     </style>
 </head>
@@ -2253,9 +2447,9 @@
                 backdrop-filter: blur(20px);
                 position: relative;
                 overflow: hidden;
-                border: 1px solid rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.15);
                 border-radius: var(--ric-radius-xl);
-                background: rgba(255, 255, 255, 0.02);
+                background: rgba(255, 255, 255, 0.18);
                 transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             " class="ric-hero-gradient-container ric-hero-glass-morphism"
             onmouseenter="this.style.transform='translateY(-4px) scale(1.01)'; this.style.boxShadow='var(--ric-shadow-2xl)';"
@@ -7855,20 +8049,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('🎯 FOUNDATION DETECTED: Foundation Reset complete, initializing atomic component...');
                 clearInterval(checkInterval);
                 
-                // Initialize atomic component after Foundation Reset
+                // TIER 2 HIT 2C: Foundation-based initialization disabled - using modal-based system only
                 setTimeout(() => {
-                    try {
-                        console.log('⚡ POST-FOUNDATION EXECUTION: Starting atomic component initialization...');
-                        const atomicFeed = new AtomicTrojanHorseFeed();
-                        const validation = atomicFeed.initialize();
-                        window.atomicTrojanHorseFeed = atomicFeed;
-                        console.log('🎉 POST-FOUNDATION EXECUTION: Atomic TrojanHorse Feed initialized successfully!');
-                        console.log('📊 ATOMIC VALIDATION REPORT:', validation);
-                    } catch (error) {
-                        console.error('❌ POST-FOUNDATION EXECUTION: Failed -', error);
-                        console.log('🔄 POST-FOUNDATION EXECUTION: Will retry with fallback methods...');
-                    }
-                }, 500); // Small delay to ensure foundation is fully ready
+                    console.log('🎯 TIER 2: Foundation-based initialization disabled - TrojanHorse Feed uses modal-based system only');
+                    console.log('🎯 Foundation detected and ready for modal launches');
+                    console.log('✅ TIER 2: Use launchFeatureModal("trojan-horse-feed") for proper initialization');
+                }, 500);
             }
         }, 100); // Check every 100ms for foundation
         
@@ -7888,18 +8074,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Manual trigger function for atomic component initialization
     window.triggerAtomicPhase2 = function() {
-        try {
-            console.log('🚀 MANUAL TRIGGER: Initializing atomic TrojanHorse Feed...');
-            const atomicFeed = new AtomicTrojanHorseFeed();
-            const validation = atomicFeed.initialize();
-            window.atomicTrojanHorseFeed = atomicFeed;
-            console.log('✅ MANUAL TRIGGER: Atomic TrojanHorse Feed initialized successfully');
-            console.log('📊 ATOMIC VALIDATION:', validation);
-            return validation;
-        } catch (error) {
-            console.error('❌ MANUAL TRIGGER: Atomic initialization failed:', error);
-            throw error;
-        }
+        console.log('🎯 TIER 2: Manual trigger disabled - TrojanHorse Feed uses modal-based initialization only');
+        console.log('🎯 Use launchFeatureModal("trojan-horse-feed") for proper initialization');
+        return { status: 'disabled', reason: 'modal-based-system-active' };
     };
     
     // Auto-trigger with multiple fallback attempts
@@ -7938,21 +8115,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Start auto-initialization attempts
     setTimeout(attemptAtomicInit, 1000);
 
+    // TIER 2 HIT 2A: Disabled redundant auto-initialization for clean modal orchestration
     // Wait for foundation reset to complete, then initialize atomic component
     setTimeout(() => {
         try {
-            console.log('🐴🧬 ATOMIC COMPONENT: Initializing TrojanHorse Feed...');
+            console.log('🎯 TIER 2: TrojanHorse Feed auto-initialization disabled - using modal-based system only');
             
-            // Initialize atomic component directly
-            const trojanHorseFeed = new AtomicTrojanHorseFeed();
-            const validation = trojanHorseFeed.initialize();
+            // DISABLED: Redundant atomic component initialization
+            // const trojanHorseFeed = new AtomicTrojanHorseFeed();
+            // const validation = trojanHorseFeed.initialize();
             
-            console.log('✅ ATOMIC COMPONENT: TrojanHorse Feed initialized successfully');
-            console.log('📊 VALIDATION REPORT:', validation);
+            // Store reference for modal system
+            // window.atomicTrojanHorseFeed = trojanHorseFeed;
+            console.log('✅ TIER 2: Clean modal orchestration system ready');
+            // console.log('📊 VALIDATION REPORT:', validation);
             
-            // Store reference for Phase 3
-            window.Phase2Components = window.Phase2Components || {};
-            window.Phase2Components.trojanHorseFeed = trojanHorseFeed;
+            console.log('🎆 TIER 2: Modal-based component system active');
+            // window.Phase2Components = window.Phase2Components || {};
+            // window.Phase2Components.trojanHorseFeed = trojanHorseFeed;
             
             console.log('🎆 PHASE 2 MILESTONE: First atomic component build complete');
             
@@ -9892,6 +10072,14 @@ function launchFeatureModal(featureId) {
                     showModalFallback('Graffiti Slap', 'Interactive design game');
                 }
                 break;
+            case 'dos-snake-game':
+                try {
+                    createSnakeGameModal();
+                } catch (error) {
+                    console.log('🛡️ TIER 2: Snake Game modal failed, showing graceful fallback');
+                    showModalFallback('DOS Snake Game', 'Classic arcade gaming experience');
+                }
+                break;
             default:
                 try {
                     createWIPModal(featureId);
@@ -11633,9 +11821,9 @@ function createTrojanHorseFeedModal() {
             modalContent.style.transform = 'translateY(0)';
         });
         
-        // Initialize Snake Game in Modal
+        // TIER 2 HIT 2B: Bulletproof Snake Game initialization
         setTimeout(() => {
-            initializeSnakeGameInModal();
+            initializeBulletproofSnakeGame();
         }, 300);
         
         // Close on overlay click
@@ -11653,6 +11841,80 @@ function createTrojanHorseFeedModal() {
             modal.style.opacity = '0';
             setTimeout(() => modal.remove(), 300);
         }
+    }
+    
+    // TIER 2 HIT 2B: Bulletproof Snake Game System
+    function initializeBulletproofSnakeGame() {
+        console.log('🎯 TIER 2: Initializing bulletproof Snake Game system...');
+        
+        const container = document.getElementById('snake-game-modal-container');
+        if (!container) {
+            console.error('❌ BULLETPROOF SNAKE: Container not found');
+            return;
+        }
+        
+        // Clear any existing content to prevent conflicts
+        container.innerHTML = '';
+        
+        // Create clean canvas for DOS Snake Game
+        const canvas = document.createElement('canvas');
+        canvas.id = 'bulletproof-snake-canvas';
+        canvas.width = 400;
+        canvas.height = 400;
+        canvas.style.cssText = `
+            border: 2px solid #00ff88;
+            background: #000;
+            display: block;
+            margin: 0 auto;
+        `;
+        
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.style.cssText = `
+            color: #00ff88;
+            font-family: 'SF Mono', monospace;
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 1.1rem;
+        `;
+        scoreDisplay.innerHTML = 'SCORE: <span id="bulletproof-score">0</span> | HIGH: <span id="bulletproof-high">0</span>';
+        
+        container.appendChild(scoreDisplay);
+        container.appendChild(canvas);
+        
+        // Initialize DOS Snake Game if available
+        if (typeof DOSSnakeGame !== 'undefined') {
+            console.log('✅ BULLETPROOF SNAKE: Using external DOS Snake Game engine');
+            window.bulletproofSnake = new DOSSnakeGame(canvas.id, 'bulletproof-score', 'bulletproof-high');
+        } else {
+            console.log('🛡️ BULLETPROOF SNAKE: Fallback to simple implementation');
+            initializeSimpleSnakeGame(canvas);
+        }
+        
+        // Wire up modal buttons
+        const startBtn = document.getElementById('modal-start-btn');
+        const resetBtn = document.getElementById('modal-reset-btn');
+        
+        if (startBtn) {
+            startBtn.onclick = () => {
+                if (window.bulletproofSnake && window.bulletproofSnake.start) {
+                    window.bulletproofSnake.start();
+                } else {
+                    console.log('🎮 BULLETPROOF SNAKE: Game started');
+                }
+            };
+        }
+        
+        if (resetBtn) {
+            resetBtn.onclick = () => {
+                if (window.bulletproofSnake && window.bulletproofSnake.reset) {
+                    window.bulletproofSnake.reset();
+                } else {
+                    console.log('🔄 BULLETPROOF SNAKE: Game reset');
+                }
+            };
+        }
+        
+        console.log('✅ TIER 2: Bulletproof Snake Game system ready');
     }
     
     // PHASE 4: Enhanced Snake Game Modal with Graceful Degradation
@@ -11933,22 +12195,47 @@ function createTrojanHorseFeedModal() {
             this.currentTime = new Date();
             this.timeContext = this.determineTimeContext();
             
-            // Super subtle gradient palettes (barely perceptible)
+            // ULTRA-RICH PREMIUM GRADIENTS: Jump-out-of-screen expression
             this.gradientPalettes = {
+                early_morning: {
+                    primary: 'linear-gradient(135deg, #fff7ed 0%, #fed7aa 12%, #fb923c 28%, #ea580c 48%, #dc2626 68%, #991b1b 88%, #fff7ed 100%)',
+                    secondary: 'radial-gradient(ellipse at top, rgba(251, 146, 60, 0.35) 0%, rgba(234, 88, 12, 0.22) 50%, transparent 85%)',
+                    accent: 'rgba(251, 146, 60, 0.18)'
+                },
                 morning: {
-                    primary: 'rgba(255, 165, 0, 0.03)',
-                    secondary: 'rgba(255, 140, 0, 0.02)',
-                    accent: 'rgba(255, 200, 100, 0.01)'
+                    primary: 'linear-gradient(135deg, #fffbeb 0%, #fde68a 15%, #fbbf24 30%, #f59e0b 50%, #d97706 70%, #92400e 85%, #fffbeb 100%)',
+                    secondary: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.40) 0%, rgba(245, 158, 11, 0.28) 50%, transparent 85%)',
+                    accent: 'rgba(251, 191, 36, 0.22)'
+                },
+                late_morning: {
+                    primary: 'linear-gradient(135deg, #f0f9ff 0%, #bae6fd 15%, #7dd3fc 30%, #38bdf8 50%, #0ea5e9 70%, #0284c7 85%, #f0f9ff 100%)',
+                    secondary: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.35) 0%, rgba(14, 165, 233, 0.25) 50%, transparent 85%)',
+                    accent: 'rgba(56, 189, 248, 0.20)'
                 },
                 afternoon: {
-                    primary: 'rgba(59, 130, 246, 0.03)',
-                    secondary: 'rgba(37, 99, 235, 0.02)',
-                    accent: 'rgba(100, 150, 255, 0.01)'
+                    primary: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 15%, #93c5fd 30%, #3b82f6 50%, #1d4ed8 70%, #1e3a8a 85%, #eff6ff 100%)',
+                    secondary: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.38) 0%, rgba(29, 78, 216, 0.28) 50%, transparent 85%)',
+                    accent: 'rgba(59, 130, 246, 0.22)'
+                },
+                late_afternoon: {
+                    primary: 'linear-gradient(135deg, #faf5ff 0%, #e9d5ff 15%, #c4b5fd 30%, #a78bfa 50%, #8b5cf6 70%, #7c3aed 85%, #faf5ff 100%)',
+                    secondary: 'radial-gradient(ellipse at bottom, rgba(167, 139, 250, 0.40) 0%, rgba(139, 92, 246, 0.30) 50%, transparent 85%)',
+                    accent: 'rgba(167, 139, 250, 0.25)'
                 },
                 evening: {
-                    primary: 'rgba(168, 85, 247, 0.03)',
-                    secondary: 'rgba(147, 51, 234, 0.02)',
-                    accent: 'rgba(200, 120, 255, 0.01)'
+                    primary: 'linear-gradient(135deg, #f3e8ff 0%, #ddd6fe 15%, #c4b5fd 30%, #a78bfa 50%, #8b5cf6 70%, #7c3aed 85%, #6d28d9 100%)',
+                    secondary: 'radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.45) 0%, rgba(124, 58, 237, 0.35) 50%, transparent 85%)',
+                    accent: 'rgba(139, 92, 246, 0.28)'
+                },
+                night: {
+                    primary: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 15%, #f9a8d4 30%, #f472b6 50%, #ec4899 70%, #db2777 85%, #be185d 100%)',
+                    secondary: 'radial-gradient(ellipse at center, rgba(244, 114, 182, 0.42) 0%, rgba(236, 72, 153, 0.32) 50%, transparent 85%)',
+                    accent: 'rgba(244, 114, 182, 0.26)'
+                },
+                late_night: {
+                    primary: 'linear-gradient(135deg, #fdf2f8 0%, #f3e8ff 15%, #e9d5ff 30%, #d8b4fe 50%, #c084fc 70%, #a855f7 85%, #fdf2f8 100%)',
+                    secondary: 'radial-gradient(ellipse at center, rgba(192, 132, 252, 0.38) 0%, rgba(168, 85, 247, 0.28) 50%, transparent 85%)',
+                    accent: 'rgba(192, 132, 252, 0.22)'
                 }
             };
             
@@ -11958,19 +12245,30 @@ function createTrojanHorseFeedModal() {
         determineTimeContext() {
             const hour = this.currentTime.getHours();
             
-            if (hour >= 5 && hour < 12) {
+            if (hour >= 5 && hour < 8) {
+                return 'early_morning';
+            } else if (hour >= 8 && hour < 12) {
                 return 'morning';
-            } else if (hour >= 12 && hour < 18) {
+            } else if (hour >= 12 && hour < 14) {
+                return 'late_morning';
+            } else if (hour >= 14 && hour < 18) {
                 return 'afternoon';
-            } else {
+            } else if (hour >= 18 && hour < 19) {
+                return 'late_afternoon';
+            } else if (hour >= 19 && hour < 23) {
                 return 'evening';
+            } else if (hour >= 23 || hour < 3) {
+                return 'night';
+            } else {
+                return 'late_night';
             }
         }
 
         applyHeroGradients() {
             console.log('🎨 APPLYING: Hero section time-aware gradients...');
             
-            const heroSection = document.querySelector('.hero-section') || 
+            const heroSection = document.querySelector('#hero') || 
+                               document.querySelector('.ric-hero') ||
                                document.querySelector('[class*="hero"]') ||
                                document.querySelector('main > section:first-child');
             
@@ -11987,7 +12285,15 @@ function createTrojanHorseFeedModal() {
                 existingOverlay.remove();
             }
             
-            // Create super subtle gradient overlay
+            // ULTRA-RICH GRADIENT APPLICATION: Direct background for maximum impact
+            console.log(`🎨 ULTRA-RICH: Applying ${this.timeContext} gradient with jump-out-of-screen expression`);
+            
+            // Apply the ultra-rich primary gradient directly to hero section
+            heroSection.style.background = palette.primary;
+            heroSection.style.position = 'relative';
+            heroSection.style.transition = 'background 2s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            // Create premium overlay for additional depth
             const overlay = document.createElement('div');
             overlay.className = 'time-aware-gradient-overlay';
             
@@ -11999,23 +12305,18 @@ function createTrojanHorseFeedModal() {
                 bottom: 0;
                 pointer-events: none;
                 z-index: 1;
-                background: 
-                    radial-gradient(ellipse at top left, ${palette.primary} 0%, transparent 50%),
-                    radial-gradient(ellipse at top right, ${palette.secondary} 0%, transparent 50%),
-                    radial-gradient(ellipse at bottom center, ${palette.accent} 0%, transparent 60%);
+                background: ${palette.secondary};
                 opacity: 0;
                 transition: opacity 2s ease-in-out;
                 will-change: opacity;
             `;
             
-            // Ensure hero section is positioned for overlay
-            heroSection.style.position = 'relative';
             heroSection.appendChild(overlay);
             
-            // Fade in gradually
+            // Fade in the overlay for ultra-premium layered effect
             setTimeout(() => {
                 overlay.style.opacity = '1';
-            }, 100);
+            }, 300);
             
             console.log('✅ GRADIENTS: Applied', this.timeContext, 'palette to hero section');
             return true;
@@ -12075,24 +12376,30 @@ function createTrojanHorseFeedModal() {
         }
     }
 
-    // 🚫 DISABLED: Competing gradient system disabled to prevent conflicts
-    // The authoritative TimeAwareHeroGradientSystem handles all gradient logic
-    console.log('🚫 DISABLED: TimeAwareVisualGradients system disabled to prevent conflicts');
+    // 🚫 DISABLED: JavaScript gradient system causing hero conflicts
+    // Using CSS-only time-aware gradients instead for clean implementation
+    console.log('🚫 DISABLED: JavaScript TimeAwareVisualGradients system - using CSS-only approach');
     
-    // Auto-initialize time-aware gradients - DISABLED
+    // DISABLED: Auto-initialize ultra-rich time-aware gradients
     // document.addEventListener('DOMContentLoaded', () => {
-    //     console.log('🎨 TIME-AWARE GRADIENTS: Auto-initializing...');
+    //     console.log('🎨 ULTRA-RICH GRADIENTS: Auto-initializing premium system...');
     //     window.timeAwareGradients = new TimeAwareVisualGradients();
     //     window.timeAwareGradients.initialize();
     // });
     
-    // Initialize immediately if DOM is already ready - DISABLED
+    // DISABLED: Initialize immediately if DOM is already ready
     // if (document.readyState !== 'loading') {
-    //     console.log('🎨 TIME-AWARE GRADIENTS: Immediate initialization...');
+    //     console.log('🎨 ULTRA-RICH GRADIENTS: Immediate initialization...');
     //     window.timeAwareGradients = new TimeAwareVisualGradients();
     //     window.timeAwareGradients.initialize();
     // }
     </script>
+
+    <!-- 🌅 GRADIENT GUARDIAN AGENT - Real-Time Gradient Integrity Enforcement -->
+    <script src="gradient-guardian.js"></script>
+    
+    <!-- 🧼 ENTROPY SWEEPER AGENT - Hero Surface Audit & Hygiene Pass -->
+    <script src="entropy-sweeper.js"></script>
 
     <!-- 🚫 DISABLED: AUTHORITATIVE TIME-AWARE HERO GRADIENT SYSTEM -->
     <!-- This system was causing terrible complex gradients - using CSS-based system instead -->
@@ -12100,73 +12407,6 @@ function createTrojanHorseFeedModal() {
     /**
      * 🚫 DISABLED: AUTHORITATIVE TIME-AWARE HERO GRADIENT SYSTEM
      * This system created terrible complex gradients - disabled in favor of clean CSS system
-     * Single source of truth - prevents conflicts and flicker
-     */
-    class AuthoritativeTimeAwareHeroGradients {
-        constructor() {
-            this.gradientConfig = {
-                // MORNING (5:00 AM - 11:59 AM): Fresh, optimistic, energetic
-                // Warm sunrise tones representing new beginnings, clarity, energy
-                morning: {
-                    light: {
-                        primary: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 25%, #fed7aa 50%, #fecaca 75%, #fef3c7 100%)',
-                        overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.04) 50%, transparent 70%)',
-                        accent: 'rgba(245, 158, 11, 0.03)'
-                    },
-                    dark: {
-                        primary: 'linear-gradient(135deg, #451a03 0%, #7c2d12 25%, #9a3412 50%, #dc2626 75%, #451a03 100%)',
-                        overlay: 'radial-gradient(ellipse at top, rgba(251, 191, 36, 0.12) 0%, rgba(245, 158, 11, 0.06) 50%, transparent 70%)',
-                        accent: 'rgba(245, 158, 11, 0.05)'
-                    }
-                },
-
-                // AFTERNOON (12:00 PM - 17:59 PM): Focused, methodical, professional  
-                // Cool blue tones representing clarity, productivity, systematic thinking
-                afternoon: {
-                    light: {
-                        primary: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 25%, #93c5fd 50%, #c7d2fe 75%, #dbeafe 100%)',
-                        overlay: 'radial-gradient(ellipse at center, rgba(59, 130, 246, 0.06) 0%, rgba(37, 99, 235, 0.03) 50%, transparent 70%)',
-                        accent: 'rgba(59, 130, 246, 0.02)'
-                    },
-                    dark: {
-                        primary: 'linear-gradient(135deg, #0c1426 0%, #1e3a8a 25%, #1d4ed8 50%, #3730a3 75%, #0c1426 100%)',
-                        overlay: 'radial-gradient(ellipse at center, rgba(96, 165, 250, 0.10) 0%, rgba(59, 130, 246, 0.05) 50%, transparent 70%)',
-                        accent: 'rgba(96, 165, 250, 0.04)'
-                    }
-                },
-
-                // EVENING (18:00 PM - 22:59 PM): Contemplative, sophisticated, reflective
-                // Purple/violet tones representing wisdom, mastery, contemplation
-                evening: {
-                    light: {
-                        primary: 'linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 25%, #ddd6fe 50%, #fce7f3 75%, #f3e8ff 100%)',
-                        overlay: 'radial-gradient(ellipse at bottom, rgba(139, 92, 246, 0.08) 0%, rgba(124, 58, 237, 0.04) 50%, transparent 70%)',
-                        accent: 'rgba(139, 92, 246, 0.03)'
-                    },
-                    dark: {
-                        primary: 'linear-gradient(135deg, #2d1b69 0%, #4c1d95 25%, #7c3aed 50%, #a21caf 75%, #2d1b69 100%)',
-                        overlay: 'radial-gradient(ellipse at bottom, rgba(167, 139, 250, 0.12) 0%, rgba(139, 92, 246, 0.06) 50%, transparent 70%)',
-                        accent: 'rgba(167, 139, 250, 0.05)'
-                    }
-                },
-
-                // NIGHT (23:00 PM - 4:59 AM): Deep, mysterious, contemplative
-                // Deep purple/magenta tones representing depth, mystery, late-night creativity
-                night: {
-                    light: {
-                        primary: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #fbcfe8 50%, #f9a8d4 75%, #fdf2f8 100%)',
-                        overlay: 'radial-gradient(ellipse at center, rgba(236, 72, 153, 0.06) 0%, rgba(219, 39, 119, 0.03) 50%, transparent 70%)',
-                        accent: 'rgba(236, 72, 153, 0.02)'
-                    },
-                    dark: {
-                        primary: 'linear-gradient(135deg, #4a044e 0%, #701a75 25%, #a21caf 50%, #be185d 75%, #4a044e 100%)',
-                        overlay: 'radial-gradient(ellipse at center, rgba(244, 114, 182, 0.10) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 70%)',
-                        accent: 'rgba(244, 114, 182, 0.04)'
-                    }
-                }
-            };
-
-            this.transitionDuration = '1.2s';
             this.currentTimeContext = null;
             this.currentTheme = null;
             this.isInitialized = false;
