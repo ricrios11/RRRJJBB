@@ -3381,347 +3381,33 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('🌌🐴 ModalityDesignAgent: Portal initialization complete with glassmorphism:', modalVariant.glassmorphism);
         }
 
-        // #TrojanHorseOS:2025-07-20 - DNA ORCHESTRATION PHASE 2: Bulletproof Modal System
-        // ModalityDesignAgent: Defensive programming with proper initialization checks
         function openCaseStudyModal(caseStudyId) {
-            console.log('🌌🎭 DNA PHASE 2: Opening modal for:', caseStudyId);
+            console.log('🎯 Opening case study modal:', caseStudyId);
             
-            // Check if modal system is initialized
-            if (!window.modalSystem || !window.modalSystem.caseStudiesLoaded) {
-                console.warn('🌌⚠️ Modal system not ready, queuing request:', caseStudyId);
-                if (!window.modalSystem) {
-                    window.modalSystem = { initialized: false, caseStudiesLoaded: false, pendingModals: [] };
-                }
-                window.modalSystem.pendingModals.push({ caseStudyId, timestamp: Date.now() });
-                return;
-            }
-            
-            // Validate case study exists with enhanced error handling
+            // Validate case study exists
             if (!caseStudies || !caseStudies[caseStudyId]) {
-                console.error('🌌❌ DNA PHASE 2: Case study not found:', caseStudyId);
-                console.log('🌌📊 Available case studies:', Object.keys(caseStudies || {}));
-                
-                // Show user-friendly error instead of alert
-                const errorModal = document.createElement('div');
-                errorModal.innerHTML = `
-                    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                                background: var(--ric-color-surface); border: 1px solid var(--ric-color-border);
-                                border-radius: var(--ric-radius-lg); padding: var(--ric-space-xl); 
-                                box-shadow: var(--ric-shadow-xl); z-index: 10000;">
-                        <h3 style="color: var(--ric-color-text); margin-bottom: var(--ric-space-md);">Case Study Not Found</h3>
-                        <p style="color: var(--ric-color-text-muted); margin-bottom: var(--ric-space-lg);">The requested case study "${caseStudyId}" could not be loaded.</p>
-                        <button onclick="this.parentElement.parentElement.remove()" style="
-                            background: var(--ric-color-primary); color: white; border: none;
-                            padding: var(--ric-space-sm) var(--ric-space-lg); border-radius: var(--ric-radius-md);
-                            cursor: pointer;">Close</button>
-                    </div>
-                `;
-                document.body.appendChild(errorModal);
-                setTimeout(() => errorModal.remove(), 5000);
+                console.error('❌ Case study not found:', caseStudyId);
+                console.log('📊 Available case studies:', Object.keys(caseStudies || {}));
                 return;
             }
             
             const study = caseStudies[caseStudyId];
-            console.log('🌌🐴 EMERGENCY MODAL: Study data loaded:', study.title);
+            console.log('✅ Study data loaded:', study.title);
             
-            // #TrojanHorseOS:2025-07-20 - TROJAN HORSE OPPORTUNITY: Single Container Modal
-            // ModalityDesignAgent: Eliminated double-nested scrolling containers
-            const modalContent = `
-                <!-- TROJAN HORSE FIX: Single container eliminates double-scrolling -->
-                    <!-- #TrojanHorseOS:2025-07-19 - Enhanced close button with better accessibility -->
-                    <button class="ric-modal-close" onclick="closeCaseStudyModal()" aria-label="Close case study modal" style="
-                        position: absolute;
-                        top: var(--ric-space-lg);
-                        right: var(--ric-space-lg);
-                        width: 40px;
-                        height: 40px;
-                        border: none;
-                        border-radius: var(--ric-radius-full);
-                        background: var(--ric-color-surface-variant);
-                        color: var(--ric-color-text);
-                        font-size: 1.5rem;
-                        cursor: pointer;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: all 0.3s ease;
-                        z-index: 10;
-                    ">×</button>
-                    
-                    <!-- #TrojanHorseOS:2025-07-19 - Enhanced modal header with better spacing -->
-                    <div class="ric-modal-header" style="
-                        padding: var(--ric-space-3xl) var(--ric-space-2xl) var(--ric-space-xl);
-                        text-align: center;
-                        border-bottom: 1px solid var(--ric-color-border);
-                        background: linear-gradient(135deg, var(--ric-color-surface) 0%, var(--ric-color-surface-variant) 100%);
-                    ">
-                        <div class="ric-modal-icon" style="
-                            font-size: 3rem;
-                            margin-bottom: var(--ric-space-lg);
-                            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-                        ">${study.icon}</div>
-                        <h2 class="ric-modal-title" style="
-                            font-size: var(--ric-text-3xl);
-                            font-weight: var(--ric-font-weight-bold);
-                            color: var(--ric-color-text);
-                            margin-bottom: var(--ric-space-sm);
-                            line-height: var(--ric-leading-tight);
-                        ">${study.title}</h2>
-                        <p class="ric-modal-subtitle" style="
-                            font-size: var(--ric-text-lg);
-                            color: var(--ric-color-text-muted);
-                            font-weight: var(--ric-font-weight-medium);
-                            margin: 0;
-                        ">${study.subtitle}</p>
-                    </div>
-                    
-                    <!-- #TrojanHorseOS:2025-07-19 - Enhanced modal body with improved content structure -->
-                    <div class="ric-modal-body" style="
-                        padding: var(--ric-space-2xl);
-                    ">
-                        <div class="ric-modal-section" style="
-                            margin-bottom: var(--ric-space-2xl);
-                            padding: var(--ric-space-xl);
-                            background: var(--ric-color-surface-variant);
-                            border-radius: var(--ric-radius-lg);
-                            border-left: 4px solid var(--ric-color-primary);
-                        ">
-                            <h3 style="
-                                font-size: var(--ric-text-xl);
-                                font-weight: var(--ric-font-weight-semibold);
-                                color: var(--ric-color-text);
-                                margin-bottom: var(--ric-space-md);
-                                display: flex;
-                                align-items: center;
-                                gap: var(--ric-space-sm);
-                            ">📋 Overview</h3>
-                            <p style="
-                                font-size: var(--ric-text-base);
-                                line-height: var(--ric-leading-relaxed);
-                                color: var(--ric-color-text);
-                                margin: 0;
-                            ">${study.overview}</p>
-                        </div>
-                        
-                        <div class="ric-modal-section" style="
-                            margin-bottom: var(--ric-space-2xl);
-                            padding: var(--ric-space-xl);
-                            background: var(--ric-color-surface-variant);
-                            border-radius: var(--ric-radius-lg);
-                            border-left: 4px solid var(--ric-color-warning);
-                        ">
-                            <h3 style="
-                                font-size: var(--ric-text-xl);
-                                font-weight: var(--ric-font-weight-semibold);
-                                color: var(--ric-color-text);
-                                margin-bottom: var(--ric-space-md);
-                                display: flex;
-                                align-items: center;
-                                gap: var(--ric-space-sm);
-                            ">⚡ Challenge</h3>
-                            <p style="
-                                font-size: var(--ric-text-base);
-                                line-height: var(--ric-leading-relaxed);
-                                color: var(--ric-color-text);
-                                margin: 0;
-                            ">${study.challenge}</p>
-                        </div>
-                        
-                        <div class="ric-modal-section" style="
-                            margin-bottom: var(--ric-space-2xl);
-                            padding: var(--ric-space-xl);
-                            background: var(--ric-color-surface-variant);
-                            border-radius: var(--ric-radius-lg);
-                            border-left: 4px solid var(--ric-color-success);
-                        ">
-                            <h3 style="
-                                font-size: var(--ric-text-xl);
-                                font-weight: var(--ric-font-weight-semibold);
-                                color: var(--ric-color-text);
-                                margin-bottom: var(--ric-space-md);
-                                display: flex;
-                                align-items: center;
-                                gap: var(--ric-space-sm);
-                            ">🎯 Approach</h3>
-                            ${Array.isArray(study.approach) ? 
-                                '<ul style="margin: 0; padding-left: var(--ric-space-lg); list-style: none;">' + study.approach.map((item, index) => 
-                                    `<li style="
-                                        margin-bottom: var(--ric-space-md);
-                                        padding-left: var(--ric-space-lg);
-                                        position: relative;
-                                        font-size: var(--ric-text-base);
-                                        line-height: var(--ric-leading-relaxed);
-                                        color: var(--ric-color-text);
-                                    "><span style="
-                                        position: absolute;
-                                        left: 0;
-                                        top: 0;
-                                        width: 6px;
-                                        height: 6px;
-                                        background: var(--ric-color-primary);
-                                        border-radius: 50%;
-                                        margin-top: 0.6rem;
-                                    "></span>${item}</li>`
-                                ).join('') + '</ul>' : 
-                                '<p style="margin: 0; font-size: var(--ric-text-base); line-height: var(--ric-leading-relaxed); color: var(--ric-color-text);">' + study.approach + '</p>'
-                            }
-                        </div>
-                        
-                        <div class="ric-modal-section" style="
-                            margin-bottom: var(--ric-space-2xl);
-                            padding: var(--ric-space-xl);
-                            background: var(--ric-color-surface-variant);
-                            border-radius: var(--ric-radius-lg);
-                            border-left: 4px solid var(--ric-color-accent);
-                        ">
-                            <h3 style="
-                                font-size: var(--ric-text-xl);
-                                font-weight: var(--ric-font-weight-semibold);
-                                color: var(--ric-color-text);
-                                margin-bottom: var(--ric-space-md);
-                                display: flex;
-                                align-items: center;
-                                gap: var(--ric-space-sm);
-                            ">📈 Impact</h3>
-                            ${study.impact && typeof study.impact === 'object' && study.impact.metrics ? 
-                                '<div>' +
-                                    '<h4 style="font-size: var(--ric-text-lg); font-weight: var(--ric-font-weight-medium); color: var(--ric-color-text); margin-bottom: var(--ric-space-sm);">Key Metrics</h4>' +
-                                    '<ul style="margin-bottom: var(--ric-space-lg); padding-left: var(--ric-space-lg); list-style: none;">' + 
-                                    study.impact.metrics.map((metric, index) => 
-                                        `<li style="
-                                            margin-bottom: var(--ric-space-sm);
-                                            padding-left: var(--ric-space-lg);
-                                            position: relative;
-                                            font-size: var(--ric-text-base);
-                                            line-height: var(--ric-leading-relaxed);
-                                            color: var(--ric-color-text);
-                                            font-weight: var(--ric-font-weight-medium);
-                                        "><span style="
-                                            position: absolute;
-                                            left: 0;
-                                            top: 0;
-                                            width: 6px;
-                                            height: 6px;
-                                            background: var(--ric-color-accent);
-                                            border-radius: 50%;
-                                            margin-top: 0.6rem;
-                                        "></span>${metric}</li>`
-                                    ).join('') + '</ul>' +
-                                (study.impact.qualitative ? 
-                                    '<h4 style="font-size: var(--ric-text-lg); font-weight: var(--ric-font-weight-medium); color: var(--ric-color-text); margin-bottom: var(--ric-space-sm);">Qualitative Impact</h4>' +
-                                    '<p style="margin: 0; font-size: var(--ric-text-base); line-height: var(--ric-leading-relaxed); color: var(--ric-color-text);">' + study.impact.qualitative + '</p>' : '') + 
-                                '</div>' :
-                                '<p style="margin: 0; font-size: var(--ric-text-base); line-height: var(--ric-leading-relaxed); color: var(--ric-color-text);">' + study.impact + '</p>'
-                            }
-                        </div>
-                        
-                        ${study.keyLearnings ? 
-                            '<div class="ric-modal-section" style="' +
-                                'padding: var(--ric-space-xl);' +
-                                'background: var(--ric-color-surface-variant);' +
-                                'border-radius: var(--ric-radius-lg);' +
-                                'border-left: 4px solid var(--ric-color-info);' +
-                            '">' +
-                                '<h3 style="' +
-                                    'font-size: var(--ric-text-xl);' +
-                                    'font-weight: var(--ric-font-weight-semibold);' +
-                                    'color: var(--ric-color-text);' +
-                                    'margin-bottom: var(--ric-space-md);' +
-                                    'display: flex;' +
-                                    'align-items: center;' +
-                                    'gap: var(--ric-space-sm);' +
-                                '">💡 Key Learnings</h3>' +
-                                '<p style="' +
-                                    'margin: 0;' +
-                                    'font-size: var(--ric-text-base);' +
-                                    'line-height: var(--ric-leading-relaxed);' +
-                                    'color: var(--ric-color-text);' +
-                                '">' + study.keyLearnings + '</p>' +
-                            '</div>' : 
-                            ''
-                        }
-                    
-                    <!-- #TrojanHorseOS:2025-07-19 - TIME TRAVEL MODE INTEGRATION -->
-                    <div class="ric-modal-time-travel" data-feature="time-travel-mode">
-                        <div class="ric-time-travel-trigger" style="
-                            margin-top: 1.5rem;
-                            padding: 1rem;
-                            background: linear-gradient(135deg, rgba(0,255,136,0.1) 0%, rgba(0,255,136,0.05) 100%);
-                            border: 1px solid rgba(0,255,136,0.2);
-                            border-radius: 8px;
-                            text-align: center;
-                        ">
-                            <!-- #TrojanHorseOS:2025-07-19 - ModalityDesignAgent: Time Travel CTA in Green Container (P1 Fix) -->
-                            <button onclick="activateTimeTravelMode('${caseStudyId}')" style="
-                                background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
-                                color: #000;
-                                border: none;
-                                padding: 0.75rem 1.5rem;
-                                border-radius: 6px;
-                                font-weight: 600;
-                                cursor: pointer;
-                                font-size: 0.875rem;
-                                transition: all 0.3s ease;
-                                display: inline-flex;
-                                align-items: center;
-                                gap: 0.5rem;
-                            ">
-                                🕰️ Time Travel Mode
-                            </button>
-                            <p style="margin: 0.5rem 0 0 0; font-size: 0.75rem; color: rgba(0,255,136,0.7); font-style: italic;">Explore alternative timeline perspectives</p>
-                        </div>
-                    </div>
-                    
-                    <!-- #TrojanHorseOS:2025-07-19 - Future: Related case studies placeholder -->
-                    <div class="ric-modal-related" style="display: none;" data-future-feature="related-studies">
-                        <h3>Related Case Studies</h3>
-                        <div class="ric-modal-related-grid" data-content="related-studies"><!-- Future: AI-suggested related content --></div>
-                    </div>
-                </div>
-                
-                <!-- #TrojanHorseOS:2025-07-19 - Easter egg: Hidden tribute to systematic design -->
-                <!-- "Position before submission" - the martial arts principle that guides all great design -->
-            `;
-
-            // #TrojanHorseOS:2025-07-19 - EMERGENCY DOM VALIDATION AND ACTIVATION
-            const modalOverlay = document.getElementById('modal-overlay');
-            const modalContentElement = document.getElementById('modal-content');
+            // Use the standard modal system
+            const modal = document.getElementById('case-study-modal');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
             
-            console.log('🌌🐴 EMERGENCY MODAL: DOM elements check:', {
-                modalOverlay: !!modalOverlay,
-                modalContentElement: !!modalContentElement
-            });
-            
-            if (!modalOverlay || !modalContentElement) {
-                console.error('🌌🐴 EMERGENCY MODAL: Modal DOM elements not found');
-                // Emergency fallback - create modal elements if missing
-                if (!modalOverlay) {
-                    const overlay = document.createElement('div');
-                    overlay.id = 'modal-overlay';
-                    overlay.className = 'ric-modal-overlay';
-                    overlay.innerHTML = '<div id="modal-content" class="ric-modal"></div>';
-                    document.body.appendChild(overlay);
-                    console.log('🌌🐴 EMERGENCY MODAL: Created missing modal overlay');
-                }
-                return openCaseStudyModal(caseStudyId); // Retry after creation
+            if (modal && title && body) {
+                title.textContent = study.title;
+                body.innerHTML = study.content;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                console.log('✅ Case study modal opened successfully');
+            } else {
+                console.error('❌ Modal elements not found');
             }
-            
-            // #TrojanHorseOS:2025-07-19 - EMERGENCY MODAL ACTIVATION
-            modalContentElement.innerHTML = modalContent;
-            modalOverlay.style.display = 'flex';
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            // Enhanced accessibility and focus management
-            setTimeout(() => {
-                const closeButton = modalOverlay.querySelector('.ric-modal-close');
-                if (closeButton) {
-                    closeButton.focus();
-                    console.log('🌌🐴 EMERGENCY MODAL: Focus set to close button');
-                }
-            }, 100);
-            
-            console.log('🌌🐴 EMERGENCY MODAL: Successfully opened for:', caseStudyId);
         }
 
         // Fixed Case Study Modal Close - Uses Unified System
@@ -8801,17 +8487,29 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <style>
-    /* MODAL SYSTEM STYLES */
+    /* MODAL SYSTEM STYLES - DOS THEME ENHANCED */
     .modal {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 1000;
+        z-index: 50000;
         display: flex;
         align-items: center;
         justify-content: center;
+        animation: modalFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
     }
     
     .modal-overlay {
@@ -8820,57 +8518,213 @@ document.addEventListener('DOMContentLoaded', function() {
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        animation: overlayFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes overlayFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
     
     .modal-content {
         position: relative;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        max-width: 800px;
-        max-height: 80vh;
-        width: 90%;
+        background: var(--ric-color-surface);
+        border: 2px solid var(--ric-color-terminal-green);
+        border-radius: 8px;
+        max-width: 900px;
+        max-height: 85vh;
+        width: 95%;
         overflow: hidden;
-        box-shadow: var(--shadow-xl);
+        box-shadow: 
+            0 0 20px rgba(0, 255, 136, 0.3),
+            0 0 40px rgba(0, 255, 136, 0.1),
+            inset 0 1px 0 rgba(0, 255, 136, 0.2);
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        animation: contentSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes contentSlideIn {
+        from {
+            transform: translateY(-20px) scale(0.95);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
     }
     
     .modal-header {
-        padding: 1.5rem;
-        border-bottom: 1px solid var(--border);
+        padding: 1.25rem 1.5rem;
+        background: linear-gradient(135deg, 
+            rgba(0, 255, 136, 0.1) 0%, 
+            rgba(0, 255, 136, 0.05) 100%);
+        border-bottom: 1px solid var(--ric-color-terminal-green);
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
+    }
+    
+    .modal-header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            var(--ric-color-terminal-green) 50%, 
+            transparent 100%);
+        opacity: 0.6;
     }
     
     .modal-header h2 {
         margin: 0;
-        color: var(--foreground);
+        color: var(--ric-color-terminal-green);
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        font-size: 1.25rem;
+        font-weight: 600;
+        text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        letter-spacing: 0.5px;
     }
     
     .modal-close {
-        background: none;
-        border: none;
-        font-size: 1.5rem;
+        background: rgba(0, 255, 136, 0.1);
+        border: 1px solid var(--ric-color-terminal-green);
+        color: var(--ric-color-terminal-green);
+        font-size: 1.25rem;
         cursor: pointer;
-        color: var(--muted-foreground);
         padding: 0.5rem;
         border-radius: 4px;
-        transition: all 0.2s ease;
+        transition: all 0.3s ease;
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        font-weight: bold;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .modal-close:hover {
-        background: var(--accent);
-        color: var(--accent-foreground);
+        background: var(--ric-color-terminal-green);
+        color: var(--ric-color-surface);
+        box-shadow: 0 0 15px rgba(0, 255, 136, 0.6);
+        transform: scale(1.05);
     }
     
     .modal-body {
         padding: 1.5rem;
-        max-height: 60vh;
+        max-height: 65vh;
         overflow-y: auto;
-        color: var(--foreground);
-        line-height: 1.6;
+        color: var(--ric-color-text);
+        line-height: 1.7;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    }
+    
+    .modal-body::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .modal-body::-webkit-scrollbar-track {
+        background: rgba(0, 255, 136, 0.1);
+        border-radius: 4px;
+    }
+    
+    .modal-body::-webkit-scrollbar-thumb {
+        background: var(--ric-color-terminal-green);
+        border-radius: 4px;
+        opacity: 0.7;
+    }
+    
+    .modal-body::-webkit-scrollbar-thumb:hover {
+        background: var(--ric-color-terminal-green);
+        opacity: 1;
+    }
+    
+    /* Case Study Modal Specific Styles */
+    .modal-body h3 {
+        color: var(--ric-color-terminal-green);
+        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.75rem 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-left: 3px solid var(--ric-color-terminal-green);
+        padding-left: 0.75rem;
+    }
+    
+    .modal-body h4 {
+        color: var(--ric-color-accent);
+        font-size: 1rem;
+        font-weight: 500;
+        margin: 1.25rem 0 0.5rem 0;
+    }
+    
+    .modal-body ul {
+        margin: 0.75rem 0;
+        padding-left: 1.5rem;
+    }
+    
+    .modal-body li {
+        margin-bottom: 0.5rem;
+        position: relative;
+    }
+    
+    .modal-body li::marker {
+        color: var(--ric-color-terminal-green);
+    }
+    
+    .modal-body strong {
+        color: var(--ric-color-terminal-green);
+        font-weight: 600;
+    }
+    
+    /* Time-Aware Modal Enhancements */
+    .time-evening .modal-content {
+        box-shadow: 
+            0 0 25px rgba(147, 51, 234, 0.4),
+            0 0 50px rgba(147, 51, 234, 0.2),
+            inset 0 1px 0 rgba(147, 51, 234, 0.3);
+        border-color: rgba(147, 51, 234, 0.8);
+    }
+    
+    .time-evening .modal-header {
+        background: linear-gradient(135deg, 
+            rgba(147, 51, 234, 0.15) 0%, 
+            rgba(147, 51, 234, 0.08) 100%);
+        border-bottom-color: rgba(147, 51, 234, 0.6);
+    }
+    
+    .time-evening .modal-header h2 {
+        color: rgba(147, 51, 234, 0.9);
+        text-shadow: 0 0 12px rgba(147, 51, 234, 0.6);
+    }
+    
+    .time-evening .modal-close {
+        background: rgba(147, 51, 234, 0.1);
+        border-color: rgba(147, 51, 234, 0.6);
+        color: rgba(147, 51, 234, 0.9);
+    }
+    
+    .time-evening .modal-close:hover {
+        background: rgba(147, 51, 234, 0.8);
+        color: white;
+        box-shadow: 0 0 18px rgba(147, 51, 234, 0.7);
+    }
+    
+    .time-evening .modal-body h3 {
+        color: rgba(147, 51, 234, 0.9);
+        border-left-color: rgba(147, 51, 234, 0.8);
+    }
+    
+    .time-evening .modal-body strong {
+        color: rgba(147, 51, 234, 0.9);
     }
     
     /* FUTURE FEATURE CARDS STYLES */
@@ -9064,46 +8918,133 @@ document.addEventListener('DOMContentLoaded', function() {
     <script>
     // CASE STUDY MODAL SYSTEM
     const caseStudies = {
-        remix: {
-            title: "AI-Powered Case Study Personalization",
+        'chase-travel': {
+            title: "Chase Travel Transformation",
+            subtitle: "AI-Enhanced Luxury Travel Experience",
+            icon: "🎯",
             content: `
-                <h3>Project Overview</h3>
-                <p>Developed an intelligent case study remix system that personalizes content based on user context, industry, and engagement patterns.</p>
+                <h3>AI-Enhanced Luxury Travel Experience</h3>
+                <p>Led strategic redesign of Chase's travel booking experience, unifying desktop and mobile channels through systematic brand DNA alignment and refined progressive disclosure patterns that honor both editorial storytelling and transactional precision.</p>
                 
-                <h3>Key Features</h3>
+                <h3>Challenge</h3>
+                <p>Fragmented interfaces across web and app created friction in the booking journey post-rebrand. Federated touch points lacked cohesion, resulting in inconsistent pricing displays and reduced engagement with premium inventory offerings.</p>
+                
+                <h3>Approach</h3>
                 <ul>
-                    <li><strong>Dynamic Content Adaptation:</strong> Real-time content modification based on user profile</li>
-                    <li><strong>Industry-Specific Examples:</strong> Contextual case studies for different sectors</li>
-                    <li><strong>Engagement Analytics:</strong> Track user interaction patterns for optimization</li>
-                    <li><strong>Time-Aware Presentation:</strong> Content adapts to time of day for optimal engagement</li>
+                    <li><strong>Aligned brand and experience DNA:</strong> Led cross-functional workshops with marketing, product and engineering to audit the federated journey post-rebrand, uncovering and prioritizing critical pain points</li>
+                    <li><strong>Hypothesized impact of cohesion:</strong> Framed the problem—"If we unify UI patterns, elevate typography, and introduce elegant progressive disclosure, we'll reduce friction and reinforce the new brand at every step"</li>
+                    <li><strong>Modularized and modernized interactions:</strong> Built and iterated on refined interface modules—chunked content, responsive typographic scales, and clean layouts—benchmarking against best-in-class analogs</li>
+                    <li><strong>Validated with measurable results:</strong> Pressure-tested prototypes in mixed-method sessions and gap-mapping exercises, confirming an 88% reduction in prioritized UX issues and setting a new standard for cross-platform harmony</li>
                 </ul>
-                
-                <h3>Technical Implementation</h3>
-                <p>Built using advanced AI orchestration with real-time content generation, ensuring each user receives a tailored experience that resonates with their specific needs and context.</p>
-                
-                <h3>Results</h3>
-                <p>Increased user engagement by 340% and improved conversion rates through personalized, contextually relevant case study presentations.</p>
-            `
-        },
-        memory: {
-            title: "Advanced Virtual Memory Analysis",
-            content: `
-                <h3>Project Overview</h3>
-                <p>Implemented a sophisticated memory recall system that tracks user interactions and preferences to create personalized experiences across sessions.</p>
-                
-                <h3>Key Capabilities</h3>
-                <ul>
-                    <li><strong>Session Persistence:</strong> Maintains user context across multiple visits</li>
-                    <li><strong>Preference Learning:</strong> Adapts interface based on user behavior patterns</li>
-                    <li><strong>Content Recommendations:</strong> Suggests relevant content based on interaction history</li>
-                    <li><strong>Progressive Enhancement:</strong> Experience improves with each interaction</li>
-                </ul>
-                
-                <h3>Technical Architecture</h3>
-                <p>Utilizes advanced local storage techniques combined with intelligent algorithms to create a seamless, personalized user experience without compromising privacy.</p>
                 
                 <h3>Impact</h3>
-                <p>Reduced bounce rate by 45% and increased average session duration by 180% through intelligent personalization.</p>
+                <ul>
+                    <li><strong>88% reduction</strong> in prioritized UX gaps</li>
+                    <li><strong>20% year-over-year</strong> transaction growth across strategic lines</li>
+                </ul>
+                <p>Despite pricing constraints outside our direct control, this cohesive redesign drove sustained growth across our most strategic business lines, boosted NPS, and strengthened cross-product coherence.</p>
+            `
+        },
+        'wealth-management': {
+            title: "Digital Wealth Management",
+            subtitle: "Unified Investment Platform",
+            icon: "💼",
+            content: `
+                <h3>Unified Investment Platform</h3>
+                <p>Introduced full-featured wealth management UI into Chase's ecosystem—desktop and native mobile—serving high-net-worth clients with systematic precision.</p>
+                
+                <h3>Challenge</h3>
+                <p>Legacy online application lacked investment tools, mobile app had no managed-account surfaces, causing client churn to competitors offering more comprehensive digital experiences.</p>
+                
+                <h3>Approach</h3>
+                <ul>
+                    <li><strong>Comprehensive audit:</strong> Conducted thorough analysis of existing online flows and mobile usage analytics</li>
+                    <li><strong>Modular design system:</strong> Designed Dashboard, Portfolio, and Advice components with systematic token architecture</li>
+                    <li><strong>Responsive patterns:</strong> Built patterns ensuring feature parity and usability across all platforms</li>
+                </ul>
+                
+                <h3>Impact</h3>
+                <ul>
+                    <li><strong>30% reduction</strong> in support calls</li>
+                    <li><strong>$2B in new assets</strong> onboarded within six months</li>
+                </ul>
+                <p>Created seamless wealth management experience that builds client trust through consistent, world-class interface design.</p>
+            `
+        },
+        'chase-dining': {
+            title: "Chase Dining Platform",
+            subtitle: "Editorial Meets Utility",
+            icon: "🍽️",
+            content: `
+                <h3>Editorial Meets Utility</h3>
+                <p>Created Chase Dining, a hybrid editorial-booking platform marrying The Infatuation's rich content with OpenTable's reservation engine, plus exclusive Reserve Card perks.</p>
+                
+                <h3>Challenge</h3>
+                <p>Customers loved Infatuation's storytelling but bounced when forced offsite to book. Booking drop-off undermined transaction credits value and premium card engagement.</p>
+                
+                <h3>Approach</h3>
+                <ul>
+                    <li><strong>Integrated editorial modules:</strong> Curated content directly into booking flows</li>
+                    <li><strong>Unified Reserve button:</strong> In-context previews of editorial highlights</li>
+                    <li><strong>Strategic reminders:</strong> Transaction-credit prompts at key decision points</li>
+                </ul>
+                
+                <h3>Impact</h3>
+                <ul>
+                    <li><strong>50% increase</strong> in on-platform reservations</li>
+                    <li><strong>20% boost</strong> in Chase Reserve card spending</li>
+                </ul>
+                <p>Transformed dining discovery from fragmented experience into seamless editorial-transaction journey.</p>
+            `
+        },
+        'bjj-movement': {
+            title: "BJJ Training & Design Practice",
+            subtitle: "Mat Skills Applied to Design Leadership",
+            icon: "🥋",
+            content: `
+                <h3>Mat Skills Applied to Design Leadership</h3>
+                <p>Applied problem solving, perseverance, and emotional intelligence developed through Brazilian Jiu-Jitsu training to design leadership—transferring mat-learned principles to business objectives and customer pain points.</p>
+                
+                <h3>Challenge</h3>
+                <p>High-pressure design environments demand the same mental resilience, problem-solving clarity, and emotional regulation required in martial arts competition. The challenge was systematically transferring these skills.</p>
+                
+                <h3>Approach</h3>
+                <ul>
+                    <li><strong>Systematic problem-solving:</strong> Developed approach through consistent mat training</li>
+                    <li><strong>Emotional intelligence:</strong> Applied pressure management from sparring to design critiques and stakeholder management</li>
+                    <li><strong>Iterative improvement:</strong> Transferred perseverance mindset to product development cycles</li>
+                </ul>
+                
+                <h3>Impact</h3>
+                <ul>
+                    <li><strong>Improved team dynamics</strong> through authentic leadership approach</li>
+                    <li><strong>Enhanced stakeholder management</strong> through emotional intelligence</li>
+                </ul>
+                <p>Demonstrated relentless work ethic and authentic approach that others respect, admire, and emulate to accelerate their own professional development.</p>
+            `
+        },
+        'meta-workflow': {
+            title: "Meta: ContentOS Framework Revolution",
+            subtitle: "Time-Aware Multi-Agent Design System",
+            icon: "🌌",
+            content: `
+                <h3>Time-Aware Multi-Agent Design System</h3>
+                <p>Pioneered the world's first time-aware, context-adaptive portfolio system with comprehensive ContentOS framework, multi-agent orchestration, and TrojanHorse future-facing architecture—delivering personalized experiences that evolve with visitor intent and temporal context.</p>
+                
+                <h3>Challenge</h3>
+                <p>Traditional portfolios are static, one-size-fits-all experiences that fail to adapt to visitor context, time of day, engagement patterns, or evolving intent. No systematic framework existed for intelligent content personalization at scale.</p>
+                
+                <h3>Approach</h3>
+                <p>Architected a revolutionary ContentOS framework with 11-section time-aware content system, 6-agent orchestration (Q, G, S, X, R, D), TrojanHorse future-facing integration, Hidden Lab experimental features, and comprehensive visitor memory system with real-time personalization.</p>
+                
+                <h3>Impact</h3>
+                <ul>
+                    <li><strong>11 portfolio sections</strong> with 3 time-aware variants each (33 total content blocks)</li>
+                    <li><strong>6-agent orchestration system</strong> with structured JSON outputs and confidence scoring</li>
+                    <li><strong>100% personalized experiences</strong> based on visitor memory and behavioral patterns</li>
+                    <li><strong>Hidden Lab 2.0</strong> with Konami code activation and experimental feature access</li>
+                </ul>
+                <p>Established new paradigm for intelligent portfolio experiences—moving beyond static presentation to dynamic, context-aware, visitor-centric design systems that learn and adapt.</p>
             `
         }
     };
@@ -9116,7 +9057,7 @@ document.addEventListener('DOMContentLoaded', function() {
             window.activateTimeTravelMode = function() { console.log('🚫 Time Travel Mode disabled for clean modal'); };
         }
         
-        const study = modalCaseStudies[studyId];
+        const study = caseStudies[studyId];
         if (study) {
             // Ensure modal elements exist
             const modal = document.getElementById('case-study-modal');
