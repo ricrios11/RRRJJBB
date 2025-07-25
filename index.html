@@ -2854,45 +2854,40 @@
         };
 
         function updateHeroThemeExpression(isDark) {
+            // NON-DESTRUCTIVE FIX: Theme changes should only affect visual styling, not content
+            // Preserve existing themeAwareHeroContent for potential future use
             const content = isDark ? themeAwareHeroContent.dark : themeAwareHeroContent.light;
             
-            // Update hero content with smooth transitions
+            // Get hero elements for visual styling only
             const titleEl = document.getElementById('hero-title-text');
             const subtitleEl = document.getElementById('hero-subtitle-text');
             const ctaEl = document.getElementById('hero-cta-text');
             const keywordsEl = document.getElementById('hero-keywords');
             
-            if (titleEl) {
-                titleEl.style.opacity = '0.5';
-                setTimeout(() => {
-                    titleEl.textContent = content.title;
-                    titleEl.style.opacity = '1';
-                }, 150);
-            }
+            // FIXED: Apply visual theme effects without changing text content
+            const applyThemeVisuals = (element, expression) => {
+                if (!element) return;
+                
+                // Apply theme-aware visual styling only
+                if (isDark) {
+                    // Dark theme visual enhancements
+                    element.style.textShadow = '0 0 20px rgba(147, 51, 234, 0.3)';
+                    element.style.transition = 'all 0.3s ease';
+                } else {
+                    // Light theme visual styling
+                    element.style.textShadow = 'none';
+                    element.style.transition = 'all 0.3s ease';
+                }
+            };
             
-            if (subtitleEl) {
-                subtitleEl.style.opacity = '0.5';
-                setTimeout(() => {
-                    subtitleEl.textContent = content.subtitle;
-                    subtitleEl.style.opacity = '1';
-                }, 200);
-            }
+            // Apply visual theming without content changes
+            applyThemeVisuals(titleEl, content.expression);
+            applyThemeVisuals(subtitleEl, content.expression);
+            applyThemeVisuals(ctaEl, content.expression);
+            applyThemeVisuals(keywordsEl, content.expression);
             
-            if (ctaEl) {
-                ctaEl.style.opacity = '0.5';
-                setTimeout(() => {
-                    ctaEl.textContent = content.cta;
-                    ctaEl.style.opacity = '1';
-                }, 250);
-            }
-            
-            if (keywordsEl) {
-                keywordsEl.style.opacity = '0.5';
-                setTimeout(() => {
-                    keywordsEl.textContent = content.keywords;
-                    keywordsEl.style.opacity = '1';
-                }, 300);
-            }
+            // Log fix application
+            console.log(`🔧 FIXED: Theme visual styling applied (${isDark ? 'dark' : 'light'}) - content preserved`);
         }
 
         // #TrojanHorseOS:2025-07-20 - DNA ORCHESTRATION: Unified Theme System (Phase 1)
