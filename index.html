@@ -2741,109 +2741,7 @@
             pendingModals: []
         };
         
-        // Case study data with defensive loading
-        const caseStudies = {
-            'chase-travel': {
-                title: 'Chase Travel Transformation',
-                subtitle: 'AI-Enhanced Luxury Travel Experience',
-                icon: '🎯',
-                overview: 'Led strategic redesign of Chase\'s travel booking experience, unifying desktop and mobile channels through systematic brand DNA alignment and refined progressive disclosure patterns that honor both editorial storytelling and transactional precision.',
-                challenge: 'Fragmented interfaces across web and app created friction in the booking journey post-rebrand. Federated touch points lacked cohesion, resulting in inconsistent pricing displays and reduced engagement with premium inventory offerings.',
-                approach: [
-                    'Aligned brand and experience DNA: Led cross-functional workshops with marketing, product and engineering to audit the federated journey post-rebrand, uncovering and prioritizing critical pain points',
-                    'Hypothesized impact of cohesion: Framed the problem—"If we unify UI patterns, elevate typography, and introduce elegant progressive disclosure, we\'ll reduce friction and reinforce the new brand at every step"',
-                    'Modularized and modernized interactions: Built and iterated on refined interface modules—chunked content, responsive typographic scales, and clean layouts—benchmarking against best-in-class analogs',
-                    'Validated with measurable results: Pressure-tested prototypes in mixed-method sessions and gap-mapping exercises, confirming an 88% reduction in prioritized UX issues and setting a new standard for cross-platform harmony'
-                ],
-                impact: {
-                    metrics: [
-                        '88% reduction in prioritized UX gaps',
-                        '20% year-over-year transaction growth across strategic lines'
-                    ],
-                    qualitative: 'Despite pricing constraints outside our direct control, this cohesive redesign drove sustained growth across our most strategic business lines, boosted NPS, and strengthened cross-product coherence.'
-                },
-                keyLearnings: 'Friction reduction is fundamental: Clear pricing displays + contextually surfaced premium inventory drive both satisfaction and conversion. From transactional to experiential: Progressive disclosure of curated offers shifts perception, increasing engagement and brand affinity. Design DNA scales impact: Consistent UI, accessibility compliance, and cohesive cross-product patterns fuel higher NPS, cross-sell lift, and sustained year-over-year transaction growth.'
-            },
-            'wealth-management': {
-                title: 'Digital Wealth Management',
-                subtitle: 'Unified Investment Platform',
-                icon: '💼',
-                overview: 'Introduced full-featured wealth management UI into Chase\'s ecosystem—desktop and native mobile—serving high-net-worth clients with systematic precision.',
-                challenge: 'Legacy online application lacked investment tools, mobile app had no managed-account surfaces, causing client churn to competitors offering more comprehensive digital experiences.',
-                approach: [
-                    'Conducted comprehensive audit of existing online flows and mobile usage analytics',
-                    'Designed modular Dashboard, Portfolio, and Advice components with systematic token architecture',
-                    'Built responsive patterns ensuring feature parity and usability across all platforms'
-                ],
-                impact: {
-                    metrics: [
-                        '30% reduction in support calls',
-                        '$2B in new assets onboarded within six months'
-                    ],
-                    qualitative: 'Created seamless wealth management experience that builds client trust through consistent, world-class interface design.'
-                },
-                keyLearnings: 'Unified design systems accelerate feature parity and client trust across platforms. Systematic approach to component architecture enables rapid scaling without compromising quality.'
-            },
-            'chase-dining': {
-                title: 'Chase Dining Platform',
-                subtitle: 'Editorial Meets Utility',
-                icon: '🍽️',
-                overview: 'Created Chase Dining, a hybrid editorial-booking platform marrying The Infatuation\'s rich content with OpenTable\'s reservation engine, plus exclusive Reserve Card perks.',
-                challenge: 'Customers loved Infatuation\'s storytelling but bounced when forced offsite to book. Booking drop-off undermined transaction credits value and premium card engagement.',
-                approach: [
-                    'Integrated curated editorial modules directly into booking flows',
-                    'Designed unified "Reserve" button with in-context previews of editorial highlights',
-                    'Surfaced transaction-credit reminders at key decision points in user journey'
-                ],
-                impact: {
-                    metrics: [
-                        '50% increase in on-platform reservations',
-                        '20% boost in Chase Reserve card spending'
-                    ],
-                    qualitative: 'Transformed dining discovery from fragmented experience into seamless editorial-transaction journey.'
-                },
-                keyLearnings: 'Seamless editorial-transaction experiences deepen engagement and lift spend on premium benefits. The key is eliminating friction while preserving the editorial magic that drives discovery.'
-            },
-            'bjj-movement': {
-                title: 'BJJ Training & Design Practice',
-                subtitle: 'Mat Skills Applied to Design Leadership',
-                icon: '🥋',
-                overview: 'Applied problem solving, perseverance, and emotional intelligence developed through Brazilian Jiu-Jitsu training to design leadership—transferring mat-learned principles to business objectives and customer pain points.',
-                challenge: 'High-pressure design environments demand the same mental resilience, problem-solving clarity, and emotional regulation required in martial arts competition. The challenge was systematically transferring these skills.',
-                approach: [
-                    'Developed systematic problem-solving approach through consistent mat training',
-                    'Applied emotional intelligence and pressure management from sparring to design critiques and stakeholder management',
-                    'Transferred perseverance and iterative improvement mindset to product development cycles'
-                ],
-                impact: {
-                    metrics: [
-                        'Improved team dynamics through authentic leadership approach',
-                        'Enhanced stakeholder management through emotional intelligence'
-                    ],
-                    qualitative: 'Demonstrated relentless work ethic and authentic approach that others respect, admire, and emulate to accelerate their own professional development.'
-                },
-                keyLearnings: 'Authentic skill transfer from martial arts to design work creates genuine leadership presence. Problem-solving under pressure, emotional regulation, and systematic improvement translate directly to design excellence.'
-            },
-            'meta-workflow': {
-                title: 'Meta: ContentOS Framework Revolution',
-                subtitle: 'Time-Aware Multi-Agent Design System',
-                icon: '🌌',
-                overview: 'Pioneered the world\'s first time-aware, context-adaptive portfolio system with comprehensive ContentOS framework, multi-agent orchestration, and TrojanHorse future-facing architecture—delivering personalized experiences that evolve with visitor intent and temporal context.',
-                challenge: 'Traditional portfolios are static, one-size-fits-all experiences that fail to adapt to visitor context, time of day, engagement patterns, or evolving intent. No systematic framework existed for intelligent content personalization at scale.',
-                approach: 'Architected a revolutionary ContentOS framework with 11-section time-aware content system, 6-agent orchestration (Q, G, S, X, R, D), TrojanHorse future-facing integration, Hidden Lab experimental features, and comprehensive visitor memory system with real-time personalization.',
-                outcome: 'Created the most sophisticated portfolio experience possible: 33 content variants (11 sections × 3 time contexts), intelligent agent orchestration, experimental feature laboratory, and persistent visitor personalization that evolves with each interaction.',
-                impact: {
-                    metrics: [
-                        '11 portfolio sections with 3 time-aware variants each (33 total content blocks)',
-                        '6-agent orchestration system with structured JSON outputs and confidence scoring',
-                        '100% personalized experiences based on visitor memory and behavioral patterns',
-                        'Hidden Lab 2.0 with Konami code activation and experimental feature access'
-                    ],
-                    qualitative: 'Established new paradigm for intelligent portfolio experiences—moving beyond static presentation to dynamic, context-aware, visitor-centric design systems that learn and adapt. Framework now serves as blueprint for next-generation digital experiences.'
-                },
-                keyLearnings: 'Systematic frameworks unlock AI collaboration potential. Position Before Submission applies to prompting: establish structure, then execute. Human domain expertise + AI execution precision = sustainable creative advantage.'
-            }
-        };
+        // Case study data with defensive loading - removed duplicate declaration
         
         // #TrojanHorseOS:2025-07-20 - DNA ORCHESTRATION PHASE 2: Modal System Initialization
         // ModalityDesignAgent: Mark case studies as loaded and initialize modal system
@@ -3499,9 +3397,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Validate case study exists with enhanced error handling
-            if (!modalCaseStudies || !modalCaseStudies[caseStudyId]) {
+            if (!caseStudies || !caseStudies[caseStudyId]) {
                 console.error('🌌❌ DNA PHASE 2: Case study not found:', caseStudyId);
-                console.log('🌌📊 Available case studies:', Object.keys(modalCaseStudies || {}));
+                console.log('🌌📊 Available case studies:', Object.keys(caseStudies || {}));
                 
                 // Show user-friendly error instead of alert
                 const errorModal = document.createElement('div');
@@ -3523,7 +3421,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            const study = modalCaseStudies[caseStudyId];
+            const study = caseStudies[caseStudyId];
             console.log('🌌🐴 EMERGENCY MODAL: Study data loaded:', study.title);
             
             // #TrojanHorseOS:2025-07-20 - TROJAN HORSE OPPORTUNITY: Single Container Modal
@@ -9165,7 +9063,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <script>
     // CASE STUDY MODAL SYSTEM
-    const modalCaseStudies = {
+    const caseStudies = {
         remix: {
             title: "AI-Powered Case Study Personalization",
             content: `
