@@ -24,7 +24,55 @@
     
     <!-- Time-Aware Hero Gradient System -->
     <script src="src/time-aware-hero-gradient-system.js"></script>
+    <!-- THREAD 4: Competing systems eliminated - time-aware gradients now have clear precedence -->
     <style>
+        /* CSS-FIRST TIME-AWARE GRADIENTS: Immediate application without JavaScript dependency */
+        .time-evening #hero.ric-hero {
+            background: linear-gradient(180deg, 
+                rgba(30, 27, 75, 1.0) 0%,        /* Deep indigo */
+                rgba(49, 46, 129, 0.9) 15%,      /* Rich purple */
+                rgba(67, 56, 202, 0.8) 30%,      /* Vibrant indigo */
+                rgba(99, 102, 241, 0.7) 45%,     /* Bright indigo */
+                rgba(129, 140, 248, 0.6) 60%,    /* Light indigo */
+                rgba(165, 180, 252, 0.3) 75%,    /* Pale indigo */
+                rgba(199, 210, 254, 0.1) 85%,    /* Very pale indigo */
+                rgba(224, 231, 255, 0.05) 95%,   /* Almost transparent */
+                transparent 100%                 /* Seamless transition */
+            ) !important;
+        }
+        
+        /* Z-INDEX HIERARCHY: Konami > Nav > Innovation Lab */
+        
+        /* KONAMI SEQUENCE CAPTURE: Highest priority affordance */
+        #konami-progress {
+            z-index: 999999 !important;
+        }
+        
+        /* NAV BAR Z-INDEX: High but below Konami */
+        .ric-nav {
+            z-index: 10000 !important;
+            position: fixed !important;
+        }
+        
+        /* INNOVATION LAB Z-INDEX: Keep below nav */
+        #innovation-lab {
+            z-index: 1000 !important;
+        }
+        
+        /* DARK MODE NAV HOVER: Align with evening gradient theme */
+        .dark .ric-nav-link:hover {
+            background: rgba(67, 56, 202, 0.15) !important;  /* Evening indigo with transparency */
+            color: rgba(165, 180, 252, 1) !important;        /* Light indigo from gradient */
+        }
+        
+        .dark .ric-nav-link:hover .ric-nav-link-hint {
+            color: rgba(199, 210, 254, 0.9) !important;      /* Very pale indigo */
+        }
+        
+        .dark .ric-nav-link::before {
+            background: rgba(129, 140, 248, 1) !important;   /* Bright indigo underline */
+        }
+        
         /* #TrojanHorseOS:2025-07-19 - PRODUCTION-QUALITY PRESENTATION LAYER REFINEMENT */
         /* SYSTEMATIC DESIGN TOKENS - DOS COMPLIANT + RICRIOS.COM PRODUCTION PARITY */
 
@@ -243,7 +291,7 @@
         }
         
         /* #TrojanHorseOS:2025-07-19 - EXPRESSIVE TIME-AWARE HERO GRADIENTS WITH SEAMLESS FADE */
-        .time-morning .ric-hero-section {
+        .time-morning .ric-hero {
             /* Morning: Fresh, optimistic gradient with warm golden undertones */
             background: linear-gradient(180deg, 
                 rgba(240, 249, 255, 1.0) 0%,     /* Sky blue at full opacity */
@@ -255,7 +303,7 @@
             );
         }
         
-        .time-afternoon .ric-hero-section {
+        .time-afternoon .ric-hero {
             /* Afternoon: Focused, methodical gradient with professional depth */
             background: linear-gradient(180deg, 
                 rgba(219, 234, 254, 1.0) 0%,     /* Professional blue at full opacity */
@@ -267,7 +315,7 @@
             );
         }
         
-        .time-evening .ric-hero-section {
+        .time-evening .ric-hero {
             /* Evening: Contemplative, masterful gradient with rich depth */
             background: linear-gradient(180deg, 
                 rgba(30, 27, 75, 1.0) 0%,        /* Deep indigo at full opacity */
@@ -280,7 +328,7 @@
         }
         
         /* #TrojanHorseOS:2025-07-19 - DARK MODE EXPRESSIVE HERO GRADIENTS WITH SEAMLESS FADE */
-        .dark .time-morning .ric-hero-section {
+        .dark .time-morning .ric-hero {
             /* Dark Morning: Deep, sophisticated gradient with warm undertones */
             background: linear-gradient(180deg, 
                 rgba(15, 23, 42, 1.0) 0%,        /* Deep slate at full opacity */
@@ -292,7 +340,7 @@
             );
         }
         
-        .dark .time-afternoon .ric-hero-section {
+        .dark .time-afternoon .ric-hero {
             /* Dark Afternoon: Professional depth with sophisticated warmth */
             background: linear-gradient(180deg, 
                 rgba(30, 41, 59, 1.0) 0%,        /* Professional slate at full opacity */
@@ -304,7 +352,7 @@
             );
         }
         
-        .dark .time-evening .ric-hero-section {
+        .dark .time-evening .ric-hero {
             /* Dark Evening: Rich, dramatic gradient with deep contemplative tones */
             background: linear-gradient(180deg, 
                 rgba(12, 10, 9, 1.0) 0%,         /* Deep brown-black at full opacity */
@@ -347,33 +395,10 @@
             margin: 0 auto clamp(2rem, 4vw, 3rem) auto;
         }
         
-        /* #TrojanHorseOS:2025-07-19 - UXDesignAgent: Contained Hero Gradient System */
-        .ric-hero-gradient-bg {
-            /* #TrojanHorseOS:2025-07-19 - UXDesignAgent: DNA Linear Gradient Solution (MD Critical Fix) */
-            background: linear-gradient(180deg, 
-                rgba(99, 102, 241, 0.08) 0%, 
-                rgba(168, 85, 247, 0.06) 30%, 
-                rgba(236, 72, 153, 0.04) 60%, 
-                var(--ric-color-background) 100%
-            );
-            /* Seamless blend with base background - modern, smooth, elegant */
-            box-shadow: 
-                inset 0 1px 0 rgba(255, 255, 255, 0.05),
-                0 8px 32px rgba(0, 0, 0, 0.04);
-        }
+        /* #TrojanHorseOS:2025-07-19 - THREAD 3: DEPRECATED GRADIENT SYSTEM REMOVED */
+        /* Single source of truth: Time-aware gradient system handles all hero backgrounds */
         
-        /* Dark theme: Rich, dramatic gradient */
-        .dark .ric-hero-gradient-bg {
-            background: linear-gradient(180deg, 
-                rgba(15, 23, 42, 0.95) 0%,
-                rgba(30, 41, 59, 0.9) 25%,
-                rgba(51, 65, 85, 0.85) 50%,
-                rgba(71, 85, 105, 0.8) 75%,
-                rgba(100, 116, 139, 0.75) 100%
-            );
-        }
-        
-        /* Enhanced container positioning */
+        /* Enhanced container positioning - kept for layout */
         .ric-hero-gradient-container {
             position: relative;
             z-index: 1;
@@ -1697,7 +1722,7 @@
         }
     </style>
 </head>
-<body id="app-root">
+<body id="app-root" class="time-evening time-evening-light">
     <!-- Navigation -->
     <nav class="ric-nav">
         <div class="ric-container">
@@ -1788,16 +1813,7 @@
                 position: relative;
                 overflow: hidden;
             " class="ric-hero-gradient-container">
-                <!-- #TrojanHorseOS:2025-07-19 - Theme-aware contained gradient background -->
-                <div style="
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    z-index: -1;
-                    border-radius: var(--ric-radius-2xl);
-                " class="ric-hero-gradient-bg"></div>
+                <!-- #TrojanHorseOS:2025-07-19 - DEPRECATED ELEMENT REMOVED: ric-hero-gradient-bg -->
                 
                 <!-- #TrojanHorseOS:2025-07-19 - Subtle top highlight for depth -->
                 <div style="
@@ -5519,7 +5535,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     border: 1px solid #00ff88;
                     font-family: monospace;
                     font-size: 0.9rem;
-                    z-index: 10001;
+                    z-index: 999999;
                     backdrop-filter: blur(10px);
                     animation: konamiGlow 1s ease-in-out infinite alternate;
                 `;

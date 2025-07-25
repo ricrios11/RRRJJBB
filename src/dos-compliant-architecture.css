@@ -572,7 +572,7 @@ body {
 
 /* HERO SECTION - Enhanced Visual Polish */
 .ric-hero {
-  background: var(--ric-gradient-hero);
+  /* THREAD 2: Background removed - time-aware gradient system handles all hero backgrounds */
   min-height: 100vh;
   display: flex;
   align-items: center;
