@@ -22,6 +22,22 @@
     <link rel="stylesheet" href="src/dos-snake-game.css">
     <script src="src/dos-snake-game.js"></script>
     
+    <!-- 🛡️ DOS FRAMEWORK - TROJAN RECOVERY SYSTEMS -->
+    <!-- TechOS: Defensive initialization and validation -->
+    <script src="js/guards/init-guard.js" defer></script>
+    <script src="js/guards/system-validator.js" defer></script>
+    
+    <!-- 🔒 TROJAN PATCH: Hero + Nav Stability Guards -->
+    <script src="js/guards/hero-init.js" defer></script>
+    <script src="js/guards/nav-guard.js" defer></script>
+    
+    <!-- COS + LocOS: Time-aware hero content system -->
+    <script src="js/time-aware-hero.js" defer></script>
+    
+    <!-- InteractionOS + IntegrationOS: Unified Innovation Lab -->
+    <script src="js/innovation-lab-unified.js" defer></script>
+    <script src="js/labs/FeatureLabModule.js" defer></script>
+    
     <!-- 🚫 DISABLED: External Time-Aware Hero Gradient System (replaced by inline authoritative system) -->
     <!-- <script src="src/time-aware-hero-gradient-system.js"></script> -->
     <!-- THREAD 4: Competing systems eliminated - time-aware gradients now have clear precedence -->
@@ -2373,17 +2389,17 @@
                 </div>
                 
                 <div class="ric-nav-links">
-                    <a href="#about" class="ric-nav-link" data-story-order="1">
-                        <span class="ric-nav-link-text">About</span>
-                        <span class="ric-nav-link-hint">Foundation</span>
-                    </a>
-                    <a href="#philosophy" class="ric-nav-link" data-story-order="2">
+                    <a href="#philosophy" class="ric-nav-link" data-story-order="1">
                         <span class="ric-nav-link-text">Philosophy</span>
                         <span class="ric-nav-link-hint">Principles</span>
                     </a>
-                    <a href="#case-studies" class="ric-nav-link" data-story-order="3">
+                    <a href="#case-studies" class="ric-nav-link" data-story-order="2">
                         <span class="ric-nav-link-text">Work</span>
                         <span class="ric-nav-link-hint">Mastery</span>
+                    </a>
+                    <a href="#hidden-lab" class="ric-nav-link" data-story-order="3">
+                        <span class="ric-nav-link-text">Laboratory</span>
+                        <span class="ric-nav-link-hint">Innovation</span>
                     </a>
                 </div>
                 
@@ -2400,8 +2416,10 @@
                     <!-- #TrojanHorseOS:2025-07-19 - Trojan stub: Future nav enhancement placeholder -->
                     
                     <!-- Mobile menu button -->
-                    <button class="ric-dark-mode-toggle ric-hidden-desktop" onclick="toggleMobileMenu()" aria-label="Toggle menu">
-                        <span>☰</span>
+                    <button class="ric-mobile-menu-button ric-hidden-desktop" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </button>
                 </div>
             </div>
@@ -2425,9 +2443,9 @@
             </p>
             
             <div class="ric-space-y-md">
-                <a href="#about" class="ric-nav-link" onclick="toggleMobileMenu()">About</a>
                 <a href="#philosophy" class="ric-nav-link" onclick="toggleMobileMenu()">Philosophy</a>
                 <a href="#case-studies" class="ric-nav-link" onclick="toggleMobileMenu()">Work</a>
+                <a href="#hidden-lab" class="ric-nav-link" onclick="toggleMobileMenu()">Laboratory</a>
             </div>
             
             <!-- #TrojanHorseOS:2025-07-19 - DNA Mode: Removed mobile nav CTA per UXDesignAgent refactor -->
@@ -2470,20 +2488,12 @@
                 <div class="ric-animate-float ric-mb-xl ric-text-5xl" style="margin-top: var(--ric-space-lg);">
                     🎛️
                 </div>
+                <!-- Time-Aware Hero System - Dynamic content populated by time-aware-hero.js -->
                 <h1 class="ric-hero-title ric-mb-xl" id="hero-title" data-content="headline" style="margin-top: var(--ric-space-lg);">
-                    <span id="hero-title-text">Design Leadership for Tomorrow's Builders</span>
+                    <span id="hero-title-text">Mastery moves when it matters. We build design systems for transformation.</span>
                 </h1>
                 
-                <p class="ric-hero-subtitle ric-mb-xl" id="hero-description" data-content="subtitle" style="max-width: 700px; margin-left: auto; margin-right: auto;">
-                    <span id="hero-subtitle-text">When ambitious leaders need disciplined design innovation that bridges craft mastery with emerging technology—delivering standards that define tomorrow.</span>
-                </p>
-                
-                <!-- DIP LEVEL: Extended description -->
-                <div class="ric-content-expandable ric-dip-content ric-dive-content ric-mb-xl" data-content="description">
-                    <p class="ric-text-lg ric-text-muted ric-leading-relaxed" id="hero-subtitle" style="max-width: 600px; margin: 0 auto;">
-                        For leaders who understand exceptional design isn't decoration—it's competitive advantage. Strategic, disciplined, relentlessly forward-looking.
-                    </p>
-                </div>
+
 
                 <!-- DIVE LEVEL: Social proof and metrics -->
                 <div class="ric-content-expandable ric-dive-content ric-mb-xl" data-content="socialProof">
@@ -2510,11 +2520,18 @@
                     </div>
                 </div>
                 
-                <div style="display: flex; justify-content: center; margin-bottom: var(--ric-space-2xl);">
+                <div style="display: flex; justify-content: center; margin-bottom: var(--ric-space-lg);">
                     <button class="ric-button ric-button-primary" style="padding: var(--ric-space-lg) var(--ric-space-2xl); font-size: var(--ric-text-lg);" onclick="smoothScroll('case-studies')" id="hero-cta" data-content="primaryCTA">
                         <span id="hero-cta-text">Begin with proven mastery</span>
                     </button>
                     <!-- #TrojanHorseOS:2025-07-19 - Trojan stub: Future CTA enhancement hooks -->
+                </div>
+                
+                <!-- Optional sub-line under CTA -->
+                <div class="ric-text-center" style="margin-bottom: var(--ric-space-2xl);">
+                    <p class="ric-text-sm ric-text-muted" style="font-style: italic; opacity: 0.8;">
+                        Built on real-world wins, forged in global teams, and always moving forward.
+                    </p>
                 </div>
                 
                 <div class="ric-text-center">
@@ -3453,10 +3470,19 @@
             const heroCta = document.querySelector('.ric-hero-cta');
             const heroKeywords = document.querySelector('.ric-hero-keywords');
             
-            if (heroTitle) heroTitle.textContent = current.heroTitle;
+            // CRITICAL: Protect navigation brand title from being overwritten
+            if (heroTitle && !heroTitle.classList.contains('ric-nav-brand-title')) {
+                heroTitle.textContent = current.heroTitle;
+            }
             if (heroSubtitle) heroSubtitle.textContent = current.heroSubtitle;
             if (heroCta) heroCta.textContent = current.heroCta;
             if (heroKeywords) heroKeywords.textContent = current.heroKeywords;
+            
+            // Ensure navigation brand title is always correct
+            const navBrandTitle = document.querySelector('.ric-nav-brand-title');
+            if (navBrandTitle) {
+                navBrandTitle.textContent = 'Ric Rios';
+            }
             
             // Update navigation greeting
             const navGreeting = document.getElementById('nav-greeting');
@@ -4324,6 +4350,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🌌🕰️ Time-Aware Portfolio: Emergency restoration at', new Date().toLocaleString());
             
+            // CRITICAL: Ensure navigation brand title is correct before any other operations
+            const navBrandTitle = document.querySelector('.ric-nav-brand-title');
+            if (navBrandTitle) {
+                navBrandTitle.textContent = 'Ric Rios';
+                console.log('🎛️ Navigation brand title protected and set to: Ric Rios');
+            }
+            
             // EMERGENCY: Initialize theme system properly
             initializeThemeSystem();
             
@@ -4408,12 +4441,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('🐴🌅 Applied', timeContext.period, 'gradient to hero');
                 }
                 
-                // Update hero content
-                const heroHeadline = document.querySelector('#hero h1');
+                // Update hero content (with navigation protection)
+                const heroHeadline = document.querySelector('#hero-title-text') || document.querySelector('#hero .ric-hero-title');
                 const heroDescription = document.querySelector('#hero .ric-text-lg');
                 const heroButton = document.querySelector('#hero .ric-btn-primary');
                 
-                if (heroHeadline) heroHeadline.textContent = timeContext.headline;
+                // CRITICAL: Protect navigation brand title from being overwritten
+                if (heroHeadline && !heroHeadline.classList.contains('ric-nav-brand-title')) {
+                    heroHeadline.textContent = timeContext.headline;
+                }
+                
+                // Ensure navigation brand title is always correct
+                const navBrandTitle = document.querySelector('.ric-nav-brand-title');
+                if (navBrandTitle) {
+                    navBrandTitle.textContent = 'Ric Rios';
+                }
                 if (heroDescription) heroDescription.textContent = timeContext.description;
                 if (heroButton) heroButton.textContent = timeContext.cta;
                 
@@ -13247,6 +13289,120 @@ function createTrojanHorseFeedModal() {
                 <p class="ric-text-sm ric-text-muted ric-mt-md">
                     Use arrow keys or WASD to control the snake
                 </p>
+            </div>
+            
+            <!-- FeatureLabModals.html - Modal System for Innovation Lab Features -->
+            <div id="featureModals" class="feature-modals-container">
+                <!-- 🎨 Prompt Generator Modal -->
+                <div class="modal feature-modal" id="modal-prompt" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; backdrop-filter: blur(8px);">
+                    <div class="modal-content" style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: var(--ric-color-surface-secondary);
+                        border: 2px solid #6b7280;
+                        border-radius: var(--ric-radius-lg);
+                        padding: var(--ric-space-2xl);
+                        max-width: 500px;
+                        width: 90%;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                    ">
+                        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--ric-space-lg);">
+                            <h2 style="background: linear-gradient(135deg, #6b7280, #4b5563); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'SF Mono', monospace;">🎨 Prompt Generator</h2>
+                            <button onclick="FeatureLabModule.closeModal('prompt')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ric-color-text-muted);">✕</button>
+                        </div>
+                        <p style="color: var(--ric-color-text-muted); line-height: 1.6; margin-bottom: var(--ric-space-lg);">This tool will help designers onboard their agents to DOS frameworks, aligning creative input with real system intelligence.</p>
+                        <div class="status-indicator" style="
+                            padding: var(--ric-space-sm) var(--ric-space-md);
+                            background: linear-gradient(135deg, rgba(107, 114, 128, 0.2), rgba(75, 85, 99, 0.1));
+                            border: 1px solid #6b7280;
+                            border-radius: var(--ric-radius-md);
+                            margin-bottom: var(--ric-space-lg);
+                            text-align: center;
+                        ">
+                            <strong style="color: #6b7280;">Status: In Discovery</strong>
+                        </div>
+                        <button onclick="FeatureLabModule.closeModal('prompt')" class="ric-button ric-button-secondary" style="width: 100%;">Close</button>
+                    </div>
+                </div>
+
+                <!-- 🎨 Graffiti Slap Game Modal -->
+                <div class="modal feature-modal" id="modal-graffiti" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; backdrop-filter: blur(8px);">
+                    <div class="modal-content" style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: var(--ric-color-surface-secondary);
+                        border: 2px solid #ff6b35;
+                        border-radius: var(--ric-radius-lg);
+                        padding: var(--ric-space-2xl);
+                        max-width: 500px;
+                        width: 90%;
+                        box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+                    ">
+                        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--ric-space-lg);">
+                            <h2 style="background: linear-gradient(135deg, #ff6b35, #e55a2b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'SF Mono', monospace;">🎨 Graffiti Slap Game</h2>
+                            <button onclick="FeatureLabModule.closeModal('graffiti')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ric-color-text-muted);">✕</button>
+                        </div>
+                        <p style="color: var(--ric-color-text-muted); line-height: 1.6; margin-bottom: var(--ric-space-lg);">Express yourself in full cyberpunk style. This Alpha release previews a vision where every visitor leaves their mark.</p>
+                        <div class="status-indicator" style="
+                            padding: var(--ric-space-sm) var(--ric-space-md);
+                            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(229, 90, 43, 0.1));
+                            border: 1px solid #ff6b35;
+                            border-radius: var(--ric-radius-md);
+                            margin-bottom: var(--ric-space-lg);
+                            text-align: center;
+                        ">
+                            <strong style="color: #ff6b35;">Status: Alpha Release</strong>
+                        </div>
+                        <button onclick="FeatureLabModule.closeModal('graffiti')" class="ric-button" style="
+                            width: 100%;
+                            background: linear-gradient(135deg, #ff6b35, #e55a2b);
+                            color: #fff;
+                            border: none;
+                            padding: var(--ric-space-md);
+                            border-radius: var(--ric-radius-md);
+                            font-weight: 600;
+                            cursor: pointer;
+                        ">Close</button>
+                    </div>
+                </div>
+                
+                <!-- 🤖 Agent Expression Modal -->
+                <div class="modal feature-modal" id="modal-agentx" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 10000; backdrop-filter: blur(8px);">
+                    <div class="modal-content" style="
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        background: var(--ric-color-surface-secondary);
+                        border: 2px solid #6b7280;
+                        border-radius: var(--ric-radius-lg);
+                        padding: var(--ric-space-2xl);
+                        max-width: 500px;
+                        width: 90%;
+                        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+                    ">
+                        <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--ric-space-lg);">
+                            <h2 style="background: linear-gradient(135deg, #6b7280, #4b5563); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: 'SF Mono', monospace;">🤖 Agent Expression</h2>
+                            <button onclick="FeatureLabModule.closeModal('agentx')" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ric-color-text-muted);">✕</button>
+                        </div>
+                        <p style="color: var(--ric-color-text-muted); line-height: 1.6; margin-bottom: var(--ric-space-lg);">AI-driven content architecture powered by Trojan protocol. Advanced agent systems for contextual design intelligence.</p>
+                        <div class="status-indicator" style="
+                            padding: var(--ric-space-sm) var(--ric-space-md);
+                            background: linear-gradient(135deg, rgba(107, 114, 128, 0.2), rgba(75, 85, 99, 0.1));
+                            border: 1px solid #6b7280;
+                            border-radius: var(--ric-radius-md);
+                            margin-bottom: var(--ric-space-lg);
+                            text-align: center;
+                        ">
+                            <strong style="color: #6b7280;">Status: Planned</strong>
+                        </div>
+                        <button onclick="FeatureLabModule.closeModal('agentx')" class="ric-button ric-button-secondary" style="width: 100%;">Close</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
