@@ -197,6 +197,15 @@
             
             console.log(`🎯 FEATURE LAB: ${title} activated (${getClickCount(id)}x total)`);
             
+            // 📊 AnalyticsOS v1: Click → Insight Tracker
+            console.log(`📊 AnalyticsOS: ${id} clicked`);
+            const eventLog = JSON.parse(localStorage.getItem("featureEvents") || "[]");
+            eventLog.push({
+                id,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem("featureEvents", JSON.stringify(eventLog));
+            
             // Execute feature action
             try {
                 action();

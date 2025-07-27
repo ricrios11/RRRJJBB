@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentX Tier 6 Testing Suite</title>
+    <style>
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0a0a0a;
+            color: #00ff00;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .test-section {
+            border: 1px solid #333;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 3px;
+        }
+        .pass { background: #004400; color: #00ff00; }
+        .fail { background: #440000; color: #ff0000; }
+        .info { background: #004444; color: #00ffff; }
+        button {
+            background: #333;
+            color: #00ff00;
+            border: 1px solid #555;
+            padding: 10px 15px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover { background: #555; }
+        #test-results { margin-top: 20px; }
+        .agentx-case-footnote {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .agentx-footnote-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .agentx-footnote-icon {
+            font-size: 1.2em;
+        }
+        .agentx-footnote-name {
+            color: #00ffff;
+            font-weight: bold;
+        }
+        .agentx-footnote-meta {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #888;
+            display: flex;
+            gap: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 AgentX Tier 6 Testing Suite</h1>
+    <p>Comprehensive testing for AgentX Case Studies + Auto-Theming + Analytics</p>
+
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">🚀 Run All Tests</button>
+        <button onclick="createTestProfile()">👤 Create Test Profile</button>
+        <button onclick="testCaseStudyFootnote()">📝 Test Case Study Footnote</button>
+        <button onclick="testAnalytics()">📊 Test Analytics</button>
+        <button onclick="testThemeSystem()">🎨 Test Theme System</button>
+        <button onclick="clearTestData()">🗑️ Clear Test Data</button>
+    </div>
+
+    <div id="test-results"></div>
+
+    <!-- Mock case study modal for testing -->
+    <div id="case-study-modal" style="display: none;">
+        <div id="modal-body">
+            <div id="agentx-footnote"></div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function log(message, type = 'info') {
+            const result = { message, type, timestamp: new Date().toISOString() };
+            testResults.push(result);
+            updateDisplay();
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        function updateDisplay() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.type}">[${result.timestamp.split('T')[1].split('.')[0]}] ${result.message}</div>`
+            ).join('');
+        }
+
+        function createTestProfile() {
+            const testProfile = {
+                name: "TestAgent_Tier6",
+                role: "Strategist",
+                tone: "Visionary", 
+                theme: "Cyberpunk",
+                expertise: "Advanced",
+                focus: ["Design Systems", "Innovation", "Analytics"]
+            };
+
+            localStorage.setItem('agentx-profile', JSON.stringify(testProfile));
+            log(`✅ Test agent profile created: ${testProfile.name}`, 'pass');
+            
+            // Trigger profile loaded event
+            document.dispatchEvent(new CustomEvent('agentxProfileLoaded', {
+                detail: testProfile
+            }));
+            
+            return testProfile;
+        }
+
+        function testCaseStudyFootnote() {
+            log('🧪 Testing Case Study Footnote Injection...', 'info');
+            
+            // Ensure we have a profile
+            const profile = JSON.parse(localStorage.getItem('agentx-profile') || '{}');
+            if (!profile.name) {
+                log('❌ No agent profile found, creating one...', 'fail');
+                createTestProfile();
+            }
+
+            // Test footnote element exists
+            const footnoteElement = document.getElementById('agentx-footnote');
+            if (!footnoteElement) {
+                log('❌ agentx-footnote element not found', 'fail');
+                return false;
+            }
+
+            // Test footnote generation function
+            if (typeof generateAgentFootnote === 'function') {
+                const footnoteContent = generateAgentFootnote(profile);
+                footnoteElement.innerHTML = footnoteContent;
+                log('✅ Footnote content generated and injected', 'pass');
+                
+                // Test if content contains expected elements
+                if (footnoteContent.includes(profile.name) && 
+                    footnoteContent.includes(profile.theme) && 
+                    footnoteContent.includes(profile.role)) {
+                    log('✅ Footnote contains all profile elements', 'pass');
+                } else {
+                    log('❌ Footnote missing profile elements', 'fail');
+                }
+            } else {
+                log('❌ generateAgentFootnote function not available', 'fail');
+                return false;
+            }
+
+            return true;
+        }
+
+        function testAnalytics() {
+            log('📊 Testing Analytics System...', 'info');
+            
+            // Test analytics functions exist
+            const functions = ['logAgentXEvent', 'getAgentXAnalytics', 'exportAgentXAnalytics', 'clearAgentXAnalytics'];
+            let functionsFound = 0;
+            
+            functions.forEach(func => {
+                if (typeof window[func] === 'function') {
+                    log(`✅ ${func} function available`, 'pass');
+                    functionsFound++;
+                } else {
+                    log(`❌ ${func} function not found`, 'fail');
+                }
+            });
+
+            // Test logging an event
+            if (typeof window.logAgentXEvent === 'function') {
+                window.logAgentXEvent('test_tier6_validation', {
+                    test_type: 'comprehensive',
+                    features_tested: ['footnote', 'analytics', 'theming']
+                });
+                log('✅ Test event logged successfully', 'pass');
+            }
+
+            // Test getting analytics
+            if (typeof window.getAgentXAnalytics === 'function') {
+                const analytics = window.getAgentXAnalytics();
+                log(`✅ Analytics retrieved: ${analytics.total_events} events`, 'pass');
+                
+                if (analytics.total_events > 0) {
+                    log(`✅ Analytics contains data: ${analytics.unique_sessions} sessions`, 'pass');
+                } else {
+                    log('⚠️ No analytics data found (expected for fresh install)', 'info');
+                }
+            }
+
+            return functionsFound === functions.length;
+        }
+
+        function testThemeSystem() {
+            log('🎨 Testing Theme System...', 'info');
+            
+            const profile = JSON.parse(localStorage.getItem('agentx-profile') || '{}');
+            if (!profile.theme) {
+                log('❌ No theme in agent profile', 'fail');
+                return false;
+            }
+
+            // Test if theme classes are applied
+            const body = document.body;
+            const expectedThemeClass = `agentx-theme-${profile.theme.toLowerCase()}`;
+            
+            if (body.classList.contains(expectedThemeClass)) {
+                log(`✅ Theme class applied: ${expectedThemeClass}`, 'pass');
+            } else {
+                log(`❌ Theme class not found: ${expectedThemeClass}`, 'fail');
+                log(`Current body classes: ${body.className}`, 'info');
+            }
+
+            // Test CSS custom properties for theming
+            const computedStyle = getComputedStyle(document.documentElement);
+            const themeProps = ['--agentx-primary', '--agentx-secondary', '--agentx-accent'];
+            
+            themeProps.forEach(prop => {
+                const value = computedStyle.getPropertyValue(prop);
+                if (value) {
+                    log(`✅ Theme property ${prop}: ${value.trim()}`, 'pass');
+                } else {
+                    log(`⚠️ Theme property ${prop} not found`, 'info');
+                }
+            });
+
+            return true;
+        }
+
+        function clearTestData() {
+            localStorage.removeItem('agentx-profile');
+            localStorage.removeItem('agentx-analytics');
+            sessionStorage.removeItem('agentx-session-id');
+            testResults = [];
+            updateDisplay();
+            log('🗑️ All test data cleared', 'info');
+        }
+
+        function runAllTests() {
+            log('🚀 Starting comprehensive AgentX Tier 6 test suite...', 'info');
+            
+            // Clear previous results
+            testResults = [];
+            
+            // Run all tests
+            createTestProfile();
+            testCaseStudyFootnote();
+            testAnalytics();
+            testThemeSystem();
+            
+            // Summary
+            const passCount = testResults.filter(r => r.type === 'pass').length;
+            const failCount = testResults.filter(r => r.type === 'fail').length;
+            
+            log(`🏁 Test suite completed: ${passCount} passed, ${failCount} failed`, 
+                 failCount === 0 ? 'pass' : 'fail');
+        }
+
+        // Mock the generateAgentFootnote function for testing
+        function generateAgentFootnote(profile) {
+            const {
+                name = "Agent",
+                tone = "professional",
+                role = "assistant", 
+                theme = "cyberpunk",
+                expertise = "general"
+            } = profile;
+
+            return `
+                <div class="agentx-case-footnote">
+                    <div class="agentx-footnote-content">
+                        <span class="agentx-footnote-icon">🤖</span>
+                        <p class="agentx-footnote-text">
+                            <em>This case study was analyzed with assistance from your personalized agent: 
+                            <strong class="agentx-footnote-name">${name}</strong>, a ${tone} ${role} tuned for ${theme} systems.</em>
+                        </p>
+                    </div>
+                    <div class="agentx-footnote-meta">
+                        <span class="agentx-footnote-theme">Theme: ${theme}</span>
+                        <span class="agentx-footnote-expertise">Focus: ${expertise}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            log('🧪 AgentX Tier 6 Testing Suite initialized', 'info');
+        });
+    </script>
+</body>
+</html>

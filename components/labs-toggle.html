@@ -1,0 +1,181 @@
+<!-- labs-toggle.html -->
+<!-- Trojan Tranche 4: Labs Filter & Sort Toggle UI -->
+<!-- Insert this above the #labs-index grid -->
+
+<div id="labs-toggle-controls" class="labs-controls-panel">
+  <div class="labs-controls-header">
+    <h3>🧪 Lab Controls</h3>
+    <span id="labs-results-counter">Loading features...</span>
+  </div>
+  
+  <div class="labs-controls-row">
+    <!-- Status Filter -->
+    <div class="control-group">
+      <label for="labs-status-filter">Filter by Status:</label>
+      <select id="labs-status-filter" class="labs-select">
+        <option value="all">All Statuses</option>
+        <option value="live">🟢 Live</option>
+        <option value="alpha">🟡 Alpha</option>
+        <option value="planned">🔵 Planned</option>
+      </select>
+    </div>
+    
+    <!-- Sort Control -->
+    <div class="control-group">
+      <label for="labs-sort-control">Sort by:</label>
+      <select id="labs-sort-control" class="labs-select">
+        <option value="name">Name (A-Z)</option>
+        <option value="status">Status</option>
+        <option value="recent">Recently Added</option>
+      </select>
+    </div>
+    
+    <!-- Search -->
+    <div class="control-group">
+      <label for="labs-search">Search:</label>
+      <input 
+        type="text" 
+        id="labs-search" 
+        class="labs-search-input" 
+        placeholder="Search features..."
+        autocomplete="off"
+      />
+    </div>
+    
+    <!-- Actions -->
+    <div class="control-group control-actions">
+      <button 
+        type="button" 
+        onclick="clearLabsFilters()" 
+        class="labs-btn labs-btn-secondary"
+      >
+        Clear Filters
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Labs Toggle Controls Styling */
+.labs-controls-panel {
+  background: var(--ric-bg-secondary);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-lg);
+  padding: var(--ric-space-lg);
+  margin-bottom: var(--ric-space-xl);
+  box-shadow: var(--ric-shadow-md);
+}
+
+.labs-controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--ric-space-md);
+  padding-bottom: var(--ric-space-sm);
+  border-bottom: 1px solid var(--ric-border-color);
+}
+
+.labs-controls-header h3 {
+  margin: 0;
+  color: var(--ric-text-primary);
+  font-size: 1.1rem;
+}
+
+#labs-results-counter {
+  color: var(--ric-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.labs-controls-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--ric-space-md);
+  align-items: end;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ric-space-xs);
+}
+
+.control-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ric-text-primary);
+}
+
+.labs-select,
+.labs-search-input {
+  padding: var(--ric-space-sm);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-md);
+  background: var(--ric-bg-primary);
+  color: var(--ric-text-primary);
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.labs-select:focus,
+.labs-search-input:focus {
+  outline: none;
+  border-color: var(--ric-accent-primary);
+  box-shadow: 0 0 0 2px var(--ric-accent-primary-alpha);
+}
+
+.labs-search-input::placeholder {
+  color: var(--ric-text-tertiary);
+}
+
+.control-actions {
+  justify-content: flex-end;
+}
+
+.labs-btn {
+  padding: var(--ric-space-sm) var(--ric-space-md);
+  border: none;
+  border-radius: var(--ric-radius-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.labs-btn-secondary {
+  background: var(--ric-bg-tertiary);
+  color: var(--ric-text-primary);
+  border: 1px solid var(--ric-border-color);
+}
+
+.labs-btn-secondary:hover {
+  background: var(--ric-bg-secondary);
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .labs-controls-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .labs-controls-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--ric-space-xs);
+  }
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .labs-controls-panel {
+  background: rgba(20, 20, 30, 0.8);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .labs-select,
+[data-theme="dark"] .labs-search-input {
+  background: rgba(30, 30, 40, 0.8);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--ric-text-primary);
+}
+</style>

@@ -1,0 +1,615 @@
+<!-- agentx-form.html -->
+<!-- Trojan Tranche 4: AgentX Personalization Form -->
+<!-- Insert inside modal or dedicated section -->
+
+<div id="agentx-personalization" class="agentx-container">
+  <div class="agentx-header">
+    <h2>🧬 AgentX Personalization</h2>
+    <p>Configure your AI agent companion for personalized interactions</p>
+  </div>
+  
+  <div class="agentx-content">
+    <!-- Configuration Form -->
+    <form id="agentx-form" class="agentx-form">
+      <div class="form-grid">
+        <!-- Agent Name -->
+        <div class="form-group">
+          <label for="agent-name">Agent Name</label>
+          <input 
+            type="text" 
+            id="agent-name"
+            name="name" 
+            placeholder="e.g. Echo, Astra, Lyra" 
+            maxlength="20"
+            required
+          />
+          <small>Choose a unique name for your agent</small>
+        </div>
+
+        <!-- Role Selection -->
+        <div class="form-group">
+          <label for="agent-role">Primary Role</label>
+          <select id="agent-role" name="role" required>
+            <option value="">Select a role...</option>
+            <option value="researcher">🔍 Researcher - Deep analysis & insights</option>
+            <option value="strategist">🎯 Strategist - Planning & execution</option>
+            <option value="curator">📚 Curator - Content & knowledge management</option>
+            <option value="synthesizer">⚡ Synthesizer - Integration & connections</option>
+          </select>
+          <small>Defines your agent's primary capabilities</small>
+        </div>
+
+        <!-- Tone Preference -->
+        <div class="form-group">
+          <label for="agent-tone">Communication Tone</label>
+          <select id="agent-tone" name="tone" required>
+            <option value="">Select tone...</option>
+            <option value="direct">⚡ Direct - Concise & efficient</option>
+            <option value="empathetic">💙 Empathetic - Warm & understanding</option>
+            <option value="visionary">🚀 Visionary - Inspiring & forward-thinking</option>
+            <option value="playful">🎭 Playful - Creative & engaging</option>
+          </select>
+          <small>How your agent communicates with you</small>
+        </div>
+
+        <!-- Theme Selection -->
+        <div class="form-group">
+          <label for="agent-theme">Visual Theme</label>
+          <select id="agent-theme" name="theme" required>
+            <option value="">Select theme...</option>
+            <option value="cyberpunk">🌆 Cyberpunk - Neon & futuristic</option>
+            <option value="editorial">📰 Editorial - Clean & professional</option>
+            <option value="minimalist">⚪ Minimalist - Simple & focused</option>
+          </select>
+          <small>Visual style for agent interactions</small>
+        </div>
+      </div>
+      
+      <!-- Advanced Options -->
+      <details class="advanced-options">
+        <summary>Advanced Configuration</summary>
+        <div class="advanced-grid">
+          <div class="form-group">
+            <label for="agent-expertise">Expertise Level</label>
+            <select id="agent-expertise" name="expertise">
+              <option value="adaptive">🔄 Adaptive - Matches your level</option>
+              <option value="beginner">🌱 Beginner-friendly</option>
+              <option value="intermediate">⚡ Intermediate</option>
+              <option value="expert">🎯 Expert-level</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-focus">Focus Areas</label>
+            <input 
+              type="text" 
+              id="agent-focus"
+              name="focus" 
+              placeholder="e.g. design, strategy, technology"
+            />
+          </div>
+        </div>
+      </details>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" id="agentx-reset" class="btn-secondary">
+          Reset to Defaults
+        </button>
+        <button type="submit" class="btn-primary">
+          💾 Save Agent Configuration
+        </button>
+      </div>
+      
+      <!-- Export Actions -->
+      <div class="export-actions">
+        <h4>Export & Backup</h4>
+        <div class="export-buttons">
+          <button type="button" onclick="downloadAgentXProfile()" class="btn-export">
+            📤 Export JSON
+          </button>
+          <button type="button" onclick="downloadAgentXProfileYAML()" class="btn-export">
+            📄 Export YAML
+          </button>
+          <button type="button" onclick="exportAllAgentData()" class="btn-export">
+            📦 Full Backup
+          </button>
+        </div>
+        
+        <div class="import-section">
+          <label for="agentx-import-file" class="import-label">Import Configuration:</label>
+          <input type="file" id="agentx-import-file" accept=".json" class="import-input" 
+                 onchange="importAgentXProfile(this.files[0])" />
+        </div>
+      </div>
+    </form>
+    
+    <!-- Live Preview -->
+    <div class="agentx-preview-section">
+      <h3>Preview</h3>
+      <div id="agentx-preview" class="agent-preview-container">
+        <p class="preview-placeholder">Configure your agent to see preview</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* AgentX Form Styling */
+.agentx-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--ric-space-xl);
+}
+
+.agentx-header {
+  text-align: center;
+  margin-bottom: var(--ric-space-xl);
+}
+
+.agentx-header h2 {
+  color: var(--ric-text-primary);
+  margin-bottom: var(--ric-space-sm);
+}
+
+.agentx-header p {
+  color: var(--ric-text-secondary);
+  font-size: 1.1rem;
+}
+
+.agentx-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--ric-space-xl);
+  align-items: start;
+}
+
+.agentx-form {
+  background: var(--ric-bg-secondary);
+  padding: var(--ric-space-lg);
+  border-radius: var(--ric-radius-lg);
+  border: 1px solid var(--ric-border-color);
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--ric-space-lg);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ric-space-xs);
+}
+
+.form-group label {
+  font-weight: 600;
+  color: var(--ric-text-primary);
+  font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: var(--ric-space-md);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-md);
+  background: var(--ric-bg-primary);
+  color: var(--ric-text-primary);
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--ric-accent-primary);
+  box-shadow: 0 0 0 2px var(--ric-accent-primary-alpha);
+}
+
+.form-group small {
+  color: var(--ric-text-tertiary);
+  font-size: 0.85rem;
+}
+
+.advanced-options {
+  margin-top: var(--ric-space-lg);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-md);
+  padding: var(--ric-space-md);
+}
+
+.advanced-options summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--ric-text-primary);
+  padding: var(--ric-space-sm);
+}
+
+.advanced-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ric-space-md);
+  margin-top: var(--ric-space-md);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--ric-space-xl);
+  gap: var(--ric-space-md);
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: var(--ric-space-md) var(--ric-space-lg);
+  border: none;
+  border-radius: var(--ric-radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--ric-accent-primary);
+  color: white;
+  flex: 1;
+}
+
+.btn-primary:hover {
+  background: var(--ric-accent-primary-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: var(--ric-bg-tertiary);
+  color: var(--ric-text-primary);
+  border: 1px solid var(--ric-border-color);
+}
+
+.btn-secondary:hover {
+  background: var(--ric-bg-secondary);
+}
+
+/* Preview Section */
+.agentx-preview-section {
+  background: var(--ric-bg-secondary);
+  padding: var(--ric-space-lg);
+  border-radius: var(--ric-radius-lg);
+  border: 1px solid var(--ric-border-color);
+  height: fit-content;
+  position: sticky;
+  top: var(--ric-space-lg);
+}
+
+.agentx-preview-section h3 {
+  margin-bottom: var(--ric-space-md);
+  color: var(--ric-text-primary);
+}
+
+.agent-preview-container {
+  min-height: 200px;
+}
+
+.preview-placeholder {
+  color: var(--ric-text-tertiary);
+  font-style: italic;
+  text-align: center;
+  padding: var(--ric-space-xl);
+}
+
+.agent-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--ric-space-md);
+  padding: var(--ric-space-md);
+  border-radius: var(--ric-radius-md);
+  border: 1px solid var(--ric-border-color);
+}
+
+.agent-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+.theme-cyberpunk .agent-avatar {
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+}
+
+.theme-editorial .agent-avatar {
+  background: linear-gradient(135deg, #333, #666);
+}
+
+.theme-minimalist .agent-avatar {
+  background: linear-gradient(135deg, #f0f0f0, #d0d0d0);
+  color: #333;
+}
+
+.agent-info h4 {
+  margin: 0 0 var(--ric-space-xs) 0;
+  color: var(--ric-text-primary);
+}
+
+.agent-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ric-text-secondary);
+}
+
+.success-message {
+  background: var(--ric-success-bg);
+  color: var(--ric-success-text);
+  padding: var(--ric-space-md);
+  border-radius: var(--ric-radius-md);
+  margin-top: var(--ric-space-md);
+  border: 1px solid var(--ric-success-border);
+}
+
+/* Export Actions Styling */
+.export-actions {
+  margin-top: var(--ric-space-xl);
+  padding-top: var(--ric-space-lg);
+  border-top: 1px solid var(--ric-border-color);
+}
+
+.export-actions h4 {
+  margin-bottom: var(--ric-space-md);
+  color: var(--ric-text-primary);
+  font-size: 1rem;
+}
+
+.export-buttons {
+  display: flex;
+  gap: var(--ric-space-sm);
+  margin-bottom: var(--ric-space-lg);
+  flex-wrap: wrap;
+}
+
+.btn-export {
+  padding: var(--ric-space-sm) var(--ric-space-md);
+  background: var(--ric-bg-tertiary);
+  color: var(--ric-text-primary);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-md);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.btn-export:hover {
+  background: var(--ric-accent-primary);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.import-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ric-space-xs);
+}
+
+.import-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ric-text-primary);
+}
+
+.import-input {
+  padding: var(--ric-space-sm);
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-md);
+  background: var(--ric-bg-primary);
+  color: var(--ric-text-primary);
+  font-size: 0.9rem;
+}
+
+/* Enhanced Preview Styling */
+.agent-preview {
+  border: 1px solid var(--ric-border-color);
+  border-radius: var(--ric-radius-lg);
+  overflow: hidden;
+  background: var(--ric-bg-primary);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  padding: var(--ric-space-md);
+  background: var(--ric-bg-secondary);
+  border-bottom: 1px solid var(--ric-border-color);
+  gap: var(--ric-space-md);
+}
+
+.agent-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.agent-avatar.cyberpunk {
+  background: linear-gradient(135deg, #ff00ff, #00ffff);
+}
+
+.agent-avatar.editorial {
+  background: linear-gradient(135deg, #333, #666);
+}
+
+.agent-avatar.minimalist {
+  background: linear-gradient(135deg, #f0f0f0, #d0d0d0);
+  color: #333;
+}
+
+.agent-info {
+  flex: 1;
+}
+
+.agent-info h4 {
+  margin: 0;
+  color: var(--ric-text-primary);
+  font-size: 1.1rem;
+}
+
+.agent-info p {
+  margin: 0;
+  color: var(--ric-text-secondary);
+  font-size: 0.9rem;
+}
+
+.agent-status {
+  display: flex;
+  align-items: center;
+  gap: var(--ric-space-xs);
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  cursor: pointer;
+}
+
+.status-indicator.pulse {
+  animation: pulse 1s ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+.status-text {
+  font-size: 0.8rem;
+  color: var(--ric-text-secondary);
+}
+
+.preview-content {
+  padding: var(--ric-space-md);
+}
+
+.agent-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--ric-space-sm);
+  margin-bottom: var(--ric-space-md);
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--ric-space-xs);
+  background: var(--ric-bg-secondary);
+  border-radius: var(--ric-radius-sm);
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--ric-text-secondary);
+  font-size: 0.8rem;
+}
+
+.detail-value {
+  color: var(--ric-text-primary);
+  font-size: 0.8rem;
+}
+
+.agent-intro, .agent-response {
+  margin-bottom: var(--ric-space-md);
+}
+
+.agent-intro h5, .agent-response h5 {
+  margin: 0 0 var(--ric-space-xs) 0;
+  color: var(--ric-text-primary);
+  font-size: 0.9rem;
+}
+
+.intro-bubble, .response-bubble {
+  background: var(--ric-bg-secondary);
+  padding: var(--ric-space-sm);
+  border-radius: var(--ric-radius-md);
+  border-left: 3px solid var(--ric-accent-primary);
+}
+
+.intro-bubble p, .response-bubble p {
+  margin: 0;
+  color: var(--ric-text-primary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.preview-actions {
+  display: flex;
+  gap: var(--ric-space-sm);
+  margin-top: var(--ric-space-md);
+}
+
+.preview-btn {
+  padding: var(--ric-space-sm) var(--ric-space-md);
+  background: var(--ric-accent-primary);
+  color: white;
+  border: none;
+  border-radius: var(--ric-radius-md);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.preview-btn:hover {
+  background: var(--ric-accent-primary-dark);
+  transform: translateY(-1px);
+}
+
+.preview-btn.secondary {
+  background: var(--ric-bg-tertiary);
+  color: var(--ric-text-primary);
+  border: 1px solid var(--ric-border-color);
+}
+
+.preview-btn.secondary:hover {
+  background: var(--ric-bg-secondary);
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .agentx-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .advanced-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}
+</style>

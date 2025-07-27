@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time-Aware Hero Content Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .current-time { font-weight: bold; color: #007acc; }
+        .element-status { margin: 5px 0; }
+        .found { color: green; }
+        .missing { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Time-Aware Hero Content System Test</h1>
+    
+    <div class="test-section">
+        <h2>Current Time Information</h2>
+        <div class="current-time" id="current-time"></div>
+        <div id="time-mode"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Element Validation</h2>
+        <div id="element-check"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Content Preview</h2>
+        <div id="content-preview"></div>
+    </div>
+    
+    <script>
+        // Time-aware content configuration (copied from main script)
+        const timeAwareContent = {
+            morning: {
+                emoji: '🌅',
+                title: 'Fresh vision drives transformation. We architect design systems that define tomorrow.',
+                ctaText: 'Start with morning clarity',
+                greeting: 'Good morning.'
+            },
+            afternoon: {
+                emoji: '☀️',
+                title: 'Peak performance meets strategic design. We build systems that scale with ambition.',
+                ctaText: 'Engage with proven mastery',
+                greeting: 'Good afternoon.'
+            },
+            evening: {
+                emoji: '🌆',
+                title: 'Mastery moves when it matters. We build design systems for transformation.',
+                ctaText: 'Begin with proven mastery',
+                greeting: 'Good evening.'
+            },
+            night: {
+                emoji: '🌙',
+                title: 'Deep thinking shapes tomorrow. We craft design systems that endure.',
+                ctaText: 'Explore thoughtful mastery',
+                greeting: 'Good evening.'
+            }
+        };
+        
+        function getTimeMode() {
+            const hour = new Date().getHours();
+            
+            if (hour >= 5 && hour < 12) return 'morning';
+            else if (hour >= 12 && hour < 17) return 'afternoon';
+            else if (hour >= 17 && hour < 22) return 'evening';
+            else return 'night';
+        }
+        
+        function runTest() {
+            const now = new Date();
+            const timeMode = getTimeMode();
+            const content = timeAwareContent[timeMode];
+            
+            // Display current time
+            document.getElementById('current-time').textContent = `Current Time: ${now.toLocaleString()}`;
+            document.getElementById('time-mode').textContent = `Time Mode: ${timeMode} (${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')})`;
+            
+            // Check if we're in the main page context
+            const isMainPage = window.location.pathname === '/';
+            
+            if (isMainPage) {
+                // Test element existence
+                const elements = [
+                    { id: 'hero-title-text', name: 'Hero Title Text' },
+                    { id: 'hero-cta-text', name: 'Hero CTA Text' },
+                    { id: 'hero-keywords', name: 'Hero Keywords' },
+                    { id: 'hero-time-message', name: 'Hero Time Message' },
+                    { id: 'about-greeting', name: 'About Greeting' },
+                    { id: 'mobile-greeting', name: 'Mobile Greeting' },
+                    { class: 'ric-animate-float', name: 'Hero Emoji' }
+                ];
+                
+                let elementCheckHTML = '';
+                elements.forEach(el => {
+                    const element = el.id ? document.getElementById(el.id) : document.querySelector(`.${el.class}`);
+                    const status = element ? 'found' : 'missing';
+                    const currentContent = element ? element.textContent.substring(0, 50) + '...' : 'N/A';
+                    elementCheckHTML += `<div class="element-status ${status}">
+                        ${el.name}: ${status.toUpperCase()} ${element ? `- "${currentContent}"` : ''}
+                    </div>`;
+                });
+                
+                document.getElementById('element-check').innerHTML = elementCheckHTML;
+            } else {
+                document.getElementById('element-check').innerHTML = '<div class="element-status">Not on main page - element check skipped</div>';
+            }
+            
+            // Display expected content for current time
+            document.getElementById('content-preview').innerHTML = `
+                <h3>Expected Content for ${timeMode} mode:</h3>
+                <p><strong>Emoji:</strong> ${content.emoji}</p>
+                <p><strong>Title:</strong> ${content.title}</p>
+                <p><strong>CTA Text:</strong> ${content.ctaText}</p>
+                <p><strong>Greeting:</strong> ${content.greeting}</p>
+            `;
+        }
+        
+        // Run test on load
+        document.addEventListener('DOMContentLoaded', runTest);
+        
+        // Update every 30 seconds
+        setInterval(runTest, 30000);
+    </script>
+</body>
+</html>

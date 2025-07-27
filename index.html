@@ -38,6 +38,51 @@
     <script src="js/innovation-lab-unified.js" defer></script>
     <script src="js/labs/FeatureLabModule.js" defer></script>
     
+    <!-- 🎨 TIME-AWARE VISUAL ENHANCEMENTS v2 -->
+    <link rel="stylesheet" href="css/time-gradients.css">
+    <script src="js/debug/time-inspector.js" defer></script>
+    <script src="js/animations/hero-transitions.js" defer></script>
+    <script src="js/visual/time-gradients.js" defer></script>
+    <script src="js/visual/time-aware-content-system.js" defer></script>
+    
+    <!-- 🧠 TROJAN TRANCHE 3: AgentX + AnalyticsOS + Theme Validator -->
+    <script src="js/features/agentx-preview.js" defer></script>
+    <script src="js/validators/theme-sync-validator.js" defer></script>
+    
+    <!-- 🧱 TROJAN TRANCHE 4: Labs Index + Filter UI + AgentX Personalization -->
+    <script src="js/data/features.js" defer></script>
+    <script src="js/labs/labs-index-renderer.js" defer></script>
+    <script src="js/labs/labs-toggle.js" defer></script>
+    <script src="js/features/agentx-form.js" defer></script>
+    
+    <!-- 🤖 TROJAN TIER 5: AgentX Live Presence + Export + UX Preview -->
+    <link rel="stylesheet" href="css/agentx-themes.css">
+    <script src="js/features/agentx-loader.js" defer></script>
+    <script src="js/features/agentx-export.js" defer></script>
+    <script src="js/features/agentx-preview-render.js" defer></script>
+    
+    <!-- 🧠 TROJAN TIER 6: Case Studies + Auto-Theming + Analytics -->
+    <script src="js/features/agentx-analytics.js" defer></script>
+    <script src="js/features/agentx-casestudy.js" defer></script>
+    
+    <!-- 🎤 TROJAN TIER 7: Universal Awareness + Data Export + Onboarding -->
+    <script src="js/features/agentx-export-analytics.js" defer></script>
+    <script src="js/features/agentx-nav.js" defer></script>
+    <script src="js/features/agentx-onboarding.js" defer></script>
+    
+    <!-- 🧠 TROJAN TIER 8: Memory Sync Panel -->
+    <script src="js/features/agentx-memory-panel.js" defer></script>
+    
+    <!-- 🎭 TROJAN TIER 9: Narrator Overlay -->
+    <link rel="stylesheet" href="css/agentx-narrator.css">
+    <script src="js/features/agentx-narrator.js" defer></script>
+    
+    <!-- 🌌 TROJAN TIER 10: Cosmic Whisper Mode -->
+    <script src="js/features/cosmic-whisper.js" defer></script>
+    
+    <!-- 🔄 TROJAN TIER 11: Multi-Agent Swap Panel -->
+    <script src="js/features/agentx-swap-panel.js" defer></script>
+    
     <!-- 🚫 DISABLED: External Time-Aware Hero Gradient System (replaced by inline authoritative system) -->
     <!-- <script src="src/time-aware-hero-gradient-system.js"></script> -->
     <!-- THREAD 4: Competing systems eliminated - time-aware gradients now have clear precedence -->
@@ -231,7 +276,11 @@
             -moz-osx-font-smoothing: grayscale;
             line-height: 1.6;
             letter-spacing: -0.01em;
+            background: var(--background);
+            min-height: 100vh;
         }
+        
+
         
         /* #TrojanHorseOS:2025-07-19 - ENHANCED HEADING HIERARCHY */
         h1, h2, h3, h4, h5, h6 {
@@ -1963,6 +2012,175 @@
           transform: scale(1.1);
         }
 
+        /* 🔄 MULTI-AGENT SWAP PANEL STYLES */
+        .agentx-swap-modal {
+          max-width: min(95vw, 900px);
+        }
+        
+        .agentx-swap-description {
+          color: var(--muted-foreground);
+          margin-bottom: var(--space-xl);
+          text-align: center;
+          font-size: var(--text-lg);
+          line-height: var(--leading-relaxed);
+        }
+        
+        .agentx-swap-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: var(--space-lg);
+          margin-bottom: var(--space-xl);
+        }
+        
+        .agentx-swap-card {
+          background: linear-gradient(135deg, 
+            var(--card) 0%, 
+            var(--secondary) 100%);
+          border: 2px solid var(--border);
+          border-radius: var(--radius-xl);
+          padding: var(--space-lg);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .agentx-swap-card:hover {
+          transform: translateY(-4px) scale(1.02);
+          border-color: var(--primary);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                      0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .agentx-swap-card.active {
+          border-color: var(--primary);
+          background: linear-gradient(135deg, 
+            var(--primary) 0%, 
+            var(--primary-foreground) 100%);
+          color: var(--background);
+          cursor: default;
+        }
+        
+        .agentx-swap-card.active:hover {
+          transform: none;
+        }
+        
+        .agentx-swap-card-header {
+          display: flex;
+          align-items: center;
+          gap: var(--space-md);
+          margin-bottom: var(--space-md);
+          position: relative;
+        }
+        
+        .agentx-swap-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: var(--text-xl);
+          font-weight: 600;
+          flex-shrink: 0;
+        }
+        
+        .agentx-swap-info {
+          flex: 1;
+        }
+        
+        .agentx-swap-name {
+          font-size: var(--text-xl);
+          font-weight: 700;
+          margin: 0 0 var(--space-xs) 0;
+          color: var(--foreground);
+        }
+        
+        .agentx-swap-role {
+          font-size: var(--text-sm);
+          color: var(--muted-foreground);
+          margin: 0;
+          font-weight: 500;
+        }
+        
+        .agentx-swap-active-badge {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background: var(--primary);
+          color: var(--primary-foreground);
+          font-size: var(--text-xs);
+          font-weight: 600;
+          padding: var(--space-xs) var(--space-sm);
+          border-radius: var(--radius-full);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        
+        .agentx-swap-description {
+          color: var(--muted-foreground);
+          line-height: var(--leading-relaxed);
+          margin-bottom: var(--space-md);
+        }
+        
+        .agentx-swap-personality {
+          font-size: var(--text-sm);
+          color: var(--muted-foreground);
+          margin-bottom: var(--space-md);
+          line-height: var(--leading-relaxed);
+        }
+        
+        .agentx-swap-personality strong {
+          color: var(--foreground);
+        }
+        
+        .agentx-swap-traits {
+          display: flex;
+          gap: var(--space-xs);
+          flex-wrap: wrap;
+        }
+        
+        .agentx-swap-trait {
+          background: var(--accent);
+          color: var(--accent-foreground);
+          font-size: var(--text-xs);
+          font-weight: 500;
+          padding: var(--space-xs) var(--space-sm);
+          border-radius: var(--radius-md);
+          text-transform: capitalize;
+        }
+        
+        /* Dark mode adjustments */
+        .dark .agentx-swap-card {
+          background: linear-gradient(135deg, 
+            rgba(30, 41, 59, 0.8) 0%, 
+            rgba(51, 65, 85, 0.6) 100%);
+          border-color: rgba(148, 163, 184, 0.2);
+        }
+        
+        .dark .agentx-swap-card:hover {
+          border-color: var(--primary);
+          box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 
+                      0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dark .agentx-swap-card.active {
+          background: linear-gradient(135deg, 
+            var(--primary) 0%, 
+            var(--primary-foreground) 100%);
+          color: var(--background);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .agentx-swap-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          .agentx-swap-modal {
+            max-width: 95vw;
+          }
+        }
+
         /* MOBILE NAVIGATION SYSTEM */
         .ric-mobile-nav {
           position: fixed;
@@ -2001,6 +2219,94 @@
         .ric-mobile-nav-overlay.active {
           opacity: 1;
           visibility: visible;
+        }
+
+        /* ===== AGENTX NAVIGATION STYLING ===== */
+        
+        .agentx-badge {
+          display: inline-flex;
+          align-items: center;
+          padding: 0.5rem 1rem;
+          border-radius: var(--radius-full);
+          font-size: var(--text-sm);
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          margin-right: var(--space-sm);
+          border: 1px solid var(--border);
+        }
+        
+        .agentx-badge.agentx-inactive {
+          background: var(--muted);
+          color: var(--muted-foreground);
+        }
+        
+        .agentx-badge.agentx-active {
+          background: linear-gradient(135deg, var(--primary), var(--accent));
+          color: var(--primary-foreground);
+          border-color: var(--primary);
+        }
+        
+        .agentx-badge:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .agentx-nav-controls {
+          display: flex;
+          align-items: center;
+          gap: var(--space-xs);
+          margin-left: var(--space-sm);
+        }
+        
+        .agentx-nav-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 2.5rem;
+          height: 2.5rem;
+          border: 1px solid var(--border);
+          border-radius: var(--radius-md);
+          background: var(--card);
+          color: var(--foreground);
+          font-size: 1.2rem;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        .agentx-nav-btn:hover {
+          background: var(--accent);
+          border-color: var(--primary);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Dark mode adjustments */
+        .dark .agentx-badge.agentx-inactive {
+          background: var(--secondary);
+          color: var(--secondary-foreground);
+        }
+        
+        .dark .agentx-nav-btn {
+          background: var(--secondary);
+          border-color: var(--border);
+        }
+        
+        .dark .agentx-nav-btn:hover {
+          background: var(--accent);
+          border-color: var(--primary);
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+          .agentx-nav-controls {
+            display: none;
+          }
+          
+          .agentx-badge {
+            font-size: var(--text-xs);
+            padding: 0.4rem 0.8rem;
+          }
         }
 
         /* ===== SYSTEMATIC RESPONSIVE DESIGN ===== */
@@ -2310,6 +2616,26 @@
     </style>
 </head>
 <body id="app-root" class="time-evening time-evening-light">
+    <!-- BULLETPROOF TIME GRADIENT SYSTEM -->
+    <script>
+      // IMMEDIATE time class application - no waiting for DOM
+      (function() {
+        const hour = new Date().getHours();
+        let timeMode = "";
+        
+        if (hour >= 5 && hour < 12) timeMode = "morning";
+        else if (hour >= 12 && hour < 17) timeMode = "afternoon";
+        else if (hour >= 17 && hour < 22) timeMode = "evening";
+        else timeMode = "night";
+        
+        // Remove existing time classes and apply new one
+        document.body.classList.remove('time-morning', 'time-afternoon', 'time-evening', 'time-night', 'time-evening-light');
+        document.body.classList.add(`time-${timeMode}`);
+        
+        console.log(`🚀 IMMEDIATE: Applied time-${timeMode} at ${hour}:00`);
+        console.log(`🎯 Body classes now:`, document.body.className);
+      })();
+    </script>
     <script>
       // PHASE 3: Agent Orchestration Conflicts Resolved
       // DISABLED: Agent orchestration system to prevent race conditions
@@ -2408,9 +2734,22 @@
                         <script>document.write((new Date().getHours() >= 5 && new Date().getHours() < 12) ? 'Good morning. Ready for strategic innovation?' : (new Date().getHours() >= 12 && new Date().getHours() < 18) ? 'Good afternoon. Ready for systematic excellence?' : 'Good evening. Ready for transformative mastery?');</script>
                     </span>
                     
+                    <!-- AgentX Trojan Tiers 8-11 Navigation Triggers -->
+                    <span id="agentx-nav-badge" class="agentx-badge agentx-inactive" title="Click to configure your personal agent" onclick="openModal('agentx')">No Agent Configured</span>
+                    
                     <button class="ric-dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">
                         <span id="dark-mode-icon">🌙</span>
                     </button>
+                    
+                    <!-- AgentX Advanced Controls -->
+                    <div class="agentx-nav-controls" style="display: none;">
+                        <button class="agentx-nav-btn" onclick="renderAgentXMemoryPanel(); openModal('memory-panel');" title="Memory Sync Panel">
+                            🧠
+                        </button>
+                        <button class="agentx-nav-btn" onclick="if(window.AgentXSwap?.render) window.AgentXSwap.render(); openModal('agentx-swap-panel');" title="Agent Swap Panel">
+                            🔄
+                        </button>
+                    </div>
                     
                     <!-- #TrojanHorseOS:2025-07-19 - DNA Mode: Removed nav CTA per UXDesignAgent refactor -->
                     <!-- #TrojanHorseOS:2025-07-19 - Trojan stub: Future nav enhancement placeholder -->
@@ -2585,6 +2924,9 @@
                     <h2 class="ric-mb-xl ric-text-3xl" id="philosophy-title">
                         Foundation
                     </h2>
+                    <p class="ric-text-muted ric-leading-relaxed ric-text-base ric-mb-lg" id="philosophy-intro">
+                        Evening reflection reveals the deeper principles that guide transformative design leadership.
+                    </p>
                     <div class="ric-grid ric-grid-cols-2 ric-gap-lg">
                         <div class="ric-card">
                             <h3 class="ric-mb-sm ric-text-lg">Leadership Architecture</h3>
@@ -3376,6 +3718,71 @@
     <div class="ric-modal-overlay" id="modal-overlay">
         <div id="modal-content" class="ric-modal">
             <!-- Content will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- AgentX Memory Sync Panel Modal - Trojan Tier 8 -->
+    <div class="ric-modal-overlay" id="memory-panel" style="display: none;">
+        <div class="ric-modal">
+            <button class="ric-modal-close" onclick="closeModal('memory-panel')">&times;</button>
+            <h2>🧠 AgentX Memory Sync Panel</h2>
+            
+            <div class="agentx-memory-section">
+                <h3>Current Agent Profile</h3>
+                <div id="agentx-current-profile" class="agentx-profile-display">
+                    <div class="agentx-profile-row">
+                        <strong>Name:</strong> <span id="agentx-name">—</span>
+                    </div>
+                    <div class="agentx-profile-row">
+                        <strong>Role:</strong> <span id="agentx-role">—</span>
+                    </div>
+                    <div class="agentx-profile-row">
+                        <strong>Tone:</strong> <span id="agentx-tone">—</span>
+                    </div>
+                    <div class="agentx-profile-row">
+                        <strong>Theme:</strong> <span id="agentx-theme">—</span>
+                    </div>
+                    <div class="agentx-profile-row">
+                        <strong>Created:</strong> <span id="agentx-created">—</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agentx-memory-section">
+                <h3>Analytics Summary</h3>
+                <div class="agentx-analytics-display">
+                    <div class="agentx-profile-row">
+                        <strong>Total Events:</strong> <span id="agentx-analytics-count">0</span>
+                    </div>
+                    <div class="agentx-profile-row">
+                        <strong>Last Activity:</strong> <span id="agentx-last-activity">No activity</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="agentx-memory-section">
+                <h3>Data Management</h3>
+                <div class="agentx-button-grid">
+                    <button class="agentx-btn agentx-btn-primary" onclick="downloadAgentXProfile()">📥 Export Agent Config</button>
+                    <button class="agentx-btn agentx-btn-primary" onclick="downloadAgentXAnalytics()">📊 Export Analytics Log</button>
+                    <button class="agentx-btn agentx-btn-secondary" onclick="exportMemorySnapshot()">🧠 Export Memory Snapshot</button>
+                    <button class="agentx-btn agentx-btn-warning" onclick="reOnboardAgent()">🔁 Re-Configure Agent</button>
+                    <button class="agentx-btn agentx-btn-danger" onclick="resetAgentX()">♻️ Reset Agent & Logs</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🔄 Multi-Agent Swap Panel Modal -->
+    <div class="ric-modal-overlay" id="agentx-swap-panel" style="display: none;">
+        <div class="ric-modal agentx-swap-modal">
+            <button class="ric-modal-close agentx-swap-close" onclick="closeModal('agentx-swap-panel')">&times;</button>
+            <h2>🔄 Multi-Agent Swap Panel</h2>
+            <p class="agentx-swap-description">Choose your AI design companion. Each agent brings unique perspectives, personalities, and expertise to enhance your experience.</p>
+            
+            <div class="agentx-swap-grid">
+                <!-- Agent cards will be dynamically populated by JavaScript -->
+            </div>
         </div>
     </div>
 
@@ -4441,23 +4848,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('🐴🌅 Applied', timeContext.period, 'gradient to hero');
                 }
                 
-                // Update hero content (with navigation protection)
-                const heroHeadline = document.querySelector('#hero-title-text') || document.querySelector('#hero .ric-hero-title');
-                const heroDescription = document.querySelector('#hero .ric-text-lg');
-                const heroButton = document.querySelector('#hero .ric-btn-primary');
+                // 🚫 DISABLED: Hero content updates now handled by time-aware-content-system.js
+                // This inline script was causing conflicts with the enhanced time-aware system
+                // The enhanced system provides better content management and prevents navigation title overwrites
                 
-                // CRITICAL: Protect navigation brand title from being overwritten
-                if (heroHeadline && !heroHeadline.classList.contains('ric-nav-brand-title')) {
-                    heroHeadline.textContent = timeContext.headline;
-                }
-                
-                // Ensure navigation brand title is always correct
+                // Ensure navigation brand title is always correct (protection only)
                 const navBrandTitle = document.querySelector('.ric-nav-brand-title');
                 if (navBrandTitle) {
                     navBrandTitle.textContent = 'Ric Rios';
+                    console.log('🔒 PROTECTION: Navigation brand title secured');
                 }
-                if (heroDescription) heroDescription.textContent = timeContext.description;
-                if (heroButton) heroButton.textContent = timeContext.cta;
                 
                 // 🐴💥 FIX: Update hardcoded greeting elements
                 const navGreeting = document.querySelector('#nav-greeting');
@@ -8520,6 +8920,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="modal-body" id="modal-body">
                 <!-- Case study content will be loaded here -->
+                <div id="modal-content"></div>
+                
+                <!-- 🧠 TROJAN TIER 6: AgentX Case Study Footnote -->
+                <div class="case-study-agent" id="agentx-footnote"></div>
             </div>
         </div>
     </div>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentX Tier 7 Testing Suite</title>
+    <style>
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0a;
+            color: #00ffff;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 30px;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            margin-bottom: 30px;
+        }
+        
+        .test-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .test-section h2 {
+            color: #ff00ff;
+            margin-top: 0;
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 10px 10px 10px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 255, 0.4);
+        }
+        
+        .test-result {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            border-left: 4px solid #00ffff;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .success {
+            border-left-color: #00ff00;
+            color: #00ff00;
+        }
+        
+        .error {
+            border-left-color: #ff0000;
+            color: #ff0000;
+        }
+        
+        .warning {
+            border-left-color: #ffff00;
+            color: #ffff00;
+        }
+        
+        .info {
+            border-left-color: #00ffff;
+            color: #00ffff;
+        }
+        
+        .nav-badge-demo {
+            display: inline-block;
+            margin-left: 12px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            color: #000;
+            cursor: pointer;
+        }
+        
+        .export-demo {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .onboarding-trigger {
+            background: #ff6600;
+            color: #fff;
+        }
+        
+        .clear-data {
+            background: #ff0000;
+            color: #fff;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .status-active {
+            background: #00ff00;
+            box-shadow: 0 0 6px #00ff00;
+        }
+        
+        .status-inactive {
+            background: #666;
+        }
+        
+        .status-error {
+            background: #ff0000;
+            box-shadow: 0 0 6px #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎤 AgentX Tier 7 Testing Suite</h1>
+        <p style="text-align: center; color: #888; margin-bottom: 40px;">
+            Universal Awareness • Data Export • Onboarding Loop
+        </p>
+
+        <!-- Navigation Badge Testing -->
+        <div class="test-section">
+            <h2>🎯 Navigation Badge System</h2>
+            <p>Tests the navigation awareness badge that shows current agent status.</p>
+            
+            <div style="margin: 20px 0;">
+                <strong>Demo Badge:</strong>
+                <span class="nav-badge-demo" id="demo-badge">Your Agent: TestAgent</span>
+            </div>
+            
+            <button class="test-button" onclick="testNavBadgeCreation()">Test Badge Creation</button>
+            <button class="test-button" onclick="testNavBadgeUpdate()">Test Badge Update</button>
+            <button class="test-button" onclick="testNavBadgeClick()">Test Badge Click</button>
+            <button class="test-button" onclick="checkNavBadgeInDOM()">Check DOM Integration</button>
+            
+            <div id="nav-badge-results"></div>
+        </div>
+
+        <!-- Analytics Export Testing -->
+        <div class="test-section">
+            <h2>📊 Analytics Export System</h2>
+            <p>Tests the data portability features for analytics and profile export.</p>
+            
+            <div class="export-demo">
+                <strong>Export Functions Available:</strong>
+                <div id="export-functions-status"></div>
+            </div>
+            
+            <button class="test-button" onclick="testAnalyticsExport()">Export Analytics</button>
+            <button class="test-button" onclick="testProfileExport()">Export Profile</button>
+            <button class="test-button" onclick="testCompleteExport()">Export Complete Data</button>
+            <button class="test-button" onclick="checkExportFunctions()">Check Functions</button>
+            
+            <div id="export-results"></div>
+        </div>
+
+        <!-- Onboarding Loop Testing -->
+        <div class="test-section">
+            <h2>🔄 Onboarding Loop System</h2>
+            <p>Tests the lightweight onboarding system for new visitors.</p>
+            
+            <button class="test-button onboarding-trigger" onclick="triggerOnboarding()">Trigger Onboarding</button>
+            <button class="test-button" onclick="testOnboardingSkip()">Test Skip Logic</button>
+            <button class="test-button" onclick="checkOnboardingState()">Check State</button>
+            <button class="test-button" onclick="resetOnboardingFlags()">Reset Flags</button>
+            
+            <div id="onboarding-results"></div>
+        </div>
+
+        <!-- Integration Testing -->
+        <div class="test-section">
+            <h2>🔗 Integration & Event System</h2>
+            <p>Tests event-driven architecture and cross-system integration.</p>
+            
+            <button class="test-button" onclick="testEventSystem()">Test Events</button>
+            <button class="test-button" onclick="testScriptLoading()">Check Script Loading</button>
+            <button class="test-button" onclick="testGlobalFunctions()">Test Global Functions</button>
+            <button class="test-button" onclick="runFullIntegrationTest()">Full Integration Test</button>
+            
+            <div id="integration-results"></div>
+        </div>
+
+        <!-- Data Management -->
+        <div class="test-section">
+            <h2>🗄️ Data Management</h2>
+            <p>Manage test data and system state.</p>
+            
+            <button class="test-button" onclick="createTestAgent()">Create Test Agent</button>
+            <button class="test-button" onclick="generateTestAnalytics()">Generate Test Analytics</button>
+            <button class="test-button" onclick="viewStorageData()">View Storage Data</button>
+            <button class="test-button clear-data" onclick="clearAllData()">Clear All Data</button>
+            
+            <div id="data-results"></div>
+        </div>
+
+        <!-- System Status -->
+        <div class="test-section">
+            <h2>📈 System Status</h2>
+            <div id="system-status">
+                <div><span class="status-indicator status-inactive"></span>Navigation Badge: <span id="nav-status">Checking...</span></div>
+                <div><span class="status-indicator status-inactive"></span>Analytics Export: <span id="export-status">Checking...</span></div>
+                <div><span class="status-indicator status-inactive"></span>Onboarding System: <span id="onboarding-status">Checking...</span></div>
+                <div><span class="status-indicator status-inactive"></span>Event System: <span id="event-status">Checking...</span></div>
+            </div>
+            
+            <button class="test-button" onclick="checkSystemStatus()">Refresh Status</button>
+        </div>
+    </div>
+
+    <!-- Include AgentX Scripts -->
+    <script src="js/features/agentx-analytics.js" defer></script>
+    <script src="js/features/agentx-export-analytics.js" defer></script>
+    <script src="js/features/agentx-nav.js" defer></script>
+    <script src="js/features/agentx-onboarding.js" defer></script>
+
+    <script>
+        // Test Results Helper
+        function addResult(containerId, message, type = 'info') {
+            const container = document.getElementById(containerId);
+            const result = document.createElement('div');
+            result.className = `test-result ${type}`;
+            result.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.appendChild(result);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Navigation Badge Tests
+        function testNavBadgeCreation() {
+            try {
+                // Check if badge exists in DOM
+                const badge = document.getElementById('agentx-nav-badge');
+                if (badge) {
+                    addResult('nav-badge-results', '✅ Navigation badge found in DOM', 'success');
+                } else {
+                    addResult('nav-badge-results', '⚠️ Navigation badge not found - may be created dynamically', 'warning');
+                }
+                
+                // Test dynamic creation
+                if (typeof updateAgentXNav === 'function') {
+                    updateAgentXNav();
+                    addResult('nav-badge-results', '✅ updateAgentXNav function available', 'success');
+                } else {
+                    addResult('nav-badge-results', '❌ updateAgentXNav function not available', 'error');
+                }
+            } catch (error) {
+                addResult('nav-badge-results', `❌ Error: ${error.message}`, 'error');
+            }
+        }
+
+        function testNavBadgeUpdate() {
+            try {
+                // Create test profile
+                const testProfile = {
+                    name: 'TestAgent_Tier7',
+                    role: 'Strategist',
+                    tone: 'Visionary',
+                    theme: 'cyberpunk'
+                };
+                
+                localStorage.setItem('agentx-profile', JSON.stringify(testProfile));
+                
+                // Trigger update
+                if (typeof updateAgentXNav === 'function') {
+                    updateAgentXNav();
+                    addResult('nav-badge-results', '✅ Badge updated with test profile', 'success');
+                } else {
+                    addResult('nav-badge-results', '❌ Update function not available', 'error');
+                }
+            } catch (error) {
+                addResult('nav-badge-results', `❌ Update error: ${error.message}`, 'error');
+            }
+        }
+
+        function testNavBadgeClick() {
+            try {
+                const badge = document.getElementById('agentx-nav-badge');
+                if (badge && badge.onclick) {
+                    addResult('nav-badge-results', '✅ Badge has click handler', 'success');
+                    
+                    // Test click event
+                    document.addEventListener('agentxNavClicked', (e) => {
+                        addResult('nav-badge-results', '✅ Badge click event fired', 'success');
+                    }, { once: true });
+                    
+                } else {
+                    addResult('nav-badge-results', '⚠️ Badge click handler not found', 'warning');
+                }
+            } catch (error) {
+                addResult('nav-badge-results', `❌ Click test error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkNavBadgeInDOM() {
+            try {
+                const navActions = document.querySelector('.ric-nav-actions');
+                const badge = document.getElementById('agentx-nav-badge');
+                
+                addResult('nav-badge-results', `Nav actions container: ${navActions ? '✅ Found' : '❌ Not found'}`, navActions ? 'success' : 'error');
+                addResult('nav-badge-results', `AgentX badge: ${badge ? '✅ Found' : '❌ Not found'}`, badge ? 'success' : 'error');
+                
+                if (badge) {
+                    addResult('nav-badge-results', `Badge classes: ${badge.className}`, 'info');
+                    addResult('nav-badge-results', `Badge text: "${badge.textContent}"`, 'info');
+                }
+            } catch (error) {
+                addResult('nav-badge-results', `❌ DOM check error: ${error.message}`, 'error');
+            }
+        }
+
+        // Analytics Export Tests
+        function testAnalyticsExport() {
+            try {
+                if (typeof downloadAgentXAnalytics === 'function') {
+                    downloadAgentXAnalytics();
+                    addResult('export-results', '✅ Analytics export triggered', 'success');
+                } else {
+                    addResult('export-results', '❌ downloadAgentXAnalytics function not available', 'error');
+                }
+            } catch (error) {
+                addResult('export-results', `❌ Export error: ${error.message}`, 'error');
+            }
+        }
+
+        function testProfileExport() {
+            try {
+                if (typeof downloadAgentXProfile === 'function') {
+                    downloadAgentXProfile();
+                    addResult('export-results', '✅ Profile export triggered', 'success');
+                } else {
+                    addResult('export-results', '❌ downloadAgentXProfile function not available', 'error');
+                }
+            } catch (error) {
+                addResult('export-results', `❌ Profile export error: ${error.message}`, 'error');
+            }
+        }
+
+        function testCompleteExport() {
+            try {
+                if (typeof downloadAgentXComplete === 'function') {
+                    downloadAgentXComplete();
+                    addResult('export-results', '✅ Complete export triggered', 'success');
+                } else {
+                    addResult('export-results', '❌ downloadAgentXComplete function not available', 'error');
+                }
+            } catch (error) {
+                addResult('export-results', `❌ Complete export error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkExportFunctions() {
+            const functions = [
+                'downloadAgentXAnalytics',
+                'downloadAgentXProfile', 
+                'downloadAgentXComplete'
+            ];
+            
+            const status = document.getElementById('export-functions-status');
+            status.innerHTML = '';
+            
+            functions.forEach(func => {
+                const available = typeof window[func] === 'function';
+                const indicator = document.createElement('div');
+                indicator.innerHTML = `<span class="status-indicator ${available ? 'status-active' : 'status-error'}"></span>${func}: ${available ? 'Available' : 'Missing'}`;
+                status.appendChild(indicator);
+                
+                addResult('export-results', `${func}: ${available ? '✅ Available' : '❌ Missing'}`, available ? 'success' : 'error');
+            });
+        }
+
+        // Onboarding Tests
+        function triggerOnboarding() {
+            try {
+                // Clear existing flags to force onboarding
+                sessionStorage.removeItem('onboarding-prompted');
+                localStorage.removeItem('agentx-profile');
+                localStorage.removeItem('agentx-onboarding-skipped');
+                
+                // Trigger onboarding manually
+                if (typeof triggerOnboardingPrompt === 'function') {
+                    triggerOnboardingPrompt();
+                    addResult('onboarding-results', '✅ Onboarding triggered manually', 'success');
+                } else {
+                    addResult('onboarding-results', '⚠️ Manual trigger not available, reloading page...', 'warning');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            } catch (error) {
+                addResult('onboarding-results', `❌ Onboarding trigger error: ${error.message}`, 'error');
+            }
+        }
+
+        function testOnboardingSkip() {
+            try {
+                const skipTime = Date.now();
+                localStorage.setItem('agentx-onboarding-skipped', skipTime.toString());
+                
+                addResult('onboarding-results', '✅ Skip flag set', 'success');
+                addResult('onboarding-results', `Skip timestamp: ${new Date(skipTime).toLocaleString()}`, 'info');
+                
+                // Test skip logic
+                const dayInMs = 24 * 60 * 60 * 1000;
+                const shouldSkip = (Date.now() - skipTime) < (7 * dayInMs);
+                addResult('onboarding-results', `Should skip for 7 days: ${shouldSkip ? '✅ Yes' : '❌ No'}`, shouldSkip ? 'success' : 'error');
+            } catch (error) {
+                addResult('onboarding-results', `❌ Skip test error: ${error.message}`, 'error');
+            }
+        }
+
+        function checkOnboardingState() {
+            try {
+                const profile = localStorage.getItem('agentx-profile');
+                const prompted = sessionStorage.getItem('onboarding-prompted');
+                const skipped = localStorage.getItem('agentx-onboarding-skipped');
+                
+                addResult('onboarding-results', `Agent profile: ${profile ? '✅ Exists' : '❌ None'}`, profile ? 'success' : 'warning');
+                addResult('onboarding-results', `Session prompted: ${prompted ? '✅ Yes' : '❌ No'}`, prompted ? 'info' : 'warning');
+                addResult('onboarding-results', `Skip flag: ${skipped ? '✅ Set' : '❌ None'}`, skipped ? 'info' : 'warning');
+                
+                if (skipped) {
+                    const skipDate = new Date(parseInt(skipped));
+                    addResult('onboarding-results', `Skipped on: ${skipDate.toLocaleString()}`, 'info');
+                }
+            } catch (error) {
+                addResult('onboarding-results', `❌ State check error: ${error.message}`, 'error');
+            }
+        }
+
+        function resetOnboardingFlags() {
+            try {
+                sessionStorage.removeItem('onboarding-prompted');
+                localStorage.removeItem('agentx-onboarding-skipped');
+                addResult('onboarding-results', '✅ Onboarding flags reset', 'success');
+            } catch (error) {
+                addResult('onboarding-results', `❌ Reset error: ${error.message}`, 'error');
+            }
+        }
+
+        // Integration Tests
+        function testEventSystem() {
+            try {
+                let eventsFired = 0;
+                
+                // Listen for AgentX events
+                const events = [
+                    'agentxProfileLoaded',
+                    'agentxConfigSaved', 
+                    'agentxNavClicked',
+                    'agentxOnboardingRequested'
+                ];
+                
+                events.forEach(eventName => {
+                    document.addEventListener(eventName, () => {
+                        eventsFired++;
+                        addResult('integration-results', `✅ Event fired: ${eventName}`, 'success');
+                    }, { once: true });
+                });
+                
+                // Fire test events
+                document.dispatchEvent(new CustomEvent('agentxProfileLoaded', { detail: { name: 'TestAgent' } }));
+                document.dispatchEvent(new CustomEvent('agentxConfigSaved', { detail: { profile: { name: 'TestAgent' } } }));
+                
+                setTimeout(() => {
+                    addResult('integration-results', `Events fired: ${eventsFired}/${events.length}`, eventsFired > 0 ? 'success' : 'warning');
+                }, 100);
+                
+            } catch (error) {
+                addResult('integration-results', `❌ Event test error: ${error.message}`, 'error');
+            }
+        }
+
+        function testScriptLoading() {
+            try {
+                const scripts = [
+                    'agentx-analytics.js',
+                    'agentx-export-analytics.js',
+                    'agentx-nav.js',
+                    'agentx-onboarding.js'
+                ];
+                
+                const loadedScripts = Array.from(document.scripts).map(s => s.src);
+                
+                scripts.forEach(script => {
+                    const loaded = loadedScripts.some(src => src.includes(script));
+                    addResult('integration-results', `${script}: ${loaded ? '✅ Loaded' : '❌ Missing'}`, loaded ? 'success' : 'error');
+                });
+            } catch (error) {
+                addResult('integration-results', `❌ Script check error: ${error.message}`, 'error');
+            }
+        }
+
+        function testGlobalFunctions() {
+            try {
+                const globalFunctions = [
+                    'logAgentXEvent',
+                    'downloadAgentXAnalytics',
+                    'downloadAgentXProfile',
+                    'downloadAgentXComplete',
+                    'updateAgentXNav',
+                    'startAgentConfiguration',
+                    'skipOnboarding',
+                    'closeOnboardingModal'
+                ];
+                
+                globalFunctions.forEach(func => {
+                    const available = typeof window[func] === 'function';
+                    addResult('integration-results', `${func}: ${available ? '✅ Available' : '❌ Missing'}`, available ? 'success' : 'error');
+                });
+            } catch (error) {
+                addResult('integration-results', `❌ Global function check error: ${error.message}`, 'error');
+            }
+        }
+
+        function runFullIntegrationTest() {
+            addResult('integration-results', '🚀 Starting full integration test...', 'info');
+            
+            setTimeout(() => testScriptLoading(), 100);
+            setTimeout(() => testGlobalFunctions(), 200);
+            setTimeout(() => testEventSystem(), 300);
+            setTimeout(() => checkExportFunctions(), 400);
+            setTimeout(() => {
+                addResult('integration-results', '✅ Full integration test completed', 'success');
+            }, 500);
+        }
+
+        // Data Management
+        function createTestAgent() {
+            try {
+                const testAgent = {
+                    name: 'TestAgent_Tier7',
+                    role: 'Strategist',
+                    tone: 'Visionary', 
+                    theme: 'cyberpunk',
+                    expertise: 'advanced',
+                    focus: ['design-systems', 'ai-integration'],
+                    created: new Date().toISOString()
+                };
+                
+                localStorage.setItem('agentx-profile', JSON.stringify(testAgent));
+                
+                // Fire profile loaded event
+                document.dispatchEvent(new CustomEvent('agentxProfileLoaded', { detail: testAgent }));
+                
+                addResult('data-results', '✅ Test agent created and profile loaded event fired', 'success');
+                addResult('data-results', `Agent: ${testAgent.name} (${testAgent.role})`, 'info');
+            } catch (error) {
+                addResult('data-results', `❌ Test agent creation error: ${error.message}`, 'error');
+            }
+        }
+
+        function generateTestAnalytics() {
+            try {
+                const events = [
+                    { event: 'page_load', context: { page: 'test-suite' } },
+                    { event: 'nav_badge_clicked', context: { agent: 'TestAgent_Tier7' } },
+                    { event: 'onboarding_prompted', context: { trigger: 'test' } },
+                    { event: 'analytics_exported', context: { format: 'json' } },
+                    { event: 'profile_updated', context: { field: 'theme' } }
+                ];
+                
+                events.forEach((eventData, index) => {
+                    setTimeout(() => {
+                        if (typeof logAgentXEvent === 'function') {
+                            logAgentXEvent(eventData.event, eventData.context);
+                        }
+                    }, index * 100);
+                });
+                
+                addResult('data-results', `✅ Generated ${events.length} test analytics events`, 'success');
+            } catch (error) {
+                addResult('data-results', `❌ Analytics generation error: ${error.message}`, 'error');
+            }
+        }
+
+        function viewStorageData() {
+            try {
+                const profile = localStorage.getItem('agentx-profile');
+                const analytics = localStorage.getItem('agentx-analytics');
+                const onboardingSkipped = localStorage.getItem('agentx-onboarding-skipped');
+                
+                addResult('data-results', `Profile data: ${profile ? JSON.parse(profile).name || 'Unnamed' : 'None'}`, profile ? 'success' : 'warning');
+                
+                if (analytics) {
+                    const events = JSON.parse(analytics);
+                    addResult('data-results', `Analytics events: ${events.length}`, 'info');
+                    
+                    if (events.length > 0) {
+                        const latest = events[events.length - 1];
+                        addResult('data-results', `Latest event: ${latest.event} at ${new Date(latest.timestamp).toLocaleTimeString()}`, 'info');
+                    }
+                } else {
+                    addResult('data-results', 'Analytics data: None', 'warning');
+                }
+                
+                addResult('data-results', `Onboarding skip: ${onboardingSkipped ? new Date(parseInt(onboardingSkipped)).toLocaleString() : 'None'}`, 'info');
+            } catch (error) {
+                addResult('data-results', `❌ Storage view error: ${error.message}`, 'error');
+            }
+        }
+
+        function clearAllData() {
+            try {
+                // Clear localStorage
+                localStorage.removeItem('agentx-profile');
+                localStorage.removeItem('agentx-analytics');
+                localStorage.removeItem('agentx-onboarding-skipped');
+                
+                // Clear sessionStorage
+                sessionStorage.removeItem('onboarding-prompted');
+                sessionStorage.removeItem('agentx-session-id');
+                
+                addResult('data-results', '✅ All AgentX data cleared', 'success');
+                
+                // Update nav badge
+                if (typeof updateAgentXNav === 'function') {
+                    updateAgentXNav();
+                }
+            } catch (error) {
+                addResult('data-results', `❌ Clear data error: ${error.message}`, 'error');
+            }
+        }
+
+        // System Status
+        function checkSystemStatus() {
+            // Navigation Badge Status
+            const navBadge = document.getElementById('agentx-nav-badge');
+            const navStatus = document.getElementById('nav-status');
+            const navIndicator = navStatus.previousElementSibling;
+            
+            if (navBadge || typeof updateAgentXNav === 'function') {
+                navStatus.textContent = 'Active';
+                navIndicator.className = 'status-indicator status-active';
+            } else {
+                navStatus.textContent = 'Inactive';
+                navIndicator.className = 'status-indicator status-error';
+            }
+            
+            // Export Status
+            const exportStatus = document.getElementById('export-status');
+            const exportIndicator = exportStatus.previousElementSibling;
+            
+            if (typeof downloadAgentXAnalytics === 'function') {
+                exportStatus.textContent = 'Active';
+                exportIndicator.className = 'status-indicator status-active';
+            } else {
+                exportStatus.textContent = 'Inactive';
+                exportIndicator.className = 'status-indicator status-error';
+            }
+            
+            // Onboarding Status
+            const onboardingStatus = document.getElementById('onboarding-status');
+            const onboardingIndicator = onboardingStatus.previousElementSibling;
+            
+            if (typeof closeOnboardingModal === 'function') {
+                onboardingStatus.textContent = 'Active';
+                onboardingIndicator.className = 'status-indicator status-active';
+            } else {
+                onboardingStatus.textContent = 'Inactive';
+                onboardingIndicator.className = 'status-indicator status-error';
+            }
+            
+            // Event Status
+            const eventStatus = document.getElementById('event-status');
+            const eventIndicator = eventStatus.previousElementSibling;
+            
+            if (typeof logAgentXEvent === 'function') {
+                eventStatus.textContent = 'Active';
+                eventIndicator.className = 'status-indicator status-active';
+            } else {
+                eventStatus.textContent = 'Inactive';
+                eventIndicator.className = 'status-indicator status-error';
+            }
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🎤 AgentX Tier 7 Testing Suite loaded');
+            
+            // Check system status
+            setTimeout(checkSystemStatus, 1000);
+            
+            // Log test suite load
+            if (typeof logAgentXEvent === 'function') {
+                logAgentXEvent('tier7_test_suite_loaded', {
+                    timestamp: new Date().toISOString(),
+                    user_agent: navigator.userAgent.substring(0, 100)
+                });
+            }
+        });
+    </script>
+</body>
+</html>

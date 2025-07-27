@@ -1,0 +1,48 @@
+/* time-gradients.css - Time-aware visual gradient system */
+
+/* Hero Animation States */
+#hero {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: all 0.8s ease-in-out;
+}
+
+#hero.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Time-Aware Background Gradients */
+body[data-time-gradient="morning"] {
+  background: linear-gradient(135deg, #ffe98a, #f78a3c); /* Yellow → Orange */
+}
+
+body[data-time-gradient="afternoon"] {
+  background: linear-gradient(135deg, #a0e9ff, #00509d); /* Light Blue → Dark Blue */
+}
+
+body[data-time-gradient="evening"] {
+  background: linear-gradient(135deg, #0b1e3d, #3d1a5f); /* Deep Navy → Midnight Purple */
+}
+
+body[data-time-gradient="night"] {
+  background: linear-gradient(135deg, #6a0dad, #ff5fc1); /* Purple → Pink */
+}
+
+/* Smooth transitions for gradient changes */
+body {
+  transition: background 1.2s ease-in-out;
+}
+
+/* Optional: Subtle overlay for better text readability */
+body[data-time-gradient]::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  z-index: -1;
+}

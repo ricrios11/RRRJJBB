@@ -1,0 +1,23 @@
+agents:
+  agentx:
+    label: "AgentX"
+    status: "planned"
+    type: "personalization"
+    role_options:
+      - Researcher
+      - Strategist
+      - Curator
+      - Synthesizer
+    tone_presets:
+      - Direct
+      - Empathetic
+      - Visionary
+      - Playful
+    themes:
+      - Cyberpunk
+      - Editorial
+      - Minimalist
+    capabilities:
+      - Adaptive Prompting
+      - Real-Time Refinement
+      - System Embedding

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgentX Trojan Tiers 8-11 Test Suite</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .test-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+        
+        .tier-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        
+        .test-button {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+        
+        .test-button.secondary {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
+        
+        .test-button.danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        
+        .test-results {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'SF Mono', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .status-success { background: #10b981; }
+        .status-warning { background: #f59e0b; }
+        .status-error { background: #ef4444; }
+        
+        .hero-test {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            padding: 3rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .hero-test h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .case-study-mock {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .agent-preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .agent-preset {
+            background: #334155;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .agent-preset:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+        
+        .agent-preset.active {
+            border-color: #10b981;
+            background: #065f46;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 AgentX Trojan Tiers 8-11 Test Suite</h1>
+        <p>Comprehensive testing environment for advanced AgentX features</p>
+    </header>
+
+    <!-- Tier 8: Memory Sync Panel -->
+    <section class="test-section">
+        <div class="test-header">
+            <span class="tier-badge">Tier 8</span>
+            <h2>🧠 AgentX Memory Sync Panel</h2>
+        </div>
+        
+        <p>Central control panel for agent memory, analytics, and data management.</p>
+        
+        <div class="test-buttons">
+            <button class="test-button" onclick="testMemoryPanel()">Test Memory Panel</button>
+            <button class="test-button secondary" onclick="openMemoryPanel()">Open Memory Panel</button>
+            <button class="test-button secondary" onclick="simulateAgentData()">Simulate Agent Data</button>
+        </div>
+        
+        <div id="memory-test-results" class="test-results"></div>
+    </section>
+
+    <!-- Tier 9: Narrator Overlay -->
+    <section class="test-section">
+        <div class="test-header">
+            <span class="tier-badge">Tier 9</span>
+            <h2>🎭 AgentX Narrator Overlay</h2>
+        </div>
+        
+        <p>Dynamic agent presence on case studies with editorial voice.</p>
+        
+        <div class="test-buttons">
+            <button class="test-button" onclick="testNarratorOverlay()">Test Narrator System</button>
+            <button class="test-button secondary" onclick="injectNarratorOverlays()">Inject Overlays</button>
+            <button class="test-button secondary" onclick="cycleAgentTones()">Cycle Agent Tones</button>
+        </div>
+        
+        <!-- Mock case studies for narrator testing -->
+        <div class="case-study-mock" data-case-study="1">
+            <h3>Design System Architecture</h3>
+            <p>Comprehensive design system implementation for enterprise applications.</p>
+        </div>
+        
+        <div class="case-study-mock" data-case-study="2">
+            <h3>User Experience Research</h3>
+            <p>In-depth user research and behavioral analysis for product optimization.</p>
+        </div>
+        
+        <div id="narrator-test-results" class="test-results"></div>
+    </section>
+
+    <!-- Tier 10: Cosmic Whisper Mode -->
+    <section class="test-section">
+        <div class="test-header">
+            <span class="tier-badge">Tier 10</span>
+            <h2>🌌 Cosmic Whisper Mode</h2>
+        </div>
+        
+        <p>Contextual hero message tailoring based on agent persona and time of day.</p>
+        
+        <div class="test-buttons">
+            <button class="test-button" onclick="testCosmicWhisper()">Test Cosmic Whisper</button>
+            <button class="test-button secondary" onclick="updateHeroMessage()">Update Hero Message</button>
+            <button class="test-button secondary" onclick="simulateTimeOfDay()">Simulate Time Changes</button>
+        </div>
+        
+        <!-- Mock hero section for testing -->
+        <div class="hero-test">
+            <h1 id="test-hero-title">Strategic design leadership for tomorrow's builders</h1>
+            <p>Current time context and agent tone will influence this message</p>
+        </div>
+        
+        <div id="whisper-test-results" class="test-results"></div>
+    </section>
+
+    <!-- Tier 11: Multi-Agent Swap Panel -->
+    <section class="test-section">
+        <div class="test-header">
+            <span class="tier-badge">Tier 11</span>
+            <h2>🔄 Multi-Agent Swap Panel</h2>
+        </div>
+        
+        <p>Agent persona selection with distinct themes and personalities.</p>
+        
+        <div class="test-buttons">
+            <button class="test-button" onclick="testSwapPanel()">Test Swap Panel</button>
+            <button class="test-button secondary" onclick="openSwapPanel()">Open Swap Panel</button>
+            <button class="test-button secondary" onclick="previewAgentPresets()">Preview Agent Presets</button>
+        </div>
+        
+        <!-- Agent preset preview -->
+        <div class="agent-preset-grid" id="agent-preview-grid">
+            <!-- Will be populated by JavaScript -->
+        </div>
+        
+        <div id="swap-test-results" class="test-results"></div>
+    </section>
+
+    <!-- System Status -->
+    <section class="test-section">
+        <div class="test-header">
+            <h2>📊 System Status</h2>
+        </div>
+        
+        <div class="test-buttons">
+            <button class="test-button" onclick="runFullSystemTest()">Run Full System Test</button>
+            <button class="test-button secondary" onclick="checkDependencies()">Check Dependencies</button>
+            <button class="test-button danger" onclick="resetTestEnvironment()">Reset Test Environment</button>
+        </div>
+        
+        <div id="system-status" class="test-results"></div>
+    </section>
+
+    <script>
+        // Test Suite Implementation
+        let testResults = {
+            tier8: { status: 'pending', tests: [] },
+            tier9: { status: 'pending', tests: [] },
+            tier10: { status: 'pending', tests: [] },
+            tier11: { status: 'pending', tests: [] }
+        };
+
+        // Tier 8: Memory Sync Panel Tests
+        function testMemoryPanel() {
+            const results = document.getElementById('memory-test-results');
+            results.innerHTML = '<div>🧠 Testing Memory Sync Panel...</div>';
+            
+            const tests = [
+                { name: 'Memory Panel Script Loaded', test: () => typeof renderAgentXMemoryPanel === 'function' },
+                { name: 'Reset Function Available', test: () => typeof resetAgentX === 'function' },
+                { name: 'Export Function Available', test: () => typeof exportMemorySnapshot === 'function' },
+                { name: 'Re-onboard Function Available', test: () => typeof reOnboardAgent === 'function' },
+                { name: 'Modal HTML Present', test: () => document.getElementById('memory-panel') !== null }
+            ];
+            
+            runTests(tests, 'tier8', results);
+        }
+
+        function openMemoryPanel() {
+            if (typeof openModal === 'function') {
+                openModal('memory-panel');
+            } else {
+                alert('Memory panel modal system not available. Please ensure main site scripts are loaded.');
+            }
+        }
+
+        function simulateAgentData() {
+            const mockProfile = {
+                name: "Test Agent",
+                role: "Test Designer",
+                tone: "professional",
+                theme: "professional",
+                createdAt: new Date().toISOString()
+            };
+            
+            const mockAnalytics = [
+                { event: 'test_event', timestamp: new Date().toISOString(), data: { test: true } }
+            ];
+            
+            localStorage.setItem('agentx-profile', JSON.stringify(mockProfile));
+            localStorage.setItem('agentx-analytics', JSON.stringify(mockAnalytics));
+            
+            document.getElementById('memory-test-results').innerHTML += 
+                '<div><span class="status-indicator status-success"></span>Mock agent data created</div>';
+        }
+
+        // Tier 9: Narrator Overlay Tests
+        function testNarratorOverlay() {
+            const results = document.getElementById('narrator-test-results');
+            results.innerHTML = '<div>🎭 Testing Narrator Overlay...</div>';
+            
+            const tests = [
+                { name: 'Narrator Script Loaded', test: () => typeof window.AgentXNarrator === 'object' },
+                { name: 'Narrator CSS Loaded', test: () => checkCSSRule('.agentx-narrator-overlay') },
+                { name: 'Inject Function Available', test: () => typeof window.AgentXNarrator?.inject === 'function' },
+                { name: 'Theme Update Available', test: () => typeof window.AgentXNarrator?.updateTheme === 'function' },
+                { name: 'Case Study Elements Present', test: () => document.querySelectorAll('[data-case-study]').length > 0 }
+            ];
+            
+            runTests(tests, 'tier9', results);
+        }
+
+        function injectNarratorOverlays() {
+            if (window.AgentXNarrator?.inject) {
+                window.AgentXNarrator.inject();
+                document.getElementById('narrator-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-success"></span>Narrator overlays injected</div>';
+            } else {
+                document.getElementById('narrator-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-error"></span>Narrator system not available</div>';
+            }
+        }
+
+        function cycleAgentTones() {
+            const tones = ['professional', 'creative', 'analytical', 'visionary'];
+            let currentIndex = 0;
+            
+            const cycle = () => {
+                const profile = {
+                    name: "Test Agent",
+                    role: "Test Designer", 
+                    tone: tones[currentIndex],
+                    theme: tones[currentIndex],
+                    createdAt: new Date().toISOString()
+                };
+                
+                localStorage.setItem('agentx-profile', JSON.stringify(profile));
+                
+                if (window.AgentXNarrator?.updateTheme) {
+                    window.AgentXNarrator.updateTheme();
+                }
+                
+                document.getElementById('narrator-test-results').innerHTML += 
+                    `<div><span class="status-indicator status-success"></span>Switched to ${tones[currentIndex]} tone</div>`;
+                
+                currentIndex = (currentIndex + 1) % tones.length;
+                
+                if (currentIndex > 0) {
+                    setTimeout(cycle, 2000);
+                }
+            };
+            
+            cycle();
+        }
+
+        // Tier 10: Cosmic Whisper Tests
+        function testCosmicWhisper() {
+            const results = document.getElementById('whisper-test-results');
+            results.innerHTML = '<div>🌌 Testing Cosmic Whisper Mode...</div>';
+            
+            const tests = [
+                { name: 'Cosmic Whisper Script Loaded', test: () => typeof window.CosmicWhisper === 'object' },
+                { name: 'Update Function Available', test: () => typeof window.CosmicWhisper?.update === 'function' },
+                { name: 'Select Function Available', test: () => typeof window.CosmicWhisper?.select === 'function' },
+                { name: 'Time Detection Available', test: () => typeof window.CosmicWhisper?.getTimeOfDay === 'function' },
+                { name: 'Hero Title Element Present', test: () => document.getElementById('test-hero-title') !== null }
+            ];
+            
+            runTests(tests, 'tier10', results);
+        }
+
+        function updateHeroMessage() {
+            if (window.CosmicWhisper?.update) {
+                window.CosmicWhisper.update();
+                document.getElementById('whisper-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-success"></span>Hero message updated</div>';
+            } else {
+                document.getElementById('whisper-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-error"></span>Cosmic Whisper system not available</div>';
+            }
+        }
+
+        function simulateTimeOfDay() {
+            const times = ['morning', 'afternoon', 'evening'];
+            let currentIndex = 0;
+            
+            const simulate = () => {
+                if (window.CosmicWhisper?.select) {
+                    const whisper = window.CosmicWhisper.select();
+                    document.getElementById('test-hero-title').textContent = whisper;
+                    
+                    document.getElementById('whisper-test-results').innerHTML += 
+                        `<div><span class="status-indicator status-success"></span>Simulated ${times[currentIndex]} message: "${whisper}"</div>`;
+                }
+                
+                currentIndex = (currentIndex + 1) % times.length;
+                
+                if (currentIndex > 0) {
+                    setTimeout(simulate, 2000);
+                }
+            };
+            
+            simulate();
+        }
+
+        // Tier 11: Multi-Agent Swap Panel Tests
+        function testSwapPanel() {
+            const results = document.getElementById('swap-test-results');
+            results.innerHTML = '<div>🔄 Testing Multi-Agent Swap Panel...</div>';
+            
+            const tests = [
+                { name: 'Swap Panel Script Loaded', test: () => typeof window.AgentXSwap === 'object' },
+                { name: 'Render Function Available', test: () => typeof window.AgentXSwap?.render === 'function' },
+                { name: 'Select Function Available', test: () => typeof window.AgentXSwap?.select === 'function' },
+                { name: 'Agent Presets Available', test: () => typeof window.AgentXSwap?.presets === 'object' },
+                { name: 'Swap Panel Modal Present', test: () => document.getElementById('agentx-swap-panel') !== null },
+                { name: 'Swap Panel CSS Loaded', test: () => checkCSSRule('.agentx-swap-modal') }
+            ];
+            
+            runTests(tests, 'tier11', results);
+        }
+
+        function openSwapPanel() {
+            if (typeof openModal === 'function') {
+                if (window.AgentXSwap?.render) {
+                    window.AgentXSwap.render();
+                }
+                openModal('agentx-swap-panel');
+            } else {
+                alert('Swap panel modal system not available. Please ensure main site scripts are loaded.');
+            }
+        }
+
+        function previewAgentPresets() {
+            const grid = document.getElementById('agent-preview-grid');
+            
+            if (window.AgentXSwap?.presets) {
+                const presets = window.AgentXSwap.presets;
+                grid.innerHTML = '';
+                
+                Object.entries(presets).forEach(([key, agent]) => {
+                    const card = document.createElement('div');
+                    card.className = 'agent-preset';
+                    card.innerHTML = `
+                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">${agent.avatar}</div>
+                        <div style="font-weight: 600;">${agent.name}</div>
+                        <div style="font-size: 0.875rem; color: #94a3b8;">${agent.role}</div>
+                        <div style="font-size: 0.75rem; margin-top: 0.5rem; color: #64748b;">${agent.tone}</div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        document.querySelectorAll('.agent-preset').forEach(p => p.classList.remove('active'));
+                        card.classList.add('active');
+                        
+                        document.getElementById('swap-test-results').innerHTML += 
+                            `<div><span class="status-indicator status-success"></span>Selected ${agent.name} (${agent.tone})</div>`;
+                    });
+                    
+                    grid.appendChild(card);
+                });
+                
+                document.getElementById('swap-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-success"></span>Agent presets loaded</div>';
+            } else {
+                document.getElementById('swap-test-results').innerHTML += 
+                    '<div><span class="status-indicator status-error"></span>Agent presets not available</div>';
+            }
+        }
+
+        // Utility Functions
+        function runTests(tests, tier, resultsElement) {
+            let passed = 0;
+            let total = tests.length;
+            
+            tests.forEach(test => {
+                try {
+                    const result = test.test();
+                    const status = result ? 'success' : 'error';
+                    const icon = result ? '✓' : '✗';
+                    
+                    resultsElement.innerHTML += 
+                        `<div><span class="status-indicator status-${status}"></span>${icon} ${test.name}</div>`;
+                    
+                    if (result) passed++;
+                } catch (error) {
+                    resultsElement.innerHTML += 
+                        `<div><span class="status-indicator status-error"></span>✗ ${test.name} (Error: ${error.message})</div>`;
+                }
+            });
+            
+            const overallStatus = passed === total ? 'success' : passed > 0 ? 'warning' : 'error';
+            testResults[tier] = { status: overallStatus, passed, total };
+            
+            resultsElement.innerHTML += 
+                `<div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #334155;">
+                    <strong>Results: ${passed}/${total} tests passed</strong>
+                </div>`;
+        }
+
+        function checkCSSRule(selector) {
+            for (let sheet of document.styleSheets) {
+                try {
+                    for (let rule of sheet.cssRules || sheet.rules) {
+                        if (rule.selectorText && rule.selectorText.includes(selector)) {
+                            return true;
+                        }
+                    }
+                } catch (e) {
+                    // Cross-origin stylesheets may throw errors
+                    continue;
+                }
+            }
+            return false;
+        }
+
+        function runFullSystemTest() {
+            const statusElement = document.getElementById('system-status');
+            statusElement.innerHTML = '<div>🚀 Running full system test...</div>';
+            
+            // Run all tier tests
+            testMemoryPanel();
+            testNarratorOverlay();
+            testCosmicWhisper();
+            testSwapPanel();
+            
+            setTimeout(() => {
+                const summary = Object.entries(testResults).map(([tier, result]) => {
+                    const tierNum = tier.replace('tier', '');
+                    const status = result.status || 'pending';
+                    const icon = status === 'success' ? '✓' : status === 'warning' ? '⚠' : '✗';
+                    return `<div><span class="status-indicator status-${status}"></span>${icon} Tier ${tierNum}: ${result.passed || 0}/${result.total || 0} tests passed</div>`;
+                }).join('');
+                
+                statusElement.innerHTML = `
+                    <div><strong>System Test Summary:</strong></div>
+                    ${summary}
+                    <div style="margin-top: 1rem;">
+                        <strong>Overall Status: AgentX Trojan Tiers 8-11 Implementation</strong>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        function checkDependencies() {
+            const statusElement = document.getElementById('system-status');
+            const dependencies = [
+                { name: 'localStorage', test: () => typeof localStorage !== 'undefined' },
+                { name: 'Modal System', test: () => typeof openModal === 'function' },
+                { name: 'Analytics System', test: () => typeof logAgentXEvent === 'function' },
+                { name: 'Agent Profile System', test: () => localStorage.getItem('agentx-profile') !== null },
+                { name: 'CSS Custom Properties', test: () => CSS.supports('color', 'var(--primary)') }
+            ];
+            
+            statusElement.innerHTML = '<div>📋 Checking dependencies...</div>';
+            
+            dependencies.forEach(dep => {
+                try {
+                    const result = dep.test();
+                    const status = result ? 'success' : 'warning';
+                    const icon = result ? '✓' : '⚠';
+                    
+                    statusElement.innerHTML += 
+                        `<div><span class="status-indicator status-${status}"></span>${icon} ${dep.name}</div>`;
+                } catch (error) {
+                    statusElement.innerHTML += 
+                        `<div><span class="status-indicator status-error"></span>✗ ${dep.name} (Error)</div>`;
+                }
+            });
+        }
+
+        function resetTestEnvironment() {
+            if (confirm('This will clear all AgentX data and reset the test environment. Continue?')) {
+                localStorage.removeItem('agentx-profile');
+                localStorage.removeItem('agentx-analytics');
+                localStorage.removeItem('agentx-onboarding-skipped');
+                sessionStorage.clear();
+                
+                // Clear test results
+                testResults = {
+                    tier8: { status: 'pending', tests: [] },
+                    tier9: { status: 'pending', tests: [] },
+                    tier10: { status: 'pending', tests: [] },
+                    tier11: { status: 'pending', tests: [] }
+                };
+                
+                // Clear all result displays
+                document.querySelectorAll('.test-results').forEach(el => el.innerHTML = '');
+                document.getElementById('agent-preview-grid').innerHTML = '';
+                
+                document.getElementById('system-status').innerHTML = 
+                    '<div><span class="status-indicator status-success"></span>Test environment reset</div>';
+            }
+        }
+
+        // Auto-run dependency check on load
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(checkDependencies, 1000);
+        });
+    </script>
+</body>
+</html>
