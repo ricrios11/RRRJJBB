@@ -3639,10 +3639,16 @@
             
             // Show the modal
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            document.body.style.overflowX = 'hidden';
             
-            console.log(`✅ Modal ${modalId} display set to flex, body overflow set to hidden`);
+            // CRITICAL: Only set overflow hidden if modal actually displays
+            if (modal.style.display === 'flex') {
+                document.body.style.overflow = 'hidden';
+                document.body.style.overflowX = 'hidden';
+                console.log(`✅ Modal ${modalId} successfully displayed and body scroll disabled`);
+            } else {
+                console.error(`❌ Modal ${modalId} failed to display - not setting body overflow`);
+                return false;
+            }
             
             // Initialize games if needed
             try {
