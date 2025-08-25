@@ -2789,7 +2789,7 @@
             </div>
             
             <div class="playground-games">
-                <div class="game-card hoverable" onclick="openModal('snake-modal')" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
+                <div class="game-card hoverable" onclick="console.log('🚨 CARD CLICKED: snake-modal'); openModal('snake-modal'); return false;" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
                     <h3 class="game-title ascii-game-title">
 ┌─ 🐍 CYBERPUNK SNAKE ─────────┐
 │  Executive Playground        │
@@ -2809,7 +2809,7 @@
                     </div>
                 </div>
                 
-                <div class="game-card hoverable" onclick="openModal('graffiti-modal')" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
+                <div class="game-card hoverable" onclick="console.log('🚨 CARD CLICKED: graffiti-modal'); openModal('graffiti-modal'); return false;" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
                     <h3 class="game-title ascii-game-title">
 ┌─ 🎨 SLAP ────────────────────┐
 │  Leave Your Mark             │
@@ -2864,8 +2864,8 @@
             <div class="footer-section">
                 <h3>INNOVATION LAB</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="openModal('snake-modal'); return false;">Cyberpunk Snake</a></li>
-                    <li><a href="#" onclick="openModal('graffiti-modal'); return false;">Slap</a></li>
+                    <li><a href="#" onclick="console.log('🚨 FOOTER CLICKED: snake-modal'); openModal('snake-modal'); return false;">Cyberpunk Snake</a></li>
+                    <li><a href="#" onclick="console.log('🚨 FOOTER CLICKED: graffiti-modal'); openModal('graffiti-modal'); return false;">Slap</a></li>
                 </ul>
             </div>
             
@@ -3613,6 +3613,8 @@
 
         // ENHANCED MODAL SYSTEM - BULLETPROOF EXECUTION
         function openModal(modalId) {
+            console.log(`🚨 CRITICAL DEBUG: openModal called with ID: ${modalId}`);
+            
             // Prevent opening modals if we're in a refresh state
             if (!modalId || modalId === 'undefined' || modalId === 'null') {
                 console.warn('⚠️ Invalid modal ID provided');
@@ -3622,6 +3624,7 @@
             console.log(`🔍 DOM DEBUG: Opening modal: ${modalId}`);
             
             const modal = document.getElementById(modalId);
+            console.log(`🔍 DOM DEBUG: Modal element found:`, modal);
             if (!modal) {
                 console.error(`❌ Modal ${modalId} not found in DOM`);
                 return false;
@@ -3638,6 +3641,8 @@
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             document.body.style.overflowX = 'hidden';
+            
+            console.log(`✅ Modal ${modalId} display set to flex, body overflow set to hidden`);
             
             // Initialize games if needed
             try {
