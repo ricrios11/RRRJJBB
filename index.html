@@ -3028,7 +3028,7 @@
                 if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
                 if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
                 if (textBtn) textBtn.addEventListener('click', () => this.addText());
-                if (slapBtn) slapBtn.addEventListener('click', () => this.saveToWall());
+                if (slapBtn) slapBtn.addEventListener('click', () => this.slapAll());
             }
 
             startDrawing(e) {
@@ -3304,7 +3304,12 @@
             }
 
             slapAll() {
-                if (this.strokes.length === 0 && this.stickers.length === 0) return;
+                console.log('SLAP button clicked - checking canvas content...');
+                console.log('Strokes:', this.strokes.length, 'Stickers:', this.stickers.length);
+                
+                // Check if there's any content on canvas
+                const imageData = this.canvas.toDataURL('image/png');
+                console.log('Canvas data length:', imageData.length);
                 
                 // Immediate button feedback
                 const slapButton = document.getElementById('slap-all');
@@ -3320,23 +3325,19 @@
                     }, 600);
                 }
                 
-                // Capture canvas as image data
-                const imageData = this.canvas.toDataURL('image/png');
-                
-                // Save to community wall (localStorage for now)
-                this.saveToWall(imageData);
+                // Save to community wall
+                this.saveToWall();
                 
                 // Update stats
-                gameStats.artPieces++;
-                updateGameStats();
+                if (typeof gameStats !== 'undefined') {
+                    gameStats.artPieces++;
+                    if (typeof updateGameStats === 'function') {
+                        updateGameStats();
+                    }
+                }
                 
                 // Celebration effect
                 this.showCelebration();
-                
-                // Clear after delay
-                setTimeout(() => {
-                    this.clearCanvas();
-                }, 1500);
             }
 
             saveToWall() {
