@@ -3314,12 +3314,38 @@
             }
 
             slapAll() {
-                console.log('SLAP button clicked - checking canvas content...');
-                console.log('Strokes:', this.strokes.length, 'Stickers:', this.stickers.length);
+                console.log('🎯 SLAP ALL METHOD CALLED');
+                console.log('Canvas context:', this.canvas, this.ctx);
+                console.log('Strokes:', this.strokes ? this.strokes.length : 'undefined');
+                console.log('Stickers:', this.stickers ? this.stickers.length : 'undefined');
                 
-                // Check if there's any content on canvas
+                // Force capture canvas content regardless of stroke tracking
                 const imageData = this.canvas.toDataURL('image/png');
                 console.log('Canvas data length:', imageData.length);
+                console.log('Canvas dimensions:', this.canvas.width, 'x', this.canvas.height);
+                
+                // Check if canvas has actual drawing content (not just blank)
+                const canvas = this.canvas;
+                const ctx = this.ctx;
+                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const pixels = imgData.data;
+                let hasContent = false;
+                
+                // Check for non-transparent pixels
+                for (let i = 3; i < pixels.length; i += 4) {
+                    if (pixels[i] > 0) { // Alpha channel > 0
+                        hasContent = true;
+                        break;
+                    }
+                }
+                
+                console.log('Canvas has visible content:', hasContent);
+                
+                if (!hasContent) {
+                    console.warn('⚠️ No visible content on canvas to save');
+                    alert('Draw something first before slapping!');
+                    return;
+                }
                 
                 // Immediate button feedback
                 const slapButton = document.getElementById('slap-all');
@@ -3335,7 +3361,8 @@
                     }, 600);
                 }
                 
-                // Save to community wall
+                // Save to community wall with enhanced logging
+                console.log('🎯 Calling saveToWall...');
                 this.saveToWall();
                 
                 // Update stats
@@ -3352,9 +3379,13 @@
 
             saveToWall() {
                 try {
+                    console.log('🎯 SAVE TO WALL METHOD CALLED');
                     const imageData = this.canvas.toDataURL('image/png');
                     const timestamp = new Date().toISOString();
                     const stickerId = 'graffiti_' + Date.now();
+                    
+                    console.log('Generated sticker ID:', stickerId);
+                    console.log('Image data preview:', imageData.substring(0, 100) + '...');
                     
                     const sticker = {
                         id: stickerId,
@@ -3363,30 +3394,40 @@
                         author: 'Anonymous'
                     };
                 
-                // Get existing wall stickers
-                let wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
-                wallStickers.push(sticker);
-                
-                // Keep only last 50 stickers
-                if (wallStickers.length > 50) {
-                    wallStickers = wallStickers.slice(-50);
-                }
-                
-                localStorage.setItem('graffitiWall', JSON.stringify(wallStickers));
-                console.log('Artwork saved to community wall!');
-                
-                // Update gallery display
-                loadStickerGallery();
-                updateArtCount();
-                
-                // Clear canvas after saving
-                this.clearCanvas();
-                
-                // Enhanced confirmation feedback
-                this.showSaveConfirmation();
-                
+                    // Get existing wall stickers
+                    let wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
+                    console.log('Existing stickers count:', wallStickers.length);
+                    
+                    wallStickers.push(sticker);
+                    console.log('Added new sticker, total count:', wallStickers.length);
+                    
+                    // Keep only last 50 stickers
+                    if (wallStickers.length > 50) {
+                        wallStickers = wallStickers.slice(-50);
+                        console.log('Trimmed to 50 stickers');
+                    }
+                    
+                    localStorage.setItem('graffitiWall', JSON.stringify(wallStickers));
+                    console.log('✅ Artwork saved to localStorage!');
+                    
+                    // Verify save
+                    const savedStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
+                    console.log('Verification - saved stickers count:', savedStickers.length);
+                    
+                    // Update gallery display
+                    console.log('🎯 Calling loadStickerGallery...');
+                    loadStickerGallery();
+                    console.log('🎯 Calling updateArtCount...');
+                    updateArtCount();
+                    
+                    // DON'T clear canvas - let user see their work
+                    // this.clearCanvas();
+                    
+                    // Enhanced confirmation feedback
+                    this.showSaveConfirmation();
+                    
                 } catch (error) {
-                    console.error('Failed to save artwork:', error);
+                    console.error('❌ Failed to save artwork:', error);
                     alert('Failed to save artwork. Please try again.');
                 }
             }
@@ -3650,30 +3691,47 @@
 
         // Sticker Gallery Functions
         function loadStickerGallery() {
-            console.log('Loading sticker gallery...');
+            console.log('🎯 LOAD STICKER GALLERY CALLED');
             const gallerySection = document.querySelector('.sticker-gallery-section');
             const gallery = document.getElementById('sticker-gallery');
-            const wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
             
+            console.log('Gallery DOM elements:', {
+                gallerySection: !!gallerySection,
+                gallery: !!gallery,
+                gallerySectionDisplay: gallerySection ? gallerySection.style.display : 'N/A'
+            });
+            
+            const wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
             console.log(`Found ${wallStickers.length} stickers in localStorage`);
             
             if (wallStickers.length === 0) {
                 if (gallerySection) {
                     gallerySection.style.display = 'none';
+                    console.log('No stickers found, hiding gallery');
                 }
-                console.log('No stickers found, hiding gallery');
                 return;
             }
             
             if (gallerySection && gallery) {
+                console.log('🎯 Showing gallery section and rendering stickers...');
                 gallerySection.style.display = 'block';
-                gallery.innerHTML = wallStickers.map(sticker => `
+                
+                const galleryHTML = wallStickers.map(sticker => `
                     <div class="sticker-thumbnail" onclick="viewSticker('${sticker.id}')">
-                        <img src="${sticker.image}" alt="Community Sticker">
+                        <img src="${sticker.image}" alt="Community Sticker" style="max-width: 100px; max-height: 100px;">
                         <button class="sticker-delete" onclick="event.stopPropagation(); deleteSticker('${sticker.id}')">&times;</button>
                     </div>
                 `).join('');
-                console.log('✅ Sticker gallery loaded successfully');
+                
+                gallery.innerHTML = galleryHTML;
+                console.log('✅ Gallery HTML updated with', wallStickers.length, 'stickers');
+                console.log('Gallery section now visible:', gallerySection.style.display);
+                
+                // Force scroll to gallery if it's now visible
+                setTimeout(() => {
+                    gallerySection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 100);
+                
             } else {
                 console.error('❌ Gallery elements not found:', {
                     gallerySection: !!gallerySection,
