@@ -4,8 +4,13 @@
     <meta charset="UTF-8">
     <title>RicRios Innovation Lab</title>
     <meta name="description" content="Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00ff9d">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Innovation Lab">
     <title>Ric Rios - Product Design Impact</title>
     <link rel="stylesheet" href="cyberpunk-design-tokens.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
@@ -21,6 +26,15 @@
             font-family: var(--cyber-font-ui);
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
+            /* Performance optimizations */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeSpeed;
+            /* Mobile optimizations */
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
 
@@ -1071,11 +1085,14 @@
             --cyber-text-xl: 1.25rem;
         }
 
+        /* Mobile-first graffiti interface */
         @media (max-width: 768px) {
             .graffiti-interface {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto 1fr auto;
-                height: 100%;
+                height: 100vh;
+                padding: 0;
+                gap: 0;
             }
             
             .graffiti-toolbar {
@@ -1084,6 +1101,8 @@
                 gap: 15px;
                 overflow-x: auto;
                 padding: 10px;
+                background: var(--cyber-dark-secondary);
+                border-bottom: 1px solid var(--cyber-primary-accent);
             }
             
             .tool-section {
@@ -1099,6 +1118,33 @@
             .sticker-thumbnail {
                 width: 80px;
                 height: 80px;
+            }
+
+            /* Full-screen mobile modals */
+            .game-modal {
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                max-height: none;
+                border-radius: 0;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .game-modal-header {
+                padding: env(safe-area-inset-top, 0) 1rem 1rem 1rem;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: var(--cyber-dark-secondary);
+                border-bottom: 1px solid var(--cyber-primary-accent);
+            }
+            
+            .game-modal-content {
+                padding: 0;
+                height: calc(100vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
         }
         
@@ -1658,11 +1704,14 @@
             --cyber-text-xl: 1.25rem;
         }
 
+        /* Mobile-first graffiti interface */
         @media (max-width: 768px) {
             .graffiti-interface {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto 1fr auto;
-                height: 100%;
+                height: 100vh;
+                padding: 0;
+                gap: 0;
             }
             
             .graffiti-toolbar {
@@ -1671,6 +1720,8 @@
                 gap: 15px;
                 overflow-x: auto;
                 padding: 10px;
+                background: var(--cyber-dark-secondary);
+                border-bottom: 1px solid var(--cyber-primary-accent);
             }
             
             .tool-section {
@@ -1686,6 +1737,33 @@
             .sticker-thumbnail {
                 width: 80px;
                 height: 80px;
+            }
+
+            /* Full-screen mobile modals */
+            .game-modal {
+                width: 100vw;
+                height: 100vh;
+                max-width: none;
+                max-height: none;
+                border-radius: 0;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .game-modal-header {
+                padding: env(safe-area-inset-top, 0) 1rem 1rem 1rem;
+                position: sticky;
+                top: 0;
+                z-index: 10;
+                background: var(--cyber-dark-secondary);
+                border-bottom: 1px solid var(--cyber-primary-accent);
+            }
+            
+            .game-modal-content {
+                padding: 0;
+                height: calc(100vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
         }
         
@@ -2175,7 +2253,9 @@
         @media (max-width: 480px) {
             #graffiti-canvas {
                 max-width: calc(100vw - 2rem);
-                aspect-ratio: 1;
+                aspect-ratio: 2/1;
+                max-height: 40vh;
+                min-height: 300px;
             }
         }
         
@@ -3071,35 +3151,28 @@
                 this.canvas.addEventListener('mouseup', () => this.stopDrawing());
                 this.canvas.addEventListener('mouseout', () => this.stopDrawing());
                 
-                // Touch events for mobile
+                // Direct touch events for mobile ASCII placement
                 this.canvas.addEventListener('touchstart', (e) => {
                     e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousedown', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    this.canvas.dispatchEvent(mouseEvent);
+                    this.startDrawing(e);
                 });
                 
                 this.canvas.addEventListener('touchmove', (e) => {
                     e.preventDefault();
-                    const touch = e.touches[0];
-                    const mouseEvent = new MouseEvent('mousemove', {
-                        clientX: touch.clientX,
-                        clientY: touch.clientY
-                    });
-                    this.canvas.dispatchEvent(mouseEvent);
+                    this.draw(e);
                 });
                 
                 this.canvas.addEventListener('touchend', (e) => {
                     e.preventDefault();
-                    const mouseEvent = new MouseEvent('mouseup', {});
-                    this.canvas.dispatchEvent(mouseEvent);
+                    this.stopDrawing();
                 });
 
-                // ASCII character buttons
+                // ASCII character buttons with touch optimization
                 document.querySelectorAll('.ascii-btn').forEach(btn => {
+                    // Increase touch target size for mobile
+                    btn.style.minHeight = '44px';
+                    btn.style.minWidth = '44px';
+                    
                     btn.addEventListener('click', (e) => {
                         document.querySelectorAll('.ascii-btn').forEach(b => b.classList.remove('active'));
                         e.target.classList.add('active');
@@ -3158,8 +3231,19 @@
 
             placeCharacter(e) {
                 const rect = this.canvas.getBoundingClientRect();
-                const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-                const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
+                
+                // Handle both mouse and touch events
+                let clientX, clientY;
+                if (e.touches && e.touches.length > 0) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                
+                const x = (clientX - rect.left) * (this.canvas.width / rect.width);
+                const y = (clientY - rect.top) * (this.canvas.height / rect.height);
                 
                 const gridX = Math.floor(x / this.cellWidth);
                 const gridY = Math.floor(y / this.cellHeight);

@@ -1,0 +1,23 @@
+{
+  "name": "RicRios Innovation Lab",
+  "short_name": "Innovation Lab",
+  "description": "Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#00ff9d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["design", "portfolio", "innovation"],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}
