@@ -624,7 +624,7 @@ class CyberpunkSnakeGame {
             case 'high_score':
                 return `New personal best: ${data.score} points`;
             default:
-                return 'Achievement unlocked in Cyberpunk Snake';
+                return 'Achievement unlocked in Snake';
         }
     }
     

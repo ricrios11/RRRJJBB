@@ -414,7 +414,7 @@ class CyberpunkMinimalismHeuristics {
                     'Implement unified achievement system',
                     'Add performance monitoring'
                 ],
-                deliverables: ['Cyberpunk Snake', 'Digital Graffiti', 'Achievement system']
+                deliverables: ['Snake', 'Digital Graffiti', 'Achievement system']
             },
             phase3: {
                 name: 'Hero Unification',

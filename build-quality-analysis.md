@@ -29,7 +29,7 @@
 - [x] Asset optimization
 
 ### **🎨 FEATURE COMPLETENESS**
-- [x] **Cyberpunk Snake Game**: Fully functional, responsive
+- [x] **🐍 Snake Game**: Fully functional, responsive
 - [x] **Graffiti Slap Tool**: Complete drawing system, community wall
 - [x] **Portfolio Showcase**: Professional case studies
 - [x] **Interactive Modals**: Smooth animations, proper UX
