@@ -5273,6 +5273,19 @@
             if (themeIcon) {
                 themeIcon.textContent = newTheme === 'light' ? '◑' : '◐';
             }
+            
+            console.log(`🎨 Theme switched to: ${newTheme}`);
+        }
+
+        // Initialize theme toggle
+        function initThemeToggle() {
+            const savedTheme = localStorage.getItem('theme-preference') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            
+            const themeIcon = document.querySelector('.theme-icon');
+            if (themeIcon) {
+                themeIcon.textContent = savedTheme === 'light' ? '◑' : '◐';
+            }
         }
 
         // Escape key to close dip layer
