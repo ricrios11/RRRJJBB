@@ -4716,91 +4716,14 @@
             });
         }
 
-        // Game Modal System
-        function openGameModal(gameType) {
-            const modal = document.createElement('div');
-            modal.className = 'game-modal-overlay';
-            modal.innerHTML = `
-                <div class="game-modal">
-                    <div class="game-modal-header">
-                        <h2 class="game-modal-title">${getGameTitle(gameType)}</h2>
-                        <button class="game-modal-close" onclick="closeGameModal()">&times;</button>
-                    </div>
-                    <div class="game-modal-content" id="game-container">
-                        ${getGameContent(gameType)}
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
-            
-            // Initialize game
-            if (gameType === 'snake') {
-                initSnakeGame();
-            }
-            
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-        }
-        
-        function closeGameModal() {
-            const modal = document.querySelector('.game-modal-overlay');
-            if (modal) {
-                modal.remove();
-                document.body.style.overflow = 'auto';
-            }
-        }
-        
-        function getGameTitle(gameType) {
-            switch(gameType) {
-                case 'snake': return '🐍 CYBERPUNK SNAKE PROTOCOL';
-                case 'graffiti': return '🎨 GRAFFITI SLAP SYSTEM';
-                default: return 'GAME SYSTEM';
-            }
-        }
-        
-        function getGameContent(gameType) {
-            switch(gameType) {
-                case 'snake': return `
-                    <div class="snake-game-container">
-                        <div class="game-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">SCORE</span>
-                                <span class="stat-value" id="snake-score">0</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">THEME</span>
-                                <span class="stat-value" id="snake-theme">DAWN</span>
-                            </div>
-                        </div>
-                        <div class="game-board" id="snake-board-legacy"></div>
-                        <div class="game-controls">
-                            <button id="snake-start" class="game-btn">🐍 START HUNT</button>
-                            <div class="control-keys">
-                                <div class="key-row">
-                                    <kbd>↑</kbd>
-                                </div>
-                                <div class="key-row">
-                                    <kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd>
-                                </div>
-                                <div class="key-row">
-                                    <kbd>SPACE</kbd><span class="key-desc">PAUSE</span>
-                                </div>
-                                <div class="key-row">
-                                    <kbd>SHIFT</kbd><span class="key-desc">BOOST</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                case 'graffiti': return '';  // Graffiti content is in modal
-                default: return '<div>Game loading...</div>';
-            }
-        }
-        
+        // LEGACY GAME MODAL SYSTEM - REMOVED TO PREVENT CONFLICTS
+        // This duplicate function was causing modal launch failures
+
         // Snake Game Implementation
         let snakeGame = null;
-        
+
         function initSnakeGame() {
+            console.log('🐍 Initializing Snake Game...');
             const GRID_SIZE = 20;
             let snake = [{x: 10, y: 10}];
             let food = {x: 15, y: 15, type: 'normal'};
