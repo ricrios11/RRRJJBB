@@ -8,7 +8,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#00ff9d">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Innovation Lab">
     <title>Ric Rios - Product Design Impact</title>
@@ -3038,7 +3038,7 @@
         </div>
     </div>
     
-    <script src="cyberpunk-snake-game.js"></script>
+    <!-- REMOVED: External snake game causing export syntax errors -->
     <script>
         // TROJAN HORSE: Time Awareness Magic
         let gameStats = {
@@ -4689,8 +4689,11 @@
             tooltip.style.top = top + 'px';
         }
         
-        function showTooltip(element) {
+        function showTooltip(e) {
             if (activeTooltip) hideTooltip();
+            
+            const element = e.target || e.currentTarget;
+            if (!element || !element.getAttribute) return;
             
             const text = element.getAttribute('data-tooltip');
             if (!text) return;
@@ -5173,8 +5176,8 @@
                     
                     measureInteraction: (element, eventType) => {
                         element.addEventListener(eventType, () => {
-                            const interactionTime = performance.now() - this.startTime;
-                            this.logMetric(`${eventType}_interaction`, interactionTime);
+                            const interactionTime = performance.now() - performanceMonitor.startTime;
+                            performanceMonitor.logMetric(`${eventType}_interaction`, interactionTime);
                         });
                     }
                 };
