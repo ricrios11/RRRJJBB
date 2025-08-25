@@ -1,0 +1,122 @@
+# RicRios.com Innovation Lab Feature Registry
+# Single source of truth for all Innovation Lab features
+# Supports dynamic loading, time-awareness, and performance budgets
+
+version: "1.0.0"
+last_updated: "2025-01-24T14:15:28-04:00"
+performance_budget:
+  initial_js_load: "150KB"
+  lighthouse_mobile_target: 95
+  tti_target: "2s"
+  cls_target: 0.05
+
+features:
+  - id: "trojan-snake"
+    title: "🐍 Trojan Snake"
+    description: "Cyberpunk infiltration protocol - Advanced Snake game with time-aware theming and performance monitoring"
+    status: "production"
+    category: "game"
+    time_aware: true
+    mobile_optimized: true
+    dependencies:
+      - "time-gradients.css"
+      - "game-engine.js"
+    performance:
+      bundle_size: "45KB"
+      lazy_load: true
+    trojan_tier: 5
+    features:
+      - "Seasonal matrix theming"
+      - "Performance monitoring"
+      - "Mobile touch controls"
+      - "Cyberpunk aesthetics"
+      - "Progressive difficulty"
+    
+  - id: "graffiti-slap"
+    title: "🎨 Graffiti Sticker Slap"
+    description: "Neon-lined cyberpunk sticker placement game with physics and style"
+    status: "alpha"
+    category: "game"
+    time_aware: true
+    mobile_optimized: true
+    dependencies:
+      - "physics-engine.js"
+      - "sticker-assets.json"
+    performance:
+      bundle_size: "35KB"
+      lazy_load: true
+    trojan_tier: 3
+    features:
+      - "Physics-based sticker placement"
+      - "Neon cyberpunk aesthetics"
+      - "Touch/mouse interaction"
+      - "Style scoring system"
+    
+  - id: "agentx-modal"
+    title: "🤖 AgentX Interface"
+    description: "AI-native interaction modal with memory sync and analytics"
+    status: "production"
+    category: "ai"
+    time_aware: true
+    mobile_optimized: true
+    dependencies:
+      - "agentx-core.js"
+      - "memory-sync.js"
+    performance:
+      bundle_size: "25KB"
+      lazy_load: false
+    trojan_tier: 11
+    features:
+      - "Memory panel sync"
+      - "Analytics export"
+      - "Multi-agent swap"
+      - "Cosmic whisper mode"
+    
+  - id: "cyberpunk-zine"
+    title: "📰 CyberpunkZineMode"
+    description: "Auto-expanding case study entries with editorial formatting"
+    status: "beta"
+    category: "content"
+    time_aware: true
+    mobile_optimized: true
+    dependencies:
+      - "markdown-renderer.js"
+      - "scroll-observer.js"
+    performance:
+      bundle_size: "20KB"
+      lazy_load: true
+    trojan_tier: 2
+    features:
+      - "Auto-expanding on scroll"
+      - "Editorial formatting"
+      - "Markdown-driven content"
+      - "Responsive typography"
+
+# Time-aware configuration
+time_awareness:
+  gradient_shifts:
+    morning: "yellow→orange"
+    afternoon: "light→deep blue" 
+    night: "purple→pink"
+  greeting_variants:
+    morning: "Good morning"
+    afternoon: "Good afternoon"
+    evening: "Good evening"
+  theme_tokens:
+    seasonal_matrix: true
+    dynamic_surfaces: true
+
+# Performance guardrails
+performance_guardrails:
+  - "No duplicate renderers allowed"
+  - "Lazy load all game features"
+  - "Preload critical time-aware assets"
+  - "WCAG 2.2 AA compliance required"
+  - "Mobile-first responsive design"
+
+# Integration rules
+integration_rules:
+  - "Single JS renderer with InnovationLabValidator"
+  - "Feature registry gating for all new features"
+  - "Trojan Horse rule in every PR"
+  - "Daily orchestration reset via IntegrationOS"

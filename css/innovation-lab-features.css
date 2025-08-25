@@ -1,0 +1,671 @@
+/**
+ * Innovation Lab Features CSS
+ * Time-aware styling for Trojan Snake and Graffiti Slap games
+ * Mobile-first, performance-optimized, cyberpunk aesthetics
+ */
+
+/* === TROJAN SNAKE STYLES === */
+.trojan-snake-container {
+    --snake-primary: #00ff88;
+    --snake-secondary: #0080ff;
+    --snake-accent: #ff0066;
+    --snake-bg: #0a0a0a;
+    --snake-surface: #1a1a1a;
+    --snake-text: #ffffff;
+    --snake-muted: #888888;
+    
+    background: var(--time-gradient, linear-gradient(135deg, #a855f7, #ec4899));
+    border-radius: 12px;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    color: var(--snake-text);
+    position: relative;
+    overflow: hidden;
+}
+
+.trojan-snake-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--snake-bg);
+    opacity: 0.9;
+    border-radius: 12px;
+    z-index: -1;
+}
+
+.trojan-snake-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--snake-surface);
+    border-radius: 8px;
+    border: 1px solid var(--snake-primary);
+}
+
+.trojan-snake-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.trojan-snake-title h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--snake-primary);
+    text-shadow: 0 0 10px var(--snake-primary);
+}
+
+.trojan-snake-subtitle {
+    font-size: 0.75rem;
+    color: var(--snake-muted);
+    margin-left: 0.5rem;
+}
+
+.trojan-snake-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.trojan-snake-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.trojan-snake-stats .label {
+    font-size: 0.6rem;
+    color: var(--snake-muted);
+    text-transform: uppercase;
+}
+
+.trojan-snake-stats .value {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--snake-primary);
+    text-shadow: 0 0 8px var(--snake-primary);
+}
+
+.trojan-snake-game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.trojan-snake-board-container {
+    position: relative;
+    border: 2px solid var(--snake-primary);
+    border-radius: 8px;
+    background: var(--snake-bg);
+    box-shadow: 
+        0 0 20px var(--snake-primary),
+        inset 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.trojan-snake-board {
+    display: block;
+    border-radius: 6px;
+}
+
+.trojan-snake-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+.game-message h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: var(--snake-primary);
+    text-shadow: 0 0 15px var(--snake-primary);
+}
+
+.time-greeting {
+    color: var(--snake-secondary);
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.instructions {
+    color: var(--snake-muted);
+    font-size: 0.875rem;
+    margin: 0.5rem 0 1.5rem 0;
+}
+
+.trojan-btn {
+    background: transparent;
+    border: 2px solid var(--snake-primary);
+    color: var(--snake-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px var(--snake-primary);
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.trojan-btn:hover {
+    background: var(--snake-primary);
+    color: var(--snake-bg);
+    box-shadow: 0 0 25px var(--snake-primary);
+    text-shadow: none;
+}
+
+.trojan-btn.primary {
+    background: var(--snake-primary);
+    color: var(--snake-bg);
+    text-shadow: none;
+}
+
+.trojan-btn.secondary {
+    border-color: var(--snake-muted);
+    color: var(--snake-muted);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.trojan-snake-mobile-controls {
+    margin-top: 1rem;
+}
+
+.control-pad {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    width: 200px;
+    height: 200px;
+}
+
+.control-btn {
+    background: var(--snake-surface);
+    border: 1px solid var(--snake-primary);
+    color: var(--snake-primary);
+    border-radius: 8px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.control-btn:active {
+    background: var(--snake-primary);
+    color: var(--snake-bg);
+    box-shadow: 0 0 15px var(--snake-primary);
+}
+
+.control-btn.up { grid-column: 2; grid-row: 1; }
+.control-btn.left { grid-column: 1; grid-row: 2; }
+.control-btn.boost { 
+    grid-column: 2; 
+    grid-row: 2; 
+    font-size: 0.7rem;
+    border-color: var(--snake-accent);
+    color: var(--snake-accent);
+}
+.control-btn.right { grid-column: 3; grid-row: 2; }
+.control-btn.down { grid-column: 2; grid-row: 3; }
+
+.trojan-snake-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.trojan-snake-history {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--snake-surface);
+    border-radius: 8px;
+    border: 1px solid var(--snake-primary);
+}
+
+.history-title {
+    font-size: 0.75rem;
+    color: var(--snake-primary);
+    text-align: center;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 0.25rem;
+    justify-items: center;
+}
+
+.history-item {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid var(--snake-primary);
+}
+
+.history-item.common { background: var(--snake-primary); }
+.history-item.rare { background: #ff8000; }
+.history-item.legendary { background: #ffd700; }
+
+.trojan-snake-perf {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.7rem;
+    color: var(--snake-muted);
+}
+
+.boost-active {
+    --snake-primary: #ff0066;
+    --snake-secondary: #ff4081;
+}
+
+.boost-active .trojan-snake-board-container {
+    animation: boost-pulse 0.5s infinite alternate;
+}
+
+@keyframes boost-pulse {
+    from { box-shadow: 0 0 20px var(--snake-primary), inset 0 0 20px rgba(255, 0, 102, 0.1); }
+    to { box-shadow: 0 0 40px var(--snake-primary), inset 0 0 40px rgba(255, 0, 102, 0.3); }
+}
+
+/* === GRAFFITI SLAP STYLES === */
+.graffiti-slap-container {
+    --graffiti-primary: #ff0080;
+    --graffiti-secondary: #00ff88;
+    --graffiti-accent: #0080ff;
+    --graffiti-bg: #0a0a0a;
+    --graffiti-surface: #1a1a1a;
+    --graffiti-text: #ffffff;
+    --graffiti-muted: #888888;
+    
+    background: var(--neon-gradient, linear-gradient(45deg, #ff0080, #8000ff));
+    border-radius: 12px;
+    padding: 1rem;
+    font-family: 'Courier New', monospace;
+    color: var(--graffiti-text);
+    position: relative;
+    overflow: hidden;
+}
+
+.graffiti-slap-container::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--graffiti-bg);
+    opacity: 0.9;
+    border-radius: 12px;
+    z-index: -1;
+}
+
+.graffiti-slap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--graffiti-surface);
+    border-radius: 8px;
+    border: 1px solid var(--graffiti-primary);
+}
+
+.graffiti-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.graffiti-title h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: var(--graffiti-primary);
+    text-shadow: 0 0 10px var(--graffiti-primary);
+}
+
+.graffiti-subtitle {
+    font-size: 0.75rem;
+    color: var(--graffiti-muted);
+    margin-left: 0.5rem;
+}
+
+.graffiti-stats {
+    display: flex;
+    gap: 1rem;
+}
+
+.graffiti-stats .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.graffiti-stats .label {
+    font-size: 0.6rem;
+    color: var(--graffiti-muted);
+    text-transform: uppercase;
+}
+
+.graffiti-stats .value {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--graffiti-primary);
+    text-shadow: 0 0 8px var(--graffiti-primary);
+}
+
+.graffiti-game-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.graffiti-canvas-container {
+    position: relative;
+    border: 2px solid var(--graffiti-primary);
+    border-radius: 8px;
+    background: var(--graffiti-bg);
+    box-shadow: 
+        0 0 20px var(--graffiti-primary),
+        inset 0 0 20px rgba(255, 0, 128, 0.1);
+}
+
+.graffiti-canvas {
+    display: block;
+    border-radius: 6px;
+    cursor: crosshair;
+}
+
+.graffiti-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+}
+
+.graffiti-btn {
+    background: transparent;
+    border: 2px solid var(--graffiti-primary);
+    color: var(--graffiti-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px var(--graffiti-primary);
+    box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+}
+
+.graffiti-btn:hover {
+    background: var(--graffiti-primary);
+    color: var(--graffiti-bg);
+    box-shadow: 0 0 25px var(--graffiti-primary);
+    text-shadow: none;
+}
+
+.graffiti-btn.primary {
+    background: var(--graffiti-primary);
+    color: var(--graffiti-bg);
+    text-shadow: none;
+}
+
+.graffiti-btn.secondary {
+    border-color: var(--graffiti-muted);
+    color: var(--graffiti-muted);
+    text-shadow: none;
+    box-shadow: none;
+}
+
+.graffiti-palette {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--graffiti-surface);
+    border-radius: 8px;
+    border: 1px solid var(--graffiti-primary);
+}
+
+.palette-title {
+    font-size: 0.75rem;
+    color: var(--graffiti-primary);
+    text-align: center;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+
+.sticker-option {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.sticker-option:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px currentColor;
+}
+
+.sticker-option.selected {
+    border-color: var(--graffiti-secondary);
+    box-shadow: 0 0 20px var(--graffiti-secondary);
+}
+
+.sticker-option.selected::after {
+    content: '✓';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: var(--graffiti-secondary);
+    color: var(--graffiti-bg);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.graffiti-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.graffiti-style-meter {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--graffiti-surface);
+    border-radius: 8px;
+    border: 1px solid var(--graffiti-primary);
+}
+
+.meter-title {
+    font-size: 0.75rem;
+    color: var(--graffiti-primary);
+    text-align: center;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+}
+
+.meter-bar {
+    height: 8px;
+    background: var(--graffiti-bg);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--graffiti-secondary), var(--graffiti-primary), var(--graffiti-accent));
+    transition: width 0.5s ease;
+    border-radius: 4px;
+}
+
+.meter-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.6rem;
+    color: var(--graffiti-muted);
+    text-transform: uppercase;
+}
+
+.graffiti-perf {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    font-size: 0.7rem;
+    color: var(--graffiti-muted);
+}
+
+/* === TIME-AWARE THEMING === */
+.trojan-snake-container[data-time-of-day="morning"] {
+    --snake-primary: #ff6b35;
+    --snake-secondary: #f7931e;
+}
+
+.trojan-snake-container[data-time-of-day="afternoon"] {
+    --snake-primary: #00d4ff;
+    --snake-secondary: #0099cc;
+}
+
+.trojan-snake-container[data-time-of-day="evening"],
+.trojan-snake-container[data-time-of-day="night"] {
+    --snake-primary: #00ff88;
+    --snake-secondary: #0080ff;
+}
+
+.graffiti-slap-container[data-time-of-day="morning"] {
+    --graffiti-primary: #ff6b35;
+    --graffiti-secondary: #f7931e;
+}
+
+.graffiti-slap-container[data-time-of-day="afternoon"] {
+    --graffiti-primary: #00d4ff;
+    --graffiti-secondary: #0099cc;
+}
+
+.graffiti-slap-container[data-time-of-day="evening"],
+.graffiti-slap-container[data-time-of-day="night"] {
+    --graffiti-primary: #ff0080;
+    --graffiti-secondary: #00ff88;
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 768px) {
+    .trojan-snake-container,
+    .graffiti-slap-container {
+        padding: 0.75rem;
+    }
+    
+    .trojan-snake-header,
+    .graffiti-slap-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+    
+    .trojan-snake-stats,
+    .graffiti-stats {
+        gap: 0.75rem;
+    }
+    
+    .palette-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .sticker-option {
+        width: 35px;
+        height: 35px;
+        font-size: 1.25rem;
+    }
+    
+    .trojan-snake-actions,
+    .graffiti-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .trojan-btn,
+    .graffiti-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* === PERFORMANCE OPTIMIZATIONS === */
+.trojan-snake-container,
+.graffiti-slap-container {
+    contain: layout style paint;
+    will-change: transform;
+}
+
+.trojan-snake-board,
+.graffiti-canvas {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    .trojan-btn,
+    .graffiti-btn,
+    .sticker-option {
+        transition: none;
+    }
+    
+    .boost-active .trojan-snake-board-container {
+        animation: none;
+    }
+}
+
+@media (prefers-contrast: high) {
+    .trojan-snake-container,
+    .graffiti-slap-container {
+        --snake-primary: #00ff00;
+        --graffiti-primary: #ff0000;
+        border: 3px solid currentColor;
+    }
+}

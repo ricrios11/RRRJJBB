@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Snake Hero Demo</title>
+  <link rel="stylesheet" href="/src/styles/lux-cyberpunk.css" />
+  <link rel="stylesheet" href="/src/snake/styles/effects.css" />
+  <style>
+    body { margin: 0; font-family: var(--type-ui-m-family); background: var(--timeos-gradient-evening); color: var(--color-base-white); }
+    body[data-timeofday="dawn"] { background: var(--timeos-gradient-dawn); }
+    body[data-timeofday="morning"] { background: var(--timeos-gradient-morning); }
+    body[data-timeofday="afternoon"] { background: var(--timeos-gradient-afternoon); }
+    body[data-timeofday="dusk"] { background: var(--timeos-gradient-dusk); }
+    body[data-timeofday="evening"] { background: var(--timeos-gradient-evening); }
+    .lab-controls { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 8px; padding: 12px; position: sticky; top: 0; background: color-mix(in oklab, var(--color-base-grayMid), transparent 60%); backdrop-filter: blur(var(--glass-blur-s)); border-bottom: 1px solid color-mix(in oklab, var(--color-base-white), transparent 92%); }
+    label { display: grid; gap: 4px; font-family: var(--type-ui-m-family); font-size: var(--type-ui-m-size); color: var(--color-base-grayLight); }
+    select, input[type="number"], input[type="checkbox"] { padding: 6px 8px; border-radius: 8px; border: 1px solid color-mix(in oklab, var(--color-base-white), transparent 85%); background: color-mix(in oklab, var(--color-base-white), transparent 98%); color: var(--color-base-white); }
+    .lab-stage { padding: 12px; }
+    .time-inspector { display: flex; align-items: center; gap: 8px; padding: 8px 12px; }
+    .time-inspector .label { opacity: 0.75; font-size: 0.875rem; margin-right: 4px; }
+    /* Debug HUD */
+    .debug-hud { position: fixed; right: 12px; bottom: 12px; z-index: 9999; }
+    .debug-hud .panel { padding: 10px 12px; }
+    .debug-hud dl { display: grid; grid-template-columns: auto auto; column-gap: 12px; row-gap: 4px; margin: 0; }
+    .debug-hud dt { opacity: 0.7; }
+    .debug-hud dd { margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="lab-controls">
+    <label>Variant
+      <select id="variant">
+        <option>LuxCyberpunk</option>
+        <option>SteelGrid</option>
+        <option>Editorial</option>
+      </select>
+    </label>
+    <label>Time of Day
+      <select id="time">
+        <option>auto</option>
+        <option>dawn</option>
+        <option>morning</option>
+        <option>afternoon</option>
+        <option>dusk</option>
+        <option>evening</option>
+      </select>
+    </label>
+    <label>Score Goal
+      <input id="goal" type="number" value="5" min="1" max="50" />
+    </label>
+    <label>Seasonal
+      <input id="seasonal" type="checkbox" />
+    </label>
+    <label>Hemisphere
+      <select id="hemi">
+        <option value="north">north</option>
+        <option value="south">south</option>
+      </select>
+    </label>
+    <label>Geo (solar)
+      <input id="geo" type="checkbox" />
+    </label>
+    <label>Latitude
+      <input id="lat" type="number" step="0.0001" placeholder="e.g. 37.7749" />
+    </label>
+    <label>Longitude
+      <input id="lon" type="number" step="0.0001" placeholder="e.g. -122.4194" />
+    </label>
+    <button id="useLoc">Use My Location</button>
+    <label>Reduced Motion
+      <input id="rm" type="checkbox" />
+    </label>
+    <button id="mountSnake">Mount Snake</button>
+    <button id="mountHero">Mount Simple Hero</button>
+  </div>
+  <div class="lab-stage">
+    <div class="time-inspector">
+      <span class="label">Time Inspector:</span>
+      <button class="btn btn-outline" data-tod="dawn">Dawn</button>
+      <button class="btn btn-outline" data-tod="morning">Morning</button>
+      <button class="btn btn-outline" data-tod="afternoon">Afternoon</button>
+      <button class="btn btn-outline" data-tod="dusk">Dusk</button>
+      <button class="btn btn-outline" data-tod="evening">Evening</button>
+      <button class="btn btn-outline" data-tod="auto">Auto</button>
+    </div>
+    <div id="hero-root"></div>
+    <!-- Debug HUD: shows current ToD, season, hemisphere, geo, and seasonal CSS vars -->
+    <div class="debug-hud">
+      <div class="panel glass-chip hud-counter">
+        <dl>
+          <dt>ToD</dt><dd id="hud-tod">-</dd>
+          <dt>Season</dt><dd id="hud-season">-</dd>
+          <dt>Hemi</dt><dd id="hud-hemi">-</dd>
+          <dt>Geo</dt><dd id="hud-geo">-</dd>
+          <dt>Lat</dt><dd id="hud-lat">-</dd>
+          <dt>Lon</dt><dd id="hud-lon">-</dd>
+          <dt>Bias(ms)</dt><dd id="hud-msbias">-</dd>
+          <dt>GlowAmp</dt><dd id="hud-glow">-</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import '/dist/scripts/init-hero.js';
+    import { TimeCtx, resolve as resolveTOD } from '/dist/src/time/time-context.js';
+    import { bindTimeOS } from '/dist/src/time/applyTimeOS.js';
+    import { SeasonConfig, resolveSeason } from '/dist/src/tokens/seasonal.js';
+    import { GeoConfig, setGeo } from '/dist/src/time/geo-solar.js';
+    import '/lab/acceptance-tests.js';
+
+    // Bind the whole page background to TimeOS as well
+    bindTimeOS(document.body, 'auto');
+
+    // Optional: auto cycle time-of-day when ?autoTime=1 is present
+    if (new URLSearchParams(location.search).get('autoTime') === '1') {
+      const seq = ['dawn', 'morning', 'afternoon', 'dusk', 'evening', 'auto'];
+      let i = 0;
+      setInterval(() => {
+        const next = seq[i++ % seq.length];
+        if (next === 'auto') TimeCtx.set(resolveTOD()); else TimeCtx.set(next);
+        console.log('[TimeInspector]', 'TimeCtx ->', next);
+      }, 1000);
+    }
+
+    const $ = (id) => document.getElementById(id);
+    // Initialize control states from current config
+    $('#seasonal').checked = !!SeasonConfig.ENABLED;
+    $('#hemi').value = SeasonConfig.HEMISPHERE;
+    $('#geo').checked = !!GeoConfig.ENABLED;
+    if (Number.isFinite(GeoConfig.LAT) && Number.isFinite(GeoConfig.LON)) {
+      $('#lat').value = String(GeoConfig.LAT);
+      $('#lon').value = String(GeoConfig.LON);
+    }
+
+    function applyTime() {
+      // Re-resolve current ToD and notify subscribers (applies seasonal CSS vars)
+      TimeCtx.set(resolveTOD());
+    }
+
+    // Debug HUD updater (reads CSS variables and config)
+    function updateHUD() {
+      const $id = (x) => document.getElementById(x);
+      const cs = getComputedStyle(document.documentElement);
+      const tod = document.body.getAttribute('data-timeofday') || '-';
+      const s = SeasonConfig.ENABLED ? /** @type any */(resolveSeason()) : 'off';
+      const hemi = SeasonConfig.HEMISPHERE;
+      const geoOn = !!GeoConfig.ENABLED;
+      const lat = Number.isFinite(GeoConfig.LAT) ? GeoConfig.LAT.toFixed(4) : '-';
+      const lon = Number.isFinite(GeoConfig.LON) ? GeoConfig.LON.toFixed(4) : '-';
+      const msBias = cs.getPropertyValue('--season-base-ms-bias').trim() || '-';
+      const glow = cs.getPropertyValue('--season-glow-amp').trim() || '-';
+      $id('hud-tod').textContent = tod;
+      $id('hud-season').textContent = String(s);
+      $id('hud-hemi').textContent = hemi;
+      $id('hud-geo').textContent = geoOn ? 'on' : 'off';
+      $id('hud-lat').textContent = String(lat);
+      $id('hud-lon').textContent = String(lon);
+      $id('hud-msbias').textContent = msBias;
+      $id('hud-glow').textContent = glow;
+    }
+    updateHUD();
+    TimeCtx.subscribe(() => updateHUD());
+
+    function updateSeasonal() {
+      SeasonConfig.ENABLED = $('#seasonal').checked;
+      SeasonConfig.HEMISPHERE = /** @type any */($('#hemi').value === 'south' ? 'south' : 'north');
+      applyTime();
+      updateHUD();
+    }
+
+    function updateGeoFromInputs() {
+      const lat = parseFloat($('#lat').value);
+      const lon = parseFloat($('#lon').value);
+      if (Number.isFinite(lat) && Number.isFinite(lon)) {
+        setGeo(lat, lon);
+      }
+    }
+
+    function updateGeo() {
+      GeoConfig.ENABLED = $('#geo').checked;
+      if (GeoConfig.ENABLED) {
+        updateGeoFromInputs();
+        // If coords are not present, try geolocation
+        if (!Number.isFinite(GeoConfig.LAT) || !Number.isFinite(GeoConfig.LON)) {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((pos) => {
+              setGeo(pos.coords.latitude, pos.coords.longitude);
+              $('#lat').value = String(pos.coords.latitude);
+              $('#lon').value = String(pos.coords.longitude);
+              applyTime();
+              updateHUD();
+            }, () => {/* ignore */});
+          }
+        }
+      }
+      applyTime();
+      updateHUD();
+    }
+    $('#mountSnake').addEventListener('click', () => {
+      window.RicRiosHero.mountSnake({
+        designVariant: /** @type any */($('#variant').value),
+        timeOfDay: /** @type any */($('#time').value),
+        scoreGoal: parseInt($('#goal').value, 10) || 5,
+        reducedMotion: $('#rm').checked,
+      });
+    });
+    $('#mountHero').addEventListener('click', () => {
+      window.RicRiosHero.mountHero({ timeOfDay: /** @type any */($('#time').value), reducedMotion: $('#rm').checked });
+    });
+
+    document.querySelectorAll('.time-inspector [data-tod]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tod = btn.getAttribute('data-tod');
+        if (tod === 'auto') {
+          TimeCtx.set(resolveTOD());
+        } else if (tod) {
+          /** @type {any} */(TimeCtx.set)(tod);
+        }
+      });
+    });
+
+    // Seasonal + Geo control listeners
+    $('#seasonal').addEventListener('change', updateSeasonal);
+    $('#hemi').addEventListener('change', updateSeasonal);
+    $('#geo').addEventListener('change', updateGeo);
+    $('#lat').addEventListener('change', () => { updateGeoFromInputs(); applyTime(); });
+    $('#lon').addEventListener('change', () => { updateGeoFromInputs(); applyTime(); });
+    $('#useLoc').addEventListener('click', () => {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition((pos) => {
+        setGeo(pos.coords.latitude, pos.coords.longitude);
+        $('#geo').checked = true;
+        $('#lat').value = String(pos.coords.latitude);
+        $('#lon').value = String(pos.coords.longitude);
+        GeoConfig.ENABLED = true;
+        applyTime();
+      }, () => {/* ignore */});
+    });
+  </script>
+</body>
+</html>

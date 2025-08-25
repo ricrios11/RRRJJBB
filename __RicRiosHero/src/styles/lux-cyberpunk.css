@@ -1,0 +1,501 @@
+/*
+  LuxCyberpunk CSS Tokens and Utilities
+  - Root CSS variables for colors, glass, type, motion, grid, time-of-day gradients
+  - Utility classes: .glass-chip, .hud-counter, .skip-pill, .hero-shell, .hero-grid, .grid-lines
+  - Reduced motion media query disables pulses/sweeps/afterglow
+*/
+
+:root {
+  /* Motion curve standard */
+  /* Seasonal curve bias subtly adjusts control points x1/x2. Range [-0.03..0.03]. */
+  --curve-standard: cubic-bezier(
+    calc(0.22 + var(--season-curve-bias, 0)),
+    0.61,
+    calc(0.36 + var(--season-curve-bias, 0)),
+    1
+  );
+  /* Colors */
+  --color-base-white: #ffffff;
+  --color-base-grayLight: #e6e8eb;
+  --color-base-grayMid: #8a8f98;
+  --color-accent-icyBlue: #9fe7ff;
+  --color-accent-steelBlue: #3a6ea5;
+  --color-alert-deepCrimson: #a3122b;
+
+  /* Glass */
+  --glass-blur-s: 4px;
+  --glass-opacity-m: 0.7;
+  --glass-edge-light: rgba(255, 255, 255, 0.6);
+  --glass-edge-shadow: rgba(0, 0, 0, 0.25);
+
+  /* Typography */
+  --type-display-h1-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  --type-display-h1-size: clamp(2rem, 4vw, 3.75rem);
+  --type-display-h1-tracking: -0.02em;
+
+  --type-ui-m-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  --type-ui-m-size: 1rem;
+  --type-ui-m-tracking: 0.01em;
+
+  --type-mono-counter-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --type-mono-counter-size: 0.9375rem;
+  --type-mono-counter-tracking: 0.06em;
+
+  /* Motion */
+  --motion-pulse-heartbeat-dur: 6s; /* pulses 6–8s */
+  --motion-pulse-heartbeat-ease: var(--curve-standard);
+
+  --motion-transition-standard-dur: 200ms; /* 200–300ms */
+  --motion-transition-standard-ease: var(--curve-standard);
+
+  --motion-sweep-glassEdge-dur: 220ms;
+  --motion-sweep-glassEdge-ease: var(--curve-standard);
+
+  --motion-snake-turn-dur: 140ms;
+  --motion-snake-turn-ease: var(--curve-standard);
+  --motion-snake-eat-dur: 180ms;
+  --motion-snake-eat-ease: var(--curve-standard);
+  --motion-snake-milestone-dur: 260ms;
+  --motion-snake-milestone-ease: var(--curve-standard);
+
+  /* Grid */
+  --grid-stroke-steelBlue: color-mix(in oklab, var(--color-accent-steelBlue), black 12%);
+  --grid-cell-size: clamp(14px, 2vw, 24px);
+
+  /* TimeOS gradients */
+  --timeos-gradient-dawn: linear-gradient(135deg, #fff7e8 0%, #ffe9d1 55%, #fbe0d6 100%);
+  --timeos-gradient-morning: linear-gradient(135deg, #f2fbff 0%, #cdeafe 60%, #bfe7ff 100%);
+  --timeos-gradient-afternoon: linear-gradient(135deg, #eef3ff 0%, #dfe8ff 60%, #d1e0ff 100%);
+  --timeos-gradient-dusk: linear-gradient(135deg, #1a1a2b 0%, #2a2742 55%, #3a345a 100%);
+  --timeos-gradient-evening: linear-gradient(135deg, #0a1220 0%, #0f1a2c 50%, #142642 100%);
+
+  /* TimeOS light intensity and glass temperature mapping */
+  --timeos-light-intensity-dawn: 0.7;
+  --timeos-light-intensity-morning: 0.85;
+  --timeos-light-intensity-afternoon: 1.0;
+  --timeos-light-intensity-dusk: 0.75;
+  --timeos-light-intensity-evening: 0.6;
+  --timeos-glass-temp-warm: 0.95;
+  --timeos-glass-temp-neutral: 1.0;
+  --timeos-glass-temp-icy: 1.05;
+
+  /* TimeOS glass edge tokens (v2) */
+  --timeos-glass-edge-dawn-highlight: rgba(255, 255, 255, 0.60);
+  --timeos-glass-edge-dawn-shadow: rgba(220, 160, 90, 0.10);
+  --timeos-glass-edge-morning-highlight: rgba(255, 255, 255, 0.55);
+  --timeos-glass-edge-morning-shadow: rgba(180, 120, 60, 0.12);
+  --timeos-glass-edge-afternoon-highlight: rgba(255, 255, 255, 0.50);
+  --timeos-glass-edge-afternoon-shadow: rgba(70, 100, 150, 0.12);
+  --timeos-glass-edge-dusk-highlight: rgba(255, 255, 255, 0.48);
+  --timeos-glass-edge-dusk-shadow: rgba(20, 24, 44, 0.16);
+  --timeos-glass-edge-evening-highlight: rgba(255, 255, 255, 0.45);
+  --timeos-glass-edge-evening-shadow: rgba(10, 20, 40, 0.18);
+
+  /* Glass temperature presets */
+  --timeos-glassTemp-dawn-shadowDepth: 10px;
+  --timeos-glassTemp-dawn-highlight: 0.68;
+  --timeos-glassTemp-morning-shadowDepth: 12px;
+  --timeos-glassTemp-morning-highlight: 0.7;
+  --timeos-glassTemp-afternoon-shadowDepth: 16px;
+  --timeos-glassTemp-afternoon-highlight: 0.8;
+  --timeos-glassTemp-dusk-shadowDepth: 18px;
+  --timeos-glassTemp-dusk-highlight: 0.85;
+  --timeos-glassTemp-evening-shadowDepth: 20px;
+  --timeos-glassTemp-evening-highlight: 0.9;
+
+  /* Z Indices for hero layers */
+  --z-hero-base: 0;
+  --z-hero-grid: 1;
+  --z-hero-canvas: 2;
+  --z-hero-hud: 3;
+  --z-hero-skip: 4;
+  --z-hero-overlay: 10;
+
+  /* Neon accents for evening (accents only) */
+  --neon-purple: #A25AFF;
+  --neon-pink:   #FF4FD8;
+  --neon-green:  #3DFF95;
+
+  /* Default hero gradient token (overridden by data-time|timeofday) */
+  --hero-gradient: var(--timeos-gradient-afternoon);
+
+  /* Button variable defaults */
+  --btn-primary-bg: color-mix(in oklab, var(--color-accent-steelBlue), transparent 70%);
+  --btn-primary-fg: var(--color-accent-icyBlue);
+  --btn-outline-stroke: color-mix(in oklab, var(--color-accent-icyBlue), white 30%);
+  --btn-outline-fg: var(--color-accent-icyBlue);
+}
+
+/* AltLux theme tokens (Trojan theme swap) */
+:root[data-theme="altLux"], [data-theme="altLux"] {
+  /* Accents shift slightly toward neon spectrum (evening accent palette) */
+  --color-accent-icyBlue: color-mix(in oklab, var(--neon-green) 28%, white 72%);
+  /* Grid stroke brighter */
+  --grid-stroke-steelBlue: color-mix(in oklab, var(--color-accent-steelBlue), white 12%);
+  /* Buttons */
+  --btn-primary-bg: color-mix(in oklab, var(--color-accent-icyBlue), transparent 60%);
+  --btn-primary-fg: color-mix(in oklab, var(--neon-purple), white 40%);
+  --btn-outline-stroke: color-mix(in oklab, var(--neon-pink) 50%, white 50%);
+  --btn-outline-fg: var(--neon-pink);
+}
+
+/* Reduced motion: turn off animation durations by overriding with 1ms and remove transitions */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-pulse-heartbeat-dur: 1ms;
+    --motion-sweep-glassEdge-dur: 1ms;
+    --motion-snake-turn-dur: 1ms;
+    --motion-snake-eat-dur: 1ms;
+    --motion-snake-milestone-dur: 1ms;
+    --motion-transition-standard-dur: 1ms;
+  }
+}
+
+/* Dev toggle: force reduced motion regardless of system setting */
+.force-reduced-motion,
+html.force-reduced-motion {
+  --motion-pulse-heartbeat-dur: 1ms;
+  --motion-sweep-glassEdge-dur: 1ms;
+  --motion-snake-turn-dur: 1ms;
+  --motion-snake-eat-dur: 1ms;
+  --motion-snake-milestone-dur: 1ms;
+  --motion-transition-standard-dur: 1ms;
+  /* kill-switch flags for any motion guarded by vars */
+  --motion-pulse-enabled: 0;
+  --motion-sweep-enabled: 0;
+}
+
+/* Utility: hero shell */
+.hero-shell {
+  position: relative;
+  width: 100%;
+  min-height: 60vh;
+  display: grid;
+  place-items: center;
+  overflow: clip;
+  isolation: isolate;
+  background: var(--hero-gradient);
+}
+
+/* TimeOS v2: set gradient + light intensity per time of day */
+.hero-shell[data-time="dawn"],
+.hero-shell[data-timeofday="dawn"] {
+  --hero-gradient: var(--timeos-gradient-dawn);
+  --light-intensity: var(--timeos-light-intensity-dawn);
+  --glass-edge-light: var(--timeos-glass-edge-dawn-highlight);
+  --glass-edge-shadow: var(--timeos-glass-edge-dawn-shadow);
+}
+.hero-shell[data-time="morning"],
+.hero-shell[data-timeofday="morning"] {
+  --hero-gradient: var(--timeos-gradient-morning);
+  --light-intensity: var(--timeos-light-intensity-morning);
+  --glass-edge-light: var(--timeos-glass-edge-morning-highlight);
+  --glass-edge-shadow: var(--timeos-glass-edge-morning-shadow);
+}
+.hero-shell[data-time="afternoon"],
+.hero-shell[data-timeofday="afternoon"] {
+  --hero-gradient: var(--timeos-gradient-afternoon);
+  --light-intensity: var(--timeos-light-intensity-afternoon);
+  --glass-edge-light: var(--timeos-glass-edge-afternoon-highlight);
+  --glass-edge-shadow: var(--timeos-glass-edge-afternoon-shadow);
+}
+.hero-shell[data-time="dusk"],
+.hero-shell[data-timeofday="dusk"] {
+  --hero-gradient: var(--timeos-gradient-dusk);
+  --light-intensity: var(--timeos-light-intensity-dusk);
+  --glass-edge-light: var(--timeos-glass-edge-dusk-highlight);
+  --glass-edge-shadow: var(--timeos-glass-edge-dusk-shadow);
+}
+.hero-shell[data-time="evening"],
+.hero-shell[data-timeofday="evening"] {
+  --hero-gradient: var(--timeos-gradient-evening);
+  --light-intensity: var(--timeos-light-intensity-evening);
+  /* Accent chips/lines only—do not use as backgrounds */
+  --accent-neon-purple: var(--neon-purple);
+  --accent-neon-pink:   var(--neon-pink);
+  --accent-neon-green:  var(--neon-green);
+  /* accent grid lines */
+  --grid-stroke-steelBlue: var(--accent-neon-green);
+  --glass-edge-light: var(--timeos-glass-edge-evening-highlight);
+  --glass-edge-shadow: var(--timeos-glass-edge-evening-shadow);
+  /* Button accents follow neon */
+  --btn-outline-stroke: var(--accent-neon-purple);
+  --btn-outline-fg: var(--accent-neon-purple);
+  /* Keep primary subtle; outline takes neon lead */
+}
+
+.hero-shell.compressed { min-height: 48vh; }
+
+/* Utility: glass chip */
+.glass-chip {
+  backdrop-filter: blur(var(--glass-blur-s));
+  background: color-mix(in oklab, var(--color-base-white), transparent calc((1 - var(--glass-opacity-m)) * 100%));
+  border: 1px solid color-mix(in oklab, var(--color-base-white), transparent 50%);
+  box-shadow: 0 1px 0 var(--glass-edge-light) inset, 0 2px var(--timeos-glassTemp-afternoon-shadowDepth) var(--glass-edge-shadow);
+  border-radius: 12px;
+}
+
+/* HUD counter */
+.hud-counter {
+  font-family: var(--type-mono-counter-family);
+  font-size: var(--type-mono-counter-size);
+  letter-spacing: var(--type-mono-counter-tracking);
+  color: var(--color-base-white);
+  z-index: var(--z-hero-hud);
+}
+.hero-shell[data-time="evening"] .hud-counter,
+.hero-shell[data-timeofday="evening"] .hud-counter {
+  box-shadow: 0 0 0.75rem color-mix(in oklab, var(--accent-neon-pink), transparent 60%);
+}
+
+/* Skip pill */
+.skip-pill {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--color-accent-icyBlue), white 40%);
+  color: var(--color-accent-icyBlue);
+  background: color-mix(in oklab, var(--color-accent-steelBlue), transparent 80%);
+  text-decoration: none;
+  font-family: var(--type-ui-m-family);
+  font-size: 0.9375rem;
+  letter-spacing: var(--type-ui-m-tracking);
+  outline: none;
+  z-index: var(--z-hero-skip);
+}
+.skip-pill:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent-icyBlue), white 30%);
+}
+
+/* Hero grid overlay and canvas */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: var(--z-hero-grid);
+}
+
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-size: var(--grid-cell-size) var(--grid-cell-size);
+  background-image:
+    linear-gradient(to right, var(--grid-stroke-steelBlue) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-stroke-steelBlue) 1px, transparent 1px);
+  opacity: 0.35;
+}
+
+.hero-canvas-wrap {
+  position: relative;
+  width: min(1200px, 96vw);
+  aspect-ratio: 16 / 9;
+  margin: 12px;
+  z-index: var(--z-hero-canvas);
+}
+
+.hero-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Content column */
+.hero-content {
+  position: relative;
+  max-width: 960px;
+  padding: clamp(16px, 4vw, 32px);
+}
+.hero-content h1 {
+  font-family: var(--type-display-h1-family);
+  font-size: var(--type-display-h1-size);
+  letter-spacing: var(--type-display-h1-tracking);
+  color: var(--color-base-white);
+  margin: 0 0 8px 0;
+}
+.hero-content p {
+  color: var(--color-base-grayLight);
+  margin: 0 0 12px 0;
+}
+
+/* Typographic utility classes */
+.display-h1 {
+  font-family: var(--type-display-h1-family);
+  font-size: var(--type-display-h1-size);
+  letter-spacing: var(--type-display-h1-tracking);
+}
+.ui-m {
+  font-family: var(--type-ui-m-family);
+  font-size: var(--type-ui-m-size);
+  letter-spacing: var(--type-ui-m-tracking);
+}
+.hero-cta-row {
+  display: flex;
+  gap: 12px;
+}
+.hero-cta-row a {
+  text-decoration: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--color-accent-icyBlue), white 30%);
+  color: var(--color-accent-icyBlue);
+}
+.hero-shell[data-time="evening"] .hero-cta-row a,
+.hero-shell[data-timeofday="evening"] .hero-cta-row a {
+  border-color: var(--accent-neon-purple);
+  color: var(--accent-neon-purple);
+}
+.hero-cta-row a:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-accent-icyBlue), white 30%);
+}
+
+/* Button contract: base + variants */
+.btn {
+  display: inline-block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-family: var(--type-ui-m-family);
+  font-size: 0.9375rem;
+  letter-spacing: var(--type-ui-m-tracking);
+}
+.btn-primary {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-fg);
+  border: 1px solid transparent;
+}
+.btn-primary:focus-visible { box-shadow: 0 0 0 3px color-mix(in oklab, var(--btn-primary-fg), white 30%); }
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--btn-outline-stroke);
+  color: var(--btn-outline-fg);
+}
+.btn-outline:focus-visible { box-shadow: 0 0 0 3px color-mix(in oklab, var(--btn-outline-stroke), white 25%); }
+
+/* Variants: Editorial, SteelGrid, LuxCyberpunk */
+.hero-shell[data-variant="Editorial"] .grid-lines { opacity: 0.2; }
+.hero-shell[data-variant="SteelGrid"] .grid-lines { opacity: 0.55; }
+.hero-shell[data-variant="LuxCyberpunk"] .grid-lines { opacity: 0.4; }
+
+/* Evening afterglow (class toggled by JS) */
+.snake-afterglow {
+  filter: drop-shadow(0 0 8px var(--color-accent-icyBlue));
+}
+
+/* Pulses and sweeps */
+@keyframes lux-heartbeat {
+  0%, 100% { transform: scale(1); }
+  40% { transform: scale(var(--ui-heartbeat-scale, 1.02)); }
+}
+.pulse-heartbeat { animation: lux-heartbeat var(--motion-pulse-heartbeat-dur) var(--motion-pulse-heartbeat-ease) infinite; }
+
+@keyframes glass-edge-sweep {
+  from { box-shadow: 0 0 0 0 rgba(255,255,255,0.0); }
+  to { box-shadow: 0 0 0 6px rgba(255,255,255,0.08); }
+}
+.sweep-glassEdge { animation: glass-edge-sweep var(--motion-sweep-glassEdge-dur) var(--motion-sweep-glassEdge-ease) 1; }
+
+/* Overlay container for bypass hero */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  z-index: var(--z-hero-overlay);
+}
+.hero-overlay.active { display: grid; place-items: center; background: color-mix(in oklab, black, transparent 40%); }
+
+/* Skip to content utility (visually hidden until focus) */
+.skip-to-content {
+  position: absolute;
+  z-index: 1000;
+  left: 12px;
+  top: 12px;
+  transform: translateY(-200%);
+  padding: 8px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--color-accent-icyBlue);
+  background: color-mix(in oklab, var(--color-accent-steelBlue), transparent 70%);
+  border: 1px solid color-mix(in oklab, var(--color-accent-icyBlue), white 40%);
+}
+.skip-to-content:focus { transform: translateY(0); }
+
+/* Eat pop animation */
+@keyframes eat-pop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+.eat-pop { animation: eat-pop var(--motion-snake-eat-dur) var(--motion-snake-eat-ease) 1; }
+
+/* Screen reader only */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Access-ready status pill */
+.status-pill {
+  position: absolute;
+  top: 12px;
+  right: 120px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--color-accent-icyBlue), white 30%);
+  color: var(--color-accent-icyBlue);
+  background: color-mix(in oklab, var(--color-accent-steelBlue), transparent 85%);
+  font-family: var(--type-ui-m-family);
+  font-size: 0.8125rem;
+  letter-spacing: var(--type-ui-m-tracking);
+  z-index: var(--z-hero-hud);
+  display: none;
+}
+.status-pill.active { display: inline-block; }
+
+/* Director Mode overlay */
+.director-host {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  z-index: var(--z-hero-overlay);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+/* Glass caption chip; inherits TimeOS vars */
+.director-chip {
+  padding: 8px 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: color-mix(in oklab, var(--color-base-white) 72%, transparent);
+  color: color-mix(in oklab, black, var(--color-base-grayMid) 20%);
+  font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+  box-shadow: 0 6px 28px color-mix(in oklab, black, transparent 88%);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--motion-transition-standard-dur) var(--motion-transition-standard-ease), transform var(--motion-transition-standard-dur) var(--motion-transition-standard-ease);
+}
+[data-timeofday="evening"] .director-chip {
+  background: color-mix(in oklab, var(--accent-neon-purple, var(--neon-purple)) 22%, var(--color-base-white) 78%);
+  color: color-mix(in oklab, black 12%, var(--color-base-white) 88%);
+}
+.director-chip.in  { opacity: 1; transform: translateY(0); }
+.director-chip.out { opacity: 0; transform: translateY(-4px); }
+
+/* Subtle altLux addenda */
+:root[data-theme="altLux"] {
+  --glass-edge-highlight: color-mix(in oklab, white 70%, transparent);
+  --glass-edge-shadow: color-mix(in oklab, black 18%, transparent);
+  --type-display-tracking: -0.5px;
+}

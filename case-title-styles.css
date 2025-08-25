@@ -1,0 +1,15 @@
+/* Case study title styles - add to main CSS */
+.case-title {
+    font-family: var(--cyber-font-mono);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--cyber-primary-accent);
+    text-shadow: 0 0 10px var(--cyber-primary-accent);
+    margin: 1rem 0;
+    white-space: pre;
+    line-height: 1.2;
+}
+
+h2.case-title {
+    color: var(--cyber-primary-accent);
+    text-shadow: 0 0 10px var(--cyber-primary-accent);
+}

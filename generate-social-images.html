@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASCII Social Image Generator</title>
+    <style>
+        body {
+            background: #0a0a0a;
+            color: #00ff9d;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+        }
+        .generator {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        canvas {
+            border: 1px solid #00ff9d;
+            margin: 10px 0;
+            display: block;
+        }
+        button {
+            background: #00ff9d;
+            color: #0a0a0a;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+        }
+        .ascii-art {
+            font-size: 12px;
+            line-height: 1;
+            white-space: pre;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator">
+        <h1>ASCII Social Image Generator</h1>
+        
+        <!-- OG Image Canvas -->
+        <h2>Open Graph Image (1200x630)</h2>
+        <canvas id="og-canvas" width="1200" height="630"></canvas>
+        <button onclick="downloadCanvas('og-canvas', 'og-image.png')">Download OG Image</button>
+        
+        <!-- Favicon Canvases -->
+        <h2>Favicons</h2>
+        <canvas id="favicon-32" width="32" height="32"></canvas>
+        <button onclick="downloadCanvas('favicon-32', 'favicon-32x32.png')">Download 32x32</button>
+        
+        <canvas id="favicon-16" width="16" height="16"></canvas>
+        <button onclick="downloadCanvas('favicon-16', 'favicon-16x16.png')">Download 16x16</button>
+        
+        <canvas id="apple-touch" width="180" height="180"></canvas>
+        <button onclick="downloadCanvas('apple-touch', 'apple-touch-icon.png')">Download Apple Touch</button>
+        
+        <canvas id="android-192" width="192" height="192"></canvas>
+        <button onclick="downloadCanvas('android-192', 'favicon-192x192.png')">Download Android 192</button>
+        
+        <canvas id="android-512" width="512" height="512"></canvas>
+        <button onclick="downloadCanvas('android-512', 'favicon-512x512.png')">Download Android 512</button>
+        
+        <button onclick="generateAll()">Generate All Images</button>
+    </div>
+
+    <script>
+        // RR Monogram Variations - Exact Box Drawing Pattern
+        const rrMonograms = {
+            // Large OG Image - Box drawing RR pattern
+            large: `
+██████╗ ██████╗ 
+██╔══██╗██╔══██╗
+██████╔╝██████╔╝
+██╔══██╗██╔══██╗
+██║  ██║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝`,
+            
+            // Medium - Box drawing RR pattern
+            medium: `
+██████╗ ██████╗ 
+██╔══██╗██╔══██╗
+██████╔╝██████╔╝
+██╔══██╗██╔══██╗
+██║  ██║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝`,
+            
+            // Small - Box drawing RR pattern
+            small: `
+██████╗ ██████╗ 
+██╔══██╗██╔══██╗
+██████╔╝██████╔╝
+██╔══██╗██╔══██╗
+██║  ██║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝`,
+            
+            // Tiny - Minimal RR pattern
+            tiny: `
+██████╗ ██████╗ 
+██╔══██╗██╔══██╗
+██████╔╝██████╔╝
+██╔══██╗██╔══██╗
+██║  ██║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝`
+        };
+
+        function drawASCIIToCanvas(canvasId, asciiArt, fontSize = 12) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Clear canvas with black background
+            ctx.fillStyle = '#000000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Set text properties for cyberpunk blue
+            ctx.fillStyle = '#4A90E2';
+            ctx.font = `${fontSize}px 'Courier New', monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Clear any existing shadows
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            
+            // Draw ASCII art - perfectly centered
+            const lines = asciiArt.trim().split('\n').filter(line => line.length > 0);
+            const lineHeight = fontSize * 1.2;
+            const totalHeight = lines.length * lineHeight;
+            const startY = (canvas.height - totalHeight) / 2 + lineHeight / 2;
+            
+            lines.forEach((line, index) => {
+                const y = startY + (index * lineHeight);
+                ctx.fillText(line, canvas.width / 2, y);
+            });
+            
+            // Add subtle glow effect
+            ctx.shadowColor = '#4A90E2';
+            ctx.shadowBlur = 3;
+            ctx.fillStyle = '#4A90E2';
+            
+            lines.forEach((line, index) => {
+                const y = startY + (index * lineHeight);
+                ctx.fillText(line, canvas.width / 2, y);
+            });
+            
+            // Add orange accent block for large canvases
+            if (canvas.width >= 1200) {
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#FF6B35';
+                ctx.fillRect(canvas.width - 80, canvas.height - 80, 60, 40);
+            }
+        }
+
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function generateAll() {
+            // OG Image - Large RR Monogram with perfect centering
+            drawASCIIToCanvas('og-canvas', rrMonograms.large, 32);
+            
+            // Apple Touch Icon - Medium RR
+            drawASCIIToCanvas('apple-touch', rrMonograms.medium, 14);
+            
+            // Android Icons - Scaled RR
+            drawASCIIToCanvas('android-192', rrMonograms.medium, 12);
+            drawASCIIToCanvas('android-512', rrMonograms.medium, 28);
+            
+            // Small Favicons - Tiny RR
+            drawASCIIToCanvas('favicon-32', rrMonograms.small, 3);
+            drawASCIIToCanvas('favicon-16', rrMonograms.tiny, 2);
+        }
+
+        // Generate on load
+        window.onload = generateAll;
+    </script>
+</body>
+</html>

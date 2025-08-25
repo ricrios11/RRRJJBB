@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ric Rios - Product Design Impact</title>
+    <link rel="stylesheet" href="cyberpunk-design-tokens.css">
+    <style>
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: var(--cyber-black);
+            color: var(--cyber-white);
+            font-family: var(--cyber-font-ui);
+            overflow-x: hidden;
+        }
+        
+        /* SKIM LAYER - Base Presentation */
+        .portfolio-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .hero-skim {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-family: var(--cyber-font-display);
+            font-size: clamp(2rem, 8vw, 6rem);
+            font-weight: var(--cyber-weight-black);
+            color: var(--cyber-primary-accent);
+            text-shadow: var(--cyber-glow-medium);
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+        
+        .hero-subtitle {
+            font-family: var(--cyber-font-mono);
+            font-size: clamp(0.875rem, 2vw, 1.25rem);
+            color: var(--cyber-medium-gray);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: 1rem 0 3rem;
+        }
+        
+        /* PULSE ANIMATIONS */
+        .pulse-element {
+            animation: cyber-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes cyber-pulse {
+            0%, 100% { 
+                box-shadow: var(--cyber-glow-subtle);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: var(--cyber-glow-strong);
+                transform: scale(1.02);
+            }
+        }
+        
+        /* CASE STUDY CARDS - SKIM LAYER */
+        .case-studies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .case-card {
+            background: var(--cyber-surface);
+            border: 1px solid var(--cyber-primary-accent);
+            border-radius: var(--cyber-radius-lg);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all var(--cyber-duration-normal) var(--cyber-ease-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--cyber-scanlines-subtle);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity var(--cyber-duration-normal);
+        }
+        
+        .case-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--cyber-glow-medium);
+        }
+        
+        .case-card:hover::before {
+            opacity: 1;
+        }
+        
+        .case-impact {
+            font-family: var(--cyber-font-mono);
+            font-size: var(--cyber-text-2xl);
+            font-weight: var(--cyber-weight-bold);
+            color: var(--cyber-primary-accent);
+            text-shadow: var(--cyber-glow-subtle);
+            margin: 0 0 0.5rem;
+        }
+        
+        .case-title {
+            font-family: var(--cyber-font-display);
+            font-size: var(--cyber-text-xl);
+            font-weight: var(--cyber-weight-semibold);
+            color: var(--cyber-white);
+            margin: 0 0 1rem;
+        }
+        
+        .case-summary {
+            color: var(--cyber-light-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .case-metrics {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .metric {
+            background: var(--cyber-dark-tertiary);
+            padding: 0.5rem 1rem;
+            border-radius: var(--cyber-radius-base);
+            font-family: var(--cyber-font-mono);
+            font-size: var(--cyber-text-sm);
+            color: var(--cyber-primary-accent);
+        }
+        
+        /* DIP LAYER - Micro Interactions */
+        .dip-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            display: none;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        
+        .dip-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--cyber-surface);
+            border: 1px solid var(--cyber-primary-accent);
+            border-radius: var(--cyber-radius-lg);
+            padding: 3rem;
+            position: relative;
+        }
+        
+        .dip-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: 1px solid var(--cyber-primary-accent);
+            color: var(--cyber-primary-accent);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-family: var(--cyber-font-mono);
+            font-size: 1.2rem;
+        }
+        
+        /* DIVE LAYER - Deep Experiences */
+        .games-section {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--cyber-dark-secondary);
+            border-radius: var(--cyber-radius-lg);
+            border: 1px solid var(--cyber-primary-accent);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-family: var(--cyber-font-mono);
+            font-size: var(--cyber-text-2xl);
+            color: var(--cyber-primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin: 0;
+        }
+        
+        .meta-indicator {
+            font-family: var(--cyber-font-mono);
+            font-size: var(--cyber-text-sm);
+            color: var(--cyber-medium-gray);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--cyber-medium-gray);
+            border-radius: var(--cyber-radius-base);
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .portfolio-container {
+                padding: 0 1rem;
+            }
+            
+            .case-studies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dip-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body data-cyber-theme="afternoon">
+    <div class="portfolio-container">
+        <!-- SKIM LAYER: Hero Section -->
+        <section class="hero-skim">
+            <h1 class="hero-title pulse-element">RIC RIOS</h1>
+            <p class="hero-subtitle">Product Designer • Chase Travel Impact</p>
+        </section>
+        
+        <!-- SKIM LAYER: Case Studies Grid -->
+        <section class="case-studies-grid">
+            <!-- Chase Travel Case Study -->
+            <article class="case-card pulse-element" onclick="openDip('chase-travel')">
+                <div class="case-impact">$30B Volume by 2025</div>
+                <h2 class="case-title">Chase Travel: Connected Commerce</h2>
+                <p class="case-summary">
+                    Designed premium travel experiences that blur boundaries between banking and commerce, 
+                    creating a lifestyle brand that generated $20B volume in 2023.
+                </p>
+                <div class="case-metrics">
+                    <span class="metric">50% Growth Rate</span>
+                    <span class="metric">Premium Segment</span>
+                    <span class="metric">Connected Commerce</span>
+                </div>
+            </article>
+            
+            <!-- Chase Dining Case Study -->
+            <article class="case-card" onclick="openDip('chase-dining')">
+                <div class="case-impact">Reserve Credit Impact</div>
+                <h2 class="case-title">Chase Dining: Premium Experiences</h2>
+                <p class="case-summary">
+                    Crafted exclusive dining experiences with "The Edit" collection of 800+ premium hotels, 
+                    providing upgrades and benefits that justify high subscription fees.
+                </p>
+                <div class="case-metrics">
+                    <span class="metric">800+ Hotels</span>
+                    <span class="metric">Premium Benefits</span>
+                    <span class="metric">Lifestyle Brand</span>
+                </div>
+            </article>
+        </section>
+        
+        <!-- DIVE LAYER: Interactive Games -->
+        <section class="games-section">
+            <div class="section-header">
+                <h2 class="section-title">Design Playground</h2>
+                <span class="meta-indicator">Interactive • Immersive • Delightful</span>
+            </div>
+            <div id="cyberpunk-snake-game"></div>
+        </section>
+    </div>
+    
+    <!-- DIP LAYER: Case Study Overlays -->
+    <div id="dip-overlay" class="dip-overlay">
+        <div class="dip-content">
+            <button class="dip-close" onclick="closeDip()">×</button>
+            <div id="dip-content-area"></div>
+        </div>
+    </div>
+    
+    <script src="cyberpunk-snake-game.js"></script>
+    <script>
+        // DIP LAYER INTERACTIONS
+        const dipData = {
+            'chase-travel': {
+                title: 'Chase Travel: Connected Commerce Revolution',
+                content: `
+                    <div class="cyber-data-label">Market Impact Analysis</div>
+                    <div class="cyber-data-value" style="font-size: 2rem; margin-bottom: 2rem;">$30B Projected Volume by 2025</div>
+                    
+                    <h3 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono);">Design Challenge</h3>
+                    <p>Transform Chase from a traditional bank into a "lifestyle brand" that connects millions of premium cardholders with experiences they value - travel, dining, shopping.</p>
+                    
+                    <h3 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono);">Solution Architecture</h3>
+                    <ul>
+                        <li><strong>Connected Commerce Platform:</strong> Integrated merchant partnerships with personalized offers</li>
+                        <li><strong>Chase Media Solutions:</strong> Retail media network with performance-based advertising</li>
+                        <li><strong>Premium Experience Curation:</strong> "The Edit" collection of 800+ hotels with exclusive benefits</li>
+                        <li><strong>Flywheel Effect:</strong> Customer value → Merchant value → Chase revenue → Reinvestment</li>
+                    </ul>
+                    
+                    <h3 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono);">Market Results</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0;">
+                        <div class="metric" style="padding: 1rem; text-align: center;">
+                            <div style="font-size: 1.5rem; color: var(--cyber-primary-accent);">$20B</div>
+                            <div>2023 Volume</div>
+                        </div>
+                        <div class="metric" style="padding: 1rem; text-align: center;">
+                            <div style="font-size: 1.5rem; color: var(--cyber-primary-accent);">50%</div>
+                            <div>Growth Rate</div>
+                        </div>
+                        <div class="metric" style="padding: 1rem; text-align: center;">
+                            <div style="font-size: 1.5rem; color: var(--cyber-primary-accent);">$30B</div>
+                            <div>2025 Target</div>
+                        </div>
+                    </div>
+                    
+                    <p style="font-style: italic; color: var(--cyber-medium-gray);">
+                        "When we get this right, we become a trusted advisor to our card members as they look to us for experiences that inspire them because we know them." - Allison Beer, CEO Card Services
+                    </p>
+                `
+            },
+            'chase-dining': {
+                title: 'Chase Dining: Premium Experience Design',
+                content: `
+                    <div class="cyber-data-label">Reserve Credit Strategy</div>
+                    <div class="cyber-data-value" style="font-size: 2rem; margin-bottom: 2rem;">Premium Dining Ecosystem</div>
+                    
+                    <h3 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono);">Design Philosophy</h3>
+                    <p>Create exclusive dining experiences that justify high annual fees through curated access and personalized benefits.</p>
+                    
+                    <h3 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono);">Experience Architecture</h3>
+                    <ul>
+                        <li><strong>Curated Selection:</strong> Hand-picked premium restaurants and hotels</li>
+                        <li><strong>Exclusive Access:</strong> Priority reservations and member-only events</li>
+                        <li><strong>Personalized Benefits:</strong> Tailored offers based on dining history</li>
+                        <li><strong>Seamless Integration:</strong> One-tap booking through Chase ecosystem</li>
+                    </ul>
+                    
+                    <p style="color: var(--cyber-light-gray);">
+                        While smaller in scale than Chase Travel, the dining program demonstrates the same connected commerce principles - creating value through curation, exclusivity, and seamless experience design.
+                    </p>
+                `
+            }
+        };
+        
+        function openDip(caseId) {
+            const overlay = document.getElementById('dip-overlay');
+            const contentArea = document.getElementById('dip-content-area');
+            const data = dipData[caseId];
+            
+            if (data) {
+                contentArea.innerHTML = `
+                    <h2 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-display); margin-bottom: 2rem;">
+                        ${data.title}
+                    </h2>
+                    ${data.content}
+                `;
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeDip() {
+            document.getElementById('dip-overlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Theme management with time awareness
+        function setTheme(theme) {
+            document.body.setAttribute('data-cyber-theme', theme);
+            if (window.cyberpunkSnakeGame) {
+                window.cyberpunkSnakeGame.currentTheme = window.cyberpunkSnakeGame.getTimeTheme();
+            }
+        }
+        
+        // Initialize with time-based theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const hour = new Date().getHours();
+            let theme = 'afternoon';
+            
+            if (hour >= 6 && hour < 12) theme = 'morning';
+            else if (hour >= 18 && hour < 22) theme = 'evening';
+            else if (hour >= 22 || hour < 6) theme = 'night';
+            
+            setTheme(theme);
+            
+            // Achievement integration
+            if (window.cyberpunkSnakeGame) {
+                window.cyberpunkSnakeGame.setAchievementCallback((achievement) => {
+                    console.log('🏆 Design Achievement:', achievement.title);
+                });
+            }
+        });
+        
+        // Escape key to close dip layer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDip();
+            }
+        });
+    </script>
+</body>
+</html>
+                    <li>Particle systems</li>
+                    <li>Accessibility support</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    
+    <script src="cyberpunk-snake-game.js"></script>
+    <script>
+        // Theme management
+        function setTheme(theme) {
+            document.body.setAttribute('data-cyber-theme', theme);
+            
+            const themeNames = {
+                morning: 'Boot Sequence',
+                afternoon: 'Active Session',
+                evening: 'Neon District',
+                night: 'Deep Scan'
+            };
+            
+            document.getElementById('current-theme').textContent = themeNames[theme];
+            
+            // Update snake game theme if it exists
+            if (window.cyberpunkSnakeGame) {
+                window.cyberpunkSnakeGame.currentTheme = window.cyberpunkSnakeGame.getTimeTheme();
+            }
+        }
+        
+        // Uptime counter
+        let startTime = Date.now();
+        function updateUptime() {
+            const elapsed = Date.now() - startTime;
+            const hours = Math.floor(elapsed / 3600000).toString().padStart(2, '0');
+            const minutes = Math.floor((elapsed % 3600000) / 60000).toString().padStart(2, '0');
+            const seconds = Math.floor((elapsed % 60000) / 1000).toString().padStart(2, '0');
+            document.getElementById('uptime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+        
+        setInterval(updateUptime, 1000);
+        
+        // Initialize with time-based theme
+        document.addEventListener('DOMContentLoaded', () => {
+            const hour = new Date().getHours();
+            let theme = 'afternoon';
+            
+            if (hour >= 6 && hour < 12) theme = 'morning';
+            else if (hour >= 18 && hour < 22) theme = 'evening';
+            else if (hour >= 22 || hour < 6) theme = 'night';
+            
+            setTheme(theme);
+        });
+        
+        // Achievement handler
+        if (window.cyberpunkSnakeGame) {
+            window.cyberpunkSnakeGame.setAchievementCallback((achievement) => {
+                console.log('🏆 Achievement unlocked:', achievement.title);
+                // Could integrate with notification system here
+            });
+        }
+    </script>
+</body>
+</html>

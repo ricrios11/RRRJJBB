@@ -1,0 +1,17 @@
+{
+  "name": "ricrios-hero",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "npm run lint:tokens && tsc -p tsconfig.json",
+    "watch": "tsc -w -p tsconfig.json",
+    "serve": "python3 -m http.server 5173",
+    "lint:tokens": "sh -c 'if find src -name \"*.ts\" -print0 | xargs -0 grep -n -E \"#[0-9a-fA-F]{3,8}\"; then echo Hex found in TS files. Use CSS variables tokens only.; exit 1; else echo Token lint passed.; fi'",
+    "test": "node scripts/test-timeos.js",
+    "test:time": "node scripts/test-timeos.js"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

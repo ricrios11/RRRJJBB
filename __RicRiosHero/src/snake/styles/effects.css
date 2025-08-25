@@ -1,0 +1,128 @@
+/* Emotive Stack styles — token-driven, CSS-only. */
+/* Uses only variables from src/styles/lux-cyberpunk.css and seasonal binds from applyTimeOS. */
+
+/* Debug emoji toggled via [data-emoji="1"] on .hero-shell */
+
+/* Eyes overlay (minimal, top-left of canvas area). */
+.hero-canvas-wrap .emote-eyes {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 12px;
+  pointer-events: none;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  gap: 4px;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 2px color-mix(in oklab, var(--color-accent-icyBlue), transparent 60%));
+}
+.hero-canvas-wrap .emote-eyes .eye {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--color-base-white) 0%, color-mix(in oklab, var(--color-accent-icyBlue), transparent 40%) 70%, transparent 72%);
+  transform-origin: 50% 50%;
+}
+
+/* Blink animation; scaled by seasonal pulse bias for subtlety. */
+@keyframes eyes-blink-kf {
+  0% { transform: scaleY(1); }
+  40% { transform: scaleY(0.1); }
+  60% { transform: scaleY(0.1); }
+  100% { transform: scaleY(1); }
+}
+.hero-shell.eyes-blink .emote-eyes .eye {
+  animation-name: eyes-blink-kf;
+  animation-duration: var(--motion-transition-standard-dur);
+  animation-timing-function: var(--motion-transition-standard-ease);
+}
+
+/* Emoji hint (debug) */
+.hero-shell[data-emoji="1"] .emoji-hint::before {
+  content: '😄';
+  display: inline-block;
+  font-size: calc(var(--type-ui-m-size) * 1.2);
+  line-height: 1;
+  filter: drop-shadow(0 1px 0 color-mix(in oklab, var(--color-base-white), transparent 80%));
+}
+.hero-shell .emoji-hint {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  opacity: 0;
+  transition: opacity var(--motion-transition-standard-dur) var(--motion-transition-standard-ease);
+  pointer-events: none;
+}
+.hero-shell.emote-happy .emoji-hint { opacity: 1; }
+
+/* Teeth sparkle (tiny spec highlight) */
+.hero-canvas-wrap.teeth-spark::after {
+  content: '';
+  position: absolute;
+  right: 12px; top: 12px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-base-white) 0%, color-mix(in oklab, var(--color-accent-icyBlue), transparent 30%) 60%, transparent 61%);
+  filter: drop-shadow(0 0 6px color-mix(in oklab, var(--color-accent-icyBlue), transparent 40%));
+  animation: sparkle-kf var(--motion-sweep-glassEdge-dur) var(--motion-sweep-glassEdge-ease);
+}
+@keyframes sparkle-kf {
+  from { transform: scale(0.5); opacity: 0; }
+  40% { transform: scale(1.25); opacity: 1; }
+  to { transform: scale(1); opacity: 0; }
+}
+
+/* Camera micro-shake — very subtle, scaled by seasonal bias */
+@keyframes cam-shake-kf {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(calc(var(--grid-cell-size) * 0.01 * var(--season-pulse-amp-bias, 1)), 0); }
+  50% { transform: translate(0, calc(var(--grid-cell-size) * -0.01 * var(--season-pulse-amp-bias, 1))); }
+  75% { transform: translate(calc(var(--grid-cell-size) * -0.008 * var(--season-pulse-amp-bias, 1)), 0); }
+  100% { transform: translate(0, 0); }
+}
+.hero-canvas-wrap.cam-shake {
+  animation-name: cam-shake-kf;
+  animation-duration: var(--motion-transition-standard-dur);
+  animation-timing-function: var(--motion-transition-standard-ease);
+}
+
+/* Particles — only if [data-particles="1"] and not reduced motion */
+.hero-canvas-wrap .particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.hero-canvas-wrap .particles .p {
+  position: absolute;
+  width: 3px; height: 3px; border-radius: 50%;
+  background: color-mix(in oklab, var(--color-accent-icyBlue), transparent 50%);
+  box-shadow: 0 0 calc(8px * var(--season-glow-amp, 1)) color-mix(in oklab, var(--color-accent-icyBlue), transparent 70%);
+  opacity: calc(0.6 + (var(--season-glow-amp, 1) - 1) * 0.3);
+}
+@keyframes p-float-kf {
+  from { transform: translateY(0); opacity: 0.8; }
+  80% { opacity: 0.9; }
+  to { transform: translateY(-40%); opacity: 0; }
+}
+html[data-particles="1"] .hero-canvas-wrap .particles .p {
+  animation-name: p-float-kf;
+  /* Seasonal pulse bias subtly affects particle float speed */
+  animation-duration: calc(var(--motion-pulse-heartbeat-dur) / var(--season-pulse-amp-bias, 1));
+  animation-timing-function: var(--motion-pulse-heartbeat-ease);
+  animation-iteration-count: infinite;
+  animation-delay: var(--p-delay, 0s);
+}
+
+/* Reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  .hero-shell.eyes-blink .emote-eyes .eye,
+  .hero-canvas-wrap.teeth-spark::after,
+  .hero-canvas-wrap.cam-shake,
+  html[data-particles="1"] .hero-canvas-wrap .particles .p {
+    animation: none !important;
+  }
+}
+.force-reduced-motion .hero-shell.eyes-blink .emote-eyes .eye,
+.force-reduced-motion .hero-canvas-wrap.teeth-spark::after,
+.force-reduced-motion .hero-canvas-wrap.cam-shake,
+.force-reduced-motion html[data-particles="1"] .hero-canvas-wrap .particles .p {
+  animation: none !important;
+}

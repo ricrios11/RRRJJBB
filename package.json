@@ -1,29 +1,26 @@
 {
-  "name": "ric-rios-portfolio",
-  "version": "2.0.0",
-  "description": "Time-Aware Design Leader Portfolio - TechOS Architecture",
-  "main": "build/index.html",
+  "name": "ricrios-innovation-lab-cyberpunk",
+  "version": "1.0.0",
+  "description": "Cyberpunk Brutalist Portfolio - Executive Strategic Showcase",
+  "main": "cyberpunk-portfolio.html",
   "scripts": {
-    "build": "node scripts/build.js",
-    "dev": "node scripts/dev.js",
+    "dev": "python3 -m http.server 8000",
     "start": "npm run dev",
-    "clean": "rm -rf build && mkdir build"
+    "deploy": "gh-pages -d . -f cyberpunk-portfolio.html",
+    "zip": "zip -r ricrios-cyberpunk-portfolio.zip cyberpunk-portfolio.html README.md"
   },
   "keywords": [
     "portfolio",
-    "design-leadership",
-    "techos",
-    "react",
-    "tailwind"
+    "cyberpunk",
+    "ascii-art",
+    "brutalist",
+    "executive",
+    "gaming",
+    "canvas"
   ],
   "author": "Ric Rios",
   "license": "MIT",
-  "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0"
-  },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.0",
-    "tailwindcss": "^3.0.0"
+    "gh-pages": "^6.0.0"
   }
 }
