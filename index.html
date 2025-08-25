@@ -2409,6 +2409,141 @@
             padding: 1rem;
             backdrop-filter: blur(12px);
         }
+
+        /* PRIORITY TOOLBAR - ENHANCED ACCESSIBILITY */
+        .priority-toolbar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
+            border: 2px solid var(--cyber-primary-accent);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
+            z-index: 100;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            max-width: calc(100% - 40px);
+        }
+
+        .primary-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-width: 0;
+        }
+
+        .primary-section h4 {
+            color: var(--cyber-primary-accent);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.8rem;
+            margin: 0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .enhanced-palette {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            min-width: 160px;
+        }
+
+        .enhanced-palette .color-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .enhanced-palette .color-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 15px rgba(0, 255, 157, 0.4);
+        }
+
+        .enhanced-palette .color-btn.active {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 0 15px var(--cyber-primary-accent);
+            transform: scale(1.1);
+        }
+
+        .enhanced-tools {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .enhanced-tools .tool-btn,
+        .ascii-palette .ascii-btn {
+            background: var(--cyber-dark-primary);
+            color: var(--cyber-primary-accent);
+            border: 1px solid var(--cyber-primary-accent);
+            padding: 0.5rem 0.75rem;
+            font-family: var(--cyber-font-mono);
+            font-size: 0.7rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .enhanced-tools .tool-btn:hover,
+        .ascii-palette .ascii-btn:hover {
+            background: var(--cyber-primary-accent);
+            color: var(--cyber-dark-primary);
+            transform: translateY(-2px);
+        }
+
+        .enhanced-tools .tool-btn.active,
+        .ascii-palette .ascii-btn.active {
+            background: var(--cyber-primary-accent);
+            color: var(--cyber-dark-primary);
+            box-shadow: 0 0 10px var(--cyber-primary-accent);
+        }
+
+        .ascii-palette {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.25rem;
+            max-width: 200px;
+        }
+
+        /* Mobile Priority Toolbar */
+        @media (max-width: 768px) {
+            .priority-toolbar {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 1rem;
+                max-width: 100%;
+                justify-content: center;
+            }
+
+            .enhanced-palette {
+                grid-template-columns: repeat(8, 1fr);
+                min-width: 100%;
+            }
+
+            .enhanced-palette .color-btn {
+                width: 28px;
+                height: 28px;
+            }
+
+            .enhanced-tools .tool-btn {
+                font-size: 0.6rem;
+                padding: 0.4rem 0.6rem;
+            }
+        }
         
         .dive-launch-btn:hover {
             background: var(--cyber-primary-accent);
@@ -2706,7 +2841,7 @@
             <div class="footer-ascii">
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                    EXECUTIVE DIRECTOR OF PRODUCT DESIGN               ║
-║                         CYBERPUNK BRUTALIST SYSTEMS                   ║
+║                     CYBERPUNK BRUTALIST DESIGN SYSTEM                 ║
 ╚═══════════════════════════════════════════════════════════════════════╝
             </div>
         </div>
@@ -2784,43 +2919,36 @@
                     <div class="graffiti-canvas-area">
                         <canvas id="graffiti-canvas" width="800" height="600"></canvas>
                         <div id="graffiti-stickers"></div>
-                        <!-- Floating Toolbar -->
-                        <div class="graffiti-toolbar floating-toolbar">
-                            <div class="tool-section">
-                                <h4>MODE</h4>
-                                <div class="tool-buttons">
-                                    <button id="draw-mode" class="tool-btn active">DRAW</button>
-                                    <button id="place-mode" class="tool-btn">PLACE</button>
-                                </div>
-                            </div>
-                            <div class="tool-section" id="place-controls" style="display: none;">
-                                <h4>STICKERS</h4>
-                                <div class="sticker-palette">
-                                    <div class="sticker-btn active" data-sticker="█">█</div>
-                                    <div class="sticker-btn" data-sticker="▓">▓</div>
-                                    <div class="sticker-btn" data-sticker="░">░</div>
-                                    <div class="sticker-btn" data-sticker="▒">▒</div>
-                                </div>
-                            </div>
-                            <div class="tool-section">
-                                <h4>TOOLS</h4>
-                                <div class="tool-buttons">
-                                    <button class="tool-btn active" data-tool="marker">MARK</button>
-                                    <button class="tool-btn" data-tool="spray">SPRAY</button>
-                                    <button class="tool-btn" data-tool="pen">PEN</button>
-                                </div>
-                            </div>
-                            <div class="tool-section">
+                        <!-- ASCII Art Toolbar - Terminal Focus -->
+                        <div class="graffiti-toolbar priority-toolbar">
+                            <div class="tool-section primary-section">
                                 <h4>COLORS</h4>
-                                <div class="color-palette">
-                                    <div class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;"></div>
-                                    <div class="color-btn" data-color="#FF9500" style="background: #FF9500;"></div>
-                                    <div class="color-btn" data-color="#FFCC00" style="background: #FFCC00;"></div>
-                                    <div class="color-btn" data-color="#34C759" style="background: #34C759;"></div>
-                                    <div class="color-btn" data-color="#007AFF" style="background: #007AFF;"></div>
-                                    <div class="color-btn" data-color="#5856D6" style="background: #5856D6;"></div>
-                                    <div class="color-btn" data-color="#FF2D92" style="background: #FF2D92;"></div>
-                                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 1px solid #333;"></div>
+                                <div class="color-palette enhanced-palette">
+                                    <div class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red"></div>
+                                    <div class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange"></div>
+                                    <div class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow"></div>
+                                    <div class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green"></div>
+                                    <div class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue"></div>
+                                    <div class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple"></div>
+                                    <div class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink"></div>
+                                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 2px solid #333;" title="White"></div>
+                                </div>
+                            </div>
+                            <div class="tool-section primary-section">
+                                <h4>ASCII CHARS</h4>
+                                <div class="ascii-palette enhanced-tools">
+                                    <button class="ascii-btn active" data-char="█" title="Full Block">█</button>
+                                    <button class="ascii-btn" data-char="▓" title="Dark Shade">▓</button>
+                                    <button class="ascii-btn" data-char="▒" title="Medium Shade">▒</button>
+                                    <button class="ascii-btn" data-char="░" title="Light Shade">░</button>
+                                    <button class="ascii-btn" data-char="╔" title="Box Top-Left">╔</button>
+                                    <button class="ascii-btn" data-char="╗" title="Box Top-Right">╗</button>
+                                    <button class="ascii-btn" data-char="╚" title="Box Bottom-Left">╚</button>
+                                    <button class="ascii-btn" data-char="╝" title="Box Bottom-Right">╝</button>
+                                    <button class="ascii-btn" data-char="║" title="Vertical Line">║</button>
+                                    <button class="ascii-btn" data-char="═" title="Horizontal Line">═</button>
+                                    <button class="ascii-btn" data-char="#" title="Hash">#</button>
+                                    <button class="ascii-btn" data-char="@" title="At Symbol">@</button>
                                 </div>
                             </div>
                         </div>
@@ -2832,7 +2960,6 @@
                         <div class="secondary-actions">
                             <button id="clear-canvas" class="control-btn">CLEAR</button>
                             <button id="undo-action" class="control-btn">UNDO</button>
-                            <button id="add-text" class="control-btn">TEXT</button>
                         </div>
                     </div>
                 </div>
@@ -2868,24 +2995,22 @@
             activePlayers: 1
         };
 
-        // Graffiti Slap Game Implementation
+        // ASCII Graffiti Slap Game Implementation
         class GraffitiSlap {
             constructor() {
                 this.canvas = null;
                 this.ctx = null;
-                this.isDrawing = false;
-                this.currentTool = 'marker';
+                this.asciiGrid = [];
+                this.gridWidth = 60;
+                this.gridHeight = 30;
+                this.cellWidth = 0;
+                this.cellHeight = 0;
+                this.currentChar = '█';
                 this.currentColor = '#FF3B30';
-                this.brushSize = 8;
-                this.mode = 'draw';
-                this.strokes = [];
                 this.undoStack = [];
-                this.stickers = [];
-                this.currentStroke = null;
-                this.currentSticker = '🎨';
-                this.stickerScale = 1.0;
-                this.textFont = 'Orbitron';
-                this.textSize = 16;
+                this.isMouseDown = false;
+                this.lastGridX = -1;
+                this.lastGridY = -1;
             }
 
             init() {
@@ -2900,7 +3025,7 @@
                     this.ctx = this.canvas.getContext('2d');
                     this.setupCanvas();
                     this.setupEventListeners();
-                    console.log('Graffiti Slap initialized successfully');
+                    console.log('ASCII Graffiti Slap initialized successfully');
                 }, 100);
             }
 
@@ -2911,18 +3036,36 @@
                 this.canvas.width = Math.min(800, rect.width - 20);
                 this.canvas.height = Math.min(600, rect.height - 20);
                 
-                // Clear canvas with dark background
-                this.ctx.fillStyle = '#1a1a1a';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                // Calculate grid cell dimensions
+                this.cellWidth = this.canvas.width / this.gridWidth;
+                this.cellHeight = this.canvas.height / this.gridHeight;
                 
-                // Set default drawing properties
-                this.ctx.lineCap = 'round';
-                this.ctx.lineJoin = 'round';
-                this.ctx.globalCompositeOperation = 'source-over';
+                // Initialize ASCII grid
+                this.initializeGrid();
+                
+                // Set font for ASCII characters
+                this.ctx.font = `${Math.floor(this.cellHeight * 0.8)}px 'Space Mono', monospace`;
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                
+                this.redrawCanvas();
+            }
+
+            initializeGrid() {
+                this.asciiGrid = [];
+                for (let y = 0; y < this.gridHeight; y++) {
+                    this.asciiGrid[y] = [];
+                    for (let x = 0; x < this.gridWidth; x++) {
+                        this.asciiGrid[y][x] = {
+                            char: ' ',
+                            color: '#FFFFFF'
+                        };
+                    }
+                }
             }
 
             setupEventListeners() {
-                // Canvas drawing events
+                // Canvas ASCII drawing events
                 this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
                 this.canvas.addEventListener('mousemove', (e) => this.draw(e));
                 this.canvas.addEventListener('mouseup', () => this.stopDrawing());
@@ -2955,16 +3098,13 @@
                     this.canvas.dispatchEvent(mouseEvent);
                 });
 
-                // Tool buttons
-                document.querySelectorAll('.tool-btn').forEach(btn => {
+                // ASCII character buttons
+                document.querySelectorAll('.ascii-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
-                        document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.ascii-btn').forEach(b => b.classList.remove('active'));
                         e.target.classList.add('active');
-                        this.currentTool = e.target.dataset.tool;
-                        
-                        // Update brush size based on tool
-                        this.brushSize = this.currentTool === 'pen' ? 4 : 
-                                        this.currentTool === 'marker' ? 16 : 20;
+                        this.currentChar = e.target.dataset.char;
+                        console.log('🔤 ASCII char selected:', this.currentChar);
                     });
                 });
 
@@ -2979,61 +3119,13 @@
                     });
                 });
 
-                // Mode buttons
-                document.getElementById('draw-mode').addEventListener('click', () => {
-                    this.mode = 'draw';
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                    document.getElementById('draw-mode').classList.add('active');
-                    document.getElementById('place-controls').style.display = 'none';
-                    document.getElementById('text-controls').style.display = 'none';
-                });
-                
-                document.getElementById('place-mode').addEventListener('click', () => {
-                    this.mode = 'place';
-                    document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-                    document.getElementById('place-mode').classList.add('active');
-                    document.getElementById('place-controls').style.display = 'block';
-                    document.getElementById('text-controls').style.display = 'none';
-                });
-
-                // Sticker selection
-                document.querySelectorAll('.sticker-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        document.querySelectorAll('.sticker-btn').forEach(b => b.classList.remove('active'));
-                        e.target.classList.add('active');
-                        this.currentSticker = e.target.dataset.sticker;
-                    });
-                });
-
-                // Scale controls
-                const stickerScale = document.getElementById('sticker-scale');
-                const stickerScaleValue = document.getElementById('sticker-scale-value');
-                stickerScale.addEventListener('input', (e) => {
-                    this.stickerScale = parseFloat(e.target.value);
-                    stickerScaleValue.textContent = this.stickerScale.toFixed(1) + 'x';
-                });
-
-                const textScale = document.getElementById('text-scale');
-                const textScaleValue = document.getElementById('text-scale-value');
-                textScale.addEventListener('input', (e) => {
-                    this.textSize = parseInt(e.target.value);
-                    textScaleValue.textContent = this.textSize + 'px';
-                });
-
-                // Font selector
-                document.getElementById('font-selector').addEventListener('change', (e) => {
-                    this.textFont = e.target.value;
-                });
-
-                // Control buttons
+                // Control buttons - ASCII focused
                 const clearBtn = document.getElementById('clear-canvas');
                 const undoBtn = document.getElementById('undo-action');
-                const textBtn = document.getElementById('add-text');
                 const slapBtn = document.getElementById('slap-all');
                 
                 if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
                 if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
-                if (textBtn) textBtn.addEventListener('click', () => this.addText());
                 if (slapBtn) {
                     console.log('✅ SLAP button found, adding event listener');
                     slapBtn.addEventListener('click', (e) => {
@@ -3048,310 +3140,189 @@
             }
 
             startDrawing(e) {
-                if (this.mode === 'place' || this.mode === 'text') {
-                    this.placeSticker(e);
-                    return;
-                }
-                
-                this.isDrawing = true;
-                const rect = this.canvas.getBoundingClientRect();
-                const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-                const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
-                
-                this.currentStroke = {
-                    points: [{x, y}],
-                    tool: this.currentTool,
-                    color: this.currentColor,
-                    size: this.brushSize
-                };
-                
-                // Set drawing properties and start path
-                this.ctx.strokeStyle = this.currentColor;
-                this.ctx.lineWidth = this.brushSize;
-                this.ctx.lineCap = 'round';
-                this.ctx.lineJoin = 'round';
-                this.ctx.beginPath();
-                this.ctx.moveTo(x, y);
+                this.isMouseDown = true;
+                this.saveStateForUndo();
+                this.placeCharacter(e);
             }
 
             draw(e) {
-                if (!this.isDrawing || this.mode !== 'draw') return;
-                
-                const rect = this.canvas.getBoundingClientRect();
-                const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
-                const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
-                
-                this.currentStroke.points.push({x, y});
-                
-                // Set drawing properties based on tool
-                this.ctx.strokeStyle = this.currentColor;
-                this.ctx.lineWidth = this.brushSize;
-                
-                if (this.currentTool === 'pen') {
-                    this.ctx.lineCap = 'round';
-                    this.ctx.lineJoin = 'round';
-                    this.ctx.globalAlpha = 1.0;
-                } else if (this.currentTool === 'marker') {
-                    this.ctx.lineCap = 'round';
-                    this.ctx.lineJoin = 'round';
-                    this.ctx.globalAlpha = 0.8;
-                    this.ctx.shadowBlur = 3;
-                    this.ctx.shadowColor = this.currentColor;
-                } else if (this.currentTool === 'spray') {
-                    this.ctx.lineCap = 'round';
-                    this.ctx.lineJoin = 'round';
-                    this.ctx.globalAlpha = 0.6;
-                }
-                
-                // Draw line to current position
-                this.ctx.lineTo(x, y);
-                this.ctx.stroke();
-                
-                if (this.currentTool === 'spray') {
-                    this.drawSprayEffect(x, y);
-                    this.drawDripEffect(x, y);
-                }
-                
-                // Reset shadow for other tools
-                if (this.currentTool === 'marker') {
-                    this.ctx.shadowBlur = 0;
-                }
+                if (!this.isMouseDown) return;
+                this.placeCharacter(e);
             }
 
             stopDrawing() {
-                if (!this.isDrawing) return;
-                
-                this.isDrawing = false;
-                if (this.currentStroke && this.currentStroke.points.length > 1) {
-                    this.undoStack.push([...this.strokes]);
-                    this.strokes.push(this.currentStroke);
-                }
-                this.currentStroke = null;
+                this.isMouseDown = false;
+                this.lastGridX = -1;
+                this.lastGridY = -1;
             }
 
-            drawSprayEffect(x, y) {
-                const oldAlpha = this.ctx.globalAlpha;
-                // More spray particles for thicker coverage
-                for (let i = 0; i < 15; i++) {
-                    const offsetX = (Math.random() - 0.5) * this.brushSize * 2.5;
-                    const offsetY = (Math.random() - 0.5) * this.brushSize * 2.5;
-                    this.ctx.globalAlpha = 0.05 + Math.random() * 0.15; // Less opaque
-                    this.ctx.fillStyle = this.currentColor;
-                    this.ctx.fillRect(x + offsetX, y + offsetY, 3, 3); // Slightly larger particles
-                }
-                this.ctx.globalAlpha = oldAlpha;
-            }
-            
-            drawDripEffect(x, y) {
-                // Add drip effect when holding spray tool
-                if (this.currentStroke && this.currentStroke.points.length > 10) {
-                    const dripChance = Math.min(this.currentStroke.points.length / 50, 0.3);
-                    if (Math.random() < dripChance) {
-                        const oldAlpha = this.ctx.globalAlpha;
-                        this.ctx.globalAlpha = 0.3;
-                        this.ctx.fillStyle = this.currentColor;
-                        
-                        // Create drip
-                        const dripLength = 10 + Math.random() * 20;
-                        for (let i = 0; i < dripLength; i++) {
-                            const dripY = y + i * 2;
-                            const dripWidth = Math.max(1, 4 - (i / dripLength) * 3);
-                            this.ctx.fillRect(x - dripWidth/2, dripY, dripWidth, 2);
-                        }
-                        
-                        this.ctx.globalAlpha = oldAlpha;
-                    }
-                }
-            }
-
-            placeSticker(e) {
+            placeCharacter(e) {
                 const rect = this.canvas.getBoundingClientRect();
                 const x = (e.clientX - rect.left) * (this.canvas.width / rect.width);
                 const y = (e.clientY - rect.top) * (this.canvas.height / rect.height);
                 
-                if (this.mode === 'text') {
-                    const text = prompt('Enter text:');
-                    if (text) {
-                        const sticker = {
-                            type: 'text',
-                            content: text,
-                            x: x,
-                            y: y,
-                            size: this.textSize,
-                            font: this.textFont,
-                            timestamp: Date.now()
-                        };
-                        this.stickers.push(sticker);
-                        this.drawSticker(sticker);
-                        this.saveStickers();
-                    }
-                } else {
-                    // Create emoji sticker
-                    const sticker = {
-                        type: 'emoji',
-                        content: this.currentSticker,
-                        x: x,
-                        y: y,
-                        size: Math.round(24 * this.stickerScale),
-                        timestamp: Date.now()
+                const gridX = Math.floor(x / this.cellWidth);
+                const gridY = Math.floor(y / this.cellHeight);
+                
+                // Only place if we're in bounds and haven't placed here recently
+                if (gridX >= 0 && gridX < this.gridWidth && 
+                    gridY >= 0 && gridY < this.gridHeight &&
+                    (gridX !== this.lastGridX || gridY !== this.lastGridY)) {
+                    
+                    this.asciiGrid[gridY][gridX] = {
+                        char: this.currentChar,
+                        color: this.currentColor
                     };
                     
-                    this.stickers.push(sticker);
-                    this.drawSticker(sticker);
-                    this.saveStickers();
+                    this.lastGridX = gridX;
+                    this.lastGridY = gridY;
+                    
+                    this.redrawCanvas();
                 }
             }
 
-            drawSprayStroke(stroke) {
-                stroke.points.forEach((point, i) => {
-                    if (i === 0) return;
-                    
-                    const prevPoint = stroke.points[i - 1];
-                    const distance = Math.hypot(point.x - prevPoint.x, point.y - prevPoint.y);
-                    const steps = Math.max(1, Math.floor(distance / 2));
-                    
-                    for (let j = 0; j < steps; j++) {
-                        const t = j / steps;
-                        const x = prevPoint.x + (point.x - prevPoint.x) * t;
-                        const y = prevPoint.y + (point.y - prevPoint.y) * t;
-                        
-                        for (let k = 0; k < 3; k++) {
-                            const offsetX = (Math.random() - 0.5) * stroke.size;
-                            const offsetY = (Math.random() - 0.5) * stroke.size;
-                            this.ctx.fillStyle = stroke.color;
-                            this.ctx.globalAlpha = 0.05 + Math.random() * 0.15; // Less opaque
-                            this.ctx.fillRect(x + offsetX, y + offsetY, 1, 1); // Slightly larger particles
-                        }
-                    }
-                });
-                this.ctx.globalAlpha = 1;
-            }
-
             redrawCanvas() {
+                // Clear canvas with dark background
                 this.ctx.fillStyle = '#1a1a1a';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Redraw all strokes
-                this.strokes.forEach(stroke => {
-                    if (stroke.points.length < 2) return;
-                    
-                    this.ctx.beginPath();
-                    this.ctx.strokeStyle = stroke.color;
-                    this.ctx.lineWidth = stroke.size;
-                    this.ctx.lineCap = 'round';
-                    this.ctx.lineJoin = 'round';
-                    
-                    this.ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
-                    stroke.points.forEach(point => {
-                        this.ctx.lineTo(point.x, point.y);
-                    });
-                    this.ctx.stroke();
-                });
+                // Draw grid lines (subtle)
+                this.ctx.strokeStyle = '#333333';
+                this.ctx.lineWidth = 0.5;
+                this.ctx.globalAlpha = 0.3;
                 
-                // Redraw stickers
-                this.stickers.forEach(sticker => {
-                    this.drawSticker(sticker);
-                });
+                for (let x = 0; x <= this.gridWidth; x++) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x * this.cellWidth, 0);
+                    this.ctx.lineTo(x * this.cellWidth, this.canvas.height);
+                    this.ctx.stroke();
+                }
+                
+                for (let y = 0; y <= this.gridHeight; y++) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y * this.cellHeight);
+                    this.ctx.lineTo(this.canvas.width, y * this.cellHeight);
+                    this.ctx.stroke();
+                }
+                
+                this.ctx.globalAlpha = 1.0;
+                
+                // Draw ASCII characters
+                for (let y = 0; y < this.gridHeight; y++) {
+                    for (let x = 0; x < this.gridWidth; x++) {
+                        const cell = this.asciiGrid[y][x];
+                        if (cell.char !== ' ') {
+                            this.ctx.fillStyle = cell.color;
+                            this.ctx.fillText(
+                                cell.char,
+                                x * this.cellWidth + this.cellWidth / 2,
+                                y * this.cellHeight + this.cellHeight / 2
+                            );
+                        }
+                    }
+                }
             }
 
-            drawSticker(sticker) {
-                if (sticker.type === 'text') {
-                    this.ctx.font = `${sticker.size}px '${sticker.font}', sans-serif`;
-                    this.ctx.fillStyle = '#FFFFFF';
-                    this.ctx.textAlign = 'center';
-                    this.ctx.fillText(sticker.content, sticker.x, sticker.y);
-                    this.ctx.textAlign = 'start';
-                } else {
-                    this.ctx.font = `${sticker.size}px Arial`;
-                    this.ctx.fillText(sticker.content, sticker.x, sticker.y);
+            saveStateForUndo() {
+                // Deep copy current grid state
+                const gridCopy = this.asciiGrid.map(row => 
+                    row.map(cell => ({ ...cell }))
+                );
+                this.undoStack.push(gridCopy);
+                
+                // Keep only last 20 states
+                if (this.undoStack.length > 20) {
+                    this.undoStack.shift();
                 }
             }
 
             clearCanvas() {
-                this.undoStack.push([...this.strokes]);
-                this.strokes = [];
-                this.stickers = [];
+                this.saveStateForUndo();
+                this.initializeGrid();
                 this.redrawCanvas();
-                document.getElementById('graffiti-stickers').innerHTML = '';
             }
 
             undo() {
                 if (this.undoStack.length === 0) return;
                 
-                this.strokes = this.undoStack.pop();
+                this.asciiGrid = this.undoStack.pop();
                 this.redrawCanvas();
             }
 
-            addText() {
-                const text = prompt('Enter your tag:', 'WILDSTYLE');
-                if (!text) return;
+            redrawCanvas() {
+                // Clear canvas with dark background
+                this.ctx.fillStyle = '#1a1a1a';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                const sticker = {
-                    id: Date.now(),
-                    type: 'text',
-                    content: text,
-                    x: Math.random() * 60 + 20,
-                    y: Math.random() * 60 + 20,
-                    rotation: Math.random() * 20 - 10,
-                    color: this.currentColor
-                };
+                // Draw subtle grid lines
+                this.ctx.strokeStyle = 'rgba(0, 255, 157, 0.1)';
+                this.ctx.lineWidth = 1;
                 
-                this.stickers.push(sticker);
-                this.renderSticker(sticker);
-            }
-
-            renderSticker(sticker) {
-                const stickerEl = document.createElement('div');
-                stickerEl.className = 'graffiti-sticker';
-                stickerEl.style.cssText = `
-                    position: absolute;
-                    left: ${sticker.x}%;
-                    top: ${sticker.y}%;
-                    color: ${sticker.color};
-                    font-size: 24px;
-                    font-weight: 500;
-                    transform: rotate(${sticker.rotation}deg);
-                    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-                    pointer-events: none;
-                    z-index: 10;
-                `;
-                stickerEl.textContent = sticker.content;
-                document.getElementById('graffiti-stickers').appendChild(stickerEl);
+                const cellWidth = this.canvas.width / this.gridWidth;
+                const cellHeight = this.canvas.height / this.gridHeight;
+                
+                // Vertical lines
+                for (let x = 0; x <= this.gridWidth; x++) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x * cellWidth, 0);
+                    this.ctx.lineTo(x * cellWidth, this.canvas.height);
+                    this.ctx.stroke();
+                }
+                
+                // Horizontal lines
+                for (let y = 0; y <= this.gridHeight; y++) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y * cellHeight);
+                    this.ctx.lineTo(this.canvas.width, y * cellHeight);
+                    this.ctx.stroke();
+                }
+                
+                // Draw ASCII characters
+                this.ctx.font = `${cellHeight * 0.8}px 'Courier New', monospace`;
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                
+                for (let y = 0; y < this.gridHeight; y++) {
+                    for (let x = 0; x < this.gridWidth; x++) {
+                        const cell = this.asciiGrid[y][x];
+                        if (cell.char !== ' ') {
+                            this.ctx.fillStyle = cell.color;
+                            this.ctx.fillText(
+                                cell.char,
+                                (x + 0.5) * cellWidth,
+                                (y + 0.5) * cellHeight
+                            );
+                        }
+                    }
+                }
             }
 
             slapAll() {
-                console.log('🎯 SLAP ALL METHOD CALLED');
+                console.log('🎯 ASCII SLAP ALL METHOD CALLED');
                 console.log('Canvas context:', this.canvas, this.ctx);
-                console.log('Strokes:', this.strokes ? this.strokes.length : 'undefined');
-                console.log('Stickers:', this.stickers ? this.stickers.length : 'undefined');
+                console.log('ASCII Grid:', this.asciiGrid);
                 
-                // Force capture canvas content regardless of stroke tracking
+                // Check if ASCII grid has content
+                let hasAsciiContent = false;
+                for (let y = 0; y < this.gridHeight; y++) {
+                    for (let x = 0; x < this.gridWidth; x++) {
+                        if (this.asciiGrid[y][x].char !== ' ') {
+                            hasAsciiContent = true;
+                            break;
+                        }
+                    }
+                    if (hasAsciiContent) break;
+                }
+                
+                if (!hasAsciiContent) {
+                    alert('Create some ASCII art first before slapping!');
+                    return;
+                }
+                
+                // Capture canvas content
                 const imageData = this.canvas.toDataURL('image/png');
                 console.log('Canvas data length:', imageData.length);
                 console.log('Canvas dimensions:', this.canvas.width, 'x', this.canvas.height);
-                
-                // Check if canvas has actual drawing content (not just blank)
-                const canvas = this.canvas;
-                const ctx = this.ctx;
-                const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const pixels = imgData.data;
-                let hasContent = false;
-                
-                // Check for non-transparent pixels
-                for (let i = 3; i < pixels.length; i += 4) {
-                    if (pixels[i] > 0) { // Alpha channel > 0
-                        hasContent = true;
-                        break;
-                    }
-                }
-                
-                console.log('Canvas has visible content:', hasContent);
-                
-                if (!hasContent) {
-                    console.warn('⚠️ No visible content on canvas to save');
-                    alert('Draw something first before slapping!');
-                    return;
-                }
                 
                 // Immediate button feedback
                 const slapButton = document.getElementById('slap-all');
@@ -3369,7 +3340,7 @@
                 
                 // Save to community wall with enhanced logging
                 console.log('🎯 Calling saveToWall...');
-                this.saveToWall();
+                this.saveToWall(imageData);
                 
                 // Update stats
                 if (typeof gameStats !== 'undefined') {
@@ -3383,12 +3354,11 @@
                 this.showCelebration();
             }
 
-            saveToWall() {
+            saveToWall(imageData) {
                 try {
-                    console.log('🎯 SAVE TO WALL METHOD CALLED');
-                    const imageData = this.canvas.toDataURL('image/png');
+                    console.log('🎯 ASCII SAVE TO WALL METHOD CALLED');
                     const timestamp = new Date().toISOString();
-                    const stickerId = 'graffiti_' + Date.now();
+                    const stickerId = 'ascii_graffiti_' + Date.now();
                     
                     console.log('Generated sticker ID:', stickerId);
                     console.log('Image data preview:', imageData.substring(0, 100) + '...');
@@ -4669,25 +4639,31 @@
         
         function hideTooltip() {
             if (activeTooltip) {
-                activeTooltip.remove();
-                activeTooltip = null;
+                activeTooltip.style.opacity = '0';
+                setTimeout(() => {
+                    activeTooltip.style.visibility = 'hidden';
+                    setTimeout(() => {
+                        activeTooltip.remove();
+                        activeTooltip = null;
+                    }, 100);
+                }, 100);
             }
         }
-        
+
+        // Initialize all tooltips
         function initializeTooltips() {
-            // Clean up existing listeners
-            document.querySelectorAll('.hoverable[data-tooltip]').forEach(element => {
-                element.removeEventListener('mouseenter', showTooltip);
-                element.removeEventListener('mouseleave', hideTooltip);
-            });
-            
-            // Add event listeners
-            document.querySelectorAll('.hoverable[data-tooltip]').forEach(element => {
-                element.addEventListener('mouseenter', () => showTooltip(element));
-                element.addEventListener('mouseleave', hideTooltip);
+            const tooltipTriggers = document.querySelectorAll('[data-tooltip]');
+            tooltipTriggers.forEach(trigger => {
+                // Remove existing listeners to prevent duplicates
+                trigger.removeEventListener('mouseenter', showTooltip);
+                trigger.removeEventListener('mouseleave', hideTooltip);
+                
+                // Add fresh listeners
+                trigger.addEventListener('mouseenter', showTooltip);
+                trigger.addEventListener('mouseleave', hideTooltip);
             });
         }
-        
+
         // Game Modal System
         function openGameModal(gameType) {
             const modal = document.createElement('div');

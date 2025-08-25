@@ -1,0 +1,119 @@
+/* PRIORITY TOOLBAR - ENHANCED ACCESSIBILITY */
+.priority-toolbar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
+    border: 2px solid var(--cyber-primary-accent);
+    border-radius: 12px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
+    z-index: 100;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    max-width: calc(100% - 40px);
+}
+
+.primary-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+}
+
+.primary-section h4 {
+    color: var(--cyber-primary-accent);
+    font-family: var(--cyber-font-mono);
+    font-size: 0.8rem;
+    margin: 0;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+.enhanced-palette {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    min-width: 160px;
+}
+
+.enhanced-palette .color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.enhanced-palette .color-btn:hover {
+    transform: scale(1.15);
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.4);
+}
+
+.enhanced-palette .color-btn.active {
+    border-color: var(--cyber-primary-accent);
+    box-shadow: 0 0 15px var(--cyber-primary-accent);
+    transform: scale(1.1);
+}
+
+.enhanced-tools {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.enhanced-tools .tool-btn {
+    background: var(--cyber-dark-primary);
+    color: var(--cyber-primary-accent);
+    border: 1px solid var(--cyber-primary-accent);
+    padding: 0.5rem 0.75rem;
+    font-family: var(--cyber-font-mono);
+    font-size: 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.enhanced-tools .tool-btn:hover {
+    background: var(--cyber-primary-accent);
+    color: var(--cyber-dark-primary);
+    transform: translateY(-2px);
+}
+
+.enhanced-tools .tool-btn.active {
+    background: var(--cyber-primary-accent);
+    color: var(--cyber-dark-primary);
+    box-shadow: 0 0 10px var(--cyber-primary-accent);
+}
+
+/* Mobile Priority Toolbar */
+@media (max-width: 768px) {
+    .priority-toolbar {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin-bottom: 1rem;
+        max-width: 100%;
+        justify-content: center;
+    }
+
+    .enhanced-palette {
+        grid-template-columns: repeat(8, 1fr);
+        min-width: 100%;
+    }
+
+    .enhanced-palette .color-btn {
+        width: 28px;
+        height: 28px;
+    }
+
+    .enhanced-tools .tool-btn {
+        font-size: 0.6rem;
+        padding: 0.4rem 0.6rem;
+    }
+}
