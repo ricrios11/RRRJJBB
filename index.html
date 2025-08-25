@@ -495,12 +495,10 @@
         
         /* CASE STUDY CARDS - SKIM LAYER */
         .case-studies-grid {
-            display: flex;
-            flex-direction: row;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
             gap: 2rem;
             padding: 2rem 0;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
         }
         
         .case-card {
@@ -514,8 +512,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            flex: 0 0 400px;
-            scroll-snap-align: start;
         }
         
         .case-card::before {
@@ -2584,16 +2580,44 @@
             background: var(--cyber-primary-accent);
         }
         
-        /* RESPONSIVE - HORIZONTAL LAYOUT */
-        @media (max-width: 768px) {
+        /* RESPONSIVE */
+        /* INTELLIGENT RESPONSIVE GRID SYSTEM */
+        .case-studies-grid {
+            display: grid;
+            gap: 2rem;
+            grid-template-columns: 1fr;
+        }
+        
+        /* Tablet Portrait: 2 columns */
+        @media (min-width: 768px) and (orientation: portrait) {
             .case-studies-grid {
-                gap: 1rem;
-                padding: 1rem 0;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
             }
-            
-            .case-card {
-                flex: 0 0 320px;
-                padding: 1.5rem;
+        }
+        
+        /* Tablet Landscape & Desktop: 3 columns */
+        @media (min-width: 1024px) {
+            .case-studies-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2.5rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+        }
+        
+        /* Large Desktop: Optimized 3 columns with max container */
+        @media (min-width: 1440px) {
+            .case-studies-grid {
+                max-width: 1400px;
+                gap: 3rem;
+            }
+        }
+        
+        /* Ultra-wide: Still 3 columns, prevent over-stretching */
+        @media (min-width: 1920px) {
+            .case-studies-grid {
+                max-width: 1600px;
             }
         }
         
