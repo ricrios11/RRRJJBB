@@ -495,11 +495,12 @@
         
         /* CASE STUDY CARDS - SKIM LAYER */
         .case-studies-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            display: flex;
+            flex-direction: row;
             gap: 2rem;
-            margin: 0;
             padding: 2rem 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
         }
         
         .case-card {
@@ -510,13 +511,11 @@
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            /* CRITICAL: Force consistent card layout */
-            min-height: 280px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            flex: 0 0 400px;
+            scroll-snap-align: start;
         }
         
         .case-card::before {
@@ -2585,44 +2584,16 @@
             background: var(--cyber-primary-accent);
         }
         
-        /* RESPONSIVE */
-        /* INTELLIGENT RESPONSIVE GRID SYSTEM */
-        .case-studies-grid {
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: 1fr;
-        }
-        
-        /* Tablet Portrait: 2 columns */
-        @media (min-width: 768px) and (orientation: portrait) {
+        /* RESPONSIVE - HORIZONTAL LAYOUT */
+        @media (max-width: 768px) {
             .case-studies-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
+                gap: 1rem;
+                padding: 1rem 0;
             }
-        }
-        
-        /* Tablet Landscape & Desktop: 3 columns */
-        @media (min-width: 1024px) {
-            .case-studies-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 2.5rem;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-        }
-        
-        /* Large Desktop: Optimized 3 columns with max container */
-        @media (min-width: 1440px) {
-            .case-studies-grid {
-                max-width: 1400px;
-                gap: 3rem;
-            }
-        }
-        
-        /* Ultra-wide: Still 3 columns, prevent over-stretching */
-        @media (min-width: 1920px) {
-            .case-studies-grid {
-                max-width: 1600px;
+            
+            .case-card {
+                flex: 0 0 320px;
+                padding: 1.5rem;
             }
         }
         
@@ -2957,49 +2928,51 @@
             <div class="game-modal-body refined-body">
                 <div class="graffiti-interface refined-interface" role="main" aria-label="Graffiti Creation Interface">
                     <div class="graffiti-canvas-area">
-                        <canvas id="graffiti-canvas" width="800" height="600" role="img" aria-label="Graffiti Drawing Canvas" tabindex="0"></canvas>
-                        <div id="graffiti-stickers"></div>
-                        <!-- ASCII Art Toolbar - Terminal Focus -->
-                        <div class="graffiti-toolbar priority-toolbar">
-                            <div class="tool-section primary-section">
-                                <h4>COLORS</h4>
-                                <div class="color-palette enhanced-palette">
-                                    <button class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red" type="button"></button>
-                                    <button class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange" type="button"></button>
-                                    <button class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow" type="button"></button>
-                                    <button class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green" type="button"></button>
-                                    <button class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue" type="button"></button>
-                                    <button class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple" type="button"></button>
-                                    <button class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink" type="button"></button>
-                                    <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 2px solid #333;" title="White" type="button"></button>
+                        <div class="graffiti-tools responsive-draw-tools">
+                            <div class="tool-sections">
+                                <div class="tool-section primary-section">
+                                    <h4>COLORS</h4>
+                                    <div class="color-palette enhanced-palette">
+                                        <button class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red" type="button"></button>
+                                        <button class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange" type="button"></button>
+                                        <button class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow" type="button"></button>
+                                        <button class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green" type="button"></button>
+                                        <button class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue" type="button"></button>
+                                        <button class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple" type="button"></button>
+                                        <button class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink" type="button"></button>
+                                        <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;" title="White" type="button"></button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tool-section primary-section">
-                                <h4>ASCII CHARS</h4>
-                                <div class="ascii-palette enhanced-tools">
-                                    <button class="ascii-btn active" data-char="█" title="Full Block">█</button>
-                                    <button class="ascii-btn" data-char="▓" title="Dark Shade">▓</button>
-                                    <button class="ascii-btn" data-char="▒" title="Medium Shade">▒</button>
-                                    <button class="ascii-btn" data-char="░" title="Light Shade">░</button>
-                                    <button class="ascii-btn" data-char="╔" title="Box Top-Left">╔</button>
-                                    <button class="ascii-btn" data-char="╗" title="Box Top-Right">╗</button>
-                                    <button class="ascii-btn" data-char="╚" title="Box Bottom-Left">╚</button>
-                                    <button class="ascii-btn" data-char="╝" title="Box Bottom-Right">╝</button>
-                                    <button class="ascii-btn" data-char="║" title="Vertical Line">║</button>
-                                    <button class="ascii-btn" data-char="═" title="Horizontal Line">═</button>
-                                    <button class="ascii-btn" data-char="#" title="Hash">#</button>
-                                    <button class="ascii-btn" data-char="@" title="At Symbol">@</button>
+                                <div class="tool-section primary-section">
+                                    <h4>ASCII CHARS</h4>
+                                    <div class="ascii-palette enhanced-tools">
+                                        <button class="ascii-btn active" data-char="█" title="Full Block">█</button>
+                                        <button class="ascii-btn" data-char="▓" title="Dark Shade">▓</button>
+                                        <button class="ascii-btn" data-char="▒" title="Medium Shade">▒</button>
+                                        <button class="ascii-btn" data-char="░" title="Light Shade">░</button>
+                                        <button class="ascii-btn" data-char="╔" title="Box Top-Left">╔</button>
+                                        <button class="ascii-btn" data-char="╗" title="Box Top-Right">╗</button>
+                                        <button class="ascii-btn" data-char="╚" title="Box Bottom-Left">╚</button>
+                                        <button class="ascii-btn" data-char="╝" title="Box Bottom-Right">╝</button>
+                                        <button class="ascii-btn" data-char="║" title="Vertical Line">║</button>
+                                        <button class="ascii-btn" data-char="═" title="Horizontal Line">═</button>
+                                        <button class="ascii-btn" data-char="#" title="Hash">#</button>
+                                        <button class="ascii-btn" data-char="@" title="At Symbol">@</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="graffiti-controls responsive-draw-tools">
-                        <div class="primary-actions">
-                            <button id="slap-all" class="control-btn primary" aria-label="Save artwork to gallery">SLAP</button>
+                        <div class="graffiti-canvas-container">
+                            <canvas id="graffiti-canvas" class="graffiti-canvas"></canvas>
                         </div>
-                        <div class="secondary-actions">
-                            <button id="clear-canvas" class="control-btn">CLEAR</button>
-                            <button id="undo-action" class="control-btn">UNDO</button>
+                        <div class="graffiti-controls responsive-draw-tools">
+                            <div class="primary-actions">
+                                <button id="slap-all" class="control-btn primary" aria-label="Save artwork to gallery">SLAP</button>
+                            </div>
+                            <div class="secondary-actions">
+                                <button id="clear-canvas" class="control-btn">CLEAR</button>
+                                <button id="undo-action" class="control-btn">UNDO</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -5084,6 +5057,9 @@
                 setInterval(updateGlitchIntensity, 60000); // Update every minute
                 
                 glitchElements.forEach(element => {
+                    // Clear any stuck glitch classes on initialization
+                    element.classList.remove('glitch-active', 'glitch-hover');
+                    
                     element.addEventListener('mouseenter', () => {
                         if (element.classList.contains('ascii-monogram')) {
                             element.classList.add('glitch-active');
