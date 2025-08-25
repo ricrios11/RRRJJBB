@@ -120,10 +120,13 @@ class CyberpunkSnakeGame {
                 
                 <div class="game-instructions">
                     <div class="cyber-data-label">CONTROLS:</div>
-                    <div class="control-grid">
+                    <div class="control-grid keyboard-instructions">
                         <span>WASD / ARROWS</span>
                         <span>SPACE: PAUSE</span>
                         <span>R: RESET</span>
+                    </div>
+                    <div class="touch-instructions">
+                        <span>SWIPE TO CONTROL • TAP BUTTONS TO PLAY/PAUSE</span>
                     </div>
                 </div>
             </div>
@@ -250,6 +253,23 @@ class CyberpunkSnakeGame {
                 color: #999;
                 font-size: 0.875rem;
             }
+            
+            .touch-instructions {
+                display: none;
+            }
+            
+            @media (hover: none) and (pointer: coarse) {
+                .keyboard-instructions {
+                    display: none;
+                }
+                .touch-instructions {
+                    display: block;
+                    text-align: center;
+                    color: #999;
+                    font-size: 0.875rem;
+                    margin-top: 0.5rem;
+                }
+            }
         `;
         document.head.appendChild(style);
     }
@@ -282,6 +302,9 @@ class CyberpunkSnakeGame {
             this.resetGame();
         });
         
+        // Touch/swipe controls for mobile
+        this.setupTouchControls();
+        
         // Keyboard controls
         document.addEventListener('keydown', (e) => {
             if (!this.isPlaying) return;
@@ -305,13 +328,61 @@ class CyberpunkSnakeGame {
                     break;
                 case ' ':
                     this.togglePause();
-                    e.preventDefault();
-                    break;
-                case 'r':
-                    this.resetGame();
                     break;
             }
         });
+    }
+    
+    setupTouchControls() {
+        let touchStartX = 0;
+        let touchStartY = 0;
+        const minSwipeDistance = 30;
+        
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            touchStartX = touch.clientX;
+            touchStartY = touch.clientY;
+        }, { passive: false });
+        
+        this.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            if (!this.isPlaying) return;
+            
+            const touch = e.changedTouches[0];
+            const deltaX = touch.clientX - touchStartX;
+            const deltaY = touch.clientY - touchStartY;
+            
+            // Check if swipe distance is sufficient
+            if (Math.abs(deltaX) < minSwipeDistance && Math.abs(deltaY) < minSwipeDistance) {
+                return;
+            }
+            
+            // Determine swipe direction
+            if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                // Horizontal swipe
+                if (deltaX > 0 && this.direction.x === 0) {
+                    // Swipe right
+                    this.direction = { x: 1, y: 0 };
+                } else if (deltaX < 0 && this.direction.x === 0) {
+                    // Swipe left
+                    this.direction = { x: -1, y: 0 };
+                }
+            } else {
+                // Vertical swipe
+                if (deltaY > 0 && this.direction.y === 0) {
+                    // Swipe down
+                    this.direction = { x: 0, y: 1 };
+                } else if (deltaY < 0 && this.direction.y === 0) {
+                    // Swipe up
+                    this.direction = { x: 0, y: -1 };
+                }
+            }
+        }, { passive: false });
     }
     
     toggleGame() {
@@ -572,9 +643,12 @@ class CyberpunkSnakeGame {
         ctx.fillStyle = this.currentTheme.bg;
         ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         
-        // Draw grid
+        // Draw dark matter universal plane grid
         ctx.strokeStyle = this.currentTheme.grid;
-        ctx.lineWidth = 0.5;
+        ctx.lineWidth = 0.8;
+        ctx.globalAlpha = 0.6;
+        
+        // Primary grid lines
         for (let i = 0; i <= 20; i++) {
             const pos = i * this.gridSize;
             ctx.beginPath();
@@ -584,6 +658,38 @@ class CyberpunkSnakeGame {
             ctx.lineTo(canvasWidth, pos);
             ctx.stroke();
         }
+        
+        // Secondary grid lines for depth
+        ctx.strokeStyle = this.currentTheme.accent;
+        ctx.lineWidth = 0.3;
+        ctx.globalAlpha = 0.2;
+        
+        for (let i = 0; i <= 40; i++) {
+            const pos = i * (this.gridSize / 2);
+            if (i % 2 !== 0) { // Only draw between major grid lines
+                ctx.beginPath();
+                ctx.moveTo(pos, 0);
+                ctx.lineTo(pos, canvasHeight);
+                ctx.moveTo(0, pos);
+                ctx.lineTo(canvasWidth, pos);
+                ctx.stroke();
+            }
+        }
+        
+        // Grid intersection points for cosmic effect
+        ctx.fillStyle = this.currentTheme.accent;
+        ctx.globalAlpha = 0.4;
+        for (let x = 0; x <= 20; x++) {
+            for (let y = 0; y <= 20; y++) {
+                const posX = x * this.gridSize;
+                const posY = y * this.gridSize;
+                ctx.beginPath();
+                ctx.arc(posX, posY, 0.8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        ctx.globalAlpha = 1;
         
         // Draw neon trails
         this.neonTrails.forEach(trail => {
