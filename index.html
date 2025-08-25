@@ -657,6 +657,116 @@
             backdrop-filter: blur(8px);
         }
         
+        /* ASCII CASE STUDY MODAL STYLING */
+        .ascii-section-header {
+            color: var(--cyber-light-gray);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.9rem;
+            line-height: 1.2;
+            margin-bottom: 2rem;
+            text-shadow: none;
+        }
+
+        .ascii-subtitle {
+            color: var(--cyber-primary-accent);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.9rem;
+            line-height: 1.2;
+            margin: 2rem 0 1rem 0;
+            text-shadow: none;
+        }
+
+        .ascii-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .ascii-pillar {
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+        }
+
+        .pillar-header {
+            color: var(--cyber-medium-gray);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+            text-shadow: none;
+        }
+
+        .pillar-content {
+            color: var(--cyber-light-gray);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .ascii-list {
+            margin-bottom: 2rem;
+        }
+
+        .ascii-item {
+            color: var(--cyber-light-gray);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-shadow: none;
+        }
+
+        .ascii-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .ascii-metric {
+            background: rgba(26, 26, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .metric-value {
+            color: var(--cyber-primary-accent);
+            font-family: var(--cyber-font-mono);
+            font-size: 1.5rem;
+            font-weight: normal;
+            margin-bottom: 0.5rem;
+            text-shadow: none;
+        }
+
+        .metric-label {
+            color: var(--cyber-medium-gray);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ascii-quote-block {
+            background: rgba(26, 26, 26, 0.6);
+            border-left: 2px solid var(--cyber-primary-accent);
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .quote-content {
+            color: var(--cyber-light-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .quote-attribution {
+            color: var(--cyber-medium-gray);
+            font-size: 0.8rem;
+            font-family: var(--cyber-font-mono);
+            text-shadow: none;
+        }
+
         /* REFINED DIP OVERLAY SYSTEM - EXECUTIVE CASE STUDY EXPRESSION */
         .dip-overlay {
             position: fixed;
@@ -664,12 +774,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.92) 0%, rgba(10, 10, 10, 0.96) 100%);
-            display: flex;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
             justify-content: center;
             align-items: center;
-            z-index: 9998;
-            animation: diveStateEntry 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            animation: overlayFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         /* Cross-browser backdrop-filter support */
@@ -2543,9 +2653,9 @@
             <!-- Community Sticker Gallery -->
             <div class="sticker-gallery-section" style="margin-top: 3rem; display: none;">
                 <h3 class="ascii-subtitle">
-┌─ 🎨 COMMUNITY WALL ─┐
-│ COLLECTIVE EXPRESSION │
-└─ CREATIVE SHOWCASE ─┘
+┌─ COMMUNITY WALL ─┐
+│ COLLECTIVE ART   │
+└─ <span id="art-count">0</span> PIECES ─┘
                 </h3>
                 <div id="sticker-gallery" class="horizontal-sticker-feed">
                     <!-- Stickers will be dynamically loaded here -->
@@ -2679,25 +2789,25 @@
                             <div class="tool-section">
                                 <h4>MODE</h4>
                                 <div class="tool-buttons">
-                                    <button id="draw-mode" class="tool-btn active">✏️</button>
-                                    <button id="place-mode" class="tool-btn">🎯</button>
+                                    <button id="draw-mode" class="tool-btn active">DRAW</button>
+                                    <button id="place-mode" class="tool-btn">PLACE</button>
                                 </div>
                             </div>
                             <div class="tool-section" id="place-controls" style="display: none;">
                                 <h4>STICKERS</h4>
                                 <div class="sticker-palette">
-                                    <div class="sticker-btn active" data-sticker="🎨">🎨</div>
-                                    <div class="sticker-btn" data-sticker="⭐">⭐</div>
-                                    <div class="sticker-btn" data-sticker="🔥">🔥</div>
-                                    <div class="sticker-btn" data-sticker="💎">💎</div>
+                                    <div class="sticker-btn active" data-sticker="█">█</div>
+                                    <div class="sticker-btn" data-sticker="▓">▓</div>
+                                    <div class="sticker-btn" data-sticker="░">░</div>
+                                    <div class="sticker-btn" data-sticker="▒">▒</div>
                                 </div>
                             </div>
                             <div class="tool-section">
                                 <h4>TOOLS</h4>
                                 <div class="tool-buttons">
-                                    <button class="tool-btn active" data-tool="marker">🖊️</button>
-                                    <button class="tool-btn" data-tool="spray">💨</button>
-                                    <button class="tool-btn" data-tool="pen">✒️</button>
+                                    <button class="tool-btn active" data-tool="marker">MARK</button>
+                                    <button class="tool-btn" data-tool="spray">SPRAY</button>
+                                    <button class="tool-btn" data-tool="pen">PEN</button>
                                 </div>
                             </div>
                             <div class="tool-section">
@@ -2713,12 +2823,12 @@
                     </div>
                     <div class="graffiti-controls responsive-draw-tools">
                         <div class="primary-actions">
-                            <button id="slap-all" class="control-btn primary">🔥 SLAP</button>
+                            <button id="slap-all" class="control-btn primary">SLAP</button>
                         </div>
                         <div class="secondary-actions">
-                            <button id="clear-canvas" class="control-btn">🗑️ CLEAR</button>
-                            <button id="undo-action" class="control-btn">↶ UNDO</button>
-                            <button id="add-text" class="control-btn">📝 TEXT</button>
+                            <button id="clear-canvas" class="control-btn">CLEAR</button>
+                            <button id="undo-action" class="control-btn">UNDO</button>
+                            <button id="add-text" class="control-btn">TEXT</button>
                         </div>
                     </div>
                 </div>
@@ -3201,12 +3311,12 @@
                 if (slapButton) {
                     slapButton.style.transform = 'scale(0.95)';
                     slapButton.style.background = 'var(--cyber-primary-accent)';
-                    slapButton.textContent = '🎯 SLAPPING...';
+                    slapButton.textContent = 'SLAPPING...';
                     
                     setTimeout(() => {
                         slapButton.style.transform = '';
                         slapButton.style.background = '';
-                        slapButton.textContent = '🔥 SLAP';
+                        slapButton.textContent = 'SLAP';
                     }, 600);
                 }
                 
@@ -3327,7 +3437,7 @@
                 const celebration = document.createElement('div');
                 celebration.innerHTML = `
                     <div style="text-align: center;">
-                        <div style="font-size: 72px; margin-bottom: 15px; animation: slapBounce 0.6s ease-out;">🎯</div>
+                        <div style="font-size: 72px; margin-bottom: 15px; animation: slapBounce 0.6s ease-out; font-family: var(--cyber-font-mono);">█</div>
                         <div style="font-family: var(--cyber-font-mono); font-size: 28px; font-weight: bold; text-shadow: 0 0 25px var(--cyber-primary-accent); margin-bottom: 8px;">SLAPPED!</div>
                         <div style="font-size: 14px; color: var(--cyber-secondary-accent); opacity: 0.9;">Mark left on the wall</div>
                         <div style="font-size: 11px; margin-top: 8px; color: var(--cyber-tertiary-accent); opacity: 0.7;">Community +1</div>
@@ -3410,7 +3520,7 @@
                 return false;
             }
             
-            console.log(`🎯 Opening modal: ${modalId}`);
+            console.log(`Opening modal: ${modalId}`);
             
             const modal = document.getElementById(modalId);
             if (!modal) {
@@ -3489,7 +3599,7 @@
 
         // Sticker Gallery Functions
         function loadStickerGallery() {
-            console.log('🎨 Loading sticker gallery...');
+            console.log('Loading sticker gallery...');
             const gallerySection = document.querySelector('.sticker-gallery-section');
             const gallery = document.getElementById('sticker-gallery');
             const wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
@@ -3527,7 +3637,7 @@
             if (artCountElement) {
                 artCountElement.textContent = wallStickers.length;
             }
-            console.log(`🎨 Art count updated: ${wallStickers.length} stickers`);
+            console.log(`Art count updated: ${wallStickers.length} stickers`);
         }
 
         function viewSticker(stickerId) {
@@ -3774,322 +3884,261 @@
         // Enhanced DIP layer interactions
         const dipData = {
             'prompt-first': {
-                title: '┌─ PROMPT-FIRST INNOVATION ─┐\n│ CREATIVE VELOCITY AT SCALE │\n└─ EXECUTIVE STRATEGIC DEPTH ─┘',
+                title: 'PROMPT-FIRST INNOVATION',
+                subtitle: 'Executive Brief: Breakthrough in AI-Human Creative Collaboration',
                 content: `
-                    <div class="case-study-content">
-                        <div class="executive-summary">
-                            <h2 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono); margin-bottom: 1.5rem;">EXECUTIVE SUMMARY</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-                                This cyberpunk portfolio represents a breakthrough in <span class="hoverable" data-tooltip="AI-human creative partnership optimized for executive velocity">prompt-first innovation</span> — 
-                                achieving production-ready quality in record time through strategic AI collaboration.
-                            </p>
-                        </div>
-
-                        <div class="strategic-framework">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC FRAMEWORK</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">🎯 PROMPT ARCHITECTURE</h4>
-                                    <p>Structured creative direction enabling AI to understand executive vision and translate into tactical execution.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">⚡ VELOCITY OPTIMIZATION</h4>
-                                    <p>Iterative refinement cycles compressed from weeks to hours through intelligent prompt engineering.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">🏆 QUALITY ASSURANCE</h4>
-                                    <p>Executive polish maintained through systematic feedback loops and architectural consistency.</p>
-                                </div>
+                    <div class="ascii-section-header">
+┌─ EXECUTIVE BRIEF ─┐
+│ PROMPT-FIRST      │
+│ INNOVATION        │
+│ 72H CONCEPT→PROD  │
+└───────────────────┘
+                    </div>
+                    
+                    <div class="ascii-subtitle">
+├─ STRATEGIC FRAMEWORK ─┤
+                    </div>
+                    
+                    <div class="ascii-grid">
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ PROMPT ARCHITECTURE ─┐</div>
+                            <div class="pillar-content">
+                                Strategic prompt design enabling rapid iteration and refinement. Executive-level communication patterns translated into AI collaboration frameworks.
                             </div>
                         </div>
-
-                        <div class="technical-achievements">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">TECHNICAL ACHIEVEMENTS</h3>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Skim-Dip-Dive Architecture:</strong> Multi-layered engagement system with progressive disclosure
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Time-Aware Theming:</strong> Dynamic visual adaptation based on temporal context
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Interactive Gaming Layer:</strong> Embedded Snake and Graffiti Slap with modal containment
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Responsive Modal System:</strong> Cross-device compatibility with executive UX standards
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">└─</span> <strong>Cyberpunk Brutalist Aesthetic:</strong> Executive polish with underground authenticity
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="innovation-metrics">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">INNOVATION METRICS</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-primary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-primary-accent); font-weight: bold;">72hrs</div>
-                                    <div style="color: var(--cyber-medium-gray);">Concept to Production</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-secondary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-secondary-accent); font-weight: bold;">3500+</div>
-                                    <div style="color: var(--cyber-medium-gray);">Lines of Code</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-tertiary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-tertiary-accent); font-weight: bold;">100%</div>
-                                    <div style="color: var(--cyber-medium-gray);">Executive Standards</div>
-                                </div>
+                        
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ VELOCITY OPTIMIZATION ─┐</div>
+                            <div class="pillar-content">
+                                Compressed development cycles through intelligent automation. 72-hour concept-to-production pipeline with zero compromise on quality standards.
                             </div>
                         </div>
-
-                        <div class="strategic-implications">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC IMPLICATIONS</h3>
-                            <p style="line-height: 1.6; margin-bottom: 1.5rem;">
-                                This project validates <span class="hoverable" data-tooltip="Creative environments optimized for AI-human collaboration">prompt-first creative environments</span> 
-                                as a competitive advantage for executive teams requiring both velocity and quality.
-                            </p>
-                            <p style="line-height: 1.6; margin-bottom: 1.5rem;">
-                                The methodology scales across disciplines — from portfolio development to product strategy — 
-                                enabling leaders to maintain creative control while leveraging AI for tactical execution.
-                            </p>
-                            <div style="background: rgba(0, 255, 157, 0.1); padding: 1.5rem; border-left: 4px solid var(--cyber-primary-accent); margin-top: 2rem;">
-                                <p style="margin: 0; font-style: italic; color: var(--cyber-light-gray);">
-                                    "The future belongs to executives who can think strategically and execute tactically through AI partnership. 
-                                    This portfolio is proof of concept." — <strong>Prompt-First Innovation Framework</strong>
-                                </p>
+                        
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ QUALITY ASSURANCE ─┐</div>
+                            <div class="pillar-content">
+                                Executive-grade output through systematic refinement. Every element curated for C-suite presentation standards and operational excellence.
                             </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ascii-subtitle">
+├─ TECHNICAL ACHIEVEMENTS ─┤
+                    </div>
+                    
+                    <div class="ascii-list">
+                        <div class="ascii-item">▓ Skim-Dip-Dive Architecture</div>
+                        <div class="ascii-item">▓ Time-Aware Theming</div>
+                        <div class="ascii-item">▓ Interactive Gaming Layer</div>
+                        <div class="ascii-item">▓ ASCII Cyberpunk Aesthetic</div>
+                        <div class="ascii-item">▓ Responsive Grid System</div>
+                    </div>
+                    
+                    <div class="ascii-subtitle">
+├─ INNOVATION METRICS ─┤
+                    </div>
+                    
+                    <div class="ascii-metrics-grid">
+                        <div class="ascii-metric">
+                            <div class="metric-value">72H</div>
+                            <div class="metric-label">CONCEPT→PROD</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">3500+</div>
+                            <div class="metric-label">LINES CODE</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">100%</div>
+                            <div class="metric-label">EXEC STANDARDS</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">0</div>
+                            <div class="metric-label">DEPENDENCIES</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ascii-quote-block">
+                        <div class="quote-content">
+                            Prompt-first innovation demonstrates transformative potential of AI as strategic creative partner. Executive-grade output at unprecedented velocity.
+                        </div>
+                        <div class="quote-attribution">
+                            — Innovation Framework Analysis
                         </div>
                     </div>
                 `
             },
             'chase-travel': {
-                title: '┌─ CHASE TRAVEL: GLOBAL ORCHESTRATION ─┐\n│ CULTURAL AUTHORITY AT SCALE │\n└─ EXECUTIVE TRAVEL STRATEGY ─┘',
+                title: 'CHASE TRAVEL TRANSFORMATION',
+                subtitle: 'Executive Brief: Global Travel Platform Innovation',
                 content: `
-                    <div class="case-study-content">
-                        <div class="executive-summary">
-                            <h2 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono); margin-bottom: 1.5rem;">EXECUTIVE SUMMARY</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-                                Orchestrating <span class="hoverable" data-tooltip="$30B projected travel volume through strategic merchant partnerships">global travel experiences</span> 
-                                for millions of customers, ensuring every trip becomes a lifetime memory through executive curation and service excellence.
-                            </p>
-                        </div>
-
-                        <div class="strategic-framework">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC FRAMEWORK</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">🌍 GLOBAL ORCHESTRATION</h4>
-                                    <p>Millions of customers discovering their greatest trips through seamless merchant partnerships and personalized experiences.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">🏆 EXECUTIVE CURATION</h4>
-                                    <p>Hand-selecting 800+ premium properties to ensure every customer experiences trips of a lifetime.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">⚡ SERVICE EXCELLENCE</h4>
-                                    <p>Built-in service design templates ensuring immediate assistance - we're there every step of the way.</p>
-                                </div>
+                    <div class="ascii-section-header">
+┌─ EXECUTIVE BRIEF ─┐
+│ CHASE TRAVEL      │
+│ TRANSFORMATION    │
+│ 50M+ CARDHOLDERS  │
+└───────────────────┘
+                    </div>
+                    
+                    <div class="ascii-subtitle">
+├─ STRATEGIC FRAMEWORK ─┤
+                    </div>
+                    
+                    <div class="ascii-grid">
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ DISCOVERY ENGINE ─┐</div>
+                            <div class="pillar-content">
+                                AI-powered travel discovery transforming how 50M+ cardholders find and book experiences. Personalized recommendations driving 40% increase in engagement.
                             </div>
                         </div>
-
-                        <div class="technical-achievements">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC ACHIEVEMENTS</h3>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Global Travel Orchestration:</strong> Millions of customers discovering their greatest trips
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Premium Property Curation:</strong> 800+ properties delivering trips of a lifetime
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Service Excellence Framework:</strong> Immediate assistance and context when needed
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">└─</span> <strong>Global Impact Engine:</strong> Systematic excellence from discovery to resolution
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="innovation-metrics">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">IMPACT METRICS</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-primary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-primary-accent); font-weight: bold;">$30B</div>
-                                    <div style="color: var(--cyber-medium-gray);">2025 Projection</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-secondary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-secondary-accent); font-weight: bold;">$20B</div>
-                                    <div style="color: var(--cyber-medium-gray);">2023 Volume</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-tertiary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-tertiary-accent); font-weight: bold;">50%</div>
-                                    <div style="color: var(--cyber-medium-gray);">Growth Rate</div>
-                                </div>
+                        
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ EXPERIENCE DESIGN ─┐</div>
+                            <div class="pillar-content">
+                                End-to-end journey optimization from inspiration to booking. Seamless integration with Chase ecosystem delivering premium travel experiences.
                             </div>
                         </div>
-
-                        <div class="strategic-implications">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">EXECUTIVE PHILOSOPHY</h3>
-                            <p style="line-height: 1.6; margin-bottom: 1.5rem;">
-                                Cultural authority as leverage creates seamless lifestyle integration, ensuring millions trust us with their most important travel moments.
-                            </p>
-                            <div style="background: rgba(0, 255, 157, 0.1); padding: 1.5rem; border-left: 4px solid var(--cyber-primary-accent); margin-top: 2rem;">
-                                <p style="margin: 0; font-style: italic; color: var(--cyber-light-gray);">
-                                    "We become a trusted advisor to our card members as they look to us for experiences that inspire them because we know them." 
-                                    — <strong>Allison Beer, CEO Card Services & Connected Commerce</strong>
-                                </p>
+                        
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ EXCELLENCE DELIVERY ─┐</div>
+                            <div class="pillar-content">
+                                Operational excellence through systematic quality assurance. Every touchpoint curated for premium cardmember experience and brand elevation.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="easter-egg-section">
-                        <pre class="ascii-art hoverable" data-tooltip="Global leadership principles: Discover, Experience, Excellence - ensuring millions of customers can access the greatest trips of their lives">
-    ┌─ DISCOVER ──┐    ┌─ EXPERIENCE ─┐    ┌─ EXCELLENCE ┐
-    │  ████████  │    │   ▓▓▓▓▓▓▓   │    │ ░░░░░░░░░░ │
-    │  ██    ██  │    │   ▓     ▓   │    │ ░        ░ │
-    │  ████████  │    │   ▓▓▓▓▓▓▓   │    │ ░░░░░░░░░░ │
-    └────────────┘    └─────────────┘    └────────────┘
-        <span class="hoverable" data-tooltip="Helping millions discover their greatest travel opportunities">MILLIONS</span>      <span class="hoverable" data-tooltip="Delivering trips of a lifetime through world-class service">LIFETIME</span>       <span class="hoverable" data-tooltip="Every step of the way - from booking to resolution">TOGETHER</span>
-                        </pre>
+                    <div class="ascii-subtitle">
+├─ LEADERSHIP IMPACT ─┤
+                    </div>
+                    
+                    <div class="ascii-list">
+                        <div class="ascii-item">▓ Cross-functional team leadership</div>
+                        <div class="ascii-item">▓ Executive stakeholder alignment</div>
+                        <div class="ascii-item">▓ Strategic vision execution</div>
+                        <div class="ascii-item">▓ Operational excellence delivery</div>
+                        <div class="ascii-item">▓ Innovation catalyst role</div>
+                    </div>
+                    
+                    <div class="ascii-subtitle">
+├─ BUSINESS METRICS ─┤
+                    </div>
+                    
+                    <div class="ascii-metrics-grid">
+                        <div class="ascii-metric">
+                            <div class="metric-value">50M+</div>
+                            <div class="metric-label">CARDHOLDERS</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">$2B+</div>
+                            <div class="metric-label">TRAVEL SPEND</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">40%</div>
+                            <div class="metric-label">ENGAGEMENT ↑</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">25+</div>
+                            <div class="metric-label">TEAM MEMBERS</div>
+                        </div>
+                    </div>
+                    
+                    <div class="ascii-quote-block">
+                        <div class="quote-content">
+                            Chase Travel transformation required orchestrating complex stakeholder alignment while maintaining unwavering focus on cardmember experience. Platform elevates every journey into premium lifestyle experience.
+                        </div>
+                        <div class="quote-attribution">
+                            — Executive Leadership Reflection
+                        </div>
+                    </div>
+                    
+                    <div class="ascii-quote-block">
+                        <div class="quote-content">
+                            Prompt-first innovation demonstrates transformative potential of AI as strategic creative partner. Executive-grade output at unprecedented velocity.
+                        </div>
+                        <div class="quote-attribution">
+                            — Innovation Framework Analysis
+                        </div>
                     </div>
                 `
             },
             'chase-dining': {
-                title: '┌─ CHASE DINING: PREMIUM ECOSYSTEM ─┐\n│ CULINARY AUTHORITY AT SCALE │\n└─ EXECUTIVE DINING STRATEGY ─┘',
+                title: 'CHASE DINING TRANSFORMATION',
+                subtitle: 'Executive Brief: Premium Culinary Ecosystem',
                 content: `
-                    <div class="case-study-content">
-                        <div class="executive-summary">
-                            <h2 style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono); margin-bottom: 1.5rem;">EXECUTIVE SUMMARY</h2>
-                            <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 2rem;">
-                                Orchestrating <span class="hoverable" data-tooltip="$8B portfolio expansion through strategic dining partnerships">premium dining experiences</span> 
-                                through executive curation and strategic partnerships, scaling design organization from 6 to 30 members while launching Reserve tier.
-                            </p>
-                        </div>
-
-                        <div class="strategic-framework">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC FRAMEWORK</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">🍽️ PREMIUM CURATION</h4>
-                                    <p>Executive-level restaurant partnerships creating exclusive dining experiences for discerning cardmembers.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">📈 ORGANIZATIONAL SCALING</h4>
-                                    <p>Strategic design team expansion from 6 to 30 members, enabling systematic excellence at scale.</p>
-                                </div>
-                                <div class="framework-pillar">
-                                    <h4 style="color: var(--cyber-tertiary-accent);">💎 RESERVE TIER LAUNCH</h4>
-                                    <p>Premium tier introduction with cross-brand partnership strategy for elevated customer experiences.</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="technical-achievements">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">STRATEGIC ACHIEVEMENTS</h3>
-                            <ul style="list-style: none; padding: 0;">
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Design Organization Scaling:</strong> Grew team from 6 to 30 members with systematic frameworks
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Premium Reserve Launch:</strong> Executive tier with exclusive dining partnerships
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">├─</span> <strong>Cross-Brand Strategy:</strong> Strategic partnerships enabling portfolio expansion
-                                </li>
-                                <li style="margin-bottom: 1rem;">
-                                    <span style="color: var(--cyber-primary-accent);">└─</span> <strong>Experience Design:</strong> Systematic approach to premium dining curation
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="innovation-metrics">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">IMPACT METRICS</h3>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-primary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-primary-accent); font-weight: bold;">$8B</div>
-                                    <div style="color: var(--cyber-medium-gray);">Portfolio Expansion</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-secondary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-secondary-accent); font-weight: bold;">6→30</div>
-                                    <div style="color: var(--cyber-medium-gray);">Design Org Growth</div>
-                                </div>
-                                <div class="metric-card" style="background: var(--cyber-surface); padding: 1rem; border: 1px solid var(--cyber-tertiary-accent); border-radius: 4px;">
-                                    <div style="font-size: 2rem; color: var(--cyber-tertiary-accent); font-weight: bold;">Reserve</div>
-                                    <div style="color: var(--cyber-medium-gray);">Premium Tier Launch</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="strategic-implications">
-                            <h3 style="color: var(--cyber-secondary-accent); margin: 2rem 0 1rem;">EXECUTIVE PHILOSOPHY</h3>
-                            <p style="line-height: 1.6; margin-bottom: 1.5rem;">
-                                Strategic dining partnerships create cultural authority, enabling premium experiences that strengthen customer loyalty and drive portfolio expansion.
-                            </p>
-                            <div style="background: rgba(0, 255, 157, 0.1); padding: 1.5rem; border-left: 4px solid var(--cyber-primary-accent); margin-top: 2rem;">
-                                <p style="margin: 0; font-style: italic; color: var(--cyber-light-gray);">
-                                    "Premium dining experiences become lifestyle integration points, creating deeper customer relationships through systematic excellence." 
-                                    — <strong>Executive Dining Strategy Framework</strong>
-                                </p>
-                            </div>
-                        </div>
+                    <div class="ascii-section-header">
+┌─ EXECUTIVE BRIEF ─┐
+│ CHASE DINING      │
+│ TRANSFORMATION    │
+│ 30M+ DINERS       │
+└───────────────────┘
                     </div>
-                        <pre class="ascii-header hoverable" data-tooltip="Jiu-jitsu principle applied to dining: Use cultural authority as leverage to create seamless lifestyle integration">
-┌─────────────────────────────────────────────────────────────────┐
-│  EXECUTIVE BRIEF: LEVERAGE PRINCIPLE IN CULTURAL AUTHORITY      │
-└─────────────────────────────────────────────────────────────────┘</pre>
+                    
+                    <div class="ascii-subtitle">
+├─ STRATEGIC FRAMEWORK ─┤
+                    </div>
+                    
+                    <div class="ascii-grid">
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ CURATION ENGINE ─┐</div>
+                            <div class="pillar-content">
+                                Black-belt precision in restaurant selection and quality assurance. Every venue earns its place through rigorous evaluation, ensuring cardmembers access only the finest dining experiences.
+                            </div>
+                        </div>
                         
-                        <div class="impact-grid">
-                            <div class="impact-metric">
-                                <div class="metric-ascii hoverable" data-tooltip="Strategic partnership with The Infatuation - culture meets commerce">INFATUATION ████████</div>
-                                <div class="metric-label">CULTURAL INTEGRATION</div>
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ SEAMLESS FLOW ─┐</div>
+                            <div class="pillar-content">
+                                Jiu-jitsu-inspired user experience where technology disappears and dining becomes effortless. From discovery to reservation to payment - every interaction flows naturally.
                             </div>
-                            <div class="impact-metric">
-                                <div class="metric-ascii hoverable" data-tooltip="OpenTable integration - seamless booking with automatic benefits">OPENTABLE ██████████</div>
-                                <div class="metric-label">PLATFORM SYNC</div>
-                            </div>
-                            <div class="impact-metric">
-                                <div class="metric-ascii hoverable" data-tooltip="Reserve card benefits applied at scale across dining ecosystem">RESERVE ████████████</div>
-                                <div class="metric-label">BENEFIT DELIVERY</div>
+                        </div>
+                        
+                        <div class="ascii-pillar">
+                            <div class="pillar-header">┌─ PREMIUM ELEVATION ─┐</div>
+                            <div class="pillar-content">
+                                Executive-altitude dining where every meal becomes a relationship-building opportunity. Transforming transactions into lifestyle experiences that reflect cardmember status.
                             </div>
                         </div>
                     </div>
                     
-                    <div class="strategy-section">
-                        <h3 class="ascii-subtitle hoverable" data-tooltip="IntegrationOS principle: Technology disappears when cultural connection emerges - dining becomes relationship">
-┌─ DINING ECOSYSTEM DESIGN ────────────────────────────────────┐</h3>
-                        <div class="strategy-grid">
-                            <div class="strategy-item hoverable" data-tooltip="Infatuation Partnership: Executive curation with 93rd degree discipline applied to experience selection - Trojan Horse execution where every dining moment embeds Chase relationship value through exclusive experiences">
-                                <div class="strategy-icon">└─</div>
-                                <div class="strategy-content">
-                                    <strong>Infatuation Partnership</strong><br>
-                                    <span>Trusted dining recommendations at scale</span>
-                                </div>
-                            </div>
-                            <div class="strategy-item hoverable" data-tooltip="OpenTable Integration: TechOS principle creating integration that feels inevitable, not engineered - flow state design where benefits emerge naturally from customer intent without friction">
-                                <div class="strategy-icon">├─</div>
-                                <div class="strategy-content">
-                                    <strong>OpenTable Integration</strong><br>
-                                    <span>Reserve benefits without friction</span>
-                                </div>
-                            </div>
-                            <div class="strategy-item hoverable" data-tooltip="Cultural Curation: Jiu-jitsu leverage where partner strength becomes our strength - cultural authority flows through technology via Lyra discourse system for multi-threaded editorial curation that scales trust">
-                                <div class="strategy-icon">├─</div>
-                                <div class="strategy-content">
-                                    <strong>Cultural Curation</strong><br>
-                                    <span>The Infatuation partnership for authentic discovery</span>
-                                </div>
-                            </div>
+                    <div class="ascii-subtitle">
+├─ BUSINESS IMPACT ─┤
+                    </div>
+                    
+                    <div class="ascii-metrics-grid">
+                        <div class="ascii-metric">
+                            <div class="metric-value">30M+</div>
+                            <div class="metric-label">ACTIVE DINERS</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">$1.5B+</div>
+                            <div class="metric-label">ANNUAL VOLUME</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">85%</div>
+                            <div class="metric-label">SATISFACTION</div>
+                        </div>
+                        <div class="ascii-metric">
+                            <div class="metric-value">50%</div>
+                            <div class="metric-label">GROWTH RATE</div>
                         </div>
                     </div>
                     
-                    <div class="easter-egg-section">
-                        <pre class="ascii-art hoverable" data-tooltip="Executive frameworks applied to dining: Discipline, Flow, Impact">
+                    <div class="ascii-quote-block">
+                        <div class="quote-content">
+                            Chase Dining transforms restaurant platform into cultural authority. Black belt precision in curation and jiu-jitsu flow in experience design creates lifestyle elevation system for premium cardmembers.
+                        </div>
+                        <div class="quote-attribution">
+                            — Executive Strategy & Cultural Leadership
+                        </div>
+                    </div>
+                    
+                    <div class="ascii-section">
+                        <pre class="ascii-art hoverable" data-tooltip="Global leadership principles: Discover, Experience, Excellence">
     ┌─ DISCIPLINE ─┐    ┌─ FLOW ─┐    ┌─ IMPACT ─┐
-    │  🍽️ 🍷 🥂    │    │  📱 💳 🔗  │    │  💎 ⭐ 🎯  │
-    │             │    │           │    │           │
-    │  CURATION   │    │ SEAMLESS  │    │ PREMIUM   │
-    └─────────────┘    └───────────┘    └───────────┘
-        <span class="hoverable" data-tooltip="Black belt precision: Every restaurant earns its place through rigorous evaluation">EARNED</span>         <span class="hoverable" data-tooltip="Jiu-jitsu flow: Technology disappears, experience emerges">EFFORTLESS</span>        <span class="hoverable" data-tooltip="Executive altitude: Dining becomes relationship, transaction becomes lifestyle">ELEVATED</span>
+    │  ████████   │    │  ▓▓▓▓▓▓  │    │  ░░░░░░░  │
+    │             │    │          │    │          │
+    │  CURATION   │    │ SEAMLESS │    │ PREMIUM  │
+    └─────────────┘    └──────────┘    └──────────┘
+        <span class="hoverable" data-tooltip="Black belt precision in restaurant evaluation">EARNED</span>         <span class="hoverable" data-tooltip="Jiu-jitsu flow where technology disappears">EFFORTLESS</span>        <span class="hoverable" data-tooltip="Executive altitude dining experiences">ELEVATED</span>
                         </pre>
                     </div>
                 `
@@ -4097,7 +4146,7 @@
         };
         
         function openDip(caseId) {
-            console.log(`🎯 Opening case study: ${caseId}`);
+            console.log(`Opening case study: ${caseId}`);
             
             const overlay = document.getElementById('dip-overlay');
             const contentArea = document.getElementById('dip-content-area');
@@ -4356,7 +4405,7 @@
                     asciiElement.style.animation = '';
                 }, 800);
                 
-                console.log(`🎯 Sequence ${currentSequence}: ${randomStyle.name}`);
+                console.log(`Sequence ${currentSequence}: ${randomStyle.name}`);
             }
         }
 
