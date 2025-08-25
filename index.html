@@ -5200,209 +5200,86 @@
                     startTime: performance.now(),
                     
                     logMetric: (name, value) => {
-document.addEventListener('DOMContentLoaded', function() {
-console.log('🚀 Initializing Cyberpunk Portfolio...');
+                        console.log(`Performance: ${name} = ${Math.round(value)}ms`);
+                    },
+                    
+                    measureInteraction: (element, eventType) => {
+                        element.addEventListener(eventType, () => {
+                            const interactionTime = performance.now() - this.startTime;
+                            this.logMetric(`${eventType}_interaction`, interactionTime);
+                        });
+                    }
+                };
+                
+                // Monitor critical interactions
+                document.querySelectorAll('.case-card, .game-card').forEach(card => {
+                    performanceMonitor.measureInteraction(card, 'click');
+                });
+                
+                preloadAssets();
+                return performanceMonitor;
+            }
 
-// Initialize theme from localStorage
-const savedTheme = localStorage.getItem('theme-preference') || 'dark';
-document.body.setAttribute('data-theme', savedTheme);
+            // Cinematic hero glitch on load
+            function triggerHeroGlitch() {
+                const asciiMonogram = document.getElementById('ascii-rr');
+                if (asciiMonogram) {
+                    asciiMonogram.classList.add('glitch-load');
+                    
+                    // Remove class after animation completes
+                    setTimeout(() => {
+                        asciiMonogram.classList.remove('glitch-load');
+                    }, 3000);
+                }
+            }
 
-// Update theme icon based on current theme
-const themeIcon = document.querySelector('.theme-icon');
-if (themeIcon) {
-    themeIcon.textContent = savedTheme === 'light' ? '◑' : '◐';
-}
+            // Initialize everything when DOM is ready
+            initThemeToggle();
+            initGlitchSystem();
+            initLazyLoading();
+            initializeTooltips();
+            
+            // Trigger cinematic hero glitch after short delay
+            setTimeout(triggerHeroGlitch, 500);
+            
+            console.log('Innovation Lab initialized successfully');
+            
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection) {
+                heroSection.classList.add('sequence-1');
+            }
+            
+            // Achievement integration
+            if (window.cyberpunkSnakeGame) {
+                window.cyberpunkSnakeGame.setAchievementCallback((achievement) => {
+                    console.log('🏆 Design Achievement:', achievement.title);
+                });
+            }
+            
+            console.log('✅ Cyberpunk Portfolio: All systems initialized');
+        });
 
-// Ensure all modals are closed on page load
-document.querySelectorAll('.game-modal, .dip-overlay').forEach(modal => {
-    modal.style.display = 'none';
-});
-document.body.style.overflow = 'auto';
-
-// Initialize all systems
-loadStickerGallery();
-updateArtCount();
-applyTimeAwareThemes();
-initMicroInteractions();
-initializeTooltips();
-updateTimeStatus();
-
-// Start intervals
-setInterval(updateTimeStatus, 1000);
-setInterval(updateUniversalSequence, 1000);
-
-// Modular Glitch Variance System
-function initGlitchSystem() {
-    const glitchElements = document.querySelectorAll('.ascii-monogram, .case-card');
-
-    // Dynamic glitch intensity based on time of day
-    function updateGlitchIntensity() {
-        const hour = new Date().getHours();
-        let intensity, speed, offset;
-
-        if (hour >= 6 && hour < 12) { // Morning
-            intensity = 0.2;
-            speed = '3s';
-            offset = '1px';
-        } else if (hour >= 12 && hour < 18) { // Afternoon
-            intensity = 0.4;
-            speed = '2s';
-            offset = '2px';
-        } else if (hour >= 18 && hour < 22) { // Evening
-            intensity = 0.6;
-            speed = '1.5s';
-            offset = '3px';
-        } else { // Night
-            intensity = 0.8;
-            speed = '1s';
-            offset = '4px';
+        // Theme Toggle Functionality
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme-preference', newTheme);
+            
+            // Update theme icon with ASCII feedback
+            const themeIcon = document.querySelector('.theme-icon');
+            if (themeIcon) {
+                themeIcon.textContent = newTheme === 'light' ? '◑' : '◐';
+            }
         }
 
-        document.documentElement.style.setProperty('--glitch-intensity', intensity);
-        document.documentElement.style.setProperty('--glitch-speed', speed);
-        document.documentElement.style.setProperty('--glitch-offset', offset);
-    }
-
-    updateGlitchIntensity();
-    setInterval(updateGlitchIntensity, 60000); // Update every minute
-
-    glitchElements.forEach(element => {
-        element.addEventListener('mouseenter', () => {
-            if (element.classList.contains('ascii-monogram')) {
-                element.classList.add('glitch-active');
-            } else if (element.classList.contains('case-card')) {
-                element.classList.add('glitch-hover');
+        // Escape key to close dip layer
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDip();
             }
-        });
-
-        element.addEventListener('mouseleave', () => {
-            element.classList.remove('glitch-active', 'glitch-hover');
-        });
-
-        element.addEventListener('animationend', () => {
-            element.classList.remove('glitch-hover');
-        });
-    });
-}
-
-// Performance optimization - asset lazy loading
-function initLazyLoading() {
-    // Lazy load images with Intersection Observer
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                img.src = img.dataset.src;
-                img.classList.remove('lazy');
-                observer.unobserve(img);
-            }
-        });
-    }, {
-        rootMargin: '50px 0px',
-        threshold: 0.01
-    });
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-
-    // Preload critical game assets
-    const preloadAssets = () => {
-        const criticalAssets = [
-            // Add any critical images or resources here
-        ];
-
-        criticalAssets.forEach(asset => {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.as = 'image';
-            link.href = asset;
-            document.head.appendChild(link);
-        });
-    };
-
-    // Performance monitoring
-    const performanceMonitor = {
-        startTime: performance.now(),
-
-        logMetric: (name, value) => {
-            console.log(`Performance: ${name} = ${Math.round(value)}ms`);
-        },
-
-        measureInteraction: (element, eventType) => {
-            element.addEventListener(eventType, () => {
-                const interactionTime = performance.now() - this.startTime;
-                this.logMetric(`${eventType}_interaction`, interactionTime);
-            });
-        }
-    };
-
-    // Monitor critical interactions
-    document.querySelectorAll('.case-card, .game-card').forEach(card => {
-        preloadAssets();
-        return performanceMonitor;
-    });
-}
-
-// Cinematic hero glitch on load
-function triggerHeroGlitch() {
-    const asciiMonogram = document.getElementById('ascii-rr');
-    if (asciiMonogram) {
-        asciiMonogram.classList.add('glitch-load');
-
-        // Remove class after animation completes
-        setTimeout(() => {
-            asciiMonogram.classList.remove('glitch-load');
-        }, 3000);
-    }
-}
-
-// Initialize everything when DOM is ready
-initThemeToggle();
-initGlitchSystem();
-initLazyLoading();
-initializeTooltips();
-
-// Trigger cinematic hero glitch after short delay
-setTimeout(triggerHeroGlitch, 500);
-
-console.log('Innovation Lab initialized successfully');
-
-const heroSection = document.getElementById('hero-section');
-if (heroSection) {
-    heroSection.classList.add('sequence-1');
-}
-
-// Achievement integration
-if (window.cyberpunkSnakeGame) {
-    window.cyberpunkSnakeGame.setAchievementCallback((achievement) => {
-        console.log('🏆 Design Achievement:', achievement.title);
-    });
-}
-
-console.log('✅ Cyberpunk Portfolio: All systems initialized');
-});
-
-// Theme Toggle Functionality
-function toggleTheme() {
-    const body = document.body;
-    const currentTheme = body.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-    body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme-preference', newTheme);
-
-    // Update theme icon with ASCII feedback
-    const themeIcon = document.querySelector('.theme-icon');
-    if (themeIcon) {
-        themeIcon.textContent = newTheme === 'light' ? '◑' : '◐';
-    }
-}
-
-// Escape key to close dip layer
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeDip();
         });
     </script>
 </body>
