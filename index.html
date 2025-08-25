@@ -1532,12 +1532,14 @@
 /* HORIZONTAL APP-STORE STYLE STICKER FEED */
 .horizontal-sticker-feed {
     display: flex;
+    flex-direction: row;
     overflow-x: auto;
     gap: 1rem;
     padding: 1rem 0;
     margin-top: 1rem;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
+    align-items: flex-start;
 }
 
 .horizontal-sticker-feed::-webkit-scrollbar {
@@ -3868,8 +3870,7 @@
                 const cardId = card.onclick.toString().match(/'([^']+)'/)?.[1];
                 if (cardId === strategy.primary) {
                     card.style.order = '1';
-                    card.style.transform = 'scale(1.02)';
-                    card.style.boxShadow = `0 0 20px ${getComputedStyle(document.documentElement).getPropertyValue('--cyber-primary-accent')}40`;
+                    // Removed persistent glow and transform - cards should have equal visual weight
                 } else {
                     card.style.order = '2';
                     card.style.transform = '';
