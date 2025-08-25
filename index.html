@@ -3028,7 +3028,17 @@
                 if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
                 if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
                 if (textBtn) textBtn.addEventListener('click', () => this.addText());
-                if (slapBtn) slapBtn.addEventListener('click', () => this.slapAll());
+                if (slapBtn) {
+                    console.log('✅ SLAP button found, adding event listener');
+                    slapBtn.addEventListener('click', (e) => {
+                        console.log('🎯 SLAP button clicked!');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        this.slapAll();
+                    });
+                } else {
+                    console.error('❌ SLAP button not found in DOM');
+                }
             }
 
             startDrawing(e) {
@@ -3495,21 +3505,44 @@
 
         // Initialize Graffiti Slap when modal opens
         function initGraffitiSlap() {
-            // Clean up any existing instance
+            console.log('🎨 Initializing Graffiti Slap game...');
+            
+            // Clear any existing instance
             if (window.graffitiSlap) {
-                window.graffitiSlap = null;
+                delete window.graffitiSlap;
             }
             
-            // Load existing community stickers
-            setTimeout(() => {
-                loadStickerGallery();
-                updateArtCount();
-            }, 500);
-
             // Create new instance with proper initialization
             setTimeout(() => {
+                console.log('🔍 DOM DEBUG: Creating GraffitiSlap instance...');
                 window.graffitiSlap = new GraffitiSlap();
+                console.log('🔍 DOM DEBUG: Calling init()...');
                 window.graffitiSlap.init();
+                
+                // Verify SLAP button after initialization
+                setTimeout(() => {
+                    const slapBtn = document.getElementById('slap-all');
+                    console.log('🔍 DOM DEBUG: Post-init SLAP button status:', {
+                        found: !!slapBtn,
+                        hasEventListener: slapBtn ? slapBtn.onclick !== null : false,
+                        parentElement: slapBtn ? slapBtn.parentElement.className : 'N/A'
+                    });
+                    
+                    // Manual click test
+                    if (slapBtn) {
+                        console.log('🔍 DOM DEBUG: Adding manual click test to SLAP button');
+                        slapBtn.addEventListener('click', function(e) {
+                            console.log('🎯 MANUAL CLICK TEST: SLAP button clicked!');
+                            console.log('Event details:', e);
+                            if (window.graffitiSlap && window.graffitiSlap.slapAll) {
+                                console.log('🎯 Calling slapAll method...');
+                                window.graffitiSlap.slapAll();
+                            } else {
+                                console.error('❌ graffitiSlap instance or slapAll method not found');
+                            }
+                        });
+                    }
+                }, 200);
             }, 100);
         }
 
@@ -3521,7 +3554,7 @@
                 return false;
             }
             
-            console.log(`Opening modal: ${modalId}`);
+            console.log(`🔍 DOM DEBUG: Opening modal: ${modalId}`);
             
             const modal = document.getElementById(modalId);
             if (!modal) {
@@ -3536,26 +3569,43 @@
                 }
             });
             
-            // Show modal with proper display
+            // Show the modal
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             
-            // Initialize game systems with error handling
+            // Initialize games if needed
             try {
                 if (modalId === 'graffiti-modal') {
-                    console.log('🎨 Initializing Graffiti Slap...');
+                    console.log('🔍 DOM DEBUG: Initializing graffiti game...');
                     setTimeout(() => {
-                        if (modal.style.display === 'flex') { // Only init if modal still open
+                        if (modal.style.display === 'flex') {
+                            console.log('🔍 DOM DEBUG: Modal still visible, calling initGraffitiSlap');
                             initGraffitiSlap();
-                            console.log('✅ Graffiti Slap initialized');
+                            
+                            // Additional DOM debugging for SLAP button
+                            setTimeout(() => {
+                                const slapBtn = document.getElementById('slap-all');
+                                console.log('🔍 DOM DEBUG: SLAP button check:', {
+                                    found: !!slapBtn,
+                                    visible: slapBtn ? slapBtn.offsetParent !== null : false,
+                                    disabled: slapBtn ? slapBtn.disabled : 'N/A',
+                                    innerHTML: slapBtn ? slapBtn.innerHTML : 'N/A',
+                                    classList: slapBtn ? Array.from(slapBtn.classList) : 'N/A'
+                                });
+                                
+                                // Check if graffiti game instance exists
+                                if (window.graffitiGame) {
+                                    console.log('🔍 DOM DEBUG: Graffiti game instance found');
+                                } else {
+                                    console.error('❌ DOM DEBUG: Graffiti game instance NOT found');
+                                }
+                            }, 100);
                         }
                     }, 150);
                 } else if (modalId === 'snake-modal') {
-                    console.log('🐍 Initializing Snake Game...');
                     setTimeout(() => {
-                        if (modal.style.display === 'flex') { // Only init if modal still open
+                        if (modal.style.display === 'flex') {
                             initSnakeGame();
-                            console.log('✅ Snake Game initialized');
                         }
                     }, 150);
                 }
@@ -3563,20 +3613,20 @@
                 console.error(`❌ Game initialization failed:`, error);
             }
             
-            // Trigger tooltip reinitialization
+            // Reinitialize tooltips
             setTimeout(() => {
                 if (modal.style.display === 'flex') {
                     initializeTooltips();
                 }
             }, 200);
             
+            // Dispatch modal opened event
             document.dispatchEvent(new CustomEvent('modalOpened'));
-            console.log(`✅ Modal ${modalId} opened successfully`);
+            
             return true;
         }
 
         function closeModal(modalId) {
-            console.log(`🔒 Closing modal: ${modalId}`);
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'none';
