@@ -512,6 +512,11 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            /* CRITICAL: Force consistent card layout */
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         
         .case-card::before {
