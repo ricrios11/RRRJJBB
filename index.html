@@ -2000,8 +2000,22 @@
             align-items: center;
             z-index: 9999;
             animation: modalBackdropEntry 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            padding: 1rem;
+            padding: 2rem;
             box-sizing: border-box;
+        }
+        
+        .modal-content {
+            max-width: 90vw;
+            max-height: 90vh;
+            width: auto;
+            height: auto;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            background: var(--cyber-surface);
+            border: 1px solid var(--cyber-primary-accent);
+            border-radius: var(--cyber-radius-lg);
+            overflow: hidden;
         }
         
         /* Cross-browser backdrop-filter support */
@@ -2077,24 +2091,12 @@
             }
         }
         
-        .game-modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 2rem;
-            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1) 0%, rgba(0, 255, 157, 0.05) 100%);
-            border-bottom: 2px solid var(--cyber-primary-accent);
-            backdrop-filter: blur(10px);
-            position: relative;
-            z-index: 10;
-        }
-        
         .game-modal-close {
             position: absolute;
             top: 50%;
             right: 1.5rem;
             transform: translateY(-50%);
-            background: var(--surface-tertiary);
+            background: var(--cyber-surface);
             border: 2px solid var(--cyber-primary-accent);
             color: var(--cyber-primary-accent);
             font-size: 1.5rem;
@@ -2111,6 +2113,7 @@
             z-index: 10;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             line-height: 1;
+            font-family: var(--cyber-font-mono);
         }
         
         /* Cross-browser backdrop-filter for close buttons */
@@ -2278,13 +2281,23 @@
             background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
             border: 1px solid var(--cyber-primary-accent);
             border-radius: 6px;
-            width: 100%;
-            max-width: min(600px, calc(100vw - 4rem));
-            aspect-ratio: 1;
-            margin: 0 auto;
             position: relative;
-            box-shadow: 0 8px 24px rgba(0, 255, 157, 0.2);
+            margin: 1rem auto;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 157, 0.3),
+                inset 0 0 20px rgba(0, 255, 157, 0.1);
             overflow: hidden;
+            width: 600px;
+            height: 450px;
+            max-width: 90vw;
+            max-height: 60vh;
+        }
+        
+        /* Force dark background for snake board in all themes */
+        [data-theme="light"] .game-board,
+        [data-theme="dark"] .game-board {
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%) !important;
+            border: 1px solid var(--cyber-primary-accent) !important;
         }
         
         .game-board::before {
@@ -2342,32 +2355,7 @@
             text-align: center;
         }
         
-        .key-desc {
-            color: var(--cyber-medium-gray);
-        }
-        
-        .primary-action {
-            background: var(--cyber-primary-accent);
-            color: var(--cyber-black);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            font-family: var(--cyber-font-mono);
-            font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-            text-transform: uppercase;
-            white-space: nowrap;
-        }
-        
-        .primary-action:active {
-            transform: translateY(-1px) scale(1.02);
-            transition: all 0.1s ease;
-        }
-        
-        .primary-action:hover {
-            background: var(--cyber-secondary-accent);
+        .game-btn:hover, .control-btn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 10px 25px rgba(0, 255, 157, 0.5);
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -2794,7 +2782,7 @@
             </div>
             
             <div class="playground-games">
-                <div class="game-card hoverable" onclick="console.log('🚨 CARD CLICKED: snake-modal'); openModal('snake-modal'); return false;" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
+                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: snake-modal'); openModal('snake-modal');" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
                     <h3 class="game-title ascii-game-title">
 ┌─ 🐍 CYBERPUNK SNAKE ─────────┐
 │  Executive Playground        │
@@ -2814,7 +2802,7 @@
                     </div>
                 </div>
                 
-                <div class="game-card hoverable" onclick="console.log('🚨 CARD CLICKED: graffiti-modal'); openModal('graffiti-modal'); return false;" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
+                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: graffiti-modal'); openModal('graffiti-modal');" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
                     <h3 class="game-title ascii-game-title">
 ┌─ 🎨 SLAP ────────────────────┐
 │  Leave Your Mark             │
@@ -2869,8 +2857,8 @@
             <div class="footer-section">
                 <h3>INNOVATION LAB</h3>
                 <ul class="footer-links">
-                    <li><a href="#" onclick="console.log('🚨 FOOTER CLICKED: snake-modal'); openModal('snake-modal'); return false;">Cyberpunk Snake</a></li>
-                    <li><a href="#" onclick="console.log('🚨 FOOTER CLICKED: graffiti-modal'); openModal('graffiti-modal'); return false;">Slap</a></li>
+                    <li><a href="#" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 FOOTER CLICKED: snake-modal'); openModal('snake-modal');">Cyberpunk Snake</a></li>
+                    <li><a href="#" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 FOOTER CLICKED: graffiti-modal'); openModal('graffiti-modal');">Slap</a></li>
                 </ul>
             </div>
             
@@ -2976,14 +2964,14 @@
                             <div class="tool-section primary-section">
                                 <h4>COLORS</h4>
                                 <div class="color-palette enhanced-palette">
-                                    <div class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red"></div>
-                                    <div class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange"></div>
-                                    <div class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow"></div>
-                                    <div class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green"></div>
-                                    <div class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue"></div>
-                                    <div class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple"></div>
-                                    <div class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink"></div>
-                                    <div class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 2px solid #333;" title="White"></div>
+                                    <button class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red" type="button"></button>
+                                    <button class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange" type="button"></button>
+                                    <button class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow" type="button"></button>
+                                    <button class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green" type="button"></button>
+                                    <button class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue" type="button"></button>
+                                    <button class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple" type="button"></button>
+                                    <button class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink" type="button"></button>
+                                    <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; border: 2px solid #333;" title="White" type="button"></button>
                                 </div>
                             </div>
                             <div class="tool-section primary-section">
@@ -3078,6 +3066,11 @@
                     this.setupCanvas();
                     this.setupEventListeners();
                     console.log('ASCII Graffiti Slap initialized successfully');
+                    
+                    // Force re-attach event listeners after DOM is ready
+                    setTimeout(() => {
+                        this.reattachEventListeners();
+                    }, 300);
                 }, 100);
             }
 
@@ -3117,26 +3110,62 @@
             }
 
             setupEventListeners() {
-                // Canvas ASCII drawing events
-                this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+                // Wait for modal DOM to be ready
+                setTimeout(() => {
+                    // Canvas ASCII drawing events
+                    this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+                    this.canvas.addEventListener('mousemove', (e) => this.draw(e));
+                    this.canvas.addEventListener('mouseup', () => this.stopDrawing());
+                    this.canvas.addEventListener('mouseleave', () => this.stopDrawing());
 
-                // ASCII character buttons with touch optimization
-                document.querySelectorAll('.ascii-btn').forEach(btn => {
-                    // Increase touch target size for mobile
-                    btn.style.minHeight = '44px';
-                    btn.style.minWidth = '44px';
-                    
-                    btn.addEventListener('click', (e) => {
-                        document.querySelectorAll('.ascii-btn').forEach(b => b.classList.remove('active'));
-                        e.target.classList.add('active');
-                        this.currentChar = e.target.dataset.char;
-                        console.log('🔤 ASCII char selected:', this.currentChar);
+                    // ASCII character buttons with touch optimization
+                    const asciiButtons = document.querySelectorAll('.ascii-btn');
+                    console.log(`🔤 Found ${asciiButtons.length} ASCII buttons`);
+                    asciiButtons.forEach(btn => {
+                        btn.style.minHeight = '44px';
+                        btn.style.minWidth = '44px';
+                        
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            document.querySelectorAll('.ascii-btn').forEach(b => b.classList.remove('active'));
+                            e.target.classList.add('active');
+                            this.currentChar = e.target.dataset.char;
+                            console.log('🔤 ASCII char selected:', this.currentChar);
+                        });
                     });
-                });
 
-                // Color buttons
+                    // Color buttons with enhanced event handling
+                    const colorButtons = document.querySelectorAll('.color-btn');
+                    console.log(`🎨 Found ${colorButtons.length} color buttons`);
+                    colorButtons.forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            console.log('🎨 Color button clicked:', e.target.dataset.color);
+                            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                            e.target.classList.add('active');
+                            this.currentColor = e.target.dataset.color;
+                            console.log('🎨 Current color updated to:', this.currentColor);
+                        });
+                    });
+                }, 200);
+            }
+
+            reattachEventListeners() {
+                // Force reattach color buttons
+                const colorButtons = document.querySelectorAll('.color-btn');
+                console.log(`🎨 Reattaching ${colorButtons.length} color buttons`);
+                colorButtons.forEach(btn => {
+                    // Remove existing listeners
+                    btn.replaceWith(btn.cloneNode(true));
+                });
+                
+                // Reattach fresh listeners
                 document.querySelectorAll('.color-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
                         console.log('🎨 Color button clicked:', e.target.dataset.color);
                         document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
                         e.target.classList.add('active');
@@ -3570,7 +3599,7 @@
 
         // Initialize Graffiti Slap when modal opens
         function initGraffitiSlap() {
-            console.log('🎨 Initializing Graffiti Slap game...');
+            console.log('🎨 Initializing ASCII Graffiti Slap game...');
             
             // Clear any existing instance
             if (window.graffitiSlap) {
@@ -3579,132 +3608,74 @@
             
             // Create new instance with proper initialization
             setTimeout(() => {
-                console.log('🔍 DOM DEBUG: Creating GraffitiSlap instance...');
                 try {
                     window.graffitiSlap = new GraffitiSlap();
-                    console.log('🔍 DOM DEBUG: Calling init()...');
                     window.graffitiSlap.init();
+                    console.log('✅ ASCII Graffiti Slap initialized successfully');
                 } catch (error) {
                     console.error('❌ GraffitiSlap initialization failed:', error);
                     return;
                 }
-                
-                // Verify SLAP button after initialization
-                setTimeout(() => {
-                    const slapBtn = document.getElementById('slap-all');
-                    console.log('🔍 DOM DEBUG: Post-init SLAP button status:', {
-                        found: !!slapBtn,
-                        hasEventListener: slapBtn ? slapBtn.onclick !== null : false,
-                        parentElement: slapBtn ? slapBtn.parentElement.className : 'N/A'
-                    });
-                    
-                    // Manual click test
-                    if (slapBtn) {
-                        console.log('🔍 DOM DEBUG: Adding manual click test to SLAP button');
-                        slapBtn.addEventListener('click', function(e) {
-                            console.log('🎯 MANUAL CLICK TEST: SLAP button clicked!');
-                            console.log('Event details:', e);
-                            if (window.graffitiSlap && window.graffitiSlap.slapAll) {
-                                console.log('🎯 Calling slapAll method...');
-                                window.graffitiSlap.slapAll();
-                            } else {
-                                console.error('❌ graffitiSlap instance or slapAll method not found');
-                            }
-                        });
-                    }
-                }, 200);
             }, 100);
         }
 
         // ENHANCED MODAL SYSTEM - BULLETPROOF EXECUTION
         function openModal(modalId) {
-            console.log(`🚨 CRITICAL DEBUG: openModal called with ID: ${modalId}`);
-            
-            // Prevent opening modals if we're in a refresh state
-            if (!modalId || modalId === 'undefined' || modalId === 'null') {
-                console.warn('⚠️ Invalid modal ID provided');
-                return false;
-            }
-            
-            console.log(`🔍 DOM DEBUG: Opening modal: ${modalId}`);
+            console.log(`🎯 Opening modal: ${modalId}`);
             
             const modal = document.getElementById(modalId);
-            console.log(`🔍 DOM DEBUG: Modal element found:`, modal);
             if (!modal) {
                 console.error(`❌ Modal ${modalId} not found in DOM`);
                 return false;
             }
             
-            // Close any existing modals first
-            document.querySelectorAll('.game-modal, .dip-overlay').forEach(m => {
-                if (m.style.display === 'flex') {
-                    m.style.display = 'none';
-                }
+            // Force close all existing modals
+            document.querySelectorAll('.game-modal').forEach(m => {
+                m.style.display = 'none';
             });
             
-            // Show the modal
+            // Force show modal with flex display and high z-index
             modal.style.display = 'flex';
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.zIndex = '99999';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
             
-            // CRITICAL: Only set overflow hidden if modal actually displays
-            if (modal.style.display === 'flex') {
-                document.body.style.overflow = 'hidden';
-                document.body.style.overflowX = 'hidden';
-                console.log(`✅ Modal ${modalId} successfully displayed and body scroll disabled`);
-            } else {
-                console.error(`❌ Modal ${modalId} failed to display - not setting body overflow`);
-                return false;
-            }
+            // Lock body scroll
+            document.body.style.overflow = 'hidden';
             
-            // Initialize games if needed
+            console.log(`🎯 Modal ${modalId} display forced to:`, modal.style.display);
+            console.log(`🎯 Modal ${modalId} z-index set to:`, modal.style.zIndex);
+            
+            // Initialize game systems with error handling
             try {
                 if (modalId === 'graffiti-modal') {
-                    console.log('🔍 DOM DEBUG: Initializing graffiti game...');
+                    console.log('🎨 Initializing Graffiti Slap...');
                     setTimeout(() => {
-                        if (modal.style.display === 'flex') {
-                            console.log('🔍 DOM DEBUG: Modal still visible, calling initGraffitiSlap');
-                            initGraffitiSlap();
-                            
-                            // Additional DOM debugging for SLAP button
-                            setTimeout(() => {
-                                const slapBtn = document.getElementById('slap-all');
-                                console.log('🔍 DOM DEBUG: SLAP button check:', {
-                                    found: !!slapBtn,
-                                    visible: slapBtn ? slapBtn.offsetParent !== null : false,
-                                    disabled: slapBtn ? slapBtn.disabled : 'N/A',
-                                    innerHTML: slapBtn ? slapBtn.innerHTML : 'N/A',
-                                    classList: slapBtn ? Array.from(slapBtn.classList) : 'N/A'
-                                });
-                                
-                                // Check if graffiti game instance exists
-                                if (window.graffitiSlap) {
-                                    console.log('🔍 DOM DEBUG: Graffiti game instance found');
-                                } else {
-                                    console.error('❌ DOM DEBUG: Graffiti game instance NOT found');
-                                }
-                            }, 100);
-                        }
+                        initGraffitiSlap();
+                        console.log('✅ Graffiti Slap initialized');
                     }, 150);
                 } else if (modalId === 'snake-modal') {
+                    console.log('🐍 Initializing Snake Game...');
                     setTimeout(() => {
-                        if (modal.style.display === 'flex') {
-                            initSnakeGame();
-                        }
+                        initSnakeGame();
+                        console.log('✅ Snake Game initialized');
                     }, 150);
                 }
             } catch (error) {
                 console.error(`❌ Game initialization failed:`, error);
             }
             
-            // Reinitialize tooltips
+            // Trigger tooltip reinitialization
             setTimeout(() => {
-                if (modal.style.display === 'flex') {
-                    initializeTooltips();
-                }
+                initializeTooltips();
             }, 200);
             
-            // Dispatch modal opened event
             document.dispatchEvent(new CustomEvent('modalOpened'));
-            
+            console.log(`✅ Modal ${modalId} opened successfully`);
             return true;
         }
 
@@ -3712,7 +3683,7 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'none';
-                document.body.style.overflow = '';
+                document.body.style.overflow = 'auto';
                 document.body.style.overflowX = 'hidden';
                 console.log(`✅ Modal ${modalId} closed successfully`);
             } else {
@@ -4200,15 +4171,6 @@
                             — Executive Leadership Reflection
                         </div>
                     </div>
-                    
-                    <div class="ascii-quote-block">
-                        <div class="quote-content">
-                            Prompt-first innovation demonstrates transformative potential of AI as strategic creative partner. Executive-grade output at unprecedented velocity.
-                        </div>
-                        <div class="quote-attribution">
-                            — Innovation Framework Analysis
-                        </div>
-                    </div>
                 `
             },
             'chase-dining': {
@@ -4315,7 +4277,7 @@
             if (data) {
                 console.log('✅ Case study data found, rendering...');
                 contentArea.innerHTML = `
-                    <h1 style="font-family: 'Courier New', monospace; color: var(--cyber-primary-accent); text-shadow: 0 0 5px var(--cyber-glow-color); margin-bottom: 2rem; font-size: clamp(1.2rem, 2.5vw, 1.8rem); line-height: 1.2; white-space: pre-line;">${data.title}</h1>
+                    <h1 style="font-family: 'Courier New', monospace; color: var(--cyber-primary-accent); margin-bottom: 2rem; font-size: clamp(1.2rem, 2.5vw, 1.8rem); line-height: 1.2; white-space: pre-line;">${data.title}</h1>
                     ${data.content}
                 `;
                 overlay.style.display = 'flex';
@@ -4344,6 +4306,16 @@
         
         // DIVE LAYER: Enhanced Game Launch System
         function launchSnake() {
+            console.log('🚫 Inline snake launch disabled - use modal instead');
+            return false;
+        }
+        
+        function launchGraffiti() {
+            console.log('🚫 Inline graffiti launch disabled - use modal instead');
+            return false;
+        }
+        
+        function launchSnakeOLD() {
             const gameContainer = document.getElementById('game-container');
             gameContainer.innerHTML = `
                 <div class="dive-layer-game">
