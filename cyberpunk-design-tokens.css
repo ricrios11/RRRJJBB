@@ -1,0 +1,418 @@
+/**
+ * CYBERPUNK MINIMALISM DESIGN TOKENS
+ * Unified Design System: Minority Report + Tron + Blade Runner + Alien
+ * Framework: DesignOS + TechOS + InteractionOS + ResearchOS
+ */
+
+:root {
+  /* === CYBERPUNK COLOR SYSTEM === */
+  
+  /* Primary Dark Foundation */
+  --cyber-black: #000000;
+  --cyber-dark-secondary: #0A0A0A;
+  --cyber-dark-tertiary: #1A1A1A;
+  --cyber-surface: #111111;
+  
+  /* Neon Accent Colors */
+  --cyber-cyan: #00FFFF;          /* Tron cyan */
+  --cyber-orange: #FF6600;        /* Tron orange */
+  --cyber-green: #00FF41;         /* Alien terminal green */
+  --cyber-pink: #FF2D92;          /* Blade Runner pink */
+  --cyber-blue: #4A90E2;          /* Minority Report blue */
+  
+  /* Neutral Spectrum */
+  --cyber-white: #FFFFFF;
+  --cyber-light-gray: #CCCCCC;
+  --cyber-medium-gray: #666666;
+  --cyber-dark-gray: #333333;
+  
+  /* Semantic Colors */
+  --cyber-success: var(--cyber-green);
+  --cyber-warning: var(--cyber-orange);
+  --cyber-error: #FF4444;
+  --cyber-info: var(--cyber-blue);
+  
+  /* === TIME-AWARE THEME VARIABLES === */
+  --cyber-primary-accent: var(--cyber-cyan);
+  --cyber-secondary-accent: var(--cyber-orange);
+  --cyber-glow-color: rgba(0, 255, 255, 0.4);
+  --cyber-theme-name: 'Active Session';
+
+  /* === LIGHT MODE OVERRIDES === */
+  --cyber-light-bg: #F8F9FA;
+  --cyber-light-surface: #FFFFFF;
+  --cyber-light-secondary: #F1F3F4;
+  --cyber-light-text: #202124;
+  --cyber-light-text-secondary: #5F6368;
+  
+  /* === TYPOGRAPHY SYSTEM === */
+  
+  /* Terminal/Monospace */
+  --cyber-font-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  --cyber-font-ui: 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+  --cyber-font-display: 'Orbitron', 'Exo 2', 'Rajdhani', sans-serif;
+  
+  /* Font Weights */
+  --cyber-weight-light: 300;
+  --cyber-weight-normal: 400;
+  --cyber-weight-medium: 500;
+  --cyber-weight-semibold: 600;
+  --cyber-weight-bold: 700;
+  --cyber-weight-black: 900;
+  
+  /* Font Sizes */
+  --cyber-text-xs: 0.75rem;
+  --cyber-text-sm: 0.875rem;
+  --cyber-text-base: 1rem;
+  --cyber-text-lg: 1.125rem;
+  --cyber-text-xl: 1.25rem;
+  --cyber-text-2xl: 1.5rem;
+  --cyber-text-3xl: 1.875rem;
+  --cyber-text-4xl: 2.25rem;
+  --cyber-text-5xl: 3rem;
+  
+  /* === SPACING SYSTEM === */
+  --cyber-space-px: 1px;
+  --cyber-space-0: 0;
+  --cyber-space-1: 0.25rem;  /* 4px */
+  --cyber-space-2: 0.5rem;   /* 8px */
+  --cyber-space-3: 0.75rem;  /* 12px */
+  --cyber-space-4: 1rem;     /* 16px */
+  --cyber-space-5: 1.25rem;  /* 20px */
+  --cyber-space-6: 1.5rem;   /* 24px */
+  --cyber-space-8: 2rem;     /* 32px */
+  --cyber-space-10: 2.5rem;  /* 40px */
+  --cyber-space-12: 3rem;    /* 48px */
+  --cyber-space-16: 4rem;    /* 64px */
+  --cyber-space-20: 5rem;    /* 80px */
+  
+  /* === GLOW EFFECTS === */
+  --cyber-glow-subtle: 0 0 10px var(--cyber-glow-color);
+  --cyber-glow-medium: 0 0 20px var(--cyber-glow-color);
+  --cyber-glow-strong: 0 0 30px var(--cyber-glow-color);
+  
+  /* Neon Specific Glows */
+  --cyber-neon-cyan: 0 0 5px #00FFFF, 0 0 10px #00FFFF, 0 0 15px #00FFFF;
+  --cyber-neon-orange: 0 0 5px #FF6600, 0 0 10px #FF6600, 0 0 15px #FF6600;
+  --cyber-neon-green: 0 0 5px #00FF41, 0 0 10px #00FF41, 0 0 15px #00FF41;
+  --cyber-neon-pink: 0 0 5px #FF2D92, 0 0 10px #FF2D92, 0 0 15px #FF2D92;
+  
+  /* === SCANLINE EFFECTS === */
+  --cyber-scanlines-subtle: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 255, 255, 0.03) 2px,
+    rgba(0, 255, 255, 0.03) 4px
+  );
+  
+  --cyber-scanlines-medium: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 1px,
+    rgba(0, 255, 255, 0.1) 1px,
+    rgba(0, 255, 255, 0.1) 2px
+  );
+  
+  /* === MOTION SYSTEM === */
+  --cyber-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --cyber-ease-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+  --cyber-ease-digital: steps(10, end);
+  
+  --cyber-duration-instant: 0ms;
+  --cyber-duration-fast: 150ms;
+  --cyber-duration-normal: 300ms;
+  --cyber-duration-slow: 500ms;
+  --cyber-duration-cinematic: 800ms;
+  
+  /* === GRID SYSTEM === */
+  --cyber-grid-base: 8px;
+  --cyber-grid-columns: 12;
+  --cyber-grid-gap: var(--cyber-space-4);
+  
+  /* === BORDERS & RADIUS === */
+  --cyber-border-width: 1px;
+  --cyber-border-color: var(--cyber-primary-accent);
+  --cyber-radius-none: 0;
+  --cyber-radius-sm: 0.125rem;
+  --cyber-radius-base: 0.25rem;
+  --cyber-radius-lg: 0.5rem;
+  
+  /* === Z-INDEX LAYERS === */
+  --cyber-z-base: 0;
+  --cyber-z-elevated: 10;
+  --cyber-z-overlay: 20;
+  --cyber-z-modal: 30;
+  --cyber-z-tooltip: 40;
+  --cyber-z-notification: 50;
+}
+
+/* === TIME-AWARE THEME VARIATIONS === */
+
+/* Morning: Boot Sequence */
+[data-cyber-theme="morning"] {
+  --cyber-primary-accent: var(--cyber-green);
+  --cyber-glow-color: rgba(0, 255, 65, 0.3);
+  --cyber-theme-name: 'Boot Sequence';
+}
+
+/* Afternoon: Active Session (default) */
+[data-cyber-theme="afternoon"] {
+  --cyber-primary-accent: var(--cyber-cyan);
+  --cyber-glow-color: rgba(0, 255, 255, 0.4);
+  --cyber-theme-name: 'Active Session';
+}
+
+/* Evening: Neon District */
+[data-cyber-theme="evening"] {
+  --cyber-primary-accent: var(--cyber-pink);
+  --cyber-glow-color: rgba(255, 45, 146, 0.5);
+  --cyber-theme-name: 'Neon District';
+  --cyber-surface: #0A0A0A;
+}
+
+/* Night: Deep Scan */
+[data-cyber-theme="night"] {
+  --cyber-primary-accent: var(--cyber-orange);
+  --cyber-glow-color: rgba(255, 102, 0, 0.3);
+  --cyber-theme-name: 'Deep Scan';
+}
+
+/* === BASE CYBERPUNK STYLES === */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--cyber-black);
+  color: var(--cyber-white);
+  font-family: var(--cyber-font-ui);
+  font-weight: var(--cyber-weight-normal);
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Cyberpunk Base Container */
+.cyber-container {
+  background: var(--cyber-black);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--cyber-scanlines-subtle);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Terminal Window Aesthetic */
+.cyber-terminal {
+  background: var(--cyber-black);
+  border: var(--cyber-border-width) solid var(--cyber-primary-accent);
+  border-radius: var(--cyber-radius-base);
+  box-shadow: var(--cyber-glow-subtle);
+  font-family: var(--cyber-font-mono);
+  position: relative;
+}
+
+.cyber-terminal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--cyber-scanlines-medium);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Neon Button Component */
+.cyber-button {
+  background: transparent;
+  border: var(--cyber-border-width) solid var(--cyber-primary-accent);
+  color: var(--cyber-primary-accent);
+  cursor: pointer;
+  font-family: var(--cyber-font-mono);
+  font-weight: var(--cyber-weight-medium);
+  padding: var(--cyber-space-3) var(--cyber-space-6);
+  position: relative;
+  text-transform: uppercase;
+  transition: all var(--cyber-duration-normal) var(--cyber-ease-smooth);
+  letter-spacing: 0.05em;
+}
+
+.cyber-button:hover {
+  background: var(--cyber-primary-accent);
+  color: var(--cyber-black);
+  box-shadow: var(--cyber-glow-medium);
+  text-shadow: none;
+}
+
+.cyber-button:active {
+  transform: scale(0.98);
+}
+
+/* Glitch Text Effect */
+.cyber-glitch {
+  position: relative;
+  color: var(--cyber-white);
+  font-family: var(--cyber-font-mono);
+  font-weight: var(--cyber-weight-bold);
+}
+
+.cyber-glitch::before,
+.cyber-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.cyber-glitch::before {
+  animation: cyber-glitch-1 0.5s infinite;
+  color: var(--cyber-cyan);
+  z-index: -1;
+}
+
+.cyber-glitch::after {
+  animation: cyber-glitch-2 0.5s infinite;
+  color: var(--cyber-pink);
+  z-index: -2;
+}
+
+@keyframes cyber-glitch-1 {
+  0%, 14%, 15%, 49%, 50%, 99%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  1%, 13% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  16%, 48% {
+    transform: translate3d(2px, 0, 0);
+  }
+}
+
+@keyframes cyber-glitch-2 {
+  0%, 20%, 21%, 62%, 63%, 99%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  1%, 19% {
+    transform: translate3d(2px, 0, 0);
+  }
+  22%, 61% {
+    transform: translate3d(-2px, 0, 0);
+  }
+}
+
+/* Holographic Panel */
+.cyber-panel {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  border: var(--cyber-border-width) solid var(--cyber-primary-accent);
+  border-radius: var(--cyber-radius-lg);
+  box-shadow: 
+    var(--cyber-glow-subtle),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.cyber-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--cyber-scanlines-subtle);
+  border-radius: var(--cyber-radius-lg);
+  pointer-events: none;
+}
+
+/* Data Display Component */
+.cyber-data {
+  font-family: var(--cyber-font-mono);
+  color: var(--cyber-primary-accent);
+  text-shadow: 0 0 5px var(--cyber-glow-color);
+  letter-spacing: 0.05em;
+}
+
+.cyber-data-label {
+  color: var(--cyber-medium-gray);
+  font-size: var(--cyber-text-sm);
+  text-transform: uppercase;
+  margin-bottom: var(--cyber-space-1);
+}
+
+.cyber-data-value {
+  color: var(--cyber-primary-accent);
+  font-size: var(--cyber-text-lg);
+  font-weight: var(--cyber-weight-bold);
+}
+
+/* Responsive Grid System */
+.cyber-grid {
+  display: grid;
+  gap: var(--cyber-grid-gap);
+  grid-template-columns: repeat(var(--cyber-grid-columns), 1fr);
+}
+
+/* Utility Classes */
+.cyber-text-glow {
+  text-shadow: var(--cyber-glow-subtle);
+}
+
+.cyber-border-glow {
+  box-shadow: var(--cyber-glow-subtle);
+}
+
+.cyber-neon-glow {
+  box-shadow: var(--cyber-neon-cyan);
+}
+
+.cyber-mono {
+  font-family: var(--cyber-font-mono);
+}
+
+.cyber-display {
+  font-family: var(--cyber-font-display);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .cyber-glitch::before,
+  .cyber-glitch::after {
+    animation: none;
+  }
+  
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --cyber-glow-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .cyber-button {
+    border-width: 2px;
+  }
+  
+  .cyber-terminal {
+    border-width: 2px;
+  }
+}
