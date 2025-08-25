@@ -533,6 +533,10 @@
             border: 1px solid var(--cyber-primary-accent);
         }
         
+        .case-card:hover::before {
+            opacity: 0.1;
+        }
+        
         .case-card.glitch-hover {
             animation: cardGlitch 0.6s ease-out;
         }
@@ -3571,9 +3575,14 @@
             // Create new instance with proper initialization
             setTimeout(() => {
                 console.log('🔍 DOM DEBUG: Creating GraffitiSlap instance...');
-                window.graffitiSlap = new GraffitiSlap();
-                console.log('🔍 DOM DEBUG: Calling init()...');
-                window.graffitiSlap.init();
+                try {
+                    window.graffitiSlap = new GraffitiSlap();
+                    console.log('🔍 DOM DEBUG: Calling init()...');
+                    window.graffitiSlap.init();
+                } catch (error) {
+                    console.error('❌ GraffitiSlap initialization failed:', error);
+                    return;
+                }
                 
                 // Verify SLAP button after initialization
                 setTimeout(() => {
@@ -3628,6 +3637,7 @@
             // Show the modal
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            document.body.style.overflowX = 'hidden';
             
             // Initialize games if needed
             try {
@@ -3686,7 +3696,8 @@
             const modal = document.getElementById(modalId);
             if (modal) {
                 modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
+                document.body.style.overflowX = 'hidden';
                 console.log(`✅ Modal ${modalId} closed successfully`);
             } else {
                 console.error(`❌ Modal ${modalId} not found for closing`);
@@ -4309,7 +4320,8 @@
             const overlay = document.getElementById('dip-overlay');
             if (overlay) {
                 overlay.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
+                document.body.style.overflowX = 'hidden';
                 console.log('✅ Case study modal closed');
             }
         }
@@ -4760,7 +4772,7 @@
                                 <span class="stat-value" id="snake-theme">DAWN</span>
                             </div>
                         </div>
-                        <div class="game-board" id="snake-board"></div>
+                        <div class="game-board" id="snake-board-legacy"></div>
                         <div class="game-controls">
                             <button id="snake-start" class="game-btn">🐍 START HUNT</button>
                             <div class="control-keys">
@@ -4813,6 +4825,19 @@
             const scoreElement = document.getElementById('snake-score');
             const startButton = document.getElementById('snake-start');
             
+            if (!board) {
+                console.error('❌ Snake board element not found');
+                return;
+            }
+            if (!scoreElement) {
+                console.error('❌ Snake score element not found');
+                return;
+            }
+            if (!startButton) {
+                console.error('❌ Snake start button not found');
+                return;
+            }
+            
             // Create game board with mobile responsiveness
             const boardSize = Math.min(400, window.innerWidth - 100);
             board.style.cssText = `
@@ -4823,8 +4848,11 @@
                 height: ${boardSize}px;
                 border: 2px solid var(--cyber-primary-accent);
                 background: var(--surface-secondary);
-                margin: 1rem auto;
             `;
+            
+            // Clear existing board content and reset
+            board.innerHTML = '';
+            board.style.pointerEvents = 'auto';
             
             // Create grid cells
             for (let i = 0; i < GRID_SIZE * GRID_SIZE; i++) {
@@ -4833,6 +4861,7 @@
                 cell.style.cssText = `
                     border: 1px solid var(--cyber-dark-tertiary);
                     background: transparent;
+                    pointer-events: none;
                 `;
                 board.appendChild(cell);
             }
