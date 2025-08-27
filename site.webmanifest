@@ -1,23 +1,27 @@
 {
-    "name": "RicRios Innovation Lab",
+    "name": "Ric Rios Design Leadership Portfolio",
     "short_name": "RicRios",
-    "description": "Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems",
+    "description": "Time-aware design leadership portfolio showcasing innovation and strategic thinking",
     "icons": [
         {
-            "src": "favicon-192x192.png",
+            "src": "favicon-192x192.png?v=2",
             "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "type": "image/png"
         },
         {
-            "src": "favicon-512x512.png",
+            "src": "favicon-512x512.png?v=2",
             "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any maskable"
+            "type": "image/png"
+        },
+        {
+            "src": "apple-touch-icon.png?v=2",
+            "sizes": "180x180",
+            "type": "image/png"
         }
     ],
+    "start_url": "/",
+    "display": "standalone",
     "theme_color": "#00ff9d",
     "background_color": "#0a0a0a",
-    "display": "standalone",
-    "start_url": "/"
+    "orientation": "portrait-primary"
 }

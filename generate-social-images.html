@@ -115,8 +115,8 @@
             ctx.fillStyle = '#000000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Set text properties for cyberpunk blue
-            ctx.fillStyle = '#4A90E2';
+            // Set text properties for cyberpunk neon green (matching main site)
+            ctx.fillStyle = '#00ff9d';
             ctx.font = `${fontSize}px 'Courier New', monospace`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -136,10 +136,10 @@
                 ctx.fillText(line, canvas.width / 2, y);
             });
             
-            // Add subtle glow effect
-            ctx.shadowColor = '#4A90E2';
+            // Add subtle glow effect with neon green
+            ctx.shadowColor = '#00ff9d';
             ctx.shadowBlur = 3;
-            ctx.fillStyle = '#4A90E2';
+            ctx.fillStyle = '#00ff9d';
             
             lines.forEach((line, index) => {
                 const y = startY + (index * lineHeight);
