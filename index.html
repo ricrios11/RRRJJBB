@@ -5121,11 +5121,36 @@
         // Mobile Touch Controls for Snake Game
         function setupSnakeTouchControls() {
             const touchButtons = {
-                'snake-up': () => simulateKeyPress('ArrowUp'),
-                'snake-down': () => simulateKeyPress('ArrowDown'), 
-                'snake-left': () => simulateKeyPress('ArrowLeft'),
-                'snake-right': () => simulateKeyPress('ArrowRight'),
-                'snake-boost': () => simulateKeyPress('ShiftLeft')
+                'snake-up': () => {
+                    console.log('🎮 Snake UP triggered');
+                    if (window.currentSnakeGame) {
+                        window.currentSnakeGame.setDirection({ x: 0, y: -1 });
+                    }
+                },
+                'snake-down': () => {
+                    console.log('🎮 Snake DOWN triggered');
+                    if (window.currentSnakeGame) {
+                        window.currentSnakeGame.setDirection({ x: 0, y: 1 });
+                    }
+                },
+                'snake-left': () => {
+                    console.log('🎮 Snake LEFT triggered');
+                    if (window.currentSnakeGame) {
+                        window.currentSnakeGame.setDirection({ x: -1, y: 0 });
+                    }
+                },
+                'snake-right': () => {
+                    console.log('🎮 Snake RIGHT triggered');
+                    if (window.currentSnakeGame) {
+                        window.currentSnakeGame.setDirection({ x: 1, y: 0 });
+                    }
+                },
+                'snake-boost': () => {
+                    console.log('🎮 Snake BOOST triggered');
+                    if (window.currentSnakeGame) {
+                        window.currentSnakeGame.activateBoost();
+                    }
+                }
             };
 
             // Remove existing listeners first
@@ -5190,13 +5215,20 @@
             }, 100);
         }
 
-        // Hook into Snake modal opening
+        // Hook into Snake modal opening and set global reference
         const originalOpenGameModal = window.openGameModal;
         if (typeof originalOpenGameModal === 'function') {
             window.openGameModal = function(modalId) {
                 originalOpenGameModal(modalId);
                 if (modalId === 'snake-modal') {
-                    reinitializeSnakeTouchControls();
+                    // Set global reference for touch controls
+                    setTimeout(() => {
+                        if (window.activeImmersiveGame && window.activeImmersiveGame.constructor.name === 'ImmersiveSnakeGame') {
+                            window.currentSnakeGame = window.activeImmersiveGame;
+                            console.log('🎮 Snake game reference set for touch controls');
+                        }
+                        reinitializeSnakeTouchControls();
+                    }, 200);
                 }
             };
         }

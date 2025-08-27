@@ -315,38 +315,23 @@ class ImmersiveSlapGame {
         document.querySelector('.close-btn').addEventListener('click', () => this.close());
     }
 
-    setupControls() {
+    setupEventListeners() {
         // Mouse events
-        this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
-        this.canvas.addEventListener('mousemove', (e) => this.draw(e));
-        this.canvas.addEventListener('mouseup', () => this.stopDrawing());
-        this.canvas.addEventListener('mouseleave', () => this.stopDrawing());
+        this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
+        this.canvas.addEventListener('mousemove', this.draw.bind(this));
+        this.canvas.addEventListener('mouseup', this.stopDrawing.bind(this));
+        this.canvas.addEventListener('mouseout', this.stopDrawing.bind(this));
 
-        // Touch events
-        this.canvas.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent('mousedown', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            this.canvas.dispatchEvent(mouseEvent);
-        });
+        // Touch events for mobile
+        this.canvas.addEventListener('touchstart', this.handleTouch.bind(this));
+        this.canvas.addEventListener('touchmove', this.handleTouch.bind(this));
+        this.canvas.addEventListener('touchend', this.stopDrawing.bind(this));
 
-        this.canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const mouseEvent = new MouseEvent('mousemove', {
-                clientX: touch.clientX,
-                clientY: touch.clientY
-            });
-            this.canvas.dispatchEvent(mouseEvent);
-        });
-
-        this.canvas.addEventListener('touchend', (e) => {
-            e.preventDefault();
-            const mouseEvent = new MouseEvent('mouseup', {});
-            this.canvas.dispatchEvent(mouseEvent);
+        // Character selection
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('char-btn')) {
+                this.selectCharacter(e.target.dataset.char);
+            }
         });
 
         // Keyboard shortcuts

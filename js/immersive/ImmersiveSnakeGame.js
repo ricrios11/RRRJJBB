@@ -33,6 +33,9 @@ class ImmersiveSnakeGame {
         this.render(); // Initial render
         
         console.log('🐍 Immersive Snake Game initialized');
+        
+        // Set global reference for touch controls
+        window.currentSnakeGame = this;
     }
 
     calculateViewport() {
@@ -286,6 +289,7 @@ class ImmersiveSnakeGame {
 
     setupControls() {
         this.keyHandler = (e) => {
+            console.log(`🎮 Snake key pressed: ${e.code}`);
             switch(e.code) {
                 case 'ArrowUp':
                 case 'KeyW':
@@ -329,6 +333,45 @@ class ImmersiveSnakeGame {
         };
         
         document.addEventListener('keydown', this.keyHandler);
+        
+        // Setup touch controls for mobile
+        this.setupTouchControls();
+    }
+
+    setupTouchControls() {
+        // Touch control setup for mobile devices
+        const touchButtons = {
+            'snake-up': () => this.setDirection({ x: 0, y: -1 }),
+            'snake-down': () => this.setDirection({ x: 0, y: 1 }),
+            'snake-left': () => this.setDirection({ x: -1, y: 0 }),
+            'snake-right': () => this.setDirection({ x: 1, y: 0 }),
+            'snake-boost': () => this.activateBoost()
+        };
+
+        Object.entries(touchButtons).forEach(([id, handler]) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                console.log(`🎮 Setting up Snake touch control: ${id}`);
+                
+                // Remove existing listeners
+                btn.replaceWith(btn.cloneNode(true));
+                const newBtn = document.getElementById(id);
+                
+                // Add multiple event types for compatibility
+                ['touchstart', 'mousedown', 'click'].forEach(eventType => {
+                    newBtn.addEventListener(eventType, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log(`🎮 Snake ${eventType} on ${id}`);
+                        handler();
+                        
+                        // Visual feedback
+                        newBtn.style.transform = 'scale(0.9)';
+                        setTimeout(() => newBtn.style.transform = 'scale(1)', 150);
+                    }, { passive: false });
+                });
+            }
+        });
     }
 
     setDirection(newDirection) {
