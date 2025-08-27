@@ -117,7 +117,7 @@
         }
         
         [data-theme="light"] .case-microcopy small {
-            color: hsl(220, 15%, 25%);
+            color: hsl(220, 20%, 15%);
             opacity: 1;
         }
         
@@ -639,25 +639,25 @@
         /* CASE STUDY CARDS - SKIM LAYER */
         .case-studies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--space-xl);
-            padding: var(--space-3xl) var(--space-md);
-            max-width: 1400px;
+            padding: var(--space-3xl) var(--space-xl);
+            max-width: 1200px;
             margin: 0 auto;
         }
         
-        @media (min-width: 768px) {
+        @media (max-width: 1023px) {
             .case-studies-grid {
-                padding: var(--space-3xl) var(--space-xl);
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
                 gap: var(--space-lg);
             }
         }
         
-        @media (min-width: 1024px) {
+        @media (max-width: 767px) {
             .case-studies-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: var(--space-xl);
-                max-width: 1200px;
+                grid-template-columns: 1fr;
+                padding: var(--space-3xl) var(--space-md);
+                gap: var(--space-lg);
             }
         }
         
@@ -720,7 +720,6 @@
             font-family: var(--cyber-font-mono);
             font-size: var(--text-sm);
             color: var(--cyber-primary-accent);
-            text-shadow: none;
             white-space: pre;
             margin: var(--space-md) 0;
             transition: all 0.3s ease;
@@ -728,12 +727,12 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
-        
-        .case-card:hover .case-title {
-            color: var(--cyber-primary-accent);
-        }
-        
 
+.social-link:hover {
+    background: var(--cyber-primary-accent);
+    color: var(--cyber-black);
+    transform: translateY(-2px);
+}
         .case-summary {
             color: var(--cyber-light-gray);
             font-size: var(--cyber-text-sm);
@@ -967,16 +966,6 @@
             padding-left: var(--space-sm);
             transition: all var(--cyber-duration-fast);
             opacity: 0.8;
-        }
-        
-        [data-theme="light"] .game-metrics .metric {
-            color: hsl(220, 15%, 25%);
-            opacity: 1;
-        }
-        
-        [data-theme="dark"] .game-metrics .metric {
-            color: var(--cyber-light-gray);
-            opacity: 0.7;
         }
         
         .metric {
@@ -3117,45 +3106,6 @@
         }
         
         /* RESPONSIVE */
-        /* INTELLIGENT RESPONSIVE GRID SYSTEM */
-        .case-studies-grid {
-            display: grid;
-            gap: 2rem;
-            grid-template-columns: 1fr;
-        }
-        
-        /* Tablet Portrait: 2 columns */
-        @media (min-width: 768px) and (orientation: portrait) {
-            .case-studies-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-        }
-        
-        /* Tablet Landscape & Desktop: 3 columns */
-        @media (min-width: 1024px) {
-            .case-studies-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 2.5rem;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
-        }
-        
-        /* Large Desktop: Optimized 3 columns with max container */
-        @media (min-width: 1440px) {
-            .case-studies-grid {
-                max-width: 1400px;
-                gap: 3rem;
-            }
-        }
-        
-        /* Ultra-wide: Still 3 columns, prevent over-stretching */
-        @media (min-width: 1920px) {
-            .case-studies-grid {
-                max-width: 1600px;
-            }
-        }
         
         @media (max-width: 767px) {
             .games-grid {
@@ -3247,10 +3197,10 @@
 │ CHASE TRAVEL: CONNECTED   │
 └───────────────────────────┘</h2>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Transform banking from transactional to lifestyle platform for premium customers.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Challenge:</span> Transform banking from transactional to lifestyle platform for premium customers.</small>
                 </div>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> $30B portfolio growth through strategic positioning and cross-functional team leadership.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Impact:</span> $30B portfolio growth through strategic positioning and cross-functional team leadership.</small>
                 </div>
                 <div class="case-footer">
                     <span class="ascii-micro">░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓</span>
@@ -3264,10 +3214,10 @@
 │   CHASE DINING: PREMIUM   │
 └───────────────────────────┘</h2>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Create sustainable competitive advantage in premium credit card market.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Challenge:</span> Create sustainable competitive advantage in premium credit card market.</small>
                 </div>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> $8B portfolio expansion through strategic dining partnerships and experience design.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Impact:</span> $8B portfolio expansion through strategic dining partnerships and experience design.</small>
                 </div>
                 <div class="case-footer">
                     <span class="ascii-micro">▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░</span>
@@ -3281,10 +3231,10 @@
 │ PROMPT-FIRST INNOVATION   │
 └───────────────────────────┘</h2>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Demonstrate executive-level strategic thinking through AI-human creative partnership.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Challenge:</span> Demonstrate executive-level strategic thinking through AI-human creative partnership.</small>
                 </div>
                 <div class="case-microcopy">
-                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> This portfolio showcases systematic design innovation and agent orchestration frameworks.</small>
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Impact:</span> This portfolio showcases systematic design innovation and agent orchestration frameworks.</small>
                 </div>
                 <div class="case-footer">
                     <span class="ascii-micro">▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒</span>
