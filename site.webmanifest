@@ -1,17 +1,19 @@
 {
-    "name": "RicRios Portfolio",
+    "name": "RicRios Innovation Lab",
     "short_name": "RicRios",
-    "description": "Executive design leadership portfolio",
+    "description": "Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems",
     "icons": [
         {
-            "src": "/favicon-192x192.png",
+            "src": "favicon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         },
         {
-            "src": "/favicon-512x512.png",
+            "src": "favicon-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any maskable"
         }
     ],
     "theme_color": "#00ff9d",
