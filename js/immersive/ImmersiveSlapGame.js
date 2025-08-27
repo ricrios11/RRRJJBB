@@ -315,6 +315,11 @@ class ImmersiveSlapGame {
         document.querySelector('.close-btn').addEventListener('click', () => this.close());
     }
 
+    setupControls() {
+        this.setupEventListeners();
+        this.setupTouchControls();
+    }
+
     setupEventListeners() {
         // Mouse events
         this.canvas.addEventListener('mousedown', this.startDrawing.bind(this));
