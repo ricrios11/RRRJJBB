@@ -2180,6 +2180,14 @@
                 font-size: 0.6rem;
                 padding: 0.4rem 0.6rem;
             }
+            
+            .touch-controls {
+                display: flex !important;
+            }
+            
+            .control-keys {
+                display: none !important;
+            }
         }
         
         .dive-launch-btn:hover {
@@ -2567,6 +2575,23 @@
                     <div class="game-board refined-board" id="snake-board" role="application" aria-label="Snake Game Board" tabindex="0"></div>
                     <div class="game-controls refined-controls">
                         <button id="snake-start" class="game-btn primary-action" aria-label="Start Snake Game">🐍 START HUNT</button>
+                        
+                        <!-- Mobile Touch Controls -->
+                        <div class="touch-controls" id="snake-touch-controls">
+                            <div class="touch-row">
+                                <button class="touch-btn" id="snake-up" aria-label="Move Up">↑</button>
+                            </div>
+                            <div class="touch-row">
+                                <button class="touch-btn" id="snake-left" aria-label="Move Left">←</button>
+                                <button class="touch-btn" id="snake-down" aria-label="Move Down">↓</button>
+                                <button class="touch-btn" id="snake-right" aria-label="Move Right">→</button>
+                            </div>
+                            <div class="touch-row">
+                                <button class="touch-btn" id="snake-boost" aria-label="Speed Boost">⚡</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Desktop Keyboard Hints -->
                         <div class="control-keys refined-keys">
                             <div class="key-row">
                                 <kbd>↑</kbd><span class="key-desc">UP</span>
@@ -5086,6 +5111,99 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // Mobile Touch Controls for Snake Game
+        function setupSnakeTouchControls() {
+            const touchButtons = {
+                'snake-up': () => simulateKeyPress('ArrowUp'),
+                'snake-down': () => simulateKeyPress('ArrowDown'), 
+                'snake-left': () => simulateKeyPress('ArrowLeft'),
+                'snake-right': () => simulateKeyPress('ArrowRight'),
+                'snake-boost': () => simulateKeyPress('ShiftLeft')
+            };
+
+            Object.entries(touchButtons).forEach(([id, handler]) => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        handler();
+                        btn.style.transform = 'scale(0.9)';
+                    });
+                    btn.addEventListener('touchend', (e) => {
+                        e.preventDefault();
+                        btn.style.transform = 'scale(1)';
+                    });
+                    btn.addEventListener('click', handler);
+                }
+            });
+        }
+
+        function simulateKeyPress(code) {
+            const event = new KeyboardEvent('keydown', {
+                code: code,
+                key: code.replace('Arrow', '').replace('Left', ''),
+                bubbles: true
+            });
+            document.dispatchEvent(event);
+        }
+
+        // Initialize touch controls when Snake modal opens
+        document.addEventListener('DOMContentLoaded', () => {
+            setupSnakeTouchControls();
+        });
+
+        // CSS for mobile touch controls - HIGH SPECIFICITY
+        const mobileStyles = document.createElement('style');
+        mobileStyles.textContent = `
+            .touch-controls {
+                display: none !important;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                margin: 15px 0;
+            }
+            
+            .touch-row {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .touch-btn {
+                width: 50px;
+                height: 50px;
+                background: rgba(0, 255, 157, 0.1);
+                border: 2px solid var(--cyber-primary-accent, #00ff9d);
+                color: var(--cyber-primary-accent, #00ff9d);
+                font-size: 20px;
+                font-weight: bold;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+                transition: all 0.2s ease;
+            }
+            
+            .touch-btn:hover,
+            .touch-btn:active {
+                background: rgba(0, 255, 157, 0.2);
+                box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
+                transform: scale(0.95);
+            }
+            
+            /* CRITICAL: Force mobile touch controls to show */
+            @media (max-width: 768px), (pointer: coarse) {
+                .touch-controls {
+                    display: flex !important;
+                }
+                .control-keys.refined-keys {
+                    display: none !important;
+                }
+            }
+        `;
+        document.head.appendChild(mobileStyles);
     </script>
 </body>
 </html>

@@ -205,10 +205,48 @@ class ImmersiveSnakeGame {
             
             .snake-controls {
                 display: flex;
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
                 width: ${this.canvasWidth}px;
                 padding: 15px 0;
                 border-top: 1px solid rgba(0, 255, 157, 0.3);
+                gap: 15px;
+            }
+            
+            .touch-controls {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .touch-row {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .touch-btn {
+                width: 50px;
+                height: 50px;
+                background: rgba(0, 255, 157, 0.1);
+                border: 2px solid var(--cyber-primary-accent, #00ff9d);
+                color: var(--cyber-primary-accent, #00ff9d);
+                font-size: 20px;
+                font-weight: bold;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+                transition: all 0.2s ease;
+            }
+            
+            .touch-btn:hover,
+            .touch-btn:active {
+                background: rgba(0, 255, 157, 0.2);
+                box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
+                transform: scale(0.95);
             }
             
             .control-hint {
@@ -222,6 +260,15 @@ class ImmersiveSnakeGame {
                 padding: 4px 8px;
                 border: 1px solid rgba(0, 255, 157, 0.3);
                 border-radius: 3px;
+            }
+            
+            @media (max-width: 768px) {
+                .touch-controls {
+                    display: flex;
+                }
+                .control-hint {
+                    display: none;
+                }
             }
         `;
         document.head.appendChild(style);

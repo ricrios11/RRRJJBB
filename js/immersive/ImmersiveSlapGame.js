@@ -78,7 +78,7 @@ class ImmersiveSlapGame {
                         </div>
                     </div>
                     <div class="hud-right">
-                        <button class="hud-btn slap-btn" onclick="window.currentSlapGame.slap()">🎯 SLAP</button>
+                        <button class="hud-btn slap-btn primary-action" onclick="window.currentSlapGame.slap()">🎯 SLAP</button>
                         <button class="hud-btn" onclick="window.currentSlapGame.clear()">🧹 CLEAR</button>
                         <button class="hud-btn" onclick="window.currentSlapGame.undo()">↶ UNDO</button>
                         <button class="hud-btn close-btn" onclick="window.currentSlapGame.close()">✕ CLOSE</button>
@@ -544,24 +544,30 @@ class ImmersiveSlapGame {
     generateArtThumbnail(artOutput) {
         // Create a smaller version of the ASCII art for thumbnail
         const lines = artOutput.split('\n').filter(line => line.trim());
-        const maxLines = 8;
-        const maxWidth = 16;
+        
+        // If no actual art content, return placeholder
+        if (lines.length === 0) {
+            return '[Empty Art]';
+        }
+        
+        const maxLines = 6;
+        const maxWidth = 20;
         
         let thumbnail = '';
         for (let i = 0; i < Math.min(lines.length, maxLines); i++) {
             const line = lines[i];
             if (line.length > maxWidth) {
-                thumbnail += line.substring(0, maxWidth) + '...\n';
+                thumbnail += line.substring(0, maxWidth - 3) + '...\n';
             } else {
                 thumbnail += line + '\n';
             }
         }
         
         if (lines.length > maxLines) {
-            thumbnail += '...';
+            thumbnail += '...more';
         }
         
-        return thumbnail;
+        return thumbnail.trim() || '[Empty Art]';
     }
 
     openArtLightbox(artOutput) {
@@ -579,12 +585,30 @@ class ImmersiveSlapGame {
                     <pre>${artOutput}</pre>
                 </div>
                 <div class="lightbox-actions">
-                    <button onclick="navigator.clipboard.writeText('${artOutput.replace(/'/g, "\\'")}')">Copy Art</button>
+                    <button class="lightbox-btn primary" onclick="navigator.clipboard.writeText('${artOutput.replace(/'/g, "\\'")}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Art', 1000)">Copy Art</button>
+                    <button class="lightbox-btn secondary" onclick="this.closest('.art-lightbox').remove(); window.currentSlapGame?.deleteArtFromFeed('${Date.now()}')">Delete Art</button>
                 </div>
             </div>
         `;
         
         document.body.appendChild(lightbox);
+    }
+
+    deleteArtFromFeed(timestamp) {
+        const feedContainer = document.getElementById('community-art-feed');
+        if (feedContainer) {
+            const artItems = feedContainer.querySelectorAll('.art-thumbnail');
+            artItems.forEach(item => {
+                if (item.dataset.timestamp === timestamp) {
+                    item.remove();
+                    // Update count
+                    const countEl = document.getElementById('community-art-count');
+                    if (countEl) {
+                        countEl.textContent = feedContainer.children.length;
+                    }
+                }
+            });
+        }
     }
 
     recordArtCreation(artOutput) {
