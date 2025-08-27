@@ -377,6 +377,44 @@ class ImmersiveSlapGame {
         }
     }
 
+    setupTouchControls() {
+        // Enhanced touch controls for SLAP buttons
+        const slapButtons = {
+            'slap-btn': () => this.slap(),
+            'clear-btn': () => this.clear(),
+            'undo-btn': () => this.undo(),
+            'close-btn': () => this.close()
+        };
+
+        Object.entries(slapButtons).forEach(([className, handler]) => {
+            const btn = document.querySelector(`.${className}`);
+            if (btn) {
+                console.log(`🎨 Setting up SLAP touch control: ${className}`);
+                
+                // Remove existing listeners
+                btn.replaceWith(btn.cloneNode(true));
+                const newBtn = document.querySelector(`.${className}`);
+                
+                // Add multiple event types for maximum compatibility
+                ['touchstart', 'mousedown', 'click'].forEach(eventType => {
+                    newBtn.addEventListener(eventType, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Visual feedback
+                        newBtn.style.transform = 'scale(0.95)';
+                        setTimeout(() => {
+                            newBtn.style.transform = '';
+                        }, 100);
+                        
+                        handler();
+                        console.log(`🎨 SLAP ${className} activated via ${eventType}`);
+                    });
+                });
+            }
+        });
+    }
+
     initializeGrid() {
         this.grid = [];
         this.history = [];
