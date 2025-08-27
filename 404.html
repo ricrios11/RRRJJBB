@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Ric Rios Design Leadership</title>
+    <title>404 - Off The Grid | Ric Rios Design Leadership</title>
     <style>
-        /* DOS-Aligned 404 Design System */
+        /* CYBERPUNK 404 DESIGN SYSTEM - HERO REPLICATION */
         * {
             margin: 0;
             padding: 0;
@@ -13,233 +13,233 @@
         }
 
         :root {
-            /* Design Tokens - DOS Framework */
-            --spacing-xs: 4px;
-            --spacing-sm: 8px;
-            --spacing-md: 16px;
-            --spacing-lg: 24px;
-            --spacing-xl: 32px;
-            --spacing-2xl: 48px;
-            --spacing-3xl: 64px;
-            --spacing-4xl: 96px;
+            /* Cyberpunk Design Tokens */
+            --cyber-font-mono: 'Courier New', 'Monaco', 'Menlo', monospace;
+            --cyber-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             
-            /* Typography Scale */
-            --text-xs: 0.75rem;
-            --text-sm: 0.875rem;
-            --text-base: 1rem;
-            --text-lg: 1.125rem;
-            --text-xl: 1.25rem;
-            --text-2xl: 1.5rem;
-            --text-3xl: 1.875rem;
-            --text-4xl: 2.25rem;
-            --text-5xl: 3rem;
-            --text-6xl: 3.75rem;
+            /* Color System - Time Aware */
+            --surface-primary: #0a0a0a;
+            --surface-secondary: #1a1a1a;
+            --surface-tertiary: #2a2a2a;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-tertiary: #808080;
+            --border-subtle: #333333;
+            --border-emphasis: #555555;
             
-            /* Color System - Light Mode */
-            --bg-primary: #f8fafc;
-            --bg-secondary: #f1f5f9;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #64748b;
-            --accent-primary: #3b82f6;
-            --accent-hover: #2563eb;
-            --border-subtle: #e2e8f0;
+            /* Accent Colors - Time Based */
+            --cyber-primary-accent: #00ff9d;
+            --cyber-secondary-accent: #ff4444;
+            --cyber-tertiary-accent: #44aaff;
             
-            /* Gradients */
-            --gradient-hero: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+            /* Spacing Scale */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+            --space-3xl: 4rem;
         }
 
-        .dark {
-            /* Color System - Dark Mode */
-            --bg-primary: #0f172a;
-            --bg-secondary: #1e293b;
-            --text-primary: #f8fafc;
-            --text-secondary: #cbd5e1;
-            --text-muted: #94a3b8;
-            --accent-primary: #60a5fa;
-            --accent-hover: #3b82f6;
-            --border-subtle: #334155;
-            
-            /* Dark Gradients */
-            --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #334155 70%, #475569 100%);
+        /* Light Mode Override */
+        [data-theme="light"] {
+            --surface-primary: #ffffff;
+            --surface-secondary: #f8f8f8;
+            --surface-tertiary: #f0f0f0;
+            --text-primary: #000000;
+            --text-secondary: #404040;
+            --text-tertiary: #707070;
+            --border-subtle: #e0e0e0;
+            --border-emphasis: #cccccc;
+        }
+
+        /* Time-Aware Accent Colors */
+        [data-time-theme="morning"] {
+            --cyber-primary-accent: #ff6b6b;
+            --cyber-secondary-accent: #4ecdc4;
+            --cyber-tertiary-accent: #45b7d1;
+        }
+
+        [data-time-theme="afternoon"] {
+            --cyber-primary-accent: #00ff9d;
+            --cyber-secondary-accent: #ff9500;
+            --cyber-tertiary-accent: #9c88ff;
+        }
+
+        [data-time-theme="evening"] {
+            --cyber-primary-accent: #44aaff;
+            --cyber-secondary-accent: #ff4444;
+            --cyber-tertiary-accent: #aa44ff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--gradient-hero);
+            font-family: var(--cyber-font-mono);
+            background: #000000;
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: var(--spacing-lg);
-            line-height: 1.6;
-            transition: all 0.3s ease;
+            padding: var(--space-lg);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
         }
 
-        .container {
+        .hero-404 {
             text-align: center;
-            max-width: 600px;
+            max-width: 800px;
             width: 100%;
-            animation: fadeIn 0.8s ease-out;
+            position: relative;
         }
 
-        .error-code {
-            font-size: var(--text-6xl);
-            font-weight: 700;
-            color: var(--accent-primary);
-            margin-bottom: var(--spacing-md);
-            letter-spacing: -0.02em;
+        .ascii-rr {
+            font-family: var(--cyber-font-mono);
+            font-size: clamp(0.6rem, 1.2vw, 0.9rem);
+            line-height: 1.1;
+            color: #4A90E2;
+            white-space: pre;
+            margin-bottom: var(--space-xl);
+            position: relative;
+            animation: glitchPulse 3s ease-in-out infinite;
         }
 
-        .error-title {
-            font-size: var(--text-3xl);
+        .off-grid-text {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
             font-weight: 600;
-            margin-bottom: var(--spacing-lg);
-            color: var(--text-primary);
+            color: #00ff9d;
+            margin-bottom: var(--space-2xl);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: var(--cyber-font-mono);
         }
 
-        .error-description {
-            font-size: var(--text-lg);
-            color: var(--text-secondary);
-            margin-bottom: var(--spacing-2xl);
-            max-width: 480px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-container {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-md);
-            align-items: center;
-        }
-
-        .cta-primary {
+        .home-button {
             display: inline-flex;
             align-items: center;
-            gap: var(--spacing-sm);
-            background: var(--accent-primary);
-            color: white;
+            gap: var(--space-sm);
+            background: transparent;
+            border: 2px solid #00ff9d;
+            color: #00ff9d;
             text-decoration: none;
-            padding: var(--spacing-md) var(--spacing-xl);
-            border-radius: 8px;
+            padding: var(--space-md) var(--space-xl);
+            border-radius: 4px;
             font-weight: 600;
-            font-size: var(--text-base);
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            font-size: 1rem;
+            font-family: var(--cyber-font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
         }
 
-        .cta-primary:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+        .home-button:hover {
+            background: #00ff9d;
+            color: #0a0a0a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.3);
         }
 
-        .cta-secondary {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: var(--text-sm);
-            padding: var(--spacing-sm) var(--spacing-md);
-            border-radius: 6px;
-            transition: all 0.2s ease;
+        .home-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
 
-        .cta-secondary:hover {
-            color: var(--accent-primary);
-            background: var(--bg-secondary);
+        .home-button:hover::before {
+            left: 100%;
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: var(--spacing-lg);
-            right: var(--spacing-lg);
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-subtle);
-            border-radius: 50%;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: var(--text-lg);
-            transition: all 0.2s ease;
-        }
-
-        .theme-toggle:hover {
-            transform: scale(1.05);
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes pulse {
+        /* Glitch Effects */
+        @keyframes glitchPulse {
             0%, 100% {
-                transform: scale(1);
+                filter: hue-rotate(0deg);
+            }
+            25% {
+                text-shadow: 
+                    2px 0 #FF6B35,
+                    -2px 0 #00ff9d;
+                filter: hue-rotate(90deg);
             }
             50% {
-                transform: scale(1.02);
+                text-shadow: 
+                    -1px 0 #00ff9d,
+                    1px 0 #FF6B35;
+                filter: hue-rotate(180deg);
+            }
+            75% {
+                text-shadow: 
+                    1px 0 #4A90E2,
+                    -1px 0 #FF6B35;
+                filter: hue-rotate(270deg);
             }
         }
 
-        .cta-primary {
-            animation: pulse 3s ease-in-out infinite;
+
+
+        /* Time Status */
+        .time-status {
+            position: fixed;
+            top: var(--space-lg);
+            right: var(--space-lg);
+            font-family: var(--cyber-font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: right;
+            line-height: 1.4;
         }
 
         /* Responsive Design */
         @media (max-width: 640px) {
-            .error-code {
-                font-size: var(--text-5xl);
+            .ascii-skull {
+                font-size: clamp(0.3rem, 0.6vw, 0.5rem);
             }
             
-            .error-title {
-                font-size: var(--text-2xl);
+            .off-grid-text {
+                font-size: clamp(1.2rem, 6vw, 2rem);
             }
             
-            .error-description {
-                font-size: var(--text-base);
-            }
-            
-            .theme-toggle {
-                top: var(--spacing-md);
-                right: var(--spacing-md);
+            .time-status {
+                top: var(--space-md);
+                right: var(--space-md);
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
-<body>
-    <div class="theme-toggle" id="theme-toggle">🌙</div>
+<body data-theme="dark" data-time-theme="evening">
     
-    <div class="container">
-        <div class="error-code">404</div>
-        <h1 class="error-title" id="error-title">Reflective Journey Pause</h1>
-        <p class="error-description" id="error-description">
-            This path leads to contemplative exploration of uncharted territory. 
-            Let's redirect this moment toward transformative mastery.
-        </p>
-        
-        <div class="cta-container">
-            <a href="https://ricrios.com" class="cta-primary">
-                Return to ricrios.com
-                <span>→</span>
-            </a>
-            <a href="javascript:history.back()" class="cta-secondary">
-                Go Back
-            </a>
+    <div class="time-status" id="time-status">
+        <div>SYSTEM: <span id="current-theme-name">Off Grid</span></div>
+        <div>TIME: <span id="current-time"></span></div>
+    </div>
+    
+    <div class="hero-404">
+        <div class="ascii-rr" id="ascii-rr">
+██████╗ ██████╗ 
+██╔══██╗██╔══██╗
+██████╔╝██████╔╝
+██╔══██╗██╔══██╗
+██║  ██║██║  ██║
+╚═╝  ╚═╝╚═╝  ╚═╝
         </div>
+        
+        <h1 class="off-grid-text">You're Off The Grid</h1>
+        
+        <a href="index.html" class="home-button">
+            ├─ Return Home
+            <span>→</span>
+        </a>
     </div>
 
     <script>
-        // Time-Aware Content Framework
+        // Time-Aware System
         function getTimeOfDay() {
             const hour = new Date().getHours();
             if (hour >= 5 && hour < 12) return 'morning';
@@ -247,57 +247,67 @@
             return 'evening';
         }
 
-        // Time-Aware Content Variants
-        const timeContent = {
-            morning: {
-                title: "Early Exploration Led You Here",
-                description: "This path sparks curiosity about uncharted possibilities. Let's channel this fresh energy toward strategic discovery."
-            },
-            afternoon: {
-                title: "Systematic Navigation Detour",
-                description: "This route reveals structured exploration opportunities. Let's redirect this systematic approach toward proven mastery."
-            },
-            evening: {
-                title: "Reflective Journey Pause",
-                description: "This path leads to contemplative exploration of uncharted territory. Let's redirect this moment toward transformative mastery."
-            }
-        };
-
-        // Theme Management
-        function initializeTheme() {
-            const timeOfDay = getTimeOfDay();
-            const body = document.body;
-            const icon = document.getElementById('theme-toggle');
-            
-            // Time-based default theme
-            const defaultDark = timeOfDay === 'evening';
-            body.classList.toggle('dark', defaultDark);
-            if (icon) icon.textContent = defaultDark ? '☀️' : '🌙';
-            
-            console.log(`🌌 404 Theme initialized: ${defaultDark ? 'dark' : 'light'} (${timeOfDay})`);
+        function updateTimeDisplay() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { 
+                hour12: false,
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+            document.getElementById('current-time').textContent = timeString;
         }
 
-        function updateContent() {
+        function initializeTimeAwareTheme() {
             const timeOfDay = getTimeOfDay();
-            const content = timeContent[timeOfDay];
+            const body = document.body;
             
-            document.getElementById('error-title').textContent = content.title;
-            document.getElementById('error-description').textContent = content.description;
+            // Set time-aware theme
+            body.setAttribute('data-time-theme', timeOfDay);
             
-            console.log(`🌌 404 Content updated for ${timeOfDay}`);
+            // Update theme name
+            const themeNames = {
+                morning: 'Dawn Protocol',
+                afternoon: 'Solar Peak',
+                evening: 'Night Mode'
+            };
+            
+            document.getElementById('current-theme-name').textContent = themeNames[timeOfDay];
+            
+            console.log(`💀 404 System initialized: ${timeOfDay} mode active`);
         }
 
-        // Theme Toggle
-        document.getElementById('theme-toggle').addEventListener('click', function() {
-            const body = document.body;
-            const isDark = body.classList.toggle('dark');
-            this.textContent = isDark ? '☀️' : '🌙';
+        // Enhanced glitch effect for RR monogram
+        function triggerGlitchBurst() {
+            const rr = document.getElementById('ascii-rr');
+            rr.style.animation = 'none';
+            setTimeout(() => {
+                rr.style.animation = 'glitchPulse 3s ease-in-out infinite';
+            }, 50);
+        }
+
+        // Initialize system
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTimeAwareTheme();
+            updateTimeDisplay();
+            
+            // Update time every second
+            setInterval(updateTimeDisplay, 1000);
+            
+            // Trigger random glitch bursts
+            setInterval(triggerGlitchBurst, 8000 + Math.random() * 4000);
+            
+            console.log('💀 Off Grid system operational');
         });
 
-        // Initialize on load
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeTheme();
-            updateContent();
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'h' || e.key === 'H') {
+                window.location.href = 'index.html';
+            }
+            if (e.key === 'Escape') {
+                window.location.href = 'index.html';
+            }
         });
     </script>
 </body>
