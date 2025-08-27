@@ -78,10 +78,10 @@ class ImmersiveSlapGame {
                         </div>
                     </div>
                     <div class="hud-right">
-                        <button class="hud-btn slap-btn primary-action" onclick="window.currentSlapGame.slap()">🎯 SLAP</button>
-                        <button class="hud-btn" onclick="window.currentSlapGame.clear()">🧹 CLEAR</button>
-                        <button class="hud-btn" onclick="window.currentSlapGame.undo()">↶ UNDO</button>
-                        <button class="hud-btn close-btn" onclick="window.currentSlapGame.close()">✕ CLOSE</button>
+                        <button class="hud-btn slap-btn primary-action" ontouchstart="this.click()" onclick="window.currentSlapGame.slap()">🎯 SLAP</button>
+                        <button class="hud-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.clear()">🧹 CLEAR</button>
+                        <button class="hud-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.undo()">↶ UNDO</button>
+                        <button class="hud-btn close-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.close()">✕ CLOSE</button>
                     </div>
                 </div>
                 <canvas id="slap-canvas" width="${this.canvasWidth}" height="${this.canvasHeight}"></canvas>
@@ -476,8 +476,7 @@ class ImmersiveSlapGame {
         if (output.trim()) {
             console.log('🎯 SLAP OUTPUT:\n' + output);
             
-            // Record art creation and add to community feed
-            this.recordArtCreation(output);
+            // FIXED: Only call addToArtFeed once to prevent duplication
             this.addToArtFeed(output);
             
             // Show output in a modal or copy to clipboard
@@ -506,6 +505,7 @@ class ImmersiveSlapGame {
         // Add to community feed
         const feedContainer = document.getElementById('community-art-feed');
         if (feedContainer) {
+            const timestamp = Date.now();
             const artItem = document.createElement('div');
             artItem.className = 'art-thumbnail';
             artItem.innerHTML = `
@@ -517,10 +517,13 @@ class ImmersiveSlapGame {
             
             // Store full art data for lightbox
             artItem.dataset.fullArt = artOutput;
-            artItem.dataset.timestamp = Date.now();
+            artItem.dataset.timestamp = timestamp;
             
-            // Add click handler for lightbox
-            artItem.addEventListener('click', () => this.openArtLightbox(artOutput));
+            // Add click handler for lightbox with proper timestamp
+            artItem.addEventListener('click', () => this.openArtLightbox(artOutput, timestamp));
+            
+            // Record art creation with counter update
+            this.recordArtCreation(artOutput);
             
             // Add to beginning of feed
             feedContainer.insertBefore(artItem, feedContainer.firstChild);
@@ -570,7 +573,7 @@ class ImmersiveSlapGame {
         return thumbnail.trim() || '[Empty Art]';
     }
 
-    openArtLightbox(artOutput) {
+    openArtLightbox(artOutput, timestamp) {
         // Create lightbox modal
         const lightbox = document.createElement('div');
         lightbox.className = 'art-lightbox';
@@ -586,7 +589,7 @@ class ImmersiveSlapGame {
                 </div>
                 <div class="lightbox-actions">
                     <button class="lightbox-btn primary" onclick="navigator.clipboard.writeText('${artOutput.replace(/'/g, "\\'")}'); this.textContent='Copied!'; setTimeout(() => this.textContent='Copy Art', 1000)">Copy Art</button>
-                    <button class="lightbox-btn secondary" onclick="this.closest('.art-lightbox').remove(); window.currentSlapGame?.deleteArtFromFeed('${Date.now()}')">Delete Art</button>
+                    <button class="lightbox-btn secondary" onclick="this.closest('.art-lightbox').remove(); window.currentSlapGame?.deleteArtFromFeed('${timestamp}')">Delete Art</button>
                 </div>
             </div>
         `;
@@ -599,15 +602,17 @@ class ImmersiveSlapGame {
         if (feedContainer) {
             const artItems = feedContainer.querySelectorAll('.art-thumbnail');
             artItems.forEach(item => {
-                if (item.dataset.timestamp === timestamp) {
+                if (item.dataset.timestamp === String(timestamp)) {
                     item.remove();
-                    // Update count
-                    const countEl = document.getElementById('community-art-count');
-                    if (countEl) {
-                        countEl.textContent = feedContainer.children.length;
-                    }
+                    console.log(`🗑️ Deleted art with timestamp: ${timestamp}`);
                 }
             });
+            
+            // Update count after deletion
+            const countEl = document.getElementById('community-art-count');
+            if (countEl) {
+                countEl.textContent = feedContainer.children.length;
+            }
         }
     }
 

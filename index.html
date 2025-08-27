@@ -2554,7 +2554,7 @@
         <div class="modal-content game-modal-content">
             <div class="game-modal-header refined-header">
                 <h2 class="modal-title" role="heading" aria-level="2">┌─ SNAKE PROTOCOL ─┐</h2>
-                <button class="game-modal-close" onclick="closeGameModal('snake-modal')" aria-label="Close Snake Game Modal">×</button>
+                <button class="game-modal-close" onclick="closeGameModal('snake-modal'); reinitializeSnakeTouchControls();" aria-label="Close Snake Game Modal">×</button>
             </div>
             <div class="game-modal-body refined-body">
                 <div class="snake-game-container" role="main" aria-label="Snake Game Interface">
@@ -5140,18 +5140,34 @@
         }
 
         function simulateKeyPress(code) {
+            console.log(`🎮 Simulating key press: ${code}`);
             const event = new KeyboardEvent('keydown', {
                 code: code,
                 key: code.replace('Arrow', '').replace('Left', ''),
-                bubbles: true
+                bubbles: true,
+                cancelable: true
             });
             document.dispatchEvent(event);
+            
+            // Also try dispatching to the game board directly
+            const gameBoard = document.getElementById('snake-board');
+            if (gameBoard) {
+                gameBoard.dispatchEvent(event);
+            }
         }
 
         // Initialize touch controls when Snake modal opens
         document.addEventListener('DOMContentLoaded', () => {
             setupSnakeTouchControls();
         });
+
+        // Re-setup touch controls when Snake modal is opened
+        function reinitializeSnakeTouchControls() {
+            setTimeout(() => {
+                setupSnakeTouchControls();
+                console.log('🎮 Snake touch controls reinitialized');
+            }, 100);
+        }
 
         // CSS for mobile touch controls - HIGH SPECIFICITY
         const mobileStyles = document.createElement('style');
