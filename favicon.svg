@@ -1,32 +1,10 @@
-<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dark background -->
   <rect width="32" height="32" fill="#0a0a0a"/>
-  <!-- Sharp ASCII RR Monogram - Maximum Impact -->
-  <g fill="#00ff88">
-    <!-- Enhanced R blocks for better visibility at small sizes -->
-    <!-- First R -->
-    <rect x="2" y="5" width="7" height="2"/>
-    <rect x="2" y="7" width="2" height="2"/>
-    <rect x="7" y="7" width="2" height="2"/>
-    <rect x="2" y="9" width="6" height="2"/>
-    <rect x="2" y="11" width="2" height="2"/>
-    <rect x="6" y="11" width="2" height="2"/>
-    <rect x="2" y="13" width="2" height="4"/>
-    <rect x="7" y="13" width="2" height="4"/>
-    
-    <!-- Second R -->
-    <rect x="12" y="5" width="7" height="2"/>
-    <rect x="12" y="7" width="2" height="2"/>
-    <rect x="17" y="7" width="2" height="2"/>
-    <rect x="12" y="9" width="6" height="2"/>
-    <rect x="12" y="11" width="2" height="2"/>
-    <rect x="16" y="11" width="2" height="2"/>
-    <rect x="12" y="13" width="2" height="4"/>
-    <rect x="17" y="13" width="2" height="4"/>
-    
-    <!-- Connection bridge for cohesion -->
-    <rect x="9" y="9" width="3" height="2"/>
-  </g>
   
-  <!-- Minimal border for definition -->
-  <rect x="0.5" y="0.5" width="31" height="31" fill="none" stroke="#00ff88" stroke-width="0.5" opacity="0.3"/>
+  <!-- ASCII RR in cyberpunk green -->
+  <text x="16" y="22" font-family="monospace" font-size="16" font-weight="bold" text-anchor="middle" fill="#00ff9d">RR</text>
+  
+  <!-- Optional ASCII border accent -->
+  <rect x="2" y="2" width="28" height="28" fill="none" stroke="#00ff9d" stroke-width="1" opacity="0.3"/>
 </svg>
