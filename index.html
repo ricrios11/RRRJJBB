@@ -10,9 +10,11 @@
     <meta name="theme-color" content="#00ff9d">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Innovation Lab">
-    <title>Ric Rios - Product Design Impact</title>
-    <link rel="stylesheet" href="cyberpunk-design-tokens.css">
+    <link rel="stylesheet" href="css/innovation-lab-features.css">
+    <link rel="stylesheet" href="css/agentx-themes.css">
+    <link rel="stylesheet" href="css/time-gradients.css">
+    <link rel="stylesheet" href="css/agentx-narrator.css">
+    <link rel="stylesheet" href="css/cyber-game-engine.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
     <style>
         /* Typography Scale & Vertical Rhythm */
@@ -187,6 +189,23 @@
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        .game-modal {
+            width: 100vw;
+            height: 100vh;
+            max-width: none;
+            max-height: none;
+            border-radius: 0;
+            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+        }
+        
+        .game-modal-content {
+            width: calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right));
+            height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+            max-width: none;
+            max-height: none;
+            border-radius: 0;
         }
         
         /* ASCII RR MONOGRAM - THEME AWARE */
@@ -433,6 +452,37 @@
 
         .glitch-active {
             animation: glitch-scan 0.3s ease-in-out;
+        }
+
+        @keyframes gameModalEntry {
+            0% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+                transform: scale(0.95) translateY(20px);
+            }
+            50% {
+                opacity: 0.8;
+                backdrop-filter: blur(5px);
+                transform: scale(1.02) translateY(-5px);
+            }
+            100% {
+                opacity: 1;
+                backdrop-filter: blur(12px);
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        @keyframes gameModalExit {
+            0% {
+                opacity: 1;
+                backdrop-filter: blur(12px);
+                transform: scale(1) translateY(0);
+            }
+            100% {
+                opacity: 0;
+                backdrop-filter: blur(0px);
+                transform: scale(0.95) translateY(20px);
+            }
         }
 
         @keyframes glitch-scan {
@@ -863,6 +913,171 @@
                 max-width: 180px;
                 gap: 0.4rem;
             }
+        }
+        
+        .community-art-section {
+            margin-top: var(--space-xl);
+            padding: var(--space-lg);
+            border: 1px solid var(--border-color);
+            background: var(--cyber-surface);
+        }
+        
+        .art-feed-container {
+            display: flex;
+            gap: var(--space-md);
+            overflow-x: auto;
+            padding: var(--space-md) 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--cyber-primary-accent) var(--cyber-surface);
+            min-height: 140px;
+        }
+        
+        .art-feed-container::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .art-feed-container::-webkit-scrollbar-track {
+            background: var(--cyber-surface);
+        }
+        
+        .art-feed-container::-webkit-scrollbar-thumb {
+            background: var(--cyber-primary-accent);
+            border-radius: 4px;
+        }
+        
+        .art-thumbnail {
+            flex: 0 0 auto;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--border-color);
+            background: var(--surface-primary);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .art-thumbnail:hover {
+            border-color: var(--cyber-primary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.2);
+        }
+        
+        .art-preview {
+            flex: 1;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 8px;
+            line-height: 1;
+            color: var(--cyber-primary-accent);
+            overflow: hidden;
+            white-space: pre;
+        }
+        
+        .art-meta {
+            padding: 4px 8px;
+            background: rgba(0, 255, 157, 0.1);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .art-timestamp {
+            font-size: 10px;
+            color: var(--cyber-medium-gray);
+        }
+        
+        .art-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            background: var(--cyber-surface);
+            border: 2px solid var(--cyber-primary-accent);
+            max-width: 80vw;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+        }
+        
+        .lightbox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .lightbox-header h3 {
+            color: var(--cyber-primary-accent);
+            margin: 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .lightbox-close {
+            background: none;
+            border: none;
+            color: var(--cyber-primary-accent);
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+        
+        .lightbox-art {
+            flex: 1;
+            padding: var(--space-md);
+            overflow: auto;
+            max-height: 60vh;
+        }
+        
+        .lightbox-art pre {
+            color: var(--cyber-primary-accent);
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.2;
+            margin: 0;
+            white-space: pre;
+        }
+        
+        .lightbox-actions {
+            padding: var(--space-md);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+        }
+        
+        .lightbox-actions button {
+            background: var(--surface-secondary);
+            border: 1px solid var(--cyber-primary-accent);
+            color: var(--cyber-primary-accent);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s;
+        }
+        
+        .lightbox-actions button:hover {
+            background: rgba(0, 255, 157, 0.1);
+            transform: translateY(-1px);
         }
         
         .playground-games {
@@ -1660,39 +1875,6 @@
             text-shadow: none;
         }
         
-        .case-study-content .framework-pillar {
-            background: linear-gradient(135deg, rgba(0, 255, 157, 0.08) 0%, rgba(0, 255, 157, 0.02) 100%);
-            border: 2px solid rgba(0, 255, 157, 0.3);
-            border-radius: 12px;
-            padding: 2rem;
-            margin: 1.5rem 0;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .case-study-content .framework-pillar:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
-            transition: left 0.6s ease;
-        }
-        
-        .case-study-content .framework-pillar:hover {
-            background: linear-gradient(135deg, rgba(0, 255, 157, 0.15) 0%, rgba(0, 255, 157, 0.05) 100%);
-            border-color: var(--cyber-primary-accent);
-            box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .case-study-content .framework-pillar:hover:before {
-            left: 100%;
-        }
-        
         .case-study-content .metric-card {
             transition: all 0.3s ease;
         }
@@ -1700,6 +1882,17 @@
         .case-study-content .metric-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
+        }
+
+        .case-study-content .game-btn:hover, .control-btn:hover {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.9) 0%, var(--cyber-primary-accent) 100%);
+            box-shadow: 0 0 20px rgba(0, 255, 157, 0.6);
+            transform: translateY(-2px);
+        }
+
+        .case-study-content .game-btn:active, .control-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
         }
 
         :root {
@@ -1760,7 +1953,7 @@
             backdrop-filter: blur(15px);
         }
         
-        [data-theme="light"] .refined-game-modal {
+        [data-theme="light"] .game-modal-content {
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.99) 100%);
         }
 
@@ -1821,1178 +2014,99 @@
             }
             
 
-.case-study-content .framework-pillar:hover {
-    background: linear-gradient(135deg, rgba(0, 255, 157, 0.15) 0%, rgba(0, 255, 157, 0.05) 100%);
-    border-color: var(--cyber-primary-accent);
-    box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
-    transform: translateY(-2px);
-}
-
-.case-study-content .framework-pillar:hover:before {
-    left: 100%;
-}
-
-.case-study-content .metric-card {
-    transition: all 0.3s ease;
-}
-
-.case-study-content .metric-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.2);
-}
-
-:root {
-    /* Mathematical HSL Color System - Expert Precision */
-    --hsl-black: 0, 0%, 4%;           /* #0a0a0a */
-    --hsl-dark-secondary: 0, 0%, 10%; /* #1a1a1a */
-    --hsl-surface: 0, 0%, 7%;         /* #111111 */
-    --hsl-medium-gray: 0, 0%, 63%;    /* #a0a0a0 */
-    --hsl-light-gray: 0, 0%, 88%;     /* #e0e0e0 */
-    --hsl-white: 0, 0%, 96%;          /* #f5f5f5 */
-    
-    /* Modular Glitch Variance System */
-    --glitch-intensity: 0.3;
-    --glitch-speed: 2s;
-    --glitch-offset: 2px;
-    --glitch-color-shift: 0.1;
-    
-    /* Reserved Green Accent - Constant Across Modes */
-    --cyber-primary-accent: #00ff9d;
-    --cyber-secondary-accent: #ff0080;
-    --cyber-tertiary-accent: #00d4ff;
-    
-    /* Semantic Color Tokens - Dark Mode Default */
-    --surface-primary: hsl(var(--hsl-black));
-    --surface-secondary: hsl(var(--hsl-dark-secondary));
-    --surface-tertiary: hsl(var(--hsl-surface));
-    --text-primary: hsl(var(--hsl-light-gray));
-    --text-secondary: hsl(var(--hsl-medium-gray));
-    --text-inverse: hsl(var(--hsl-black));
-    --border-subtle: hsl(var(--hsl-dark-secondary));
-    --border-emphasis: var(--cyber-primary-accent);
-    
-    /* Legacy Compatibility */
-    --cyber-black: var(--surface-primary);
-    --cyber-white: var(--text-primary);
-    --cyber-dark-primary: var(--surface-primary);
-    --cyber-dark-secondary: var(--surface-secondary);
-    --cyber-surface: var(--surface-tertiary);
-    --cyber-medium-gray: var(--text-secondary);
-    --cyber-light-gray: var(--text-primary);
-    
-    /* System Properties */
-    --cyber-glow-color: currentColor;
-    --cyber-glow-subtle: 0 0 10px currentColor;
-    --cyber-glow-medium: 0 0 20px currentColor;
-    --cyber-glow-strong: 0 0 30px currentColor;
-    --cyber-radius-base: 8px;
-    --cyber-font-mono: 'Courier New', monospace;
-    --cyber-text-sm: 0.875rem;
-    --cyber-text-base: 1rem;
-    --cyber-text-lg: 1.125rem;
-    --cyber-text-xl: 1.25rem;
-}
-
-/* Light Mode Game Modal Enhancement */
-[data-theme="light"] .game-modal {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.99) 100%);
-    backdrop-filter: blur(15px);
-}
-
-[data-theme="light"] .refined-game-modal {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.99) 100%);
-}
-
-/* Light Mode - Enhanced Contrast */
-[data-theme="light"] {
-    --surface-primary: hsl(0, 0%, 99.5%);  /* Ultra-white base */
-    --surface-secondary: hsl(0, 0%, 98.5%); /* Barely perceptible shift */
-    --surface-tertiary: hsl(0, 0%, 97.5%);  /* Subtle container definition */
-    --text-primary: hsl(0, 0%, 8%);        /* Sharp black text */
-    --text-secondary: hsl(0, 0%, 35%);     /* Medium gray for secondary */
-    --text-inverse: hsl(var(--hsl-white));
-    --border-subtle: hsl(0, 0%, 92%);     /* Ultra-subtle borders */
-    --border-emphasis: hsl(120, 100%, 25%); /* Darker green for visibility */
-    
-    /* Enhanced Accent Colors for Light Mode */
-    --cyber-primary-accent: hsl(120, 100%, 25%); /* #008000 - darker green */
-    --cyber-secondary-accent: hsl(320, 100%, 40%); /* Darker magenta */
-    --cyber-tertiary-accent: hsl(200, 100%, 35%);  /* Darker cyan */
-    
-    /* Legacy Compatibility Updates */
-    --cyber-black: var(--text-primary);
-    --cyber-white: var(--surface-primary);
-    --cyber-dark-primary: var(--surface-primary);
-    --cyber-dark-secondary: var(--surface-secondary);
-    --cyber-surface: var(--surface-tertiary);
-    --cyber-medium-gray: var(--text-secondary);
-    --cyber-light-gray: var(--text-primary);
-}
-
-/* Mobile-first graffiti interface */
-@media (max-width: 768px) {
-    .graffiti-interface {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
-        height: 100vh;
-        padding: 0;
-        gap: 0;
-    }
-    
-    .graffiti-toolbar {
-        grid-row: 1;
-        display: flex;
-        gap: 15px;
-        overflow-x: auto;
-        padding: 10px;
-        background: var(--surface-secondary);
-        border-bottom: 1px solid var(--cyber-primary-accent);
-    }
-    
-    .tool-section {
-        flex-shrink: 0;
-        margin-bottom: 0;
-    }
-
-    .horizontal-sticker-feed {
-        gap: 0.5rem;
-        padding: 0.5rem 0;
-    }
-    
-    .sticker-thumbnail {
-        width: 80px;
-        height: 80px;
-    }
-
-    /* Full-screen mobile modals */
-    .game-modal {
-        width: 100vw;
-        height: 100vh;
-        max-width: none;
-        max-height: none;
-        border-radius: 0;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .game-modal-header {
-        padding: env(safe-area-inset-top, 0) 1rem 1rem 1rem;
-        position: sticky;
-        top: 0;
-        z-index: 10;
-        background: var(--surface-secondary);
-        border-bottom: 1px solid var(--cyber-primary-accent);
-    }
-    
-    .game-modal-content {
-        padding: 0;
-        height: calc(100vh - 80px - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0));
-        overflow-y: auto;
-        overflow-x: hidden;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Ensure modal containers don't exceed viewport width */
-    .snake-game-container,
-    .graffiti-container {
-        max-width: 100vw;
-        overflow-x: hidden;
-    }
-    
-    /* Fix canvas sizing on mobile */
-    #snake-canvas,
-    #graffiti-canvas {
-        max-width: calc(100vw - 2rem);
-        height: auto;
-    }
-    
-    /* Responsive ASCII button grid */
-    .ascii-palette {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(44px, 1fr));
-        gap: 0.5rem;
-        max-width: 100%;
-        overflow-x: hidden;
-    }
-}
-
-/* HORIZONTAL APP-STORE STYLE STICKER FEED */
-.horizontal-sticker-feed {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    gap: 1rem;
-    padding: 1rem 0;
-    margin-top: 1rem;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    align-items: flex-start;
-}
-
-.horizontal-sticker-feed::-webkit-scrollbar {
-    height: 8px;
-}
-
-.horizontal-sticker-feed::-webkit-scrollbar-track {
-    background: var(--surface-secondary);
-    border-radius: 4px;
-}
-
-.horizontal-sticker-feed::-webkit-scrollbar-thumb {
-    background: var(--cyber-primary-accent);
-    border-radius: 4px;
-    opacity: 0.7;
-}
-
-.horizontal-sticker-feed::-webkit-scrollbar-thumb:hover {
-    background: var(--cyber-secondary-accent);
-}
-
-.sticker-thumbnail {
-    position: relative;
-    background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-tertiary) 100%);
-    border: 1px solid var(--cyber-primary-accent);
-    border-radius: var(--cyber-radius-base);
-    overflow: hidden;
+.game-modal-close, .modal-close {
+    position: absolute;
+    top: 50%;
+    right: 1.5rem;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--cyber-text-primary);
+    border: 2px solid var(--border-emphasis);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    flex-shrink: 0;
-    width: 120px;
-    height: 120px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-
-.sticker-thumbnail:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 8px 25px rgba(0, 255, 157, 0.4);
-    border-color: var(--cyber-secondary-accent);
-}
-
-.sticker-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.sticker-thumbnail:hover img {
-    transform: scale(1.1);
-}
-
-.sticker-delete {
-    position: absolute;
-    top: 0.25rem;
-    right: 0.25rem;
-    background: rgba(255, 68, 68, 0.9);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    font-size: 0.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+    font-family: var(--cyber-font-mono);
 }
 
-/* Cross-browser backdrop-filter for sticker delete buttons */
-@supports (backdrop-filter: blur(4px)) {
-    .sticker-delete {
-        backdrop-filter: blur(4px);
-        -webkit-backdrop-filter: blur(4px);
-    }
-}
-
-@supports not (backdrop-filter: blur(4px)) {
-    .sticker-delete {
-        background: rgba(255, 68, 68, 0.95);
-    }
-}
-
-.sticker-thumbnail:hover .sticker-delete {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-/* RESPONSIVE DRAWING TOOLS - BULLETPROOF LAYOUT */
-.graffiti-controls.responsive-draw-tools {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-    padding: 1rem 1.5rem;
-    background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-tertiary) 100%);
-    border-top: 1px solid var(--cyber-primary-accent);
-    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Cross-browser backdrop-filter for graffiti controls */
+/* Cross-browser backdrop-filter for close buttons */
 @supports (backdrop-filter: blur(8px)) {
-    .graffiti-controls.responsive-draw-tools {
+    .game-modal-close,
+    .modal-close {
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
     }
 }
 
 @supports not (backdrop-filter: blur(8px)) {
-    .graffiti-controls.responsive-draw-tools {
-        background: linear-gradient(135deg, var(--cyber-dark-secondary) 0%, rgba(26, 26, 26, 0.98) 100%);
+    .game-modal-close,
+    .modal-close {
+        background: rgba(0, 0, 0, 0.95);
     }
 }
 
-.primary-actions {
+/* PRIORITY TOOLBAR - ENHANCED ACCESSIBILITY */
+.priority-toolbar {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
+    border: 2px solid var(--cyber-primary-accent);
+    border-radius: 12px;
+    padding: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
+    z-index: 100;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    max-width: calc(100% - 40px);
 }
 
-.secondary-actions {
+.game-btn.primary-action, .control-btn.primary {
+    background: linear-gradient(135deg, var(--cyber-secondary-accent) 0%, rgba(255, 68, 68, 0.8) 100%);
+    border-color: var(--cyber-secondary-accent);
+    font-size: 1rem;
+    padding: 1rem 2rem;
+}
+
+.game-btn, .control-btn {
+    background: linear-gradient(135deg, var(--cyber-primary-accent) 0%, rgba(0, 255, 157, 0.8) 100%);
+    color: var(--cyber-dark-primary);
+    border: 2px solid var(--cyber-primary-accent);
+    border-radius: 6px;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--cyber-font-mono);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+    min-width: 100px;
     display: flex;
-    gap: 0.75rem;
     align-items: center;
+    justify-content: center;
 }
 
-/* Desktop Layout */
-@media (min-width: 1024px) {
-    .graffiti-controls.responsive-draw-tools {
-        grid-template-columns: auto 1fr;
-        padding: 1.5rem 2rem;
-    }
-    
-    .secondary-actions {
-        justify-content: flex-end;
-        gap: 1rem;
-    }
-}
-
-/* Tablet Layout */
-@media (min-width: 768px) and (max-width: 1023px) {
-    .graffiti-controls.responsive-draw-tools {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-        gap: 1rem;
-        text-align: center;
-    }
-    
-    .primary-actions,
-    .secondary-actions {
-        justify-content: center;
-    }
-}
-
-/* BULLETPROOF RESPONSIVE BREAKPOINTS */
-
-/* 320px minimum width support */
-@media (max-width: 480px) {
-    .refined-interface {
-        width: 100%;
-        height: 100%;
-        max-width: 100vw;
-        max-height: 100vh;
-        border-radius: 0;
-        border: none;
-    }
-    
-    .dip-content {
-        width: 100%;
-        height: 100%;
-        max-width: 100vw;
-        max-height: 100vh;
-        border-radius: 0;
-        border: none;
-        padding: 1rem;
-    }
-    
-    .refined-game-modal {
-        padding: 0;
-    }
-}
-
-/* Mobile Layout with Safari-specific fixes */
+/* RESPONSIVE */
+        
 @media (max-width: 767px) {
-    .graffiti-controls.responsive-draw-tools {
+    .games-grid {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto;
-            overflow-x: auto;
-            gap: 1rem;
-            padding: 1rem 0;
-            margin-top: 1rem;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        .horizontal-sticker-feed::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .horizontal-sticker-feed::-webkit-scrollbar-track {
-            background: var(--surface-secondary);
-            border-radius: 4px;
-        }
-        
-        .horizontal-sticker-feed::-webkit-scrollbar-thumb {
-            background: var(--cyber-primary-accent);
-            border-radius: 4px;
-            opacity: 0.7;
-        }
-        
-        .horizontal-sticker-feed::-webkit-scrollbar-thumb:hover {
-            background: var(--cyber-secondary-accent);
-        }
-        
-        .sticker-thumbnail {
-            position: relative;
-            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-tertiary) 100%);
-            border: 1px solid var(--cyber-primary-accent);
-            border-radius: var(--cyber-radius-base);
-            overflow: hidden;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            flex-shrink: 0;
-            width: 120px;
-            height: 120px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        .sticker-thumbnail:hover {
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(0, 255, 157, 0.4);
-            border-color: var(--cyber-secondary-accent);
-        }
-        
-        .sticker-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .sticker-thumbnail:hover img {
-            transform: scale(1.1);
-        }
-        
-        .sticker-delete {
-            position: absolute;
-            top: 0.25rem;
-            right: 0.25rem;
-            background: rgba(255, 68, 68, 0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-        
-        /* Cross-browser backdrop-filter for sticker delete buttons */
-        @supports (backdrop-filter: blur(4px)) {
-            .sticker-delete {
-                backdrop-filter: blur(4px);
-                -webkit-backdrop-filter: blur(4px);
-            }
-        }
-        
-        @supports not (backdrop-filter: blur(4px)) {
-            .sticker-delete {
-                background: rgba(255, 68, 68, 0.95);
-            }
-        }
-        
-        .sticker-thumbnail:hover .sticker-delete {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-        
-        /* RESPONSIVE DRAWING TOOLS - BULLETPROOF LAYOUT */
-        .graffiti-controls.responsive-draw-tools {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
-            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-tertiary) 100%);
-            border-top: 1px solid var(--cyber-primary-accent);
-            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-        }
-        
-        /* Cross-browser backdrop-filter for graffiti controls */
-        @supports (backdrop-filter: blur(8px)) {
-            .graffiti-controls.responsive-draw-tools {
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-            }
-        }
-        
-        @supports not (backdrop-filter: blur(8px)) {
-            .graffiti-controls.responsive-draw-tools {
-                background: linear-gradient(135deg, var(--cyber-dark-secondary) 0%, rgba(26, 26, 26, 0.98) 100%);
-            }
-        }
-        
-        .primary-actions {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        
-        .secondary-actions {
-            display: flex;
-            gap: 0.75rem;
-            align-items: center;
-        }
-        
-        /* Desktop Layout */
-        @media (min-width: 1024px) {
-            .graffiti-controls.responsive-draw-tools {
-                grid-template-columns: auto 1fr;
-                padding: 1.5rem 2rem;
-            }
-            
-            .secondary-actions {
-                justify-content: flex-end;
-                gap: 1rem;
-            }
-        }
-        
-        /* Tablet Layout */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .graffiti-controls.responsive-draw-tools {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .primary-actions,
-            .secondary-actions {
-                justify-content: center;
-            }
-        }
-        
-        /* BULLETPROOF RESPONSIVE BREAKPOINTS */
-        
-        /* 320px minimum width support */
-        @media (max-width: 480px) {
-            .refined-interface {
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-                border-radius: 0;
-                border: none;
-            }
-            
-            .dip-content {
-                width: 100%;
-                height: 100%;
-                max-width: 100vw;
-                max-height: 100vh;
-                border-radius: 0;
-                border: none;
-                padding: 1rem;
-            }
-            
-            .refined-game-modal {
-                padding: 0;
-            }
-        }
-        
-        /* Mobile Layout with Safari-specific fixes */
-        @media (max-width: 767px) {
-            .graffiti-controls.responsive-draw-tools {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
-                gap: 1rem;
-                padding: 1rem;
-                position: sticky;
-                bottom: 0;
-                border-radius: var(--cyber-radius-base) var(--cyber-radius-base) 0 0;
-                /* Safari mobile viewport fix */
-                padding-bottom: max(1rem, env(safe-area-inset-bottom));
-            }
-            
-            .primary-actions {
-                justify-content: center;
-            }
-            
-            .secondary-actions {
-                justify-content: space-around;
-                gap: 0.5rem;
-            }
-        }
-        
-        .control-btn {
-            background: var(--cyber-dark-primary);
-            color: var(--cyber-primary-accent);
-            border: 1px solid var(--cyber-primary-accent);
-            padding: 0.75rem 1.5rem;
-            font-family: var(--cyber-font-mono);
-            font-size: 0.9rem;
-            border-radius: var(--cyber-radius-base);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        /* Enhanced mobile touch targets */
-        @media (max-width: 767px) {
-            .control-btn {
-                min-height: 48px;
-                min-width: 48px;
-                touch-action: manipulation;
-                font-size: 0.9rem;
-                padding: 0.75rem 1rem;
-            }
-            
-            .control-btn.primary {
-                font-size: 1.1rem;
-                padding: 1rem 2rem;
-            }
-        }
-        
-        /* REFINED MODAL SYSTEM - EXECUTIVE POLISH */
-        .game-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(12px);
-            animation: gameModalEntry 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        .refined-game-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            animation: modalBackdropEntry 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-        
-        .modal-content {
-            max-width: 90vw;
-            max-height: 90vh;
-            width: auto;
-            height: auto;
-            margin: auto;
-            display: flex;
-            flex-direction: column;
-            background: var(--cyber-surface);
-            border: 1px solid var(--cyber-primary-accent);
-            border-radius: var(--cyber-radius-lg);
-            overflow: hidden;
-        }
-        
-        /* Minimal backdrop */
-        .dip-overlay {
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-        
-        .dip-content {
-            background: var(--surface-primary);
-            border-radius: 12px;
-            width: 100%;
-            max-width: min(1400px, calc(100vw - 2rem));
-            height: 100%;
-            max-height: min(900px, calc(100vh - 2rem));
-            overflow-y: auto;
-            padding: clamp(1rem, 4vw, 2.5rem);
-            position: relative;
-            box-sizing: border-box;
-        }
-        
-        
-        .refined-interface {
-            background: linear-gradient(145deg, var(--surface-primary) 0%, var(--surface-secondary) 100%);
-            border: 2px solid var(--cyber-primary-accent);
-            border-radius: 12px;
-            width: 100%;
-            max-width: min(1200px, calc(100vw - 2rem));
-            height: 100%;
-            max-height: min(800px, calc(100vh - 2rem));
-            display: grid;
-            grid-template-rows: auto 1fr;
-            overflow: hidden;
-            position: relative;
-            box-shadow: 
-                0 25px 80px rgba(0, 255, 157, 0.3),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            animation: refinedModalSlide 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
-        
-        @keyframes refinedModalSlide {
-            0% {
-                transform: scale(0.95) translateY(30px);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .game-modal-close {
-            position: absolute;
-            top: 50%;
-            right: 1.5rem;
-            transform: translateY(-50%);
-            background: var(--cyber-surface);
-            border: 2px solid var(--cyber-primary-accent);
-            color: var(--cyber-primary-accent);
-            font-size: 1.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            padding: 0;
-            border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            line-height: 1;
-            font-family: var(--cyber-font-mono);
-        }
-        
-        /* Cross-browser backdrop-filter for close buttons */
-        @supports (backdrop-filter: blur(8px)) {
-            .game-modal-close,
-            .modal-close {
-                backdrop-filter: blur(8px);
-                -webkit-backdrop-filter: blur(8px);
-            }
-        }
-        
-        @supports not (backdrop-filter: blur(8px)) {
-            .game-modal-close,
-            .modal-close {
-                background: rgba(0, 0, 0, 0.95);
-            }
-        }
-        
-        .game-modal-close:hover {
-            background: rgba(255, 68, 68, 0.2);
-            border-color: var(--cyber-secondary-accent);
-            color: var(--cyber-secondary-accent);
-            transform: translateY(-50%) scale(1.1) rotate(90deg);
-            transform-origin: center;
-            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
-        }
-        
-        .game-modal-body {
-            flex: 1;
-            padding: 1rem;
-            overflow: auto;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        @keyframes refinedModalSlide {
-            0% {
-                transform: scale(0.95) translateY(30px);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        @keyframes gameModalEntry {
-            0% {
-                opacity: 0;
-                backdrop-filter: blur(0px);
-                transform: scale(1.05);
-            }
-            100% {
-                opacity: 1;
-                backdrop-filter: blur(10px);
-                transform: scale(1);
-            }
-        }
-        
-        .modal-content {
-            background: linear-gradient(145deg, var(--surface-primary) 0%, var(--surface-secondary) 100%);
-            border: 2px solid var(--cyber-primary-accent);
-            border-radius: var(--cyber-radius-base);
-            width: 100%;
-            max-width: min(1400px, calc(100vw - 2rem));
-            height: 100%;
-            max-height: min(800px, calc(100vh - 2rem));
-            overflow: hidden;
-            position: relative;
-            box-shadow: 
-                0 20px 60px rgba(0, 255, 157, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                0 0 0 1px rgba(0, 255, 157, 0.3);
-            animation: gameContentSlide 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-            transform-origin: center;
-        }
-        
-        @keyframes gameContentSlide {
-            0% {
-                transform: scale(0.95) translateY(30px) rotateX(10deg);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1) translateY(0) rotateX(0deg);
-                opacity: 1;
-            }
-        }
-        
-        #graffiti-canvas {
-            border: 2px solid var(--cyber-primary-accent);
-            background: var(--surface-secondary);
-            cursor: crosshair;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0, 255, 157, 0.3);
-            width: 100%;
-            max-width: min(800px, calc(100vw - 4rem));
-            height: auto;
-            aspect-ratio: 4/3;
-        }
-        
-        @media (max-width: 480px) {
-            #graffiti-canvas {
-                max-width: calc(100vw - 2rem);
-                aspect-ratio: 2/1;
-                max-height: 40vh;
-                min-height: 300px;
-            }
-        }
-        
-        .game-modal-close:hover {
-            background: rgba(255, 68, 68, 0.2);
-            border-color: var(--cyber-secondary-accent);
-            color: var(--cyber-secondary-accent);
-            transform: translateY(-50%) scale(1.1) rotate(90deg);
-            transform-origin: center;
-            box-shadow: 0 6px 20px rgba(255, 68, 68, 0.4);
-        }
-        
-        /* BULLETPROOF SNAKE GAME MODAL LAYOUT */
-        .snake-game-container {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            height: 100%;
-            gap: clamp(0.75rem, 2vw, 1.5rem);
-            max-width: min(1000px, calc(100vw - 2rem));
-            margin: 0 auto;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            box-sizing: border-box;
-        }
-        
-        .game-stats {
-            display: flex;
-            justify-content: center;
-            gap: clamp(1rem, 4vw, 3rem);
-            background: var(--surface-tertiary);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            border-radius: 6px;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            backdrop-filter: blur(10px);
-            flex-wrap: wrap;
-        }
-        
-        .stat-item {
-            text-align: center;
-            min-width: 60px;
-        }
-        
-        .stat-label {
-            font-family: var(--cyber-font-mono);
-            color: var(--cyber-medium-gray);
-            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-value {
-            font-family: var(--cyber-font-mono);
-            color: var(--cyber-primary-accent);
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            font-weight: 500;
-        }
-        
-        .game-board {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
-            border: 1px solid var(--cyber-primary-accent);
-            border-radius: 6px;
-            position: relative;
-            margin: 1rem auto;
-            box-shadow: 
-                0 0 20px rgba(0, 255, 157, 0.3),
-                inset 0 0 20px rgba(0, 255, 157, 0.1);
-            overflow: hidden;
-            width: 600px;
-            height: 450px;
-            max-width: 90vw;
-            max-height: 60vh;
-        }
-        
-        /* Force dark background for snake board in all themes */
-        [data-theme="light"] .game-board,
-        [data-theme="dark"] .game-board {
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%) !important;
-            border: 1px solid var(--cyber-primary-accent) !important;
-        }
-        
-        .game-board::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                linear-gradient(90deg, transparent 49%, rgba(0, 255, 157, 0.08) 50%, transparent 51%),
-                linear-gradient(0deg, transparent 49%, rgba(0, 255, 157, 0.08) 50%, transparent 51%);
-            background-size: 25px 25px;
-            pointer-events: none;
-            opacity: 0.4;
-        }
-        
-        .game-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--surface-tertiary);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            border-radius: 6px;
-            padding: clamp(0.5rem, 2vw, 1rem);
-            backdrop-filter: blur(10px);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-        
-        .control-keys {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 0.5rem;
-            flex: 1;
-            min-width: 200px;
-        }
-        
-        .key-row {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: var(--cyber-font-mono);
-            font-size: clamp(0.7rem, 1.5vw, 0.8rem);
-        }
-        
-        .key-row kbd {
-            background: var(--cyber-primary-accent);
-            color: var(--cyber-black);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-family: var(--cyber-font-mono);
-            font-size: clamp(0.6rem, 1.2vw, 0.7rem);
-            min-width: 30px;
-            text-align: center;
-        }
-        
-        .game-btn:hover, .control-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 25px rgba(0, 255, 157, 0.5);
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        /* Mobile Snake Game Optimizations */
-        @media (max-width: 768px) {
-            .game-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .control-keys {
-                grid-template-columns: 1fr;
-                min-width: auto;
-                order: 2;
-            }
-            
-            .primary-action {
-                order: 1;
-                align-self: center;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .snake-game-container {
-                gap: 0.75rem;
-                padding: 0.5rem;
-            }
-            
-            .game-stats {
-                gap: 1rem;
-            }
-            
-            .game-board {
-                max-width: calc(100vw - 2rem);
-            }
-            
-            .game-board::before {
-                background-size: 20px 20px;
-            }
-        }
-        
-        /* Snake Game Modal Layout */
-        .graffiti-interface {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            height: 100%;
-            gap: 1rem;
-        }
-        
-        .graffiti-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--surface-tertiary);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            border-radius: 6px;
-            padding: 1rem;
-            backdrop-filter: blur(12px);
-        }
-        
-        .graffiti-canvas-area {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: clamp(1rem, 3vw, 2rem);
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.98) 0%, rgba(5, 5, 5, 0.99) 100%);
-            border-radius: 6px;
-            border: 1px solid var(--cyber-primary-accent);
-            min-height: 300px;
-        }
-        
-        .graffiti-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            background: var(--surface-tertiary);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            border-radius: 6px;
-            padding: 1rem;
-            backdrop-filter: blur(12px);
-        }
-
-        /* PRIORITY TOOLBAR - ENHANCED ACCESSIBILITY */
-        .priority-toolbar {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 26, 0.98) 100%);
-            border: 2px solid var(--cyber-primary-accent);
-            border-radius: 12px;
-            padding: 1rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 30px rgba(0, 255, 157, 0.3);
-            z-index: 100;
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            max-width: calc(100% - 40px);
-        }
-
-        .primary-section {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            min-width: 0;
-        }
-
-        .primary-section h4 {
-            color: var(--cyber-primary-accent);
-            font-family: var(--cyber-font-mono);
-            font-size: 0.8rem;
-            margin: 0;
-            text-align: center;
-            letter-spacing: 1px;
-        }
-
-        .enhanced-palette {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0.5rem;
-            min-width: 160px;
-        }
-
-        .enhanced-palette .color-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-            position: relative;
-        }
-
-        .enhanced-palette .color-btn:hover {
-            transform: scale(1.25) translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .color-btn {
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .enhanced-palette .color-btn.active {
-            border-color: var(--cyber-primary-accent);
-            box-shadow: 0 0 15px var(--cyber-primary-accent);
-            transform: scale(1.1);
-        }
-
-        .enhanced-tools {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .enhanced-tools .tool-btn,
-        .ascii-palette .ascii-btn {
-            background: var(--cyber-dark-primary);
-            color: var(--cyber-primary-accent);
-            border: 1px solid var(--cyber-primary-accent);
-            padding: 0.5rem 0.75rem;
-            font-family: var(--cyber-font-mono);
-            font-size: 0.7rem;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            min-width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .enhanced-tools .tool-btn:hover,
+        gap: 1rem;
+    }
         .ascii-palette .ascii-btn:hover {
             background: var(--cyber-primary-accent);
             color: var(--surface-primary);
@@ -3042,6 +2156,104 @@
         
         .dive-launch-btn:hover {
             background: var(--cyber-primary-accent);
+        }
+        
+        /* CANVAS VIEWPORT OPTIMIZATION */
+        .game-board, .refined-board {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            max-height: 600px;
+            background: var(--surface-secondary);
+            border: 2px solid var(--border-emphasis);
+            border-radius: var(--cyber-radius-base);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graffiti-canvas-container {
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            max-height: 700px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-secondary);
+            border: 2px solid var(--border-emphasis);
+            border-radius: var(--cyber-radius-base);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .graffiti-canvas, #graffiti-canvas {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: var(--cyber-radius-sm);
+        }
+        
+        /* CINEMATIC MODAL ANIMATIONS */
+        .game-modal {
+            animation: modalFadeIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .game-modal-content {
+            animation: modalSlideIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        @keyframes modalFadeIn {
+            0% { 
+                opacity: 0; 
+                backdrop-filter: blur(0px);
+            }
+            100% { 
+                opacity: 1; 
+                backdrop-filter: blur(15px);
+            }
+        }
+        
+        @keyframes modalSlideIn {
+            0% { 
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        
+        .game-modal.closing {
+            animation: modalFadeOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .game-modal.closing .game-modal-content {
+            animation: modalSlideOut 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        @keyframes modalFadeOut {
+            0% { 
+                opacity: 1; 
+                backdrop-filter: blur(15px);
+            }
+            100% { 
+                opacity: 0; 
+                backdrop-filter: blur(0px);
+            }
+        }
+        
+        @keyframes modalSlideOut {
+            0% { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+            100% { 
+                opacity: 0;
+                transform: scale(0.9) translateY(-20px);
+            }
         }
         
         /* RESPONSIVE */
@@ -3201,7 +2413,7 @@
             </div>
             
             <div class="playground-games">
-                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: snake-modal'); openModal('snake-modal');" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
+                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); launchImmersiveSnake();" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
                     <h3 class="game-title ascii-game-title">
 ┌─ 🐍 SNAKE ───────────────────┐
 │  Executive Playground        │
@@ -3217,7 +2429,7 @@
                     </div>
                 </div>
                 
-                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: graffiti-modal'); openModal('graffiti-modal');" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
+                <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); launchImmersiveSlap();" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
                     <h3 class="game-title ascii-game-title">
 ┌─ 💥 SLAP ────────────────────┐
 │  Leave Your Mark             │
@@ -3236,18 +2448,13 @@
             
             <div id="game-container" style="margin-top: 2rem;"></div>
             
-            <!-- Community Sticker Gallery -->
-            <div class="sticker-gallery-section" style="margin-top: 3rem; display: none;">
+            <!-- Community Art Feed - Hidden by default -->
+            <div class="community-art-section" id="community-art-section" style="margin-top: 3rem; display: none;">
                 <h3 class="ascii-subtitle">
-┌─ COMMUNITY WALL ─┐
-│ COLLECTIVE ART   │
-└─ <span id="art-count">0</span> PIECES ─┘
+┌─ COMMUNITY WALL ─┐ │ COLLECTIVE ART │ └─ <span id="community-art-count">0</span> PIECES ─┘
                 </h3>
-                <div id="sticker-gallery" class="horizontal-sticker-feed">
-                    <!-- Stickers will be dynamically loaded here -->
-                </div>
-                <div class="community-stats">
-                    <span class="stat-item">Total Art Pieces: <span id="art-count">0</span></span>
+                <div id="community-art-feed" class="art-feed-container">
+                    <!-- Art thumbnails will be dynamically added here -->
                 </div>
             </div>
         </section>
@@ -3308,10 +2515,10 @@
 
     <!-- Snake Game Modal -->
     <div id="snake-modal" class="game-modal" style="display: none;">
-        <div class="modal-content refined-game-modal">
+        <div class="modal-content game-modal-content">
             <div class="game-modal-header refined-header">
                 <h2 class="modal-title" role="heading" aria-level="2">┌─ SNAKE PROTOCOL ─┐</h2>
-                <button class="game-modal-close" onclick="closeModal('snake-modal')" aria-label="Close Snake Game Modal">×</button>
+                <button class="game-modal-close" onclick="closeGameModal('snake-modal')" aria-label="Close Snake Game Modal">×</button>
             </div>
             <div class="game-modal-body refined-body">
                 <div class="snake-game-container" role="main" aria-label="Snake Game Interface">
@@ -3360,10 +2567,10 @@
 
     <!-- Graffiti Slap Modal -->
     <div id="graffiti-modal" class="game-modal" style="display: none;">
-        <div class="modal-content refined-game-modal">
+        <div class="modal-content game-modal-content">
             <div class="game-modal-header refined-header">
                 <h2 class="modal-title" role="heading" aria-level="2">┌─ GRAFFITI SLAP CREATOR ─┐</h2>
-                <button class="game-modal-close" onclick="closeModal('graffiti-modal')" aria-label="Close Graffiti Creator Modal">×</button>
+                <button class="game-modal-close" onclick="closeGameModal('graffiti-modal')" aria-label="Close Graffiti Creator Modal">×</button>
             </div>
             <div class="game-modal-body refined-body">
                 <div class="graffiti-interface refined-interface" role="main" aria-label="Graffiti Creation Interface">
@@ -3588,23 +2795,28 @@
                 });
 
                 // Control buttons - ASCII focused
-                const clearBtn = document.getElementById('clear-canvas');
-                const undoBtn = document.getElementById('undo-action');
-                const slapBtn = document.getElementById('slap-all');
-                
-                if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
-                if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
-                if (slapBtn) {
-                    console.log('✅ SLAP button found, adding event listener');
-                    slapBtn.addEventListener('click', (e) => {
-                        console.log('🎯 SLAP button clicked!');
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.slapAll();
-                    });
-                } else {
-                    console.error('❌ SLAP button not found in DOM');
-                }
+                // Wait for DOM to be ready, then setup button events
+                setTimeout(() => {
+                    const slapBtn = document.getElementById('slap-all');
+                    const clearBtn = document.getElementById('clear-canvas');
+                    const undoBtn = document.getElementById('undo-canvas');
+                    
+                    console.log('🔍 Looking for buttons:', { slapBtn, clearBtn, undoBtn });
+                    
+                    if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
+                    if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
+                    if (slapBtn) {
+                        console.log('✅ SLAP button found, adding event listener');
+                        slapBtn.addEventListener('click', (e) => {
+                            console.log('🎯 SLAP button clicked!');
+                            e.preventDefault();
+                            e.stopPropagation();
+                            this.slapAll();
+                        });
+                    } else {
+                        console.error('❌ SLAP button not found in DOM');
+                    }
+                }, 100);
             }
 
             startDrawing(e) {
@@ -4010,11 +3222,10 @@
             }
         }
 
-        // Initialize Graffiti Slap when modal opens
+        // LEGACY FUNCTION - DISABLED
         function initGraffitiSlap() {
-            console.log('🎨 Initializing ASCII Graffiti Slap game...');
-            
-            // Clear any existing instance
+            console.log('🚫 Legacy initGraffitiSlap disabled - using unified system');
+            return;
             if (window.graffitiSlap) {
                 delete window.graffitiSlap;
             }
@@ -4063,24 +3274,8 @@
             console.log(`🎯 Modal ${modalId} display forced to:`, modal.style.display);
             console.log(`🎯 Modal ${modalId} z-index set to:`, modal.style.zIndex);
             
-            // Initialize game systems with error handling
-            try {
-                if (modalId === 'graffiti-modal') {
-                    console.log('🎨 Initializing Graffiti Slap...');
-                    setTimeout(() => {
-                        initGraffitiSlap();
-                        console.log('✅ Graffiti Slap initialized');
-                    }, 150);
-                } else if (modalId === 'snake-modal') {
-                    console.log('🐍 Initializing Snake Game...');
-                    setTimeout(() => {
-                        initSnakeGame();
-                        console.log('✅ Snake Game initialized');
-                    }, 150);
-                }
-            } catch (error) {
-                console.error(`❌ Game initialization failed:`, error);
-            }
+            // Legacy modal system disabled - using unified system
+            console.log('🚫 Legacy modal system bypassed - unified system active');
             
             // Trigger tooltip reinitialization
             setTimeout(() => {
@@ -4446,28 +3641,18 @@
                     <div class="content-column">
                         <div class="section-header">┌─ PREMIUM ELEVATION ─┐</div>
                         <h3>Thought Leadership Impact</h3>
-                        <p>Transforming personal methodology into team workflow at enterprise scale. <a href="https://www.reddit.com/r/UXDesign/comments/ai_workflow_transformation/" target="_blank" title="Citation: 3.5K+ lines of code">3,500+ lines of orchestration code</a> from personal experimentation drives industry recognition.</p>
+                        <p>Transforming personal methodology into team workflow at enterprise scale. <a href="#" title="3.5K+ repos">3.5K+ repos</a> from personal experimentation drives industry recognition.</p>
                         
-                        <p><a href="https://www.strelka.com/en/press/books/dark-matter-and-trojan-horses" target="_blank" title="Citation: 100% team adoption">Personal methodology scaled to 100% design team adoption</a> with 50% faster creative cycles.</p>
-                    </div>
-                </div>
-                
-                <div class="prominent-metrics">
-                    <div class="metric-display">
-                        <div class="metric-value">3.5K+</div>
-                        <div class="metric-label">LINES OF CODE</div>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value">50%</div>
-                        <div class="metric-label">FASTER CYCLES</div>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value">100%</div>
-                        <div class="metric-label">TEAM ADOPTION</div>
-                    </div>
-                    <div class="metric-display">
-                        <div class="metric-value">∞</div>
-                        <div class="metric-label">INNOVATION BOUNDARY</div>
+                        <p><a href="#" title="Personal methodology scaled to executive workflow">Personal methodology scaled to executive workflow</a> from personal experimentation drives industry recognition.</p>
+                        
+                        <div class="metric-display">
+                            <div class="metric-value">100%</div>
+                            <div class="metric-label">TEAM ADOPTION</div>
+                        </div>
+                        <div class="metric-display">
+                            <div class="metric-value">∞</div>
+                            <div class="metric-label">INNOVATION BOUNDARY</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -5230,14 +4415,18 @@
         }
         
         function hideTooltip() {
-            if (activeTooltip) {
+            if (activeTooltip && activeTooltip.parentNode) {
                 activeTooltip.style.opacity = '0';
                 setTimeout(() => {
-                    activeTooltip.style.visibility = 'hidden';
-                    setTimeout(() => {
-                        activeTooltip.remove();
-                        activeTooltip = null;
-                    }, 100);
+                    if (activeTooltip && activeTooltip.parentNode) {
+                        activeTooltip.style.visibility = 'hidden';
+                        setTimeout(() => {
+                            if (activeTooltip && activeTooltip.parentNode) {
+                                activeTooltip.remove();
+                                activeTooltip = null;
+                            }
+                        }, 100);
+                    }
                 }, 100);
             }
         }
@@ -5262,10 +4451,10 @@
         // Snake Game Implementation
         let snakeGame = null;
 
+        // LEGACY FUNCTION - DISABLED  
         function initSnakeGame() {
-            console.log('🐍 Initializing Snake Game...');
-            const GRID_SIZE = 20;
-            let snake = [{x: 10, y: 10}];
+            console.log('🚫 Legacy initSnakeGame disabled - using unified system');
+            return;
             let food = {x: 15, y: 15, type: 'normal'};
             let direction = 'RIGHT';
             let score = 0;
@@ -5787,6 +4976,86 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closeDip();
+            }
+        });
+    </script>
+
+    <!-- Immersive Games -->
+    <script src="js/immersive/ImmersiveSnakeGame.js"></script>
+    <script src="js/immersive/ImmersiveSlapGame.js"></script>
+    
+    <!-- Game Modal System -->
+    <script src="js/unified/GameModalSystem.js"></script>
+
+    <!-- Immersive Game Launchers -->
+    <script>
+        let activeImmersiveGame = null;
+
+        function launchImmersiveSnake() {
+            console.log('🐍 Launching Immersive Snake Game');
+            
+            // Create container if it doesn't exist
+            let container = document.getElementById('immersive-snake-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'immersive-snake-container';
+                document.body.appendChild(container);
+            }
+
+            // Hide body overflow
+            document.body.style.overflow = 'hidden';
+
+            try {
+                // Clean up any existing game
+                if (activeImmersiveGame) {
+                    activeImmersiveGame.destroy();
+                }
+
+                // Launch new game
+                activeImmersiveGame = new ImmersiveSnakeGame('immersive-snake-container');
+                console.log('✅ Immersive Snake Game launched successfully');
+            } catch (error) {
+                console.error('❌ Failed to launch Immersive Snake Game:', error);
+                document.body.style.overflow = '';
+            }
+        }
+
+        function launchImmersiveSlap() {
+            console.log('🎨 Launching Immersive SLAP Creator');
+            
+            // Create container if it doesn't exist
+            let container = document.getElementById('immersive-slap-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'immersive-slap-container';
+                document.body.appendChild(container);
+            }
+
+            // Hide body overflow
+            document.body.style.overflow = 'hidden';
+
+            try {
+                // Clean up any existing game
+                if (activeImmersiveGame) {
+                    activeImmersiveGame.destroy();
+                }
+
+                // Launch new game
+                activeImmersiveGame = new ImmersiveSlapGame('immersive-slap-container');
+                window.currentSlapGame = activeImmersiveGame; // Fix console errors
+                console.log('✅ Immersive SLAP Creator launched successfully');
+            } catch (error) {
+                console.error('❌ Failed to launch Immersive SLAP Creator:', error);
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Global escape key handler for immersive games
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Escape' && activeImmersiveGame) {
+                activeImmersiveGame.close();
+                activeImmersiveGame = null;
+                document.body.style.overflow = '';
             }
         });
     </script>

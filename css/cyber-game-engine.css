@@ -1,0 +1,440 @@
+/**
+ * CyberGameEngine Styling
+ * Touch controls, responsive design, cyberpunk aesthetic
+ */
+
+.cyber-game-canvas {
+    border: 2px solid var(--cyber-primary-accent, #4A90E2);
+    border-radius: 8px;
+    background: #000000;
+    box-shadow: 
+        0 0 20px rgba(74, 144, 226, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.5);
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+/* Touch Controls */
+.cyber-touch-controls {
+    margin-top: 1rem;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.touch-control-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 0.5rem;
+    max-width: 200px;
+    margin: 0 auto 1rem;
+}
+
+.touch-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.touch-btn {
+    background: rgba(74, 144, 226, 0.1);
+    border: 2px solid var(--cyber-primary-accent, #4A90E2);
+    border-radius: 8px;
+    color: var(--cyber-primary-accent, #4A90E2);
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0.75rem;
+    min-height: 48px;
+    min-width: 48px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.touch-btn:hover {
+    background: rgba(74, 144, 226, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+.touch-btn:active,
+.touch-btn.active {
+    background: var(--cyber-primary-accent, #4A90E2);
+    color: #000000;
+    transform: translateY(0);
+    box-shadow: 
+        0 0 15px rgba(74, 144, 226, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Directional button specific styling */
+.touch-up, .touch-down, .touch-left, .touch-right {
+    font-size: 1.5rem;
+}
+
+.touch-action {
+    background: rgba(0, 255, 157, 0.1);
+    border-color: var(--cyber-secondary-accent, #00ff9d);
+    color: var(--cyber-secondary-accent, #00ff9d);
+}
+
+.touch-action:hover {
+    background: rgba(0, 255, 157, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 255, 157, 0.3);
+}
+
+.touch-action:active,
+.touch-action.active {
+    background: var(--cyber-secondary-accent, #00ff9d);
+    color: #000000;
+}
+
+/* Pause/Restart buttons */
+.touch-pause, .touch-restart {
+    min-width: 60px;
+    font-size: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .touch-control-grid {
+        max-width: 180px;
+        gap: 0.25rem;
+    }
+    
+    .touch-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .touch-up, .touch-down, .touch-left, .touch-right {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .touch-control-grid {
+        max-width: 160px;
+    }
+    
+    .touch-btn {
+        min-height: 40px;
+        min-width: 40px;
+        font-size: 0.9rem;
+    }
+    
+    .touch-up, .touch-down, .touch-left, .touch-right {
+        font-size: 1.1rem;
+    }
+}
+
+/* Animation effects */
+@keyframes touchPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.touch-btn.pulse {
+    animation: touchPulse 0.3s ease;
+}
+
+/* Cyberpunk glow effects */
+.touch-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(74, 144, 226, 0.4),
+        transparent
+    );
+    transition: left 0.5s;
+}
+
+.touch-btn:hover::before {
+    left: 100%;
+}
+
+/* Game container styling */
+.cyber-game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.9) 0%,
+        rgba(10, 10, 10, 0.95) 100%
+    );
+    border-radius: 12px;
+    border: 1px solid var(--cyber-primary-accent, #4A90E2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.cyber-game-hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--cyber-primary-accent, #4A90E2);
+    border-radius: 6px;
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+    font-size: 0.9rem;
+    color: var(--cyber-primary-accent, #4A90E2);
+}
+
+.cyber-game-score {
+    display: flex;
+    gap: 1rem;
+}
+
+.cyber-game-status {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* Performance indicator */
+.cyber-game-fps {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--cyber-secondary-accent, #00ff9d);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
+/* Modal integration */
+.cyber-game-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.cyber-game-modal.active {
+    display: flex;
+}
+
+.cyber-game-modal-content {
+    background: linear-gradient(
+        135deg,
+        rgba(10, 10, 10, 0.98) 0%,
+        rgba(20, 20, 20, 0.98) 100%
+    );
+    border: 2px solid var(--cyber-primary-accent, #4A90E2);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
+    box-shadow: 
+        0 0 40px rgba(74, 144, 226, 0.4),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.cyber-game-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: 2px solid var(--cyber-warning, #ff4444);
+    color: var(--cyber-warning, #ff4444);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.cyber-game-close:hover {
+    background: var(--cyber-warning, #ff4444);
+    color: #000000;
+    transform: rotate(90deg);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .touch-btn,
+    .cyber-game-close {
+        transition: none;
+    }
+    
+    .touch-btn::before {
+        display: none;
+    }
+    
+    @keyframes touchPulse {
+        0%, 100% { transform: none; }
+    }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    .cyber-game-canvas {
+        border-width: 3px;
+    }
+    
+    .touch-btn {
+        border-width: 3px;
+        font-weight: 900;
+    }
+}
+
+/* Graffiti Game Toolbar */
+.cyber-graffiti-toolbar {
+    background: rgba(10, 10, 10, 0.95);
+    border: 1px solid var(--cyber-primary-accent, #4A90E2);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+}
+
+.toolbar-section {
+    margin-bottom: 1rem;
+}
+
+.toolbar-section:last-child {
+    margin-bottom: 0;
+}
+
+.toolbar-section label {
+    display: block;
+    color: var(--cyber-primary-accent, #4A90E2);
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.char-palette, .color-palette {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.char-btn, .color-btn {
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--cyber-primary-accent, #4A90E2);
+    background: rgba(74, 144, 226, 0.1);
+    color: var(--cyber-primary-accent, #4A90E2);
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.char-btn:hover, .color-btn:hover {
+    background: rgba(74, 144, 226, 0.3);
+    transform: scale(1.1);
+}
+
+.char-btn.active, .color-btn.active {
+    background: var(--cyber-primary-accent, #4A90E2);
+    color: #000000;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.6);
+}
+
+.color-btn {
+    border-radius: 4px;
+}
+
+.brush-size {
+    background: rgba(10, 10, 10, 0.9);
+    border: 2px solid var(--cyber-primary-accent, #4A90E2);
+    color: var(--cyber-primary-accent, #4A90E2);
+    padding: 0.5rem;
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+    font-size: 0.8rem;
+}
+
+.toolbar-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.tool-btn {
+    background: rgba(0, 255, 157, 0.1);
+    border: 2px solid var(--cyber-secondary-accent, #00ff9d);
+    color: var(--cyber-secondary-accent, #00ff9d);
+    padding: 0.5rem 1rem;
+    font-family: var(--cyber-font-mono, 'Courier New', monospace);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+}
+
+.tool-btn:hover {
+    background: rgba(0, 255, 157, 0.3);
+    transform: translateY(-2px);
+}
+
+.tool-btn:active {
+    background: var(--cyber-secondary-accent, #00ff9d);
+    color: #000000;
+}
+
+/* Mobile toolbar adjustments */
+@media (max-width: 768px) {
+    .cyber-graffiti-toolbar {
+        padding: 0.75rem;
+    }
+    
+    .char-palette, .color-palette {
+        gap: 0.125rem;
+    }
+    
+    .char-btn, .color-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .toolbar-actions {
+        gap: 0.25rem;
+    }
+    
+    .tool-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.7rem;
+    }
+}
