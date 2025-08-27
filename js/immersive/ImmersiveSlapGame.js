@@ -22,8 +22,8 @@ class ImmersiveSlapGame {
         this.calculateViewport();
         this.setupCanvas();
         this.setupHUD();
-        this.setupControls();
         this.initializeGrid();
+        this.setupControls();
         
         console.log('🎨 Immersive SLAP Creator initialized');
     }
@@ -358,6 +358,23 @@ class ImmersiveSlapGame {
             }
         };
         document.addEventListener('keydown', this.keyHandler);
+    }
+
+    handleTouch(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        if (touch) {
+            const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 'mousemove', {
+                clientX: touch.clientX,
+                clientY: touch.clientY
+            });
+            
+            if (e.type === 'touchstart') {
+                this.startDrawing(mouseEvent);
+            } else if (e.type === 'touchmove') {
+                this.draw(mouseEvent);
+            }
+        }
     }
 
     initializeGrid() {

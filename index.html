@@ -5123,32 +5123,42 @@
             const touchButtons = {
                 'snake-up': () => {
                     console.log('🎮 Snake UP triggered');
-                    if (window.currentSnakeGame) {
+                    if (window.currentSnakeGame && window.currentSnakeGame.setDirection) {
                         window.currentSnakeGame.setDirection({ x: 0, y: -1 });
+                    } else {
+                        console.log('⚠️ Snake game not ready or method missing');
                     }
                 },
                 'snake-down': () => {
                     console.log('🎮 Snake DOWN triggered');
-                    if (window.currentSnakeGame) {
+                    if (window.currentSnakeGame && window.currentSnakeGame.setDirection) {
                         window.currentSnakeGame.setDirection({ x: 0, y: 1 });
+                    } else {
+                        console.log('⚠️ Snake game not ready or method missing');
                     }
                 },
                 'snake-left': () => {
                     console.log('🎮 Snake LEFT triggered');
-                    if (window.currentSnakeGame) {
+                    if (window.currentSnakeGame && window.currentSnakeGame.setDirection) {
                         window.currentSnakeGame.setDirection({ x: -1, y: 0 });
+                    } else {
+                        console.log('⚠️ Snake game not ready or method missing');
                     }
                 },
                 'snake-right': () => {
                     console.log('🎮 Snake RIGHT triggered');
-                    if (window.currentSnakeGame) {
+                    if (window.currentSnakeGame && window.currentSnakeGame.setDirection) {
                         window.currentSnakeGame.setDirection({ x: 1, y: 0 });
+                    } else {
+                        console.log('⚠️ Snake game not ready or method missing');
                     }
                 },
                 'snake-boost': () => {
                     console.log('🎮 Snake BOOST triggered');
-                    if (window.currentSnakeGame) {
+                    if (window.currentSnakeGame && window.currentSnakeGame.activateBoost) {
                         window.currentSnakeGame.activateBoost();
+                    } else {
+                        console.log('⚠️ Snake game not ready or boost method missing');
                     }
                 }
             };
