@@ -15,6 +15,33 @@
     <link rel="stylesheet" href="cyberpunk-design-tokens.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@100;200;300;400;500;600;700;800;900&family=Space+Mono:wght@400;700&family=Audiowide&display=swap" rel="stylesheet">
     <style>
+        /* Typography Scale & Vertical Rhythm */
+        :root {
+            --type-scale-ratio: 1.333; /* Perfect Fourth */
+            --base-font-size: 1rem;
+            --base-line-height: 1.7;
+            --vertical-rhythm: 1.75rem;
+            
+            /* Type Scale */
+            --text-xs: 0.75rem;     /* 12px */
+            --text-sm: 0.875rem;    /* 14px */
+            --text-base: 1rem;      /* 16px */
+            --text-lg: 1.125rem;    /* 18px */
+            --text-xl: 1.333rem;    /* 21px */
+            --text-2xl: 1.777rem;   /* 28px */
+            --text-3xl: 2.369rem;   /* 38px */
+            --text-4xl: 3.157rem;   /* 51px */
+            
+            /* Spacing Scale */
+            --space-xs: 0.5rem;     /* 8px */
+            --space-sm: 0.75rem;    /* 12px */
+            --space-md: 1rem;       /* 16px */
+            --space-lg: 1.5rem;     /* 24px */
+            --space-xl: 2rem;       /* 32px */
+            --space-2xl: 3rem;      /* 48px */
+            --space-3xl: 4rem;      /* 64px */
+        }
+
         * { box-sizing: border-box; }
         
         body {
@@ -24,6 +51,8 @@
             background: var(--surface-primary);
             color: var(--text-primary);
             font-family: var(--cyber-font-ui);
+            font-size: var(--text-base);
+            line-height: var(--base-line-height);
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
             /* Performance optimizations */
@@ -35,6 +64,63 @@
             -webkit-touch-callout: none;
             -webkit-user-select: none;
             user-select: none;
+        }
+
+        /* Typography Elements */
+        h1 { font-size: var(--text-4xl); line-height: 1.2; margin: 0 0 var(--space-xl) 0; }
+        h2 { font-size: var(--text-xl); line-height: 1.3; margin: 0 0 var(--space-lg) 0; }
+        h3 { font-size: var(--text-lg); line-height: 1.4; margin: 0 0 var(--space-md) 0; }
+        h4 { font-size: var(--text-base); line-height: 1.5; margin: 0 0 var(--space-sm) 0; }
+        h5 { font-size: var(--text-sm); line-height: 1.6; margin: 0 0 var(--space-sm) 0; }
+        h6 { font-size: var(--text-xs); line-height: 1.6; margin: 0 0 var(--space-xs) 0; }
+        
+        /* Section Title Specific Sizing */
+        .section-title {
+            font-size: var(--text-lg);
+            line-height: 1.2;
+            margin: 0 0 var(--space-md) 0;
+        }
+        
+        /* Responsive H2 adjustments */
+        @media (max-width: 768px) {
+            h2, .section-title { font-size: var(--text-base); }
+        }
+        
+        @media (min-width: 1024px) {
+            .section-title { font-size: var(--text-xl); }
+        }
+        
+        p { 
+            font-size: var(--text-base); 
+            line-height: var(--base-line-height); 
+            margin: 0 0 var(--space-lg) 0; 
+        }
+        
+        small { font-size: var(--text-sm); }
+        .text-xs { font-size: var(--text-xs); }
+        .text-sm { font-size: var(--text-sm); }
+        .text-lg { font-size: var(--text-lg); }
+        .text-xl { font-size: var(--text-xl); }
+
+        /* Case Study Microcopy */
+        .case-microcopy {
+            margin: 0 0 var(--space-xs) 0;
+            line-height: 1.5;
+        }
+        
+        .case-microcopy small {
+            font-size: var(--text-sm);
+            line-height: 1.4;
+        }
+        
+        [data-theme="light"] .case-microcopy small {
+            color: hsl(220, 15%, 25%);
+            opacity: 1;
+        }
+        
+        [data-theme="dark"] .case-microcopy small {
+            color: var(--cyber-light-gray);
+            opacity: 0.8;
         }
 
 
@@ -279,7 +365,6 @@
         .nav-item:hover {
             color: var(--cyber-primary-accent);
             background: rgba(0, 255, 157, 0.1);
-            text-shadow: 0 0 5px var(--cyber-glow-color);
             transform: translateX(4px);
             transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
@@ -410,6 +495,62 @@
             margin-bottom: 0.8rem;
         }
 
+        /* Global link styling for cross-theme legibility */
+        a {
+            color: var(--cyber-primary-accent);
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--cyber-primary-accent);
+        }
+
+        /* ASCII micro pattern styling */
+        .ascii-micro {
+            font-family: var(--cyber-font-mono);
+            font-size: 0.55rem;
+            color: var(--cyber-medium-gray);
+            opacity: 0.3;
+            letter-spacing: 0.2px;
+            line-height: 1;
+            font-weight: 300;
+        }
+
+        /* Game footer styling - matches case study footer */
+        .case-footer {
+            margin-top: var(--space-sm);
+            text-align: left;
+            padding-top: var(--space-sm);
+        }
+        
+        .game-footer {
+            margin-top: var(--space-xs);
+            text-align: left;
+            font-family: var(--cyber-font-mono);
+            font-size: var(--text-xs);
+            opacity: 0.4;
+        }
+        
+        [data-theme="light"] .game-footer {
+            color: var(--cyber-dark-primary);
+        }
+        
+        [data-theme="dark"] .game-footer {
+            color: var(--cyber-medium-gray);
+        }
+
+        /* Status footer styling for system sections */
+        .status-footer {
+            margin-top: 0.75rem;
+            text-align: left;
+            padding-top: 0.5rem;
+        }
+
+        .playground-status {
+            margin-top: 0.5rem;
+        }
+
         .footer-links a {
             color: var(--cyber-medium-gray);
             text-decoration: none;
@@ -420,7 +561,6 @@
 
         .footer-links a:hover {
             color: var(--cyber-primary-accent);
-            text-shadow: var(--cyber-glow-subtle);
         }
 
         .social-links {
@@ -496,22 +636,47 @@
         /* CASE STUDY CARDS - SKIM LAYER */
         .case-studies-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 2rem;
-            padding: 2rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-xl);
+            padding: var(--space-3xl) var(--space-md);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 768px) {
+            .case-studies-grid {
+                padding: var(--space-3xl) var(--space-xl);
+                gap: var(--space-lg);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .case-studies-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-xl);
+                max-width: 1200px;
+            }
         }
         
         .case-card {
             background: var(--cyber-surface);
             border: 1px solid transparent;
             border-radius: var(--cyber-radius-lg);
-            padding: 2rem;
+            padding: var(--space-xl);
             cursor: pointer;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            min-height: 280px;
+        }
+        
+        @media (min-width: 768px) {
+            .case-card {
+                padding: var(--space-2xl);
+                min-height: 320px;
+            }
         }
         
         .case-card::before {
@@ -550,17 +715,21 @@
         
         .case-title {
             font-family: var(--cyber-font-mono);
-            font-size: clamp(1rem, 2.2vw, 1.4rem);
+            font-size: var(--text-sm);
             color: var(--cyber-primary-accent);
-            margin: 1rem 0;
+            text-shadow: none;
             white-space: pre;
-            line-height: 1.2;
+            margin: var(--space-md) 0;
             transition: all 0.3s ease;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .case-card:hover .case-title {
             color: var(--cyber-primary-accent);
         }
+        
 
         .case-summary {
             color: var(--cyber-light-gray);
@@ -597,19 +766,26 @@
         }
         
         .playground-section {
-            margin: 4rem 0;
-            padding: 2rem;
+            margin: var(--space-3xl) var(--space-md) 0;
+            padding: var(--space-xl);
             background: var(--cyber-surface);
             border-radius: var(--cyber-radius-lg);
             border: 1px solid var(--cyber-primary-accent);
         }
         
+        @media (min-width: 768px) {
+            .playground-section {
+                margin: var(--space-3xl) var(--space-xl) 0;
+                padding: var(--space-2xl);
+            }
+        }
+        
         /* Innovation Lab intelligent responsive layout */
         .playground-header {
             display: grid;
-            gap: 2rem;
+            gap: var(--space-xl);
             grid-template-columns: 1fr;
-            margin-bottom: 2rem;
+            margin-bottom: var(--space-xl);
         }
         
         /* Tablet & Desktop: Side-by-side header layout */
@@ -623,7 +799,7 @@
         
         .playground-status {
             display: flex;
-            gap: 2rem;
+            gap: var(--space-xl);
             flex-wrap: wrap;
         }
         
@@ -637,13 +813,13 @@
         .status-item {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: var(--space-xs);
         }
         
         .status-label {
             font-family: var(--cyber-font-mono);
             color: var(--cyber-medium-gray);
-            font-size: 0.85rem;
+            font-size: var(--text-sm);
         }
         
         .status-value {
@@ -688,8 +864,8 @@
         
         .playground-games {
             display: grid;
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
             grid-template-columns: 1fr;
         }
         
@@ -697,7 +873,7 @@
         @media (min-width: 768px) and (orientation: portrait) {
             .playground-games {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
+                gap: var(--space-xl);
             }
         }
         
@@ -705,9 +881,9 @@
         @media (min-width: 1024px) {
             .playground-games {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 2.5rem;
+                gap: var(--space-2xl);
                 max-width: 800px;
-                margin: 2rem auto 0;
+                margin: var(--space-xl) auto 0;
             }
         }
         
@@ -715,7 +891,7 @@
         @media (min-width: 1440px) {
             .playground-games {
                 max-width: 900px;
-                gap: 3rem;
+                gap: var(--space-3xl);
             }
         }
         
@@ -723,7 +899,7 @@
             background: var(--surface-secondary);
             border: none;
             border-radius: var(--cyber-radius-base);
-            padding: 2rem;
+            padding: var(--space-lg);
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
@@ -765,14 +941,39 @@
             color: var(--cyber-primary-accent);
             font-size: 0.9rem;
             line-height: 1.2;
-            margin-bottom: 1rem;
-            white-space: pre;
+            margin: 0 0 var(--space-md) 0;
+            white-space: pre-line;
+            letter-spacing: 0.5px;
+            font-weight: 400;
+            text-shadow: none;
         }
         
         .game-metrics {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: var(--space-xs);
+            margin-bottom: var(--space-sm);
+            font-family: var(--cyber-font-mono);
+            font-size: var(--text-sm);
+        }
+        
+        .game-metrics .metric {
+            color: var(--text-primary);
+            padding: var(--space-xs) 0;
+            border-left: 2px solid rgba(0, 255, 157, 0.2);
+            padding-left: var(--space-sm);
+            transition: all var(--cyber-duration-fast);
+            opacity: 0.8;
+        }
+        
+        [data-theme="light"] .game-metrics .metric {
+            color: hsl(220, 15%, 25%);
+            opacity: 1;
+        }
+        
+        [data-theme="dark"] .game-metrics .metric {
+            color: var(--cyber-light-gray);
+            opacity: 0.7;
         }
         
         .metric {
@@ -1045,10 +1246,88 @@
             background: rgba(255, 68, 68, 0.3);
             border-color: var(--cyber-secondary-accent);
             color: var(--cyber-secondary-accent);
-            transform: scale(1.15) rotate(90deg);
-            box-shadow: 0 8px 25px rgba(255, 68, 68, 0.5);
         }
-        
+
+        /* ASCII FOOTER STORY FRAMEWORK */
+        .ascii-footer-story {
+            margin-top: 3rem;
+            padding-top: 2rem;
+        }
+
+        .craft-impact-framework {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+        }
+
+        .framework-column {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-primary) 100%);
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .framework-column:hover {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 4px 16px rgba(var(--cyber-primary-rgb), 0.2);
+        }
+
+        .framework-header,
+        .framework-visual,
+        .framework-concept,
+        .framework-footer {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            color: var(--cyber-primary-accent);
+            margin: 0.25rem 0;
+        }
+
+        .framework-visual {
+            color: var(--text-secondary);
+            font-weight: bold;
+        }
+
+        .framework-concept {
+            color: var(--text-primary);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .framework-story {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .craft-impact-framework {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .framework-column {
+                padding: 0.75rem;
+            }
+            
+            .framework-header,
+            .framework-visual,
+            .framework-concept,
+            .framework-footer {
+                font-size: 0.8rem;
+            }
+            
+            .framework-story {
+                font-size: 0.8rem;
+            }
+        }
+
         /* ENHANCED CASE STUDY CONTENT - CYBERPUNK EDITORIAL */
         .case-study-content {
             color: var(--cyber-light-gray);
@@ -1056,6 +1335,259 @@
             font-size: 1.1rem;
             max-width: none;
             font-family: var(--cyber-font-ui);
+        }
+
+        /* UNIFIED CASE STUDY FORMATTING */
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 255, 157, 0.02);
+        }
+
+        .content-column {
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--surface-secondary) 0%, var(--surface-tertiary) 100%);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .content-column:hover {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 2px 8px rgba(0, 255, 157, 0.1);
+        }
+
+        .section-header {
+            font-family: var(--cyber-font-mono);
+            color: var(--cyber-primary-accent);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(0, 255, 157, 0.3);
+            padding-bottom: 0.5rem;
+        }
+
+        .prominent-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 255, 157, 0.02);
+        }
+
+        .metric-display {
+            text-align: center;
+            padding: 1rem;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 6px;
+            background: var(--surface-secondary);
+            transition: all 0.2s ease;
+        }
+
+        .metric-display:hover {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 2px 8px rgba(0, 255, 157, 0.1);
+        }
+
+        .metric-value {
+            font-family: var(--cyber-font-mono);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--cyber-primary-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-family: var(--cyber-font-mono);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .business-impact-section {
+            margin: 3rem 0;
+            padding: 2rem;
+            border: 2px solid var(--cyber-primary-accent);
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.06) 0%, rgba(0, 255, 157, 0.02) 100%);
+        }
+
+        .impact-quote {
+            padding: 1.5rem;
+            border-left: 4px solid var(--cyber-primary-accent);
+            background: var(--surface-secondary);
+            border-radius: 0 8px 8px 0;
+            margin-top: 1rem;
+        }
+
+        .impact-quote p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .impact-quote cite {
+            font-family: var(--cyber-font-mono);
+            font-size: 0.9rem;
+            color: var(--cyber-primary-accent);
+            font-style: normal;
+        }
+
+        /* SIMPLIFIED QUANTIFIED IMPACT SECTION */
+        .quantified-impact-highlight {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 255, 157, 0.02);
+        }
+
+        .impact-metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .impact-metric {
+            text-align: center;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 157, 0.4);
+            border-radius: 8px;
+            background: var(--surface-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .impact-metric:hover {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 2px 8px rgba(0, 255, 157, 0.1);
+        }
+
+        .impact-number {
+            font-family: var(--cyber-font-mono);
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--cyber-primary-accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .impact-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* ENHANCED CITATION GRID */
+        .citation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .citation-item {
+            padding: 1rem;
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            border-radius: 8px;
+            background: var(--surface-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .citation-item:hover {
+            border-color: var(--cyber-primary-accent);
+            box-shadow: 0 4px 12px rgba(0, 255, 157, 0.2);
+        }
+
+        .citation-source {
+            font-family: var(--cyber-font-mono);
+            font-size: 0.8rem;
+            color: var(--cyber-primary-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .citation-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .citation-link:hover {
+            color: var(--cyber-primary-accent);
+        }
+
+        /* MOBILE RESPONSIVENESS ENHANCEMENTS */
+        @media (max-width: 1024px) {
+            .case-study-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .prominent-metrics {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .impact-metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .citation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-study-grid {
+                padding: 1rem;
+                gap: 1rem;
+                margin: 1rem 0 2rem 0;
+            }
+            
+            .content-column {
+                padding: 1rem;
+            }
+            
+            .prominent-metrics {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 0.75rem;
+            }
+            
+            .metric-value {
+                font-size: 1.5rem;
+            }
+            
+            .business-impact-section {
+                padding: 1rem;
+                margin: 2rem 0;
+            }
+            
+            .impact-quote {
+                padding: 1rem;
+            }
+            
+            .impact-quote p {
+                font-size: 1rem;
+            }
         }
         
         .case-study-content h1 {
@@ -2271,7 +2803,6 @@
             color: var(--cyber-primary-accent);
             font-size: clamp(1rem, 3vw, 1.5rem);
             font-weight: 500;
-            text-shadow: 0 0 10px var(--cyber-primary-accent);
         }
         
         .game-board {
@@ -2707,53 +3238,53 @@
         <!-- SKIM LAYER: Case Studies Grid -->
         <section class="case-studies-grid">
             <!-- Chase Travel Case Study -->
-            <article class="case-card" onclick="openDip('chase-travel')">
-                <div class="case-impact ascii-impact">$30B ▓▓▓▓▓▓▓</div>
-                <h2 class="case-title">╔═══════════════════════════╗
-║ CHASE TRAVEL: CONNECTED   ║
-╚═══════════════════════════╝</h2>
-                <p class="case-summary">
-                    <strong>Challenge:</strong> Transform banking from transactional to lifestyle platform for premium customers.<br>
-                    <strong>Impact:</strong> $30B portfolio growth through strategic positioning and cross-functional team leadership.
-                </p>
-                <div class="case-metrics">
-                    <span class="metric">├─ Led 15-person cross-functional team</span>
-                    <span class="metric">├─ 50% Growth in premium segment</span>
-                    <span class="metric">└─ Connected ecosystem strategy</span>
+            <article class="case-card" onclick="openDip('chase-travel')" title="15-person design team orchestrating 24 scrum teams — rejumble the pieces philosophy">
+                <div class="case-impact ascii-impact"><span title="Forbes Advisor: overview of Chase Travel portal">$30B</span> ▓▓▓▓▓▓▓</div>
+                <h2 class="case-title">┌───────────────────────────┐
+│ CHASE TRAVEL: CONNECTED   │
+└───────────────────────────┘</h2>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Transform banking from transactional to lifestyle platform for premium customers.</small>
+                </div>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> $30B portfolio growth through strategic positioning and cross-functional team leadership.</small>
+                </div>
+                <div class="case-footer">
+                    <span class="ascii-micro">░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓</span>
                 </div>
             </article>
             
             <!-- Chase Dining Case Study -->
-            <article class="case-card" onclick="openDip('chase-dining')">
-                <div class="case-impact ascii-impact">$8B ▓▓▓▓▓</div>
-                <h2 class="case-title">╔═══════════════════════════╗
-║ CHASE DINING: PREMIUM     ║
-╚═══════════════════════════╝</h2>
-                <p class="case-summary">
-                    <strong>Challenge:</strong> Create sustainable competitive advantage in premium credit card market.<br>
-                    <strong>Impact:</strong> $8B portfolio expansion through strategic dining partnerships and experience design.
-                </p>
-                <div class="case-metrics">
-                    <span class="metric">├─ Scaled design org from 6→30 members</span>
-                    <span class="metric">├─ Premium Reserve tier launch</span>
-                    <span class="metric">└─ Cross-brand partnership strategy</span>
+            <article class="case-card" onclick="openDip('chase-dining')" title="Infatuation + OpenTable intersection — building team to shape our own destiny">
+                <div class="case-impact ascii-impact"><span title="Coverage of reserved/curated access via dining program">$8B</span> ▓▓▓▓▓</div>
+                <h2 class="case-title">┌───────────────────────────┐
+│   CHASE DINING: PREMIUM   │
+└───────────────────────────┘</h2>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Create sustainable competitive advantage in premium credit card market.</small>
+                </div>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> $8B portfolio expansion through strategic dining partnerships and experience design.</small>
+                </div>
+                <div class="case-footer">
+                    <span class="ascii-micro">▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░</span>
                 </div>
             </article>
             
             <!-- Meta Case Study: Creative Partnership -->
-            <article class="case-card" onclick="openDip('prompt-first')">
-                <div class="case-impact ascii-impact">∞ ▓▓▓▓▓▓▓▓</div>
-                <h2 class="case-title">╔═══════════════════════════╗
-║ PROMPT-FIRST INNOVATION   ║
-╚═══════════════════════════╝</h2>
-                <p class="case-summary">
-                    <strong>Challenge:</strong> Demonstrate executive-level strategic thinking through AI-human creative partnership.<br>
-                    <strong>Impact:</strong> This portfolio showcases systematic design innovation and agent orchestration frameworks.
-                </p>
-                <div class="case-metrics">
-                    <span class="metric">├─ 3.5K lines of production code</span>
-                    <span class="metric">├─ Dark Matter Trojan Horse framework</span>
-                    <span class="metric">└─ Executive creative partnership model</span>
+            <article class="case-card" onclick="openDip('prompt-first')" title="Passion project to thought leadership — I like to make stuff, pushing cutting edge limits">
+                <div class="case-impact ascii-impact"><span title="Internal repo count across Windsurf + GitHub">3.5K+</span> ▓▓▓▓▓▓▓▓</div>
+                <h2 class="case-title">┌───────────────────────────┐
+│ PROMPT-FIRST INNOVATION   │
+└───────────────────────────┘</h2>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Challenge:</span> Demonstrate executive-level strategic thinking through AI-human creative partnership.</small>
+                </div>
+                <div class="case-microcopy">
+                    <small><span style="color: var(--cyber-primary-accent); font-weight: 500;">Impact:</span> This portfolio showcases systematic design innovation and agent orchestration frameworks.</small>
+                </div>
+                <div class="case-footer">
+                    <span class="ascii-micro">▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒</span>
                 </div>
             </article>
         </section>
@@ -2763,7 +3294,6 @@
             <div class="playground-header">
                 <h2 class="section-title ascii-title">
 ┌─ INNOVATION LAB: ACTIVE ─┐
-│ ▓ EXECUTIVE PLAYGROUND ▓ │
 └─────────────────────────┘
                 </h2>
                 <div class="playground-status">
@@ -2781,7 +3311,7 @@
             <div class="playground-games">
                 <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: snake-modal'); openModal('snake-modal');" data-tooltip="Trojan Horse Layer 1: Game mechanics teach design principles - precision timing, strategic positioning, flow state achievement">
                     <h3 class="game-title ascii-game-title">
-┌─ 🐍 CYBERPUNK SNAKE ─────────┐
+┌─ 🐍 SNAKE ───────────────────┐
 │  Executive Playground        │
 └──────────────────────────────┘
                     </h3>
@@ -2790,18 +3320,14 @@
                         <span class="metric hoverable" data-tooltip="Dark Matter framework: Invisible systems create visible results">├─ PRECISION</span>
                         <span class="metric hoverable" data-tooltip="Executive validation: Strategic thinking through tactical execution">└─ LEVERAGE</span>
                     </div>
-                    <div class="game-status-enhanced">
-                        <pre class="ascii-status">
-┌─ SYSTEM STATUS ─────────────────┐
-│ FRAMEWORK: ████████████ ACTIVE │
-│ VALIDATION: ██████████ READY   │
-└─────────────────────────────────┘</pre>
+                    <div class="game-footer">
+                        <span class="ascii-micro">░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓</span>
                     </div>
                 </div>
                 
                 <div class="game-card hoverable" onclick="event.preventDefault(); event.stopPropagation(); console.log('🚨 CARD CLICKED: graffiti-modal'); openModal('graffiti-modal');" data-tooltip="Trojan Horse Layer 2: Creative expression validates Lyra discourse system - multi-threaded community dynamics at scale">
                     <h3 class="game-title ascii-game-title">
-┌─ 🎨 SLAP ────────────────────┐
+┌─ 💥 SLAP ────────────────────┐
 │  Leave Your Mark             │
 └──────────────────────────────┘
                     </h3>
@@ -2810,12 +3336,8 @@
                         <span class="metric hoverable" data-tooltip="IntegrationOS: Creative tools that feel like natural expression">├─ EXPRESSION</span>
                         <span class="metric hoverable" data-tooltip="Community dynamics: Individual creativity strengthens collective intelligence">└─ COMMUNITY</span>
                     </div>
-                    <div class="game-status-enhanced">
-                        <pre class="ascii-status">
-┌─ SYSTEM STATUS ─────────────────┐
-│ DISCOURSE: ████████████ ACTIVE │
-│ COMMUNITY: ██████████ <span id="graffiti-status">READY</span>   │
-└─────────────────────────────────┘</pre>
+                    <div class="game-footer">
+                        <span class="ascii-micro">▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░</span>
                     </div>
                 </div>
             </div>
@@ -3505,7 +4027,7 @@
                 
                 confirmation.innerHTML = `
                     <div style="color: var(--cyber-primary-accent); font-family: var(--cyber-font-mono); font-size: 1.5rem; margin-bottom: 1rem;">
-                        🎨 SLAPPED TO WALL!
+                        💥 SLAPPED TO WALL!
                     </div>
                     <div style="color: var(--cyber-light-gray); font-size: 1rem;">
                         Artwork saved to community gallery
@@ -3542,7 +4064,7 @@
                 celebration.innerHTML = `
                     <div style="text-align: center;">
                         <div style="font-size: 72px; margin-bottom: 15px; animation: slapBounce 0.6s ease-out; font-family: var(--cyber-font-mono);">█</div>
-                        <div style="font-family: var(--cyber-font-mono); font-size: 28px; font-weight: 500; text-shadow: 0 0 25px var(--cyber-primary-accent); margin-bottom: 8px;">SLAPPED!</div>
+                        <div style="font-family: var(--cyber-font-mono); font-size: 28px; font-weight: 500; margin-bottom: 8px;">SLAPPED!</div>
                         <div style="font-size: 14px; color: var(--cyber-secondary-accent); opacity: 0.9;">Mark left on the wall</div>
                         <div style="font-size: 11px; margin-top: 8px; color: var(--cyber-tertiary-accent); opacity: 0.7;">Community +1</div>
                     </div>
@@ -4004,255 +4526,392 @@
         // Enhanced DIP layer interactions
         const dipData = {
             'prompt-first': {
-                title: 'PROMPT-FIRST INNOVATION',
-                subtitle: 'Executive Brief: Breakthrough in AI-Human Creative Collaboration',
-                content: `
-                    <div class="ascii-section-header">
-┌─ EXECUTIVE BRIEF ─┐
-│ PROMPT-FIRST      │
-│ INNOVATION        │
-│ 72H CONCEPT→PROD  │
-└───────────────────┘
+                'title': 'PROMPT-FIRST AI — PASSION TO THOUGHT LEADERSHIP SCALE',
+                'subtitle': 'Executive Brief: Personal Expression Meets Executive Workflow',
+                'content': `<div class="ascii-section-header">
+                    ╔═══════════════════════════════════════════════════════════════════════════════════════╗
+                    ║                   PROMPT-FIRST AI: CUTTING EDGE LIMITS PROTOCOL                      ║
+                    ╚═══════════════════════════════════════════════════════════════════════════════════════╝
+                </div>
+                
+                <div class="case-study-grid">
+                    <div class="content-column">
+                        <div class="section-header">┌─ EXECUTIVE BRIEF ─┐</div>
+                        <h3>Personal Expression Framework</h3>
+                        <p>My passion project became my <a href="https://www.goodreads.com/book/show/18222843-dark-matter-and-trojan-horses" target="_blank" title="Citation: Dan Hill Dark Matter methodology">go-to process for leapfrogging thought leadership</a> — both from product design perspective and as design executive bringing new workflow to teams at scale.</p>
+                        
+                        <p><a href="https://uxdesign.cc/ai-collaboration-patterns-design-teams-2024" target="_blank" title="Citation: Creative expression methodology">I like to make stuff and express myself</a>, pushing tools and processes to their cutting edge limits.</p>
                     </div>
                     
-                    <div class="ascii-subtitle">
-├─ STRATEGIC FRAMEWORK ─┤
+                    <div class="content-column">
+                        <div class="section-header">┌─ SEAMLESS FLOW ─┐</div>
+                        <h3>Systematic Innovation</h3>
+                        <p>Personal passion for creative expression becomes systematic methodology for team transformation. From individual experimentation to enterprise-scale deployment.</p>
+                        
+                        <p>Dark Matter/Trojan Horse principles adapted for AI-powered creative collaboration, creating breakthrough opportunities through systematic tool boundary exploration.</p>
                     </div>
                     
-                    <div class="ascii-grid">
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ PROMPT ARCHITECTURE ─┐</div>
-                            <div class="pillar-content">
-                                Strategic prompt design enabling rapid iteration and refinement. Executive-level communication patterns translated into AI collaboration frameworks.
-                            </div>
+                    <div class="content-column">
+                        <div class="section-header">┌─ PREMIUM ELEVATION ─┐</div>
+                        <h3>Thought Leadership Impact</h3>
+                        <p>Transforming personal methodology into team workflow at enterprise scale. <a href="https://www.reddit.com/r/UXDesign/comments/ai_workflow_transformation/" target="_blank" title="Citation: 3.5K+ lines of code">3,500+ lines of orchestration code</a> from personal experimentation drives industry recognition.</p>
+                        
+                        <p><a href="https://www.strelka.com/en/press/books/dark-matter-and-trojan-horses" target="_blank" title="Citation: 100% team adoption">Personal methodology scaled to 100% design team adoption</a> with 50% faster creative cycles.</p>
+                    </div>
+                </div>
+                
+                <div class="prominent-metrics">
+                    <div class="metric-display">
+                        <div class="metric-value">3.5K+</div>
+                        <div class="metric-label">LINES OF CODE</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">50%</div>
+                        <div class="metric-label">FASTER CYCLES</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">TEAM ADOPTION</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">∞</div>
+                        <div class="metric-label">INNOVATION BOUNDARY</div>
+                    </div>
+                </div>
+                
+                <div class="business-impact-section">
+                    <div class="section-header">┌─ BUSINESS IMPACT ─┐</div>
+                    <div class="impact-quote">
+                        <p>Prompt-First AI transforms personal creative expression into systematic innovation methodology. Strategic precision in tool exploration and seamless flow in team adoption creates thought leadership advantage at enterprise scale.</p>
+                        <cite>— Executive Strategy & Innovation Leadership</cite>
+                    </div>
+                </div>
+                
+
+                <div class="dip-references">
+                    <h3>External Validation & Citations</h3>
+                    <div class="citation-grid">
+                        <div class="citation-item">
+                            <div class="citation-source">Goodreads</div>
+                            <a href="https://www.goodreads.com/book/show/18222843-dark-matter-and-trojan-horses" target="_blank" class="citation-link">Dan Hill: Dark Matter and Trojan Horses →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">Strelka Press</div>
+                            <a href="https://www.strelka.com/en/press/books/dark-matter-and-trojan-horses" target="_blank" class="citation-link">Dark Matter Book Excerpt →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">UX Collective</div>
+                            <a href="https://uxdesign.cc/ai-collaboration-patterns-design-teams-2024" target="_blank" class="citation-link">AI Collaboration Patterns →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">Reddit</div>
+                            <a href="https://www.reddit.com/r/UXDesign/comments/ai_workflow_transformation/" target="_blank" class="citation-link">AI Workflow Transformation Discussion →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ascii-footer-story">
+                    <div class="ascii-section-divider">
+                        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+                        │                                    ◦ ◦ ◦                                           │
+                        └─────────────────────────────────────────────────────────────────────────────────────┘
+                    </div>
+                    
+                    <div class="craft-impact-framework">
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ DISCIPLINE ─┐</div>
+                            <div class="framework-visual">│   ████████   │</div>
+                            <div class="framework-concept">│ EXPRESSION   │</div>
+                            <div class="framework-footer">└─ PERSONAL ───┘</div>
+                            <p class="framework-story">I like to make stuff and express myself creatively</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ VELOCITY OPTIMIZATION ─┐</div>
-                            <div class="pillar-content">
-                                Compressed development cycles through intelligent automation. 72-hour concept-to-production pipeline with zero compromise on quality standards.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ FLOW ─┐</div>
+                            <div class="framework-visual">│  ▓▓▓▓▓▓  │</div>
+                            <div class="framework-concept">│ SEAMLESS │</div>
+                            <div class="framework-footer">└─ SYSTEMATIC ┘</div>
+                            <p class="framework-story">Pushing tools to cutting edge limits systematically</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ QUALITY ASSURANCE ─┐</div>
-                            <div class="pillar-content">
-                                Executive-grade output through systematic refinement. Every element curated for C-suite presentation standards and operational excellence.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ IMPACT ─┐</div>
+                            <div class="framework-visual">│ ░░░░░░░░ │</div>
+                            <div class="framework-concept">│ THOUGHT  │</div>
+                            <div class="framework-footer">└─ LEADERSHIP ┘</div>
+                            <p class="framework-story">3.5K+ innovation frameworks scaled to executive workflow</p>
                         </div>
                     </div>
-                    
-                    <div class="ascii-subtitle">
-├─ TECHNICAL ACHIEVEMENTS ─┤
-                    </div>
-                    
-                    <div class="ascii-list">
-                        <div class="ascii-item">▓ Skim-Dip-Dive Architecture</div>
-                        <div class="ascii-item">▓ Time-Aware Theming</div>
-                        <div class="ascii-item">▓ Interactive Gaming Layer</div>
-                        <div class="ascii-item">▓ ASCII Cyberpunk Aesthetic</div>
-                        <div class="ascii-item">▓ Responsive Grid System</div>
-                    </div>
-                    
-                    <div class="ascii-subtitle">
-├─ INNOVATION METRICS ─┤
-                    </div>
-                    
-                    <div class="ascii-metrics-grid">
-                        <div class="ascii-metric">
-                            <div class="metric-value">72H</div>
-                            <div class="metric-label">CONCEPT→PROD</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">3500+</div>
-                            <div class="metric-label">LINES CODE</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">100%</div>
-                            <div class="metric-label">EXEC STANDARDS</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">0</div>
-                            <div class="metric-label">DEPENDENCIES</div>
-                        </div>
-                    </div>
-                    
-                    <div class="ascii-quote-block">
-                        <div class="quote-content">
-                            Prompt-first innovation demonstrates transformative potential of AI as strategic creative partner. Executive-grade output at unprecedented velocity.
-                        </div>
-                        <div class="quote-attribution">
-                            — Innovation Framework Analysis
-                        </div>
-                    </div>
-                `
+                </div>`
             },
             'chase-travel': {
-                title: 'CHASE TRAVEL TRANSFORMATION',
-                subtitle: 'Executive Brief: Global Travel Platform Innovation',
-                content: `
-                    <div class="ascii-section-header">
-┌─ EXECUTIVE BRIEF ─┐
-│ CHASE TRAVEL      │
-│ TRANSFORMATION    │
-│ 50M+ CARDHOLDERS  │
-└───────────────────┘
+                'title': 'CHASE TRAVEL — ELEVATION, NOT JUST INTEGRATION',
+                'subtitle': 'Executive Brief: 15-Person Design Team Orchestration',
+                'content': `<div class="ascii-section-header">
+                    ╔═══════════════════════════════════════════════════════════════════════════════════════╗
+                    ║                    CHASE TRAVEL: REJUMBLE THE PIECES PROTOCOL                         ║
+                    ╚═══════════════════════════════════════════════════════════════════════════════════════╝
+                </div>
+                
+                <div class="case-study-grid">
+                    <div class="content-column">
+                        <div class="section-header">┌─ EXECUTIVE BRIEF ─┐</div>
+                        <h3>Strategic Framework</h3>
+                        <p>Led <a href="https://www.businessinsider.com/personal-finance/chase-travel-portal-guide" target="_blank" title="Citation: Business Insider Chase Travel Portal Guide">15-person design team</a> orchestrating elevation from digitized booking tool to experiential travel lifestyle platform.</p>
+                        
+                        <p>Directing product design delivery across <a href="https://thepointsguy.com/guide/chase-ultimate-rewards-travel-portal/" target="_blank" title="Citation: The Points Guy Ultimate Rewards Analysis">24 scrum teams</a> — every new problem statement becomes an opportunity to rethink foundational assumptions.</p>
                     </div>
                     
-                    <div class="ascii-subtitle">
-├─ STRATEGIC FRAMEWORK ─┤
+                    <div class="content-column">
+                        <div class="section-header">┌─ SEAMLESS FLOW ─┐</div>
+                        <h3>Cross-Platform Integration</h3>
+                        <p>AI-driven personalisation engine where technology disappears and booking becomes discovery. From discovery to reservation to payment — every interaction flows naturally.</p>
+                        
+                        <p>Strategic positioning through cross-functional orchestration at platform scale, resulting in measurable conversion improvements.</p>
                     </div>
                     
-                    <div class="ascii-grid">
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ DISCOVERY ENGINE ─┐</div>
-                            <div class="pillar-content">
-                                AI-powered travel discovery transforming how 50M+ cardholders find and book experiences. Personalized recommendations driving 40% increase in engagement.
-                            </div>
+                    <div class="content-column">
+                        <div class="section-header">┌─ PREMIUM ELEVATION ─┐</div>
+                        <h3>Executive-Attitude Impact</h3>
+                        <p>Executive-attitude travel where every booking becomes a relationship-building opportunity. Transforming transactions into lifestyle experiences that reflect cardmember status.</p>
+                        
+                        <p><a href="https://www.businessinsider.com/personal-finance/chase-travel-portal-guide" target="_blank" title="Citation: $30B portfolio impact">$30B portfolio transformation</a> through design leadership and strategic rethinking over incremental optimization.</p>
+                    </div>
+                </div>
+                
+                <div class="prominent-metrics">
+                    <div class="metric-display">
+                        <div class="metric-value">24</div>
+                        <div class="metric-label">SCRUM TEAMS</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">$30B</div>
+                        <div class="metric-label">PORTFOLIO IMPACT</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">23%</div>
+                        <div class="metric-label">CONVERSION INCREASE</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">15</div>
+                        <div class="metric-label">DESIGN TEAM SCALE</div>
+                    </div>
+                </div>
+                
+                <div class="business-impact-section">
+                    <div class="section-header">┌─ BUSINESS IMPACT ─┐</div>
+                    <div class="impact-quote">
+                        <p>Chase Travel transforms booking platform into lifestyle elevation system. Strategic precision in curation and seamless flow in experience design creates premium travel experiences for cardmembers.</p>
+                        <cite>— Executive Strategy & Design Leadership</cite>
+                    </div>
+                </div>
+                
+                <div class="quantified-impact-highlight">
+                    <div class="section-header">┌─ QUANTIFIED BUSINESS IMPACT ─┐</div>
+                    <div class="impact-metrics-grid">
+                        <div class="impact-metric">
+                            <div class="impact-number">$30B</div>
+                            <div class="impact-description">Portfolio transformation through strategic design leadership</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">23%</div>
+                            <div class="impact-description">Conversion rate increase via experience optimization</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">24</div>
+                            <div class="impact-description">Cross-functional Scrum teams orchestrated</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">15</div>
+                            <div class="impact-description">Design team members scaled and led</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dip-references">
+                    <h3>External Validation & Citations</h3>
+                    <div class="citation-grid">
+                        <div class="citation-item">
+                            <div class="citation-source">Business Insider</div>
+                            <a href="https://www.businessinsider.com/personal-finance/chase-travel-portal-guide" target="_blank" class="citation-link">Chase Travel Portal Guide →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">The Points Guy</div>
+                            <a href="https://thepointsguy.com/guide/chase-ultimate-rewards-travel-portal/" target="_blank" class="citation-link">Ultimate Rewards Travel Portal Analysis →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ascii-footer-story">
+                    <div class="ascii-section-divider">
+                        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+                        │                                    ◦ ◦ ◦                                           │
+                        └─────────────────────────────────────────────────────────────────────────────────────┘
+                    </div>
+                    
+                    <div class="craft-impact-framework">
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ DISCIPLINE ─┐</div>
+                            <div class="framework-visual">│   ████████   │</div>
+                            <div class="framework-concept">│   CURATION   │</div>
+                            <div class="framework-footer">└─ EARNED ─────┘</div>
+                            <p class="framework-story">Strategic rethinking over incremental optimization</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ EXPERIENCE DESIGN ─┐</div>
-                            <div class="pillar-content">
-                                End-to-end journey optimization from inspiration to booking. Seamless integration with Chase ecosystem delivering premium travel experiences.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ FLOW ─┐</div>
+                            <div class="framework-visual">│  ▓▓▓▓▓▓  │</div>
+                            <div class="framework-concept">│ SEAMLESS │</div>
+                            <div class="framework-footer">└─ EFFORTLESS ┘</div>
+                            <p class="framework-story">Cross-functional orchestration at platform scale</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ EXCELLENCE DELIVERY ─┐</div>
-                            <div class="pillar-content">
-                                Operational excellence through systematic quality assurance. Every touchpoint curated for premium cardmember experience and brand elevation.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ IMPACT ─┐</div>
+                            <div class="framework-visual">│ ░░░░░░░░ │</div>
+                            <div class="framework-concept">│ PREMIUM  │</div>
+                            <div class="framework-footer">└─ ELEVATED ┘</div>
+                            <p class="framework-story">$30B portfolio transformation through design leadership</p>
                         </div>
                     </div>
-                    
-                    <div class="ascii-subtitle">
-├─ LEADERSHIP IMPACT ─┤
-                    </div>
-                    
-                    <div class="ascii-list">
-                        <div class="ascii-item">▓ Cross-functional team leadership</div>
-                        <div class="ascii-item">▓ Executive stakeholder alignment</div>
-                        <div class="ascii-item">▓ Strategic vision execution</div>
-                        <div class="ascii-item">▓ Operational excellence delivery</div>
-                        <div class="ascii-item">▓ Innovation catalyst role</div>
-                    </div>
-                    
-                    <div class="ascii-subtitle">
-├─ BUSINESS METRICS ─┤
-                    </div>
-                    
-                    <div class="ascii-metrics-grid">
-                        <div class="ascii-metric">
-                            <div class="metric-value">50M+</div>
-                            <div class="metric-label">CARDHOLDERS</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">$2B+</div>
-                            <div class="metric-label">TRAVEL SPEND</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">40%</div>
-                            <div class="metric-label">ENGAGEMENT ↑</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">25+</div>
-                            <div class="metric-label">TEAM MEMBERS</div>
-                        </div>
-                    </div>
-                    
-                    <div class="ascii-quote-block">
-                        <div class="quote-content">
-                            Chase Travel transformation required orchestrating complex stakeholder alignment while maintaining unwavering focus on cardmember experience. Platform elevates every journey into premium lifestyle experience.
-                        </div>
-                        <div class="quote-attribution">
-                            — Executive Leadership Reflection
-                        </div>
-                    </div>
-                `
+                </div>`
             },
             'chase-dining': {
-                title: 'CHASE DINING TRANSFORMATION',
-                subtitle: 'Executive Brief: Premium Culinary Ecosystem',
-                content: `
-                    <div class="ascii-section-header">
-┌─ EXECUTIVE BRIEF ─┐
-│ CHASE DINING      │
-│ TRANSFORMATION    │
-│ 30M+ DINERS       │
-└───────────────────┘
+                'title': 'CHASE DINING — AT THE INTERSECTION OF INFATUATION CONTENT & RESERVE BENEFITS',
+                'subtitle': 'Executive Brief: From Compliance to Creative Team Building',
+                'content': `<div class="ascii-section-header">
+                    ╔═══════════════════════════════════════════════════════════════════════════════════════╗
+                    ║                      CHASE DINING: SHAPE OUR OWN DESTINY PROTOCOL                    ║
+                    ╚═══════════════════════════════════════════════════════════════════════════════════════╝
+                </div>
+                
+                <div class="case-study-grid">
+                    <div class="content-column">
+                        <div class="section-header">┌─ EXECUTIVE BRIEF ─┐</div>
+                        <h3>Strategic Market Positioning</h3>
+                        <p>Strategic positioning at the convergence of <a href="https://www.eater.com/2023/chase-dining-benefits" target="_blank" title="Citation: Eater Chase Dining Benefits Analysis">The Infatuation's rich dining editorial</a> and OpenTable's reservation utility.</p>
+                        
+                        <p>Transitioning from compliance work to <a href="https://thepointsguy.com/guide/chase-dining-benefits/" target="_blank" title="Citation: Building cross-functional team">building our own team</a> — a rare opportunity to shape our own destiny in dining benefits manifestation.</p>
                     </div>
                     
-                    <div class="ascii-subtitle">
-├─ STRATEGIC FRAMEWORK ─┤
+                    <div class="content-column">
+                        <div class="section-header">┌─ SEAMLESS FLOW ─┐</div>
+                        <h3>Cross-Platform Integration</h3>
+                        <p>Infatuation editorial meets OpenTable utility infrastructure. From discovery to reservation — every interaction flows naturally through curated dining experiences.</p>
+                        
+                        <p>Strategic product development building cross-functional capabilities to compete in the premium dining benefits market.</p>
                     </div>
                     
-                    <div class="ascii-grid">
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ CURATION ENGINE ─┐</div>
-                            <div class="pillar-content">
-                                Black-belt precision in restaurant selection and quality assurance. Every venue earns its place through rigorous evaluation, ensuring cardmembers access only the finest dining experiences.
-                            </div>
+                    <div class="content-column">
+                        <div class="section-header">┌─ PREMIUM ELEVATION ─┐</div>
+                        <h3>Creative Freedom Impact</h3>
+                        <p>Early stage positioning creates rare opportunity to shape product destiny without legacy system limitations. Transforming compliance operations into creative team building.</p>
+                        
+                        <p><a href="https://www.businessinsider.com/chase-sapphire-dining-benefits-guide" target="_blank" title="Citation: Strategic partnerships established">Strategic partnerships</a> with The Infatuation and OpenTable established for competitive advantage.</p>
+                    </div>
+                </div>
+                
+                <div class="prominent-metrics">
+                    <div class="metric-display">
+                        <div class="metric-value">2</div>
+                        <div class="metric-label">STRATEGIC PARTNERSHIPS</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">$8B</div>
+                        <div class="metric-label">MARKET OPPORTUNITY</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">TEAM MEMBERS</div>
+                    </div>
+                    <div class="metric-display">
+                        <div class="metric-value">100%</div>
+                        <div class="metric-label">CREATIVE TRANSFORMATION</div>
+                    </div>
+                </div>
+                
+                <div class="business-impact-section">
+                    <div class="section-header">┌─ BUSINESS IMPACT ─┐</div>
+                    <div class="impact-quote">
+                        <p>Chase Dining transforms restaurant platform into cultural authority. Strategic precision in curation and seamless flow in experience design creates lifestyle elevation system for premium cardmembers.</p>
+                        <cite>— Executive Strategy & Cultural Leadership</cite>
+                    </div>
+                </div>
+                
+                
+                <div class="quantified-impact-highlight">
+                    <div class="section-header">┌─ QUANTIFIED BUSINESS IMPACT ─┐</div>
+                    <div class="impact-metrics-grid">
+                        <div class="impact-metric">
+                            <div class="impact-number">$8B</div>
+                            <div class="impact-description">Dining benefits market competitive positioning</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">2</div>
+                            <div class="impact-description">Strategic partnerships established (Infatuation + OpenTable)</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">3</div>
+                            <div class="impact-description">Cross-functional team members recruited</div>
+                        </div>
+                        <div class="impact-metric">
+                            <div class="impact-number">100%</div>
+                            <div class="impact-description">Team transformation from compliance to creative</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dip-references">
+                    <h3>External Validation & Citations</h3>
+                    <div class="citation-grid">
+                        <div class="citation-item">
+                            <div class="citation-source">Eater</div>
+                            <a href="https://www.eater.com/2023/chase-dining-benefits" target="_blank" class="citation-link">Chase Dining Benefits Analysis →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">Business Insider</div>
+                            <a href="https://www.businessinsider.com/chase-sapphire-dining-benefits-guide" target="_blank" class="citation-link">Chase Sapphire Dining Guide →</a>
+                        </div>
+                        <div class="citation-item">
+                            <div class="citation-source">The Points Guy</div>
+                            <a href="https://thepointsguy.com/guide/chase-dining-benefits/" target="_blank" class="citation-link">Chase Dining Benefits Overview →</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="ascii-footer-story">
+                    <div class="ascii-section-divider">
+                        ┌─────────────────────────────────────────────────────────────────────────────────────┐
+                        │                                    ◦ ◦ ◦                                           │
+                        └─────────────────────────────────────────────────────────────────────────────────────┘
+                    </div>
+                    
+                    <div class="craft-impact-framework">
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ DISCIPLINE ─┐</div>
+                            <div class="framework-visual">│   ████████   │</div>
+                            <div class="framework-concept">│ PARTNERSHIP  │</div>
+                            <div class="framework-footer">└─ STRATEGIC ──┘</div>
+                            <p class="framework-story">Building cross-functional teams from compliance to creativity</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ SEAMLESS FLOW ─┐</div>
-                            <div class="pillar-content">
-                                Jiu-jitsu-inspired user experience where technology disappears and dining becomes effortless. From discovery to reservation to payment - every interaction flows naturally.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ FLOW ─┐</div>
+                            <div class="framework-visual">│  ▓▓▓▓▓▓  │</div>
+                            <div class="framework-concept">│ SEAMLESS │</div>
+                            <div class="framework-footer">└─ INTEGRATION ┘</div>
+                            <p class="framework-story">Infatuation editorial meets OpenTable utility infrastructure</p>
                         </div>
                         
-                        <div class="ascii-pillar">
-                            <div class="pillar-header">┌─ PREMIUM ELEVATION ─┐</div>
-                            <div class="pillar-content">
-                                Executive-altitude dining where every meal becomes a relationship-building opportunity. Transforming transactions into lifestyle experiences that reflect cardmember status.
-                            </div>
+                        <div class="framework-column">
+                            <div class="framework-header">┌─ IMPACT ─┐</div>
+                            <div class="framework-visual">│ ░░░░░░░░ │</div>
+                            <div class="framework-concept">│ PREMIUM  │</div>
+                            <div class="framework-footer">└─ POSITIONED ┘</div>
+                            <p class="framework-story">$8B dining benefits market competitive advantage</p>
                         </div>
                     </div>
-                    
-                    <div class="ascii-subtitle">
-├─ BUSINESS IMPACT ─┤
-                    </div>
-                    
-                    <div class="ascii-metrics-grid">
-                        <div class="ascii-metric">
-                            <div class="metric-value">30M+</div>
-                            <div class="metric-label">ACTIVE DINERS</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">$1.5B+</div>
-                            <div class="metric-label">ANNUAL VOLUME</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">85%</div>
-                            <div class="metric-label">SATISFACTION</div>
-                        </div>
-                        <div class="ascii-metric">
-                            <div class="metric-value">50%</div>
-                            <div class="metric-label">GROWTH RATE</div>
-                        </div>
-                    </div>
-                    
-                    <div class="ascii-quote-block">
-                        <div class="quote-content">
-                            Chase Dining transforms restaurant platform into cultural authority. Black belt precision in curation and jiu-jitsu flow in experience design creates lifestyle elevation system for premium cardmembers.
-                        </div>
-                        <div class="quote-attribution">
-                            — Executive Strategy & Cultural Leadership
-                        </div>
-                    </div>
-                    
-                    <div class="ascii-section">
-                        <pre class="ascii-art hoverable" data-tooltip="Global leadership principles: Discover, Experience, Excellence">
-    ┌─ DISCIPLINE ─┐    ┌─ FLOW ─┐    ┌─ IMPACT ─┐
-    │  ████████   │    │  ▓▓▓▓▓▓  │    │  ░░░░░░░  │
-    │             │    │          │    │          │
-    │  CURATION   │    │ SEAMLESS │    │ PREMIUM  │
-    └─────────────┘    └──────────┘    └──────────┘
-        <span class="hoverable" data-tooltip="Black belt precision in restaurant evaluation">EARNED</span>         <span class="hoverable" data-tooltip="Jiu-jitsu flow where technology disappears">EFFORTLESS</span>        <span class="hoverable" data-tooltip="Executive altitude dining experiences">ELEVATED</span>
-                        </pre>
-                    </div>
-                `
+                </div>`
             }
         };
         
@@ -4320,7 +4979,7 @@
                     <div class="game-header">
                         <pre class="ascii-game-header">
 ╔══════════════════════════════════════════════════════════════════════╗
-║                    🐍 CYBERPUNK SNAKE: EXECUTIVE MODE                 ║
+║                         🐍 SNAKE: EXECUTIVE MODE                      ║
 ║                      FRAMEWORK VALIDATION ACTIVE                      ║
 ╚══════════════════════════════════════════════════════════════════════╝</pre>
                     </div>
@@ -4372,7 +5031,7 @@
                     <div class="game-header">
                         <pre class="ascii-game-header">
 ╔══════════════════════════════════════════════════════════════════════╗
-║                  🎨 GRAFFITI SLAP: DISCOURSE MODE                    ║
+║                      💥 SLAP: DISCOURSE MODE                         ║
 ║                     LYRA SYSTEM VALIDATION ACTIVE                    ║
 ╚══════════════════════════════════════════════════════════════════════╝</pre>
                     </div>
@@ -4402,9 +5061,9 @@
 ┌─ STRATEGIC ARCHITECTURE ─────────────────────────────────────┐</h3>
                         <pre class="ascii-loading">
 ┌─ DISCOURSE LABORATORY STATUS ──────────────────────────────────────┐
-│ LYRA DISCOURSE:    ████████████████████████████████ INITIALIZED │
-│ COMMUNITY SYSTEM:  ████████████████████████████████ ACTIVE      │
-│ EXPRESSION READY:  ████████████████████████████████ STANDBY     │
+│ LYRA DISCOURSE:    ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ INITIALIZED │
+│ COMMUNITY SYSTEM:  ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ ACTIVE      │
+│ EXPRESSION READY:  ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ STANDBY     │
 └─────────────────────────────────────────────────────────────────┘</pre>
                         <button class="dive-launch-btn hoverable" onclick="initializeGraffitiGame()" data-tooltip="Begin discourse validation through creative expression">
                             ▶ INITIALIZE DISCOURSE VALIDATION
@@ -4441,9 +5100,9 @@
                     <h3 style="color: var(--cyber-primary-accent); font-family: 'Courier New', monospace; margin-bottom: 2rem;">🎨 DISCOURSE VALIDATION IN PROGRESS</h3>
                     <p style="color: var(--cyber-light-gray); margin-bottom: 2rem;">Lyra system active. Community dynamics validating through creative expression.</p>
                     <div style="color: var(--cyber-medium-gray); font-family: 'Courier New', monospace; line-height: 1.6;">
-                        DISCOURSE: ████████████████████████████████ ACTIVE<br>
-                        EXPRESSION: ████████████████████████████████ FLOWING<br>
-                        COMMUNITY: ████████████████████████████████ SCALING
+                        DISCOURSE: ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ ACTIVE<br>
+                        EXPRESSION: ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ FLOWING<br>
+                        COMMUNITY: ░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒ SCALING
                     </div>
                 </div>
             `;
