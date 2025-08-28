@@ -397,16 +397,19 @@ class ImmersiveSnakeGame {
             'snake-left': () => this.setDirection({ x: -1, y: 0 }),
             'snake-right': () => this.setDirection({ x: 1, y: 0 }),
             'snake-boost': () => this.activateBoost(),
-            'snake-pause': () => this.togglePause(),
-            'snake-reset': () => this.restart(),
             'snake-close': () => this.close()
         };
 
+        // Special handling for pause and reset buttons
+        const specialButtons = {
+            'snake-pause': () => this.togglePause(),
+            'snake-reset': () => this.restart()
+        };
+
+        // Setup regular touch controls
         Object.entries(touchButtons).forEach(([id, handler]) => {
             const btn = document.getElementById(id);
             if (btn) {
-                // Touch control setup
-                
                 // Remove existing listeners
                 btn.replaceWith(btn.cloneNode(true));
                 const newBtn = document.getElementById(id);
@@ -416,7 +419,6 @@ class ImmersiveSnakeGame {
                     newBtn.addEventListener(eventType, (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        // Touch event processed
                         handler();
                         
                         // Visual feedback
@@ -424,6 +426,27 @@ class ImmersiveSnakeGame {
                         setTimeout(() => newBtn.style.transform = 'scale(1)', 150);
                     }, { passive: false });
                 });
+            }
+        });
+
+        // Setup special buttons with click-only events
+        Object.entries(specialButtons).forEach(([id, handler]) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                // Remove existing listeners
+                btn.replaceWith(btn.cloneNode(true));
+                const newBtn = document.getElementById(id);
+                
+                // Only use click event for proper toggle behavior
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handler();
+                    
+                    // Visual feedback
+                    newBtn.style.transform = 'scale(0.9)';
+                    setTimeout(() => newBtn.style.transform = 'scale(1)', 150);
+                }, { passive: false });
             }
         });
     }
@@ -533,11 +556,11 @@ class ImmersiveSnakeGame {
                 });
                 
                 this.handleFoodEffect(food);
-                // Show math in score display temporarily (after score is updated)
-                this.showScoreMath(food.points);
                 this.foods.splice(i, 1);
                 foodEaten = true;
                 this.updateHUD(); // Update HUD immediately after food consumption
+                // Show math in score display temporarily (after HUD update)
+                this.showScoreMath(food.points);
                 break;
             }
         }
@@ -966,8 +989,9 @@ class ImmersiveSnakeGame {
                 }
             }
             
-            // Calculate pulsing scale (0.9 to 1.1) combined with intro animation
-            const pulseScale = (1.0 + Math.sin(pulseTime + food.x * 0.5 + food.y * 0.3) * 0.1) * animationScale;
+            // Enhanced pulsing scale (0.8 to 1.3) for more fun and expressive animation
+            const basePulse = Math.sin(pulseTime + food.x * 0.5 + food.y * 0.3);
+            const pulseScale = (1.0 + basePulse * 0.25) * animationScale;
             
             // Save context for transformation
             this.ctx.save();
@@ -1063,17 +1087,22 @@ class ImmersiveSnakeGame {
     }
 
     showScoreMath(points) {
+        console.log(`🎯 showScoreMath called: points=${points}, score=${this.score}, scoreEl=${this.scoreEl}`);
         if (this.scoreEl) {
             const oldScore = this.score - points; // Score before adding points
             const mathDisplay = `${oldScore} ${points > 0 ? '+' : ''}${points} = ${this.score}`;
             this.scoreEl.textContent = mathDisplay;
+            console.log(`🎯 Score display updated to: ${mathDisplay}`);
             
-            // Revert to normal score after 1 second
+            // Revert to normal score after 1.5 seconds
             setTimeout(() => {
                 if (this.scoreEl) {
                     this.scoreEl.textContent = this.score;
+                    console.log(`🎯 Score reverted to: ${this.score}`);
                 }
-            }, 1000);
+            }, 1500);
+        } else {
+            console.log(`❌ scoreEl not found in showScoreMath!`);
         }
     }
 
