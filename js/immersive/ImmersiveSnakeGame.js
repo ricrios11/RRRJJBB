@@ -330,6 +330,8 @@ class ImmersiveSnakeGame {
         this.levelEl = document.getElementById('snake-level');
         this.statusEl = document.getElementById('snake-status');
         
+        console.log(`🔍 HUD Binding: Score=${!!this.scoreEl}, Level=${!!this.levelEl}, Status=${!!this.statusEl}`);
+        
         // Force initial update if elements found
         if (this.scoreEl && this.levelEl && this.statusEl) {
             this.updateHUD();
@@ -398,10 +400,9 @@ class ImmersiveSnakeGame {
             'snake-close': () => this.close()
         };
 
-        // Special handling for pause and reset buttons
+        // Special handling for pause button only (reset removed for better UX)
         const specialButtons = {
-            'snake-pause': () => this.togglePause(),
-            'snake-reset': () => this.restart()
+            'snake-pause': () => this.togglePause()
         };
 
         // Setup regular touch controls
@@ -556,9 +557,8 @@ class ImmersiveSnakeGame {
                 this.handleFoodEffect(food);
                 this.foods.splice(i, 1);
                 foodEaten = true;
+                console.log(`🍎 Food eaten! Score before: ${this.score - food.points}, Points: ${food.points}, Score after: ${this.score}`);
                 this.updateHUD(); // Update HUD immediately after food consumption
-                // Show math in score display temporarily (after HUD update)
-                this.showScoreMath(food.points);
                 break;
             }
         }
@@ -1082,20 +1082,7 @@ class ImmersiveSnakeGame {
         });
     }
 
-    showScoreMath(points) {
-        if (this.scoreEl) {
-            const oldScore = this.score - points; // Score before adding points
-            const mathDisplay = `${oldScore} ${points > 0 ? '+' : ''}${points} = ${this.score}`;
-            this.scoreEl.textContent = mathDisplay;
-            
-            // Revert to normal score after 1.5 seconds
-            setTimeout(() => {
-                if (this.scoreEl) {
-                    this.scoreEl.textContent = this.score;
-                }
-            }, 1500);
-        }
-    }
+    // Removed showScoreMath - was interfering with score display
 
     updateHUD() {
         // Force re-bind if elements are missing
@@ -1105,6 +1092,9 @@ class ImmersiveSnakeGame {
         
         if (this.scoreEl) {
             this.scoreEl.textContent = this.score;
+            console.log(`🎮 Score element found: ${!!this.scoreEl}, Score value: ${this.score}, Element content: ${this.scoreEl.textContent}`);
+        } else {
+            console.log(`❌ Score element not found! Looking for #snake-score`);
         }
         
         if (this.levelEl) {
