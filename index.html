@@ -2560,41 +2560,51 @@
             </div>
             <div class="game-modal-body refined-body">
                 <div class="snake-game-container" role="main" aria-label="Snake Game Interface">
-                    <div class="game-stats refined-stats" role="status" aria-live="polite">
-                        <div class="stat-item">
-                            <span class="stat-label">SCORE</span>
-                            <span class="stat-value" id="snake-score" aria-label="Current score">0</span>
+                    <!-- Mobile-Centric Vertical Layout: 20vh header, 60vh game, 20vh controls -->
+                    
+                    <!-- Header Section (20vh) - Stats and Status -->
+                    <div class="snake-header" style="height: 20vh; min-height: 120px; display: flex; flex-direction: column; justify-content: center; padding: 1rem; background: rgba(0, 255, 136, 0.05); border: 1px solid rgba(0, 255, 136, 0.2); border-radius: 8px; margin-bottom: 1rem;">
+                        <div class="game-stats refined-stats" role="status" aria-live="polite" style="display: flex; justify-content: space-around; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                            <div class="stat-item" style="text-align: center;">
+                                <span class="stat-label" style="display: block; font-size: 0.8rem; color: #888;">SCORE</span>
+                                <span class="stat-value" id="snake-score" aria-label="Current score" style="display: block; font-size: 1.5rem; font-weight: bold; color: var(--cyber-primary);">0</span>
+                            </div>
+                            <div class="stat-item" style="text-align: center;">
+                                <span class="stat-label" style="display: block; font-size: 0.8rem; color: #888;">LEVEL</span>
+                                <span class="stat-value" id="snake-level" aria-label="Current level" style="display: block; font-size: 1.5rem; font-weight: bold; color: var(--cyber-secondary);">1</span>
+                            </div>
+                            <div class="stat-item" style="text-align: center;">
+                                <span class="stat-label" style="display: block; font-size: 0.8rem; color: #888;">STATUS</span>
+                                <span class="stat-value" id="snake-status" aria-label="Game status" style="display: block; font-size: 1.2rem; font-weight: bold; color: var(--cyber-warning);">READY</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-label">LEVEL</span>
-                            <span class="stat-value" id="snake-level" aria-label="Current level">1</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">STATUS</span>
-                            <span class="stat-value" id="snake-status" aria-label="Game status">READY</span>
-                        </div>
+                        <button id="snake-start" class="game-btn primary-action" aria-label="Start Snake Game" style="margin-top: 1rem; padding: 0.75rem 1.5rem; font-size: 1rem; background: var(--cyber-primary); color: #000; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">🐍 START HUNT</button>
                     </div>
-                    <div class="game-board refined-board" id="snake-board" role="application" aria-label="Snake Game Board" tabindex="0"></div>
-                    <div class="game-controls refined-controls">
-                        <button id="snake-start" class="game-btn primary-action" aria-label="Start Snake Game">🐍 START HUNT</button>
-                        
-                        <!-- Mobile Touch Controls - ALWAYS VISIBLE ON MOBILE -->
-                        <div class="touch-controls mobile-touch-controls" id="snake-touch-controls">
-                            <div class="touch-instructions">TOUCH CONTROLS</div>
-                            <div class="touch-grid">
-                                <div class="touch-row">
-                                    <button class="touch-btn" id="snake-up" aria-label="Move Up">↑</button>
+                    
+                    <!-- Game Board Section (60vh) - Main Game Area -->
+                    <div class="snake-game-area" style="height: 60vh; min-height: 300px; display: flex; justify-content: center; align-items: center; margin-bottom: 1rem;">
+                        <div class="game-board refined-board" id="snake-board" role="application" aria-label="Snake Game Board" tabindex="0" style="width: min(60vh, 90vw); height: min(60vh, 90vw); max-width: 500px; max-height: 500px; border: 2px solid var(--cyber-primary); background: rgba(0, 0, 0, 0.8); border-radius: 8px;"></div>
+                    </div>
+                    
+                    <!-- Touch Controls Section (20vh) - Mobile D-Pad -->
+                    <div class="snake-controls-area" style="height: 20vh; min-height: 120px; display: flex; justify-content: center; align-items: center;">
+                        <div class="touch-controls mobile-touch-controls" id="snake-touch-controls" style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                            <div class="touch-instructions" style="font-size: 0.8rem; color: #888; margin-bottom: 0.5rem;">TOUCH CONTROLS</div>
+                            <div class="touch-grid" style="display: grid; grid-template-rows: auto auto auto; gap: 0.5rem; align-items: center; justify-items: center;">
+                                <div class="touch-row" style="grid-row: 1;">
+                                    <button class="touch-btn" id="snake-up" aria-label="Move Up" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↑</button>
                                 </div>
-                                <div class="touch-row">
-                                    <button class="touch-btn" id="snake-left" aria-label="Move Left">←</button>
-                                    <button class="touch-btn" id="snake-down" aria-label="Move Down">↓</button>
-                                    <button class="touch-btn" id="snake-right" aria-label="Move Right">→</button>
+                                <div class="touch-row" style="grid-row: 2; display: flex; gap: 0.5rem; align-items: center;">
+                                    <button class="touch-btn" id="snake-left" aria-label="Move Left" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">←</button>
+                                    <button class="touch-btn" id="snake-down" aria-label="Move Down" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↓</button>
+                                    <button class="touch-btn" id="snake-right" aria-label="Move Right" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">→</button>
                                 </div>
-                                <div class="touch-row">
-                                    <button class="touch-btn boost-btn" id="snake-boost" aria-label="Speed Boost">⚡ BOOST</button>
+                                <div class="touch-row" style="grid-row: 3;">
+                                    <button class="touch-btn boost-btn" id="snake-boost" aria-label="Speed Boost" style="width: 60px; height: 40px; background: var(--cyber-warning); color: #000; border: none; border-radius: 8px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;">⚡ BOOST</button>
                                 </div>
                             </div>
                         </div>
+                    </div>
                         
                         <!-- Desktop Keyboard Hints -->
                         <div class="control-keys refined-keys">
