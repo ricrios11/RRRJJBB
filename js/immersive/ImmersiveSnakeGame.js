@@ -489,6 +489,8 @@ class ImmersiveSnakeGame {
         this.updateHUD();
         this.updateButtonStates();
         this.render();
+        // Auto-start after restart
+        this.startGame();
     }
 
     update() {
@@ -976,20 +978,19 @@ class ImmersiveSnakeGame {
             this.ctx.translate(centerX, centerY);
             this.ctx.scale(pulseScale, pulseScale);
             
-            // Direct emoji pulsing without muddy background
-            // Add subtle glow effect directly to emoji for special foods
+            // Razor sharp emoji rendering with no glow effects
+            // Clean pulsing through transparency for special foods
             if (food.effect) {
-                this.ctx.shadowColor = food.effect === 'turbo' ? '#ffff00' : 
-                                      food.effect === 'poison' ? '#ff0000' : 
-                                      food.effect === 'death' ? '#ff4444' : 'transparent';
-                this.ctx.shadowBlur = 8 + Math.sin(pulseTime * 2) * 3; // Subtle pulsing glow
+                // Special foods pulse with transparency (0.7 to 1.0)
+                this.ctx.globalAlpha = 0.85 + Math.sin(pulseTime * 3) * 0.15;
             } else {
-                // Regular foods get minimal glow for visibility
-                this.ctx.shadowColor = '#ffffff';
-                this.ctx.shadowBlur = 4 + Math.sin(pulseTime * 1.5) * 2;
+                // Regular foods have subtle transparency pulse (0.9 to 1.0)
+                this.ctx.globalAlpha = 0.95 + Math.sin(pulseTime * 2) * 0.05;
             }
             
-            // Clean emoji rendering without background
+            // Razor sharp emoji rendering - no shadows, no glow
+            this.ctx.shadowBlur = 0;
+            this.ctx.shadowColor = 'transparent';
             this.ctx.fillStyle = '#ffffff';
             this.ctx.fillText(food.emoji, 0, 0);
             
