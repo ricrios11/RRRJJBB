@@ -330,8 +330,6 @@ class ImmersiveSnakeGame {
         this.levelEl = document.getElementById('snake-level');
         this.statusEl = document.getElementById('snake-status');
         
-        console.log(`🎯 bindHUDElements - Score: ${this.scoreEl ? '✅' : '❌'}, Level: ${this.levelEl ? '✅' : '❌'}, Status: ${this.statusEl ? '✅' : '❌'}`);
-        
         // Force initial update if elements found
         if (this.scoreEl && this.levelEl && this.statusEl) {
             this.updateHUD();
@@ -494,7 +492,6 @@ class ImmersiveSnakeGame {
     }
 
     restart() {
-        console.log(`🔄 Restart called - clearing game state`);
         clearInterval(this.gameLoop);
         this.snake = [{ x: 10, y: 10 }];
         this.direction = { x: 1, y: 0 };
@@ -513,7 +510,6 @@ class ImmersiveSnakeGame {
         this.updateHUD();
         this.updateButtonStates();
         this.render();
-        console.log(`🔄 Restart complete - auto-starting game`);
         // Auto-start after restart
         setTimeout(() => this.startGame(), 100);
     }
@@ -611,8 +607,6 @@ class ImmersiveSnakeGame {
         
         // Update ghost food movement
         this.updateGhostFoods();
-        
-        this.updateHUD();
 
         this.render();
     }
@@ -1089,28 +1083,21 @@ class ImmersiveSnakeGame {
     }
 
     showScoreMath(points) {
-        console.log(`🎯 showScoreMath called: points=${points}, score=${this.score}, scoreEl=${this.scoreEl}`);
         if (this.scoreEl) {
             const oldScore = this.score - points; // Score before adding points
             const mathDisplay = `${oldScore} ${points > 0 ? '+' : ''}${points} = ${this.score}`;
             this.scoreEl.textContent = mathDisplay;
-            console.log(`🎯 Score display updated to: ${mathDisplay}`);
             
             // Revert to normal score after 1.5 seconds
             setTimeout(() => {
                 if (this.scoreEl) {
                     this.scoreEl.textContent = this.score;
-                    console.log(`🎯 Score reverted to: ${this.score}`);
                 }
             }, 1500);
-        } else {
-            console.log(`❌ scoreEl not found in showScoreMath!`);
         }
     }
 
     updateHUD() {
-        console.log(`🎮 updateHUD called - Score: ${this.score}, Level: ${this.level}, State: ${this.gameState}`);
-        
         // Force re-bind if elements are missing
         if (!this.scoreEl || !this.levelEl || !this.statusEl) {
             this.bindHUDElements();
@@ -1118,9 +1105,6 @@ class ImmersiveSnakeGame {
         
         if (this.scoreEl) {
             this.scoreEl.textContent = this.score;
-            console.log(`🎮 Score element updated to: ${this.scoreEl.textContent}`);
-        } else {
-            console.log(`❌ Score element not found in updateHUD!`);
         }
         
         if (this.levelEl) {
