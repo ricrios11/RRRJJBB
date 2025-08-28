@@ -396,7 +396,10 @@ class ImmersiveSnakeGame {
             'snake-down': () => this.setDirection({ x: 0, y: 1 }),
             'snake-left': () => this.setDirection({ x: -1, y: 0 }),
             'snake-right': () => this.setDirection({ x: 1, y: 0 }),
-            'snake-boost': () => this.activateBoost()
+            'snake-boost': () => this.activateBoost(),
+            'snake-pause': () => this.togglePause(),
+            'snake-reset': () => this.restart(),
+            'snake-close': () => this.close()
         };
 
         Object.entries(touchButtons).forEach(([id, handler]) => {
@@ -527,9 +530,9 @@ class ImmersiveSnakeGame {
                     emoji: food.emoji
                 });
                 
-                // Show math in score display temporarily
-                this.showScoreMath(food.points);
                 this.handleFoodEffect(food);
+                // Show math in score display temporarily (after score is updated)
+                this.showScoreMath(food.points);
                 this.foods.splice(i, 1);
                 foodEaten = true;
                 this.updateHUD(); // Update HUD immediately after food consumption
@@ -973,27 +976,21 @@ class ImmersiveSnakeGame {
             this.ctx.translate(centerX, centerY);
             this.ctx.scale(pulseScale, pulseScale);
             
-            // Add strong background for high visibility
-            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-            this.ctx.fillRect(-this.cellSize/2 + 2, -this.cellSize/2 + 2, this.cellSize - 4, this.cellSize - 4);
-            
-            // Add enhanced glow effect for special foods
+            // Direct emoji pulsing without muddy background
+            // Add subtle glow effect directly to emoji for special foods
             if (food.effect) {
                 this.ctx.shadowColor = food.effect === 'turbo' ? '#ffff00' : 
                                       food.effect === 'poison' ? '#ff0000' : 
                                       food.effect === 'death' ? '#ff4444' : 'transparent';
-                this.ctx.shadowBlur = 15 + Math.sin(pulseTime * 2) * 6; // Stronger pulsing glow
+                this.ctx.shadowBlur = 8 + Math.sin(pulseTime * 2) * 3; // Subtle pulsing glow
             } else {
-                // Regular foods get strong white glow for visibility
+                // Regular foods get minimal glow for visibility
                 this.ctx.shadowColor = '#ffffff';
-                this.ctx.shadowBlur = 8 + Math.sin(pulseTime * 1.5) * 4;
+                this.ctx.shadowBlur = 4 + Math.sin(pulseTime * 1.5) * 2;
             }
             
-            // Set text color for maximum contrast
+            // Clean emoji rendering without background
             this.ctx.fillStyle = '#ffffff';
-            this.ctx.strokeStyle = '#000000';
-            this.ctx.lineWidth = 2;
-            this.ctx.strokeText(food.emoji, 0, 0);
             this.ctx.fillText(food.emoji, 0, 0);
             
             // Restore context
@@ -1066,7 +1063,8 @@ class ImmersiveSnakeGame {
 
     showScoreMath(points) {
         if (this.scoreEl) {
-            const mathDisplay = `${this.score} ${points > 0 ? '+' : ''}${points} = ${this.score + points}`;
+            const oldScore = this.score - points; // Score before adding points
+            const mathDisplay = `${oldScore} ${points > 0 ? '+' : ''}${points} = ${this.score}`;
             this.scoreEl.textContent = mathDisplay;
             
             // Revert to normal score after 1 second
