@@ -15,24 +15,54 @@ class ImmersiveSnakeGame {
         // Game state
         this.snake = [{ x: 10, y: 10 }];
         this.direction = { x: 1, y: 0 };
-        this.food = { x: 15, y: 15, emoji: '🍎', points: 10 };
+        this.foods = []; // Multi-food system
+        this.ghostFoods = [];
+        
+        // Game timing
+        this.gameStartTime = null;
+        this.lastFoodSpawn = 0;
+        this.foodSpawnInterval = 2000; // Base spawn interval in ms
+        
+        // Animation states
+        this.foodAnimations = new Map(); // Track food introduction animations
+        this.consumptionAnimations = []; // Track consumption effects
+        
+        // Initialize HUD elements - TROJAN HORSE FIX: Proper element binding
+        this.scoreEl = null;
+        this.levelEl = null;
+        this.statusEl = null;
         this.score = 0;
         this.level = 1;
         this.gameState = 'ready'; // ready, playing, paused, gameOver
         this.gameLoop = null;
-        this.speed = 150;
+        this.speed = 100; // More dynamic base speed for engaging gameplay
         this.boostActive = false;
-        this.boostSpeed = 75;
+        this.boostSpeed = 50; // Faster turbo speed for exciting gameplay
+        this.boostTimeLeft = 0;
+        
+        // Enhanced food types - TROJAN HORSE FIX: Increased negative food visibility
+        this.foodTypes = {
+            apple: { emoji: '🍎', points: 10, probability: 0.35 },
+            cherry: { emoji: '🍒', points: 20, probability: 0.2 },
+            banana: { emoji: '🍌', points: 15, probability: 0.2 },
+            turbo: { emoji: '⚡', points: 5, probability: 0.1, effect: 'turbo' },
+            poison: { emoji: '☠️', points: -20, probability: 0.1, effect: 'poison' }, // Increased from 0.03 to 0.1
+            bomb: { emoji: '💣', points: 0, probability: 0.05, effect: 'death' } // Increased from 0.02 to 0.05
+        };
+        
+        // Ghost food system
+        this.ghostFoods = [];
+        this.ghostMoveTimer = 0;
 
         // Viewport calculations
         this.calculateViewport();
         this.setupCanvas();
         this.setupHUD();
         this.setupControls();
-        this.generateFood();
+        this.generateMultipleFoods();
         this.render(); // Initial render
         
-        console.log('🐍 Immersive Snake Game initialized');
+        // Game initialized successfully
         
         // Set global reference for touch controls
         window.currentSnakeGame = this;
@@ -50,7 +80,7 @@ class ImmersiveSnakeGame {
         this.canvasWidth = this.gridWidth * this.cellSize;
         this.canvasHeight = this.gridHeight * this.cellSize;
         
-        console.log(`🎯 Viewport: ${vw}x${vh}, Grid: ${this.gridWidth}x${this.gridHeight}, Cell: ${this.cellSize}px`);
+        // Viewport calculated successfully
     }
 
     setupCanvas() {
@@ -278,18 +308,39 @@ class ImmersiveSnakeGame {
     }
 
     setupHUD() {
+        // BULLETPROOF DOM BINDING: Immediate binding with fallback retry
+        this.bindHUDElements();
+        
+        // Backup binding with retry mechanism
+        const retryBinding = () => {
+            if (!this.scoreEl || !this.levelEl || !this.statusEl) {
+                // Retrying HUD element binding
+                this.bindHUDElements();
+                if (!this.scoreEl) {
+                    setTimeout(retryBinding, 50);
+                }
+            }
+        };
+        
+        setTimeout(retryBinding, 10);
+    }
+    
+    bindHUDElements() {
         this.scoreEl = document.getElementById('snake-score');
         this.levelEl = document.getElementById('snake-level');
         this.statusEl = document.getElementById('snake-status');
-        // Button event listeners
-        document.getElementById('snake-pause').addEventListener('click', () => this.togglePause());
-        document.getElementById('snake-restart').addEventListener('click', () => this.restart());
-        document.getElementById('snake-close').addEventListener('click', () => this.close());
+        
+        // HUD elements bound successfully
+        
+        // Force initial update if elements found
+        if (this.scoreEl && this.levelEl && this.statusEl) {
+            this.updateHUD();
+        }
     }
 
     setupControls() {
         this.keyHandler = (e) => {
-            console.log(`🎮 Snake key pressed: ${e.code}`);
+            // Key input processed
             switch(e.code) {
                 case 'ArrowUp':
                 case 'KeyW':
@@ -351,7 +402,7 @@ class ImmersiveSnakeGame {
         Object.entries(touchButtons).forEach(([id, handler]) => {
             const btn = document.getElementById(id);
             if (btn) {
-                console.log(`🎮 Setting up Snake touch control: ${id}`);
+                // Touch control setup
                 
                 // Remove existing listeners
                 btn.replaceWith(btn.cloneNode(true));
@@ -362,7 +413,7 @@ class ImmersiveSnakeGame {
                     newBtn.addEventListener(eventType, (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        console.log(`🎮 Snake ${eventType} on ${id}`);
+                        // Touch event processed
                         handler();
                         
                         // Visual feedback
@@ -396,7 +447,7 @@ class ImmersiveSnakeGame {
         this.updateButtonStates();
         this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
         
-        console.log('🎮 Snake game started');
+        // Game started successfully
     }
 
     start() {
@@ -423,9 +474,15 @@ class ImmersiveSnakeGame {
         this.score = 0;
         this.level = 1;
         this.gameState = 'ready';
-        this.speed = 150;
+        this.speed = 100; // Updated to match new base speed
         this.boostActive = false;
-        this.generateFood();
+        this.boostTimeLeft = 0;
+        this.foods = [];
+        this.ghostFoods = [];
+        this.foodAnimations = new Map(); // Reset animations
+        this.consumptionAnimations = []; // Reset consumption effects
+        this.lastFoodSpawn = 0; // Reset spawn timer
+        this.generateMultipleFoods();
         this.updateHUD();
         this.updateButtonStates();
         this.render();
@@ -453,46 +510,261 @@ class ImmersiveSnakeGame {
 
         this.snake.unshift(head);
 
-        // Check food collision
-        if (head.x === this.food.x && head.y === this.food.y) {
-            this.score += this.food.points;
-            this.level = Math.floor(this.score / 100) + 1;
-            this.speed = Math.max(80, 150 - (this.level * 10));
-            this.generateFood();
-            this.updateHUD();
+        // Check food collisions
+        let foodEaten = false;
+        
+        // Check regular foods
+        for (let i = this.foods.length - 1; i >= 0; i--) {
+            const food = this.foods[i];
+            if (head.x === food.x && head.y === food.y) {
+                // Add consumption animation with math display
+                this.consumptionAnimations.push({
+                    x: food.x * this.cellSize + this.cellSize / 2,
+                    y: food.y * this.cellSize + this.cellSize / 2,
+                    startTime: Date.now(),
+                    duration: 400,
+                    points: food.points,
+                    emoji: food.emoji
+                });
+                
+                // Show math in score display temporarily
+                this.showScoreMath(food.points);
+                this.handleFoodEffect(food);
+                this.foods.splice(i, 1);
+                foodEaten = true;
+                this.updateHUD(); // Update HUD immediately after food consumption
+                break;
+            }
+        }
+        
+        // Check ghost foods
+        for (let i = this.ghostFoods.length - 1; i >= 0; i--) {
+            const ghostFood = this.ghostFoods[i];
+            if (head.x === ghostFood.x && head.y === ghostFood.y) {
+                this.score += ghostFood.points;
+                this.ghostFoods.splice(i, 1);
+                foodEaten = true;
+                this.updateHUD(); // Update HUD immediately after ghost food consumption
+                break;
+            }
+        }
+        
+        // Continuous food spawning system
+        const currentTime = Date.now();
+        if (currentTime - this.lastFoodSpawn > this.foodSpawnInterval) {
+            // Vary spawn interval for dynamic gameplay (1.5-3 seconds)
+            this.foodSpawnInterval = 1500 + Math.random() * 1500;
             
-            // Restart game loop with new speed
-            clearInterval(this.gameLoop);
-            this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
-        } else {
+            // Spawn new food if we have less than 5 foods on screen
+            if (this.foods.length < 5) {
+                this.generateSingleFood();
+                this.lastFoodSpawn = currentTime;
+            }
+            
+            // 20% chance to spawn ghost food if none exists
+            if (this.ghostFoods.length === 0 && Math.random() < 0.2) {
+                this.generateGhostFood();
+            }
+        }
+        
+        if (!foodEaten) {
             this.snake.pop();
         }
+        
+        // Update boost timer
+        if (this.boostActive && this.boostTimeLeft > 0) {
+            this.boostTimeLeft--;
+            if (this.boostTimeLeft <= 0) {
+                this.boostActive = false;
+            }
+        }
+        
+        // Update ghost food movement
+        this.updateGhostFoods();
+        
+        this.updateHUD();
 
         this.render();
     }
 
-    generateFood() {
-        const foodTypes = [
-            { emoji: '🍎', points: 10 },
-            { emoji: '🍊', points: 15 },
-            { emoji: '🍌', points: 20 },
-            { emoji: '🍇', points: 25 },
-            { emoji: '🍓', points: 30 },
-            { emoji: '🥝', points: 35 },
-            { emoji: '🍑', points: 40 },
-            { emoji: '🥭', points: 50 }
-        ];
+    generateMultipleFoods() {
+        // Clear existing foods
+        this.foods = [];
         
-        const randomFood = foodTypes[Math.floor(Math.random() * foodTypes.length)];
+        // Generate 2-4 regular foods
+        const numFoods = Math.floor(Math.random() * 3) + 2;
+        for (let i = 0; i < numFoods; i++) {
+            this.generateSingleFood();
+        }
         
+        // 30% chance to generate ghost food
+        if (Math.random() < 0.3) {
+            this.generateGhostFood();
+        }
+    }
+
+    generateSingleFood() {
+        let x, y;
         do {
-            this.food = {
+            x = Math.floor(Math.random() * this.gridWidth);
+            y = Math.floor(Math.random() * this.gridHeight);
+        } while (this.isPositionOccupied(x, y));
+        
+        // Select food type based on probability
+        const rand = Math.random();
+        let cumulativeProbability = 0;
+        let selectedType = 'apple'; // default
+        
+        for (const [type, config] of Object.entries(this.foodTypes)) {
+            cumulativeProbability += config.probability;
+            if (rand <= cumulativeProbability) {
+                selectedType = type;
+                break;
+            }
+        }
+        
+        const foodConfig = this.foodTypes[selectedType];
+        const food = {
+            x: x,
+            y: y,
+            emoji: foodConfig.emoji,
+            points: foodConfig.points,
+            effect: foodConfig.effect || null,
+            id: Date.now() + Math.random() // Unique ID for animation tracking
+        };
+        
+        // Add introduction animation
+        this.foodAnimations.set(food.id, {
+            type: 'introduction',
+            startTime: Date.now(),
+            duration: 300, // 300ms intro animation
+            scale: 0
+        });
+        
+        this.foods.push(food);
+    }
+
+    generateGhostFood() {
+        let position;
+        do {
+            position = {
                 x: Math.floor(Math.random() * this.gridWidth),
-                y: Math.floor(Math.random() * this.gridHeight),
-                emoji: randomFood.emoji,
-                points: randomFood.points
+                y: Math.floor(Math.random() * this.gridHeight)
             };
-        } while (this.snake.some(segment => segment.x === this.food.x && segment.y === this.food.y));
+        } while (this.isPositionOccupied(position.x, position.y));
+        
+        const ghostFood = {
+            x: position.x,
+            y: position.y,
+            emoji: '👻',
+            points: 50,
+            type: 'ghost',
+            moveTimer: 0,
+            moveInterval: 20 // TROJAN HORSE FIX: Move every 20 frames for visible chase mechanics
+        };
+        
+        this.ghostFoods.push(ghostFood);
+    }
+
+    isPositionOccupied(x, y) {
+        // Check snake
+        if (this.snake.some(segment => segment.x === x && segment.y === y)) {
+            return true;
+        }
+        
+        // Check regular foods
+        if (this.foods.some(food => food.x === x && food.y === y)) {
+            return true;
+        }
+        
+        // Check ghost foods
+        if (this.ghostFoods.some(food => food.x === x && food.y === y)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    handleFoodEffect(food) {
+        // Processing food effect
+        this.score += food.points;
+        // Score updated
+        
+        switch (food.effect) {
+            case 'turbo':
+                this.boostActive = true;
+                this.boostTimeLeft = 180; // 3 seconds at 60fps
+                break;
+                
+            case 'poison':
+                // Negative points already applied, add visual effect
+                this.showPoisonEffect();
+                break;
+                
+            case 'death':
+                this.gameOver();
+                return;
+        }
+        
+        // Update level and speed with more dynamic progression
+        this.level = Math.floor(Math.max(0, this.score) / 100) + 1;
+        this.speed = Math.max(40, 100 - (this.level * 8)); // Faster progression and lower minimum speed
+        
+        // Restart game loop with new speed if not boosting
+        if (!this.boostActive) {
+            clearInterval(this.gameLoop);
+            this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
+        }
+    }
+
+    updateGhostFoods() {
+        for (let i = this.ghostFoods.length - 1; i >= 0; i--) {
+            const ghost = this.ghostFoods[i];
+            ghost.moveTimer++;
+            
+            // TROJAN HORSE FIX: More frequent movement for visible chase mechanics
+            if (ghost.moveTimer >= ghost.moveInterval) {
+                ghost.moveTimer = 0;
+                
+                // Move ghost food like a chess knight
+                const knightMoves = [
+                    { x: 2, y: 1 }, { x: 2, y: -1 }, { x: -2, y: 1 }, { x: -2, y: -1 },
+                    { x: 1, y: 2 }, { x: 1, y: -2 }, { x: -1, y: 2 }, { x: -1, y: -2 }
+                ];
+                
+                const validMoves = knightMoves.filter(move => {
+                    const newX = ghost.x + move.x;
+                    const newY = ghost.y + move.y;
+                    return newX >= 0 && newX < this.gridWidth && 
+                           newY >= 0 && newY < this.gridHeight &&
+                           !this.isPositionOccupied(newX, newY);
+                });
+                
+                if (validMoves.length > 0) {
+                    const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    ghost.x += randomMove.x;
+                    ghost.y += randomMove.y;
+                } else {
+                    // If no valid moves, disappear
+                    this.ghostFoods.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    showPoisonEffect() {
+        // Flash the canvas red briefly
+        const originalFillStyle = this.ctx.fillStyle;
+        this.ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+        
+        setTimeout(() => {
+            this.render();
+        }, 200);
+    }
+
+    getCurrentSpeed() {
+        return this.boostActive ? this.boostSpeed : this.speed;
     }
 
     render() {
@@ -500,11 +772,26 @@ class ImmersiveSnakeGame {
         this.ctx.fillStyle = '#111';
         this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
 
-        // Draw snake
+        // Draw snake with CYBERPUNK TURBO VISUAL AFFORDANCE
+        const turboTime = Date.now() * 0.01;
         this.snake.forEach((segment, index) => {
             if (index === 0) {
-                // Head with eyes
-                this.ctx.fillStyle = '#00ff9d';
+                // TURBO HEAD: Dynamic color transformation
+                let headColor = '#00ff9d'; // Default green
+                let glowIntensity = 0;
+                
+                if (this.boostActive) {
+                    // CYBERPUNK TURBO TRANSFORMATION
+                    const pulseFactor = Math.sin(turboTime) * 0.5 + 0.5;
+                    headColor = `rgb(${Math.floor(255 * pulseFactor)}, ${Math.floor(255 * (1 - pulseFactor))}, ${Math.floor(255 * pulseFactor)})`;
+                    glowIntensity = 15 + Math.sin(turboTime * 2) * 10;
+                    
+                    // Electric glow effect
+                    this.ctx.shadowColor = '#ff00ff';
+                    this.ctx.shadowBlur = glowIntensity;
+                }
+                
+                this.ctx.fillStyle = headColor;
                 this.ctx.fillRect(
                     segment.x * this.cellSize + 1,
                     segment.y * this.cellSize + 1,
@@ -512,53 +799,302 @@ class ImmersiveSnakeGame {
                     this.cellSize - 2
                 );
                 
-                // Draw eyes
+                // Reset shadow for other elements
+                this.ctx.shadowBlur = 0;
+                
+                // Determine emotion based on game state and recent events
+                let emotion = 'normal';
+                if (this.boostActive) {
+                    emotion = 'excited';
+                } else if (this.consumptionAnimations.length > 0) {
+                    emotion = 'happy';
+                } else if (this.score < 0) {
+                    emotion = 'sad';
+                }
+                
+                // Draw emotive eyes
                 this.ctx.fillStyle = '#000000';
                 const eyeSize = Math.max(2, this.cellSize / 6);
                 const eyeOffset = this.cellSize / 4;
+                const headCenterX = segment.x * this.cellSize + this.cellSize / 2;
+                const headCenterY = segment.y * this.cellSize + this.cellSize / 2;
                 
-                // Left eye
-                this.ctx.fillRect(
-                    segment.x * this.cellSize + eyeOffset,
-                    segment.y * this.cellSize + eyeOffset,
-                    eyeSize,
-                    eyeSize
-                );
+                // Eye positions based on direction
+                let leftEyeX = segment.x * this.cellSize + eyeOffset;
+                let rightEyeX = segment.x * this.cellSize + this.cellSize - eyeOffset - eyeSize;
+                let eyeY = segment.y * this.cellSize + eyeOffset;
                 
-                // Right eye
-                this.ctx.fillRect(
-                    segment.x * this.cellSize + this.cellSize - eyeOffset - eyeSize,
-                    segment.y * this.cellSize + eyeOffset,
-                    eyeSize,
-                    eyeSize
-                );
+                // Adjust eye position based on movement direction
+                if (this.direction.x !== 0) {
+                    leftEyeX += this.direction.x * 2;
+                    rightEyeX += this.direction.x * 2;
+                }
+                if (this.direction.y !== 0) {
+                    eyeY += this.direction.y * 2;
+                }
+                
+                // Draw eyes based on emotion with TURBO ENHANCEMENT
+                switch (emotion) {
+                    case 'excited':
+                        // TURBO EYES: Electric cyan glow with sparks
+                        if (this.boostActive) {
+                            this.ctx.shadowColor = '#00ffff';
+                            this.ctx.shadowBlur = 8;
+                            this.ctx.fillStyle = '#00ffff';
+                        } else {
+                            this.ctx.fillStyle = '#ffffff';
+                        }
+                        this.ctx.fillRect(leftEyeX - 1, eyeY - 1, eyeSize + 2, eyeSize + 2);
+                        this.ctx.fillRect(rightEyeX - 1, eyeY - 1, eyeSize + 2, eyeSize + 2);
+                        this.ctx.shadowBlur = 0;
+                        this.ctx.fillStyle = '#000000';
+                        this.ctx.fillRect(leftEyeX, eyeY, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY, eyeSize, eyeSize);
+                        break;
+                        
+                    case 'happy':
+                        // Squinted happy eyes
+                        this.ctx.fillRect(leftEyeX, eyeY + eyeSize / 3, eyeSize, eyeSize / 2);
+                        this.ctx.fillRect(rightEyeX, eyeY + eyeSize / 3, eyeSize, eyeSize / 2);
+                        break;
+                        
+                    case 'sad':
+                        // Droopy eyes
+                        this.ctx.fillRect(leftEyeX, eyeY + eyeSize / 4, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY + eyeSize / 4, eyeSize, eyeSize);
+                        break;
+                        
+                    default:
+                        // Normal eyes
+                        this.ctx.fillRect(leftEyeX, eyeY, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY, eyeSize, eyeSize);
+                }
+                
+                // Add pupils that follow movement direction
+                this.ctx.fillStyle = '#ffffff';
+                const pupilSize = Math.max(1, eyeSize / 3);
+                const pupilOffsetX = this.direction.x * (eyeSize / 4);
+                const pupilOffsetY = this.direction.y * (eyeSize / 4);
+                
+                if (emotion !== 'happy') { // Don't draw pupils for squinted eyes
+                    this.ctx.fillRect(
+                        leftEyeX + eyeSize / 2 - pupilSize / 2 + pupilOffsetX,
+                        eyeY + eyeSize / 2 - pupilSize / 2 + pupilOffsetY,
+                        pupilSize,
+                        pupilSize
+                    );
+                    this.ctx.fillRect(
+                        rightEyeX + eyeSize / 2 - pupilSize / 2 + pupilOffsetX,
+                        eyeY + eyeSize / 2 - pupilSize / 2 + pupilOffsetY,
+                        pupilSize,
+                        pupilSize
+                    );
+                }
             } else {
-                // Body
-                this.ctx.fillStyle = `rgba(0, 255, 157, ${0.8 - (index * 0.05)})`;
+                // TURBO BODY: Dynamic trail effect with cyberpunk colors
+                let bodyColor, bodyAlpha;
+                
+                if (this.boostActive) {
+                    // CYBERPUNK TURBO TRAIL: Magenta to cyan gradient
+                    const trailProgress = index / this.snake.length;
+                    const pulseFactor = Math.sin(turboTime + index * 0.5) * 0.3 + 0.7;
+                    
+                    // Interpolate between magenta (#ff00ff) and cyan (#00ffff)
+                    const red = Math.floor(255 * (1 - trailProgress) * pulseFactor);
+                    const green = Math.floor(255 * trailProgress * pulseFactor);
+                    const blue = Math.floor(255 * pulseFactor);
+                    
+                    bodyColor = `rgb(${red}, ${green}, ${blue})`;
+                    bodyAlpha = 0.9 - (index * 0.03); // Slower fade for turbo trail
+                    
+                    // Add glow effect to body segments
+                    this.ctx.shadowColor = bodyColor;
+                    this.ctx.shadowBlur = 5 + Math.sin(turboTime + index) * 3;
+                } else {
+                    // Normal green body
+                    bodyColor = `rgba(0, 255, 157, ${0.8 - (index * 0.05)})`;
+                    bodyAlpha = 1;
+                }
+                
+                this.ctx.fillStyle = bodyColor;
+                this.ctx.globalAlpha = bodyAlpha;
                 this.ctx.fillRect(
                     segment.x * this.cellSize + 1,
                     segment.y * this.cellSize + 1,
                     this.cellSize - 2,
                     this.cellSize - 2
                 );
+                
+                // Reset effects
+                this.ctx.shadowBlur = 0;
+                this.ctx.globalAlpha = 1.0;
             }
         });
 
-        // Draw food as emoji
+        // Draw regular foods with pulsing animation
         this.ctx.font = `${this.cellSize - 4}px Arial`;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
-        this.ctx.fillText(
-            this.food.emoji,
-            this.food.x * this.cellSize + this.cellSize / 2,
-            this.food.y * this.cellSize + this.cellSize / 2
-        );
+        
+        const pulseTime = Date.now() * 0.005; // Smooth pulsing animation
+        
+        this.foods.forEach(food => {
+            // Full opacity for all foods
+            this.ctx.globalAlpha = 1.0;
+            
+            // Handle introduction animation
+            let animationScale = 1.0;
+            if (food.id && this.foodAnimations.has(food.id)) {
+                const anim = this.foodAnimations.get(food.id);
+                const elapsed = Date.now() - anim.startTime;
+                const progress = Math.min(elapsed / anim.duration, 1);
+                
+                if (anim.type === 'introduction') {
+                    // Bounce-in animation
+                    animationScale = progress < 0.5 ? 
+                        2 * progress * progress : 
+                        1 - Math.pow(-2 * progress + 2, 3) / 2;
+                    
+                    if (progress >= 1) {
+                        this.foodAnimations.delete(food.id);
+                    }
+                }
+            }
+            
+            // Calculate pulsing scale (0.9 to 1.1) combined with intro animation
+            const pulseScale = (1.0 + Math.sin(pulseTime + food.x * 0.5 + food.y * 0.3) * 0.1) * animationScale;
+            
+            // Save context for transformation
+            this.ctx.save();
+            
+            // Move to food center for scaling
+            const centerX = food.x * this.cellSize + this.cellSize / 2;
+            const centerY = food.y * this.cellSize + this.cellSize / 2;
+            this.ctx.translate(centerX, centerY);
+            this.ctx.scale(pulseScale, pulseScale);
+            
+            // Add strong background for high visibility
+            this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+            this.ctx.fillRect(-this.cellSize/2 + 2, -this.cellSize/2 + 2, this.cellSize - 4, this.cellSize - 4);
+            
+            // Add enhanced glow effect for special foods
+            if (food.effect) {
+                this.ctx.shadowColor = food.effect === 'turbo' ? '#ffff00' : 
+                                      food.effect === 'poison' ? '#ff0000' : 
+                                      food.effect === 'death' ? '#ff4444' : 'transparent';
+                this.ctx.shadowBlur = 15 + Math.sin(pulseTime * 2) * 6; // Stronger pulsing glow
+            } else {
+                // Regular foods get strong white glow for visibility
+                this.ctx.shadowColor = '#ffffff';
+                this.ctx.shadowBlur = 8 + Math.sin(pulseTime * 1.5) * 4;
+            }
+            
+            // Set text color for maximum contrast
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.strokeStyle = '#000000';
+            this.ctx.lineWidth = 2;
+            this.ctx.strokeText(food.emoji, 0, 0);
+            this.ctx.fillText(food.emoji, 0, 0);
+            
+            // Restore context
+            this.ctx.restore();
+            this.ctx.shadowBlur = 0;
+            this.ctx.globalAlpha = 1.0;
+        });
+        
+        // Draw consumption animations
+        this.consumptionAnimations = this.consumptionAnimations.filter(anim => {
+            const elapsed = Date.now() - anim.startTime;
+            const progress = elapsed / anim.duration;
+            
+            if (progress >= 1) return false; // Remove completed animations
+            
+            this.ctx.save();
+            
+            // Fade out and scale up
+            const alpha = 1 - progress;
+            const scale = 1 + progress * 2;
+            
+            this.ctx.globalAlpha = alpha;
+            this.ctx.translate(anim.x, anim.y);
+            this.ctx.scale(scale, scale);
+            
+            // Draw points text
+            this.ctx.fillStyle = anim.points > 0 ? '#00ff9d' : '#ff4444';
+            this.ctx.font = `${Math.floor(this.cellSize * 0.6)}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(`${anim.points > 0 ? '+' : ''}${anim.points}`, 0, -this.cellSize);
+            
+            // Draw emoji
+            this.ctx.fillText(anim.emoji, 0, 0);
+            
+            this.ctx.restore();
+            return true; // Keep animation
+        });
+        
+        // Draw ghost foods with enhanced visibility and movement trail
+        this.ghostFoods.forEach(ghost => {
+            this.ctx.save();
+            
+            // TROJAN HORSE ENHANCEMENT: Add movement trail effect
+            const pulseTime = Date.now() * 0.008;
+            const trailAlpha = 0.3 + Math.sin(pulseTime) * 0.2;
+            
+            // Draw trail positions to show chess movement
+            this.ctx.globalAlpha = trailAlpha;
+            this.ctx.shadowColor = '#00ffff';
+            this.ctx.shadowBlur = 15;
+            
+            // Draw main ghost with pulsing effect
+            this.ctx.globalAlpha = 0.8 + Math.sin(pulseTime * 1.5) * 0.2;
+            this.ctx.translate(ghost.x * this.cellSize + this.cellSize / 2, ghost.y * this.cellSize + this.cellSize / 2);
+            
+            // Add chess piece indicator
+            this.ctx.fillStyle = '#00ffff';
+            this.ctx.font = `${Math.floor(this.cellSize * 0.3)}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('♞', 0, -this.cellSize * 0.6); // Chess knight symbol
+            
+            // Draw ghost emoji
+            this.ctx.font = `${this.cellSize - 4}px Arial`;
+            this.ctx.fillText(ghost.emoji, 0, 0);
+            
+            this.ctx.restore();
+        });
+    }
+
+    showScoreMath(points) {
+        if (this.scoreEl) {
+            const mathDisplay = `${this.score} ${points > 0 ? '+' : ''}${points} = ${this.score + points}`;
+            this.scoreEl.textContent = mathDisplay;
+            
+            // Revert to normal score after 1 second
+            setTimeout(() => {
+                if (this.scoreEl) {
+                    this.scoreEl.textContent = this.score;
+                }
+            }, 1000);
+        }
     }
 
     updateHUD() {
-        if (this.scoreEl) this.scoreEl.textContent = this.score;
-        if (this.levelEl) this.levelEl.textContent = this.level;
-        if (this.statusEl) this.statusEl.textContent = this.gameState.toUpperCase();
+        // Force re-bind if elements are missing
+        if (!this.scoreEl || !this.levelEl || !this.statusEl) {
+            this.bindHUDElements();
+        }
+        
+        if (this.scoreEl) {
+            this.scoreEl.textContent = this.score;
+        }
+        
+        if (this.levelEl) {
+            this.levelEl.textContent = this.level;
+        }
+        
+        if (this.statusEl) {
+            this.statusEl.textContent = this.gameState.toUpperCase();
+        }
     }
 
     updateButtonStates() {
