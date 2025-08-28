@@ -2557,7 +2557,6 @@
         <div class="modal-content game-modal-content">
             <div class="game-modal-header refined-header">
                 <h2 class="modal-title" role="heading" aria-level="2">┌─ SNAKE PROTOCOL ─┐</h2>
-                <button class="game-modal-close" onclick="closeGameModal('snake-modal'); reinitializeSnakeTouchControls();" aria-label="Close Snake Game Modal">×</button>
             </div>
             <div class="game-modal-body refined-body">
                 <div class="snake-game-container" role="main" aria-label="Snake Game Interface">
@@ -2862,15 +2861,29 @@
                     
                     console.log('🔍 Looking for buttons:', { slapBtn, clearBtn, undoBtn });
                     
-                    if (clearBtn) clearBtn.addEventListener('click', () => this.clearCanvas());
-                    if (undoBtn) undoBtn.addEventListener('click', () => this.undo());
+                    // Remove existing event listeners to prevent duplicates
+                    if (clearBtn) {
+                        clearBtn.replaceWith(clearBtn.cloneNode(true));
+                        document.getElementById('clear-canvas').addEventListener('click', () => this.clearCanvas());
+                    }
+                    if (undoBtn) {
+                        undoBtn.replaceWith(undoBtn.cloneNode(true));
+                        document.getElementById('undo-canvas').addEventListener('click', () => this.undo());
+                    }
                     if (slapBtn) {
-                        console.log('✅ SLAP button found, adding event listener');
-                        slapBtn.addEventListener('click', (e) => {
+                        console.log('✅ SLAP button found, cleaning and adding event listener');
+                        // Remove existing listeners by cloning the node
+                        slapBtn.replaceWith(slapBtn.cloneNode(true));
+                        const newSlapBtn = document.getElementById('slap-all');
+                        newSlapBtn.addEventListener('click', (e) => {
                             console.log('🎯 SLAP button clicked!');
                             e.preventDefault();
                             e.stopPropagation();
+                            // Prevent rapid clicking
+                            if (newSlapBtn.disabled) return;
+                            newSlapBtn.disabled = true;
                             this.slapAll();
+                            setTimeout(() => newSlapBtn.disabled = false, 1000);
                         });
                     } else {
                         console.error('❌ SLAP button not found in DOM');
@@ -4572,40 +4585,15 @@
                 cell.style.cssText = `
                     border: 1px solid var(--cyber-dark-tertiary);
                     background: transparent;
-                    pointer-events: none;
-                `;
-                board.appendChild(cell);
-            }
             
-            function updateBoard() {
-                const cells = board.querySelectorAll('.snake-cell');
-                cells.forEach(cell => {
-                    cell.style.background = 'transparent';
-                    cell.textContent = '';
-                    cell.style.boxShadow = 'none';
-                });
+    function updateBoard() {
+        return; // Disabled to prevent conflicts
+    }
                 
-                // Draw snake with better visibility
-                snake.forEach((segment, index) => {
-                    const cellIndex = segment.y * GRID_SIZE + segment.x;
-                    if (cells[cellIndex]) {
-                        if (index === 0) {
-                            // Snake head - bright and distinctive
-                            cells[cellIndex].style.background = 'var(--cyber-primary-accent)';
-                            cells[cellIndex].style.boxShadow = '0 0 8px var(--cyber-primary-accent)';
-                            cells[cellIndex].textContent = '🐍';
-                        } else {
-                            // Snake body - visible but distinct from head
-                            cells[cellIndex].style.background = 'var(--cyber-secondary-accent)';
-                            cells[cellIndex].style.boxShadow = '0 0 4px var(--cyber-secondary-accent)';
-                            cells[cellIndex].textContent = '●';
-                        }
-                    }
-                });
+    function moveSnake() {
+        if (gameState !== 'playing') return;
                 
-                // Draw food with type-specific styling
-                const foodIndex = food.y * GRID_SIZE + food.x;
-                if (cells[foodIndex]) {
+        const head = {...snake[0]};
                     const foodData = foodTypes[food.type];
                     cells[foodIndex].style.background = foodData.color;
                     cells[foodIndex].style.boxShadow = `0 0 10px ${foodData.color}`;
@@ -4734,7 +4722,9 @@
                 }
             }
             
+            // DISABLED LEGACY SNAKE - CONFLICTS WITH IMMERSIVE SNAKE
             function startGame() {
+                return; // Disabled to prevent score conflicts
                 gameState = 'playing';
                 score = 0;
                 snake = [{x: 10, y: 10}];
@@ -5045,6 +5035,9 @@
     
     <!-- Game Modal System -->
     <script src="js/unified/GameModalSystem.js"></script>
+    
+    <!-- Triple Validation Script -->
+    <script src="validation-script.js"></script>
 
     <!-- Immersive Game Launchers -->
     <script>

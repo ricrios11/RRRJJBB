@@ -1092,9 +1092,6 @@ class ImmersiveSnakeGame {
         
         if (this.scoreEl) {
             this.scoreEl.textContent = this.score;
-            console.log(`🎮 Score element found: ${!!this.scoreEl}, Score value: ${this.score}, Element content: ${this.scoreEl.textContent}`);
-        } else {
-            console.log(`❌ Score element not found! Looking for #snake-score`);
         }
         
         if (this.levelEl) {
