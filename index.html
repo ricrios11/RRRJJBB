@@ -4,6 +4,63 @@
     <meta charset="UTF-8">
     <title>RicRios Innovation Lab</title>
     <meta name="description" content="Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX', {
+            anonymize_ip: true,
+            cookie_flags: 'SameSite=None;Secure'
+        });
+    </script>
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="RicRios Innovation Lab - Applied Design Leadership">
+    <meta property="og:description" content="Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ricrios11.github.io/time-aware-design-leadership-portfolio/">
+    <meta property="og:image" content="https://ricrios11.github.io/time-aware-design-leadership-portfolio/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="RicRios Innovation Lab">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RicRios Innovation Lab - Applied Design Leadership">
+    <meta name="twitter:description" content="Executive Director of Product Design - Strategic leadership through cyberpunk brutalist design systems">
+    <meta name="twitter:image" content="https://ricrios11.github.io/time-aware-design-leadership-portfolio/og-image.png">
+    <meta name="twitter:creator" content="@ricrios">
+    
+    <!-- Structured Data - JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Ricardo Rios",
+        "jobTitle": "Executive Director of Product Design",
+        "description": "Strategic leadership through cyberpunk brutalist design systems",
+        "url": "https://ricrios11.github.io/time-aware-design-leadership-portfolio/",
+        "image": "https://ricrios11.github.io/time-aware-design-leadership-portfolio/og-image.png",
+        "sameAs": [
+            "https://www.linkedin.com/in/ricrios",
+            "https://www.instagram.com/ricrios"
+        ],
+        "knowsAbout": [
+            "Product Design",
+            "Design Leadership",
+            "Innovation Strategy",
+            "Design Systems",
+            "User Experience"
+        ],
+        "worksFor": {
+            "@type": "Organization",
+            "name": "RicRios Innovation Lab"
+        }
+    }
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <!-- Favicon Suite - ASCII RR Branding - Cache Busted -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
@@ -4792,7 +4849,12 @@
     <script src="js/unified/GameModalSystem.js"></script>
     
     <!-- Triple Validation Script -->
-    <script src="validation-script.js"></script>
+    <script src="js/validators/theme-sync-validator.js" defer></script>
+    <script src="js/core/GlobalErrorHandler.js" defer></script>
+    <script src="js/utils/WebPConverter.js" defer></script>
+    <script src="js/validators/AccessibilityValidator.js" defer></script>
+</body>
+</html>
 
     <!-- Immersive Game Launchers -->
     <script>
