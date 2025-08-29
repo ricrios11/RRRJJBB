@@ -3390,46 +3390,46 @@
             
             console.log('Gallery DOM elements:', {
                 gallerySection: !!gallerySection,
-                gallery: !!gallery,
-                gallerySectionDisplay: gallerySection ? gallerySection.style.display : 'N/A'
+                gallery: !!gallery
             });
             
             const wallStickers = JSON.parse(localStorage.getItem('graffitiWall') || '[]');
-            console.log(`Found ${wallStickers.length} stickers in localStorage`);
+            console.log('Found', wallStickers.length, 'stickers in localStorage');
             
-            if (wallStickers.length === 0) {
-                if (gallerySection) {
-                    gallerySection.style.display = 'none';
-                    console.log('No stickers found, hiding gallery');
-                }
+            // Gallery elements don't exist in current DOM - this is expected behavior
+            if (!gallerySection || !gallery) {
+                console.log('ℹ️ Gallery elements not present in DOM - feature disabled');
                 return;
             }
             
-            if (gallerySection && gallery) {
-                console.log('🎯 Showing gallery section and rendering stickers...');
+            if (wallStickers.length > 0) {
+                // Show gallery section
                 gallerySection.style.display = 'block';
                 
+                // Generate gallery HTML
                 const galleryHTML = wallStickers.map(sticker => `
-                    <div class="sticker-thumbnail" onclick="viewSticker('${sticker.id}')">
-                        <img src="${sticker.image}" alt="Community Sticker" style="max-width: 100px; max-height: 100px;">
-                        <button class="sticker-delete" onclick="event.stopPropagation(); deleteSticker('${sticker.id}')">&times;</button>
+                    <div class="sticker-item" onclick="viewSticker('${sticker.id}')">
+                        <div class="sticker-preview" style="
+                            background: ${sticker.gradient};
+                            transform: rotate(${sticker.rotation}deg);
+                        ">
+                            <div class="sticker-text" style="color: ${sticker.color};">
+                                ${sticker.text}
+                            </div>
+                        </div>
+                        <div class="sticker-meta">
+                            <small>${new Date(sticker.timestamp).toLocaleDateString()}</small>
+                        </div>
                     </div>
                 `).join('');
                 
                 gallery.innerHTML = galleryHTML;
                 console.log('✅ Gallery HTML updated with', wallStickers.length, 'stickers');
-                console.log('Gallery section now visible:', gallerySection.style.display);
                 
                 // Force scroll to gallery if it's now visible
                 setTimeout(() => {
                     gallerySection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 }, 100);
-                
-            } else {
-                console.error('❌ Gallery elements not found:', {
-                    gallerySection: !!gallerySection,
-                    gallery: !!gallery
-                });
             }
         }
 
