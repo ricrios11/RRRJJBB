@@ -316,19 +316,19 @@ class AccessibilityValidator {
 
         console.log('♿ ACCESSIBILITY REPORT:', report);
 
-        // Only show notifications for critical issues or in development mode
-        if (window.GlobalErrorHandler && window.location.hostname === 'localhost') {
+        // Only show notifications in deep testing mode (URL parameter ?a11y=debug)
+        const urlParams = new URLSearchParams(window.location.search);
+        const debugMode = urlParams.get('a11y') === 'debug';
+        
+        if (window.GlobalErrorHandler && debugMode) {
             const message = `Accessibility scan: ${report.totalIssues} issues (${report.highSeverity} high)`;
-            
-            if (report.highSeverity > 3) { // Only show if more than 3 high severity issues
-                window.GlobalErrorHandler.reportError(message, 'accessibility');
-            }
+            window.GlobalErrorHandler.reportError(message, 'accessibility');
         }
 
         return report;
     }
 
-    // Public API for manual validation
+    // Public API for manual validation and testing
     validateElement(element) {
         const originalIssues = this.issues.length;
         
@@ -340,6 +340,31 @@ class AccessibilityValidator {
         }
         
         return this.issues.slice(originalIssues);
+    }
+
+    // Manual accessibility test trigger for user control
+    runManualTest() {
+        this.issues = []; // Reset issues
+        this.runValidation();
+        
+        if (window.GlobalErrorHandler) {
+            const report = {
+                totalIssues: this.issues.length,
+                highSeverity: this.issues.filter(i => i.severity === 'high').length,
+                mediumSeverity: this.issues.filter(i => i.severity === 'medium').length,
+                lowSeverity: this.issues.filter(i => i.severity === 'low').length
+            };
+            
+            const message = `Manual A11y Test: ${report.totalIssues} issues (${report.highSeverity} high, ${report.mediumSeverity} medium, ${report.lowSeverity} low)`;
+            
+            if (report.totalIssues > 0) {
+                window.GlobalErrorHandler.reportError(message, 'accessibility');
+            } else {
+                window.GlobalErrorHandler.reportSuccess('Accessibility scan: No issues found!');
+            }
+        }
+        
+        return this.issues;
     }
 
     fixCommonIssues() {
