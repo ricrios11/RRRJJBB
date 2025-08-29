@@ -4,24 +4,44 @@
     "description": "Time-aware design leadership portfolio showcasing innovation and strategic thinking",
     "icons": [
         {
+            "src": "favicon.svg?v=2",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        },
+        {
             "src": "favicon-192x192.png?v=2",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "favicon-512x512.png?v=2",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "apple-touch-icon.png?v=2",
             "sizes": "180x180",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "favicon-144x144.png?v=2",
+            "sizes": "144x144",
+            "type": "image/png",
+            "purpose": "any"
         }
     ],
     "start_url": "/",
     "display": "standalone",
     "theme_color": "#00ff9d",
     "background_color": "#0a0a0a",
-    "orientation": "portrait-primary"
+    "orientation": "any",
+    "categories": ["design", "portfolio", "innovation"],
+    "lang": "en",
+    "dir": "ltr",
+    "scope": "/",
+    "prefer_related_applications": false
 }
