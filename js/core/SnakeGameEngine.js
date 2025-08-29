@@ -1,661 +1,630 @@
 /**
- * Snake Game Engine - Modular Architecture with Mobile Touch Controls
- * Production-grade component with real-time scoring and mobile UX
+ * Immersive Snake Game - Viewport-aware with elegant HUD
+ * Clean, functional implementation matching production quality
  */
 
 class SnakeGameEngine {
-    constructor(containerId, options = {}) {
+    constructor(containerId, config = {}) {
         this.containerId = containerId;
+        this.config = {
+            gridSize: 20,
+            canvasWidth: 600,
+            canvasHeight: 400,
+            initialSpeed: 150,
+            ...config
+        };
+        
         this.container = document.getElementById(containerId);
         
         if (!this.container) {
             throw new Error(`Container ${containerId} not found`);
         }
 
-        // Game configuration
-        this.config = {
-            gridSize: options.gridSize || 20,
-            initialSpeed: options.initialSpeed || 150,
-            boostSpeed: options.boostSpeed || 75,
-            canvasWidth: options.canvasWidth || 800,
-            canvasHeight: options.canvasHeight || 600,
-            ...options
-        };
-
         // Game state
         this.snake = [{ x: 10, y: 10 }];
         this.direction = { x: 1, y: 0 };
-        this.nextDirection = { x: 1, y: 0 };
-        this.foods = []; // Multi-food system like original
+        this.foods = []; // Multi-food system
         this.ghostFoods = [];
+        
+        // Game timing
+        this.gameStartTime = null;
+        this.lastFoodSpawn = 0;
+        this.foodSpawnInterval = 2000; // Base spawn interval in ms
+        
+        // Animation states
+        this.foodAnimations = new Map(); // Track food introduction animations
+        this.consumptionAnimations = []; // Track consumption effects
+        
+        // Initialize HUD elements - TROJAN HORSE FIX: Proper element binding
+        this.scoreEl = null;
+        this.levelEl = null;
+        this.statusEl = null;
         this.score = 0;
-        this.highScore = this.loadHighScore();
         this.level = 1;
         this.gameState = 'ready'; // ready, playing, paused, gameOver
         this.gameLoop = null;
-        this.speed = this.config.initialSpeed;
+        this.speed = 100; // More dynamic base speed for engaging gameplay
         this.boostActive = false;
+        this.boostSpeed = 50; // Faster turbo speed for exciting gameplay
         this.boostTimeLeft = 0;
         
-        // Enhanced food types from original
+        // Enhanced food types - TROJAN HORSE FIX: Increased negative food visibility
         this.foodTypes = {
             apple: { emoji: '🍎', points: 10, probability: 0.35 },
             cherry: { emoji: '🍒', points: 20, probability: 0.2 },
             banana: { emoji: '🍌', points: 15, probability: 0.2 },
             turbo: { emoji: '⚡', points: 5, probability: 0.1, effect: 'turbo' },
-            poison: { emoji: '☠️', points: -20, probability: 0.1, effect: 'poison' },
-            bomb: { emoji: '💣', points: 0, probability: 0.05, effect: 'death' }
+            poison: { emoji: '☠️', points: -20, probability: 0.1, effect: 'poison' }, // Increased from 0.03 to 0.1
+            bomb: { emoji: '💣', points: 0, probability: 0.05, effect: 'death' } // Increased from 0.02 to 0.05
         };
         
-        // Game timing
-        this.gameStartTime = null;
-        this.lastFoodSpawn = 0;
-        this.foodSpawnInterval = 2000;
+        // Ghost food system
+        this.ghostFoods = [];
+        this.ghostMoveTimer = 0;
 
-        // Mobile touch controls
-        this.touchStartX = 0;
-        this.touchStartY = 0;
-        this.touchThreshold = 30;
-        this.lastSwipeTime = 0;
-        this.swipeDebounce = 200;
-
-        // UI elements
-        this.canvas = null;
-        this.ctx = null;
-        this.scoreDisplay = null;
-        this.highScoreDisplay = null;
-        this.levelDisplay = null;
-        this.statusDisplay = null;
-
-        // Bind methods to preserve context
-        this.handleKeyPress = this.handleKeyPress.bind(this);
-        this.handleTouchStart = this.handleTouchStart.bind(this);
-        this.handleTouchEnd = this.handleTouchEnd.bind(this);
-
-        this.init();
-    }
-
-    init() {
-        this.createGameUI();
+        // Viewport calculations
+        this.calculateViewport();
         this.setupCanvas();
+        this.setupHUD();
         this.setupControls();
         this.generateMultipleFoods();
-        this.render();
+        this.render(); // Initial render
         
-        console.log('🐍 SNAKE ENGINE: Initialized with mobile controls');
+        // Game initialized successfully
+        
+        // Set global reference for touch controls
+        window.currentSnakeGame = this;
     }
 
-    createGameUI() {
-        // Make container fullscreen for immersive mode
+    calculateViewport() {
+        const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+        const vh = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+        
+        // Calculate optimal grid size for viewport
+        this.cellSize = Math.min(Math.floor(vw / 40), Math.floor(vh / 30), 20);
+        this.gridWidth = Math.floor((vw * 0.8) / this.cellSize);
+        this.gridHeight = Math.floor((vh * 0.7) / this.cellSize);
+        
+        this.canvasWidth = this.gridWidth * this.cellSize;
+        this.canvasHeight = this.gridHeight * this.cellSize;
+        
+        // Viewport calculated successfully
+    }
+
+    setupCanvas() {
+        this.container.innerHTML = `
+            <div class="immersive-snake-container">
+                <div class="snake-hud">
+                    <div class="hud-left">
+                        <div class="hud-item">
+                            <span class="hud-label">SCORE</span>
+                            <span class="hud-value" id="snake-score">0</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">LEVEL</span>
+                            <span class="hud-value" id="snake-level">1</span>
+                        </div>
+                        <div class="hud-item">
+                            <span class="hud-label">STATUS</span>
+                            <span class="hud-value" id="snake-status">READY</span>
+                        </div>
+                    </div>
+                    <div class="hud-right">
+                        <button id="snake-pause" class="hud-btn" style="display: none;">⏸️ PAUSE</button>
+                        <button id="snake-close" class="hud-btn close-btn">✕ CLOSE</button>
+                    </div>
+                </div>
+                <canvas id="snake-canvas" width="${this.canvasWidth}" height="${this.canvasHeight}"></canvas>
+                <div class="snake-controls">
+                    <div class="control-hint">
+                        <span>↑UP</span> <span>↓DOWN</span> <span>←LEFT</span> <span>→RIGHT</span> 
+                        <span>SPACE:PAUSE</span> <span>SHIFT:BOOST</span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        this.canvas = document.getElementById('snake-canvas');
+        this.ctx = this.canvas.getContext('2d');
+        
+        // Style the container - bulletproof dark mode
         this.container.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 10000;
-            background: #000;
+            background: #0a0a0a;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            z-index: 10000;
         `;
 
-        this.container.innerHTML = `
-            <div class="snake-game-container">
-                <div class="snake-close-btn" onclick="this.parentElement.parentElement.remove(); document.body.style.overflow = '';">×</div>
-                <div class="snake-hud">
-                    <div class="snake-score-panel">
-                        <div class="score-item">
-                            <span class="score-label">SCORE</span>
-                            <span class="score-value" id="snake-score-${this.containerId}">0</span>
-                        </div>
-                        <div class="score-item">
-                            <span class="score-label">HIGH</span>
-                            <span class="score-value" id="snake-high-score-${this.containerId}">${this.highScore}</span>
-                        </div>
-                        <div class="score-item">
-                            <span class="score-label">LEVEL</span>
-                            <span class="score-value" id="snake-level-${this.containerId}">1</span>
-                        </div>
-                    </div>
-                    <div class="snake-status" id="snake-status-${this.containerId}">Ready to Play</div>
-                </div>
-                
-                <div class="snake-game-area">
-                    <canvas id="snake-canvas-${this.containerId}" width="${this.config.canvasWidth}" height="${this.config.canvasHeight}"></canvas>
-                    
-                    <!-- Mobile Touch Controls -->
-                    <div class="mobile-controls" id="mobile-controls">
-                        <div class="control-instructions">Swipe or tap to control</div>
-                        <div class="control-grid">
-                            <div class="control-row">
-                                <button class="control-btn" data-direction="up">↑</button>
-                            </div>
-                            <div class="control-row">
-                                <button class="control-btn" data-direction="left">←</button>
-                                <button class="control-btn boost-btn" data-action="boost">⚡</button>
-                                <button class="control-btn" data-direction="right">→</button>
-                            </div>
-                            <div class="control-row">
-                                <button class="control-btn" data-direction="down">↓</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="snake-actions">
-                    <button class="snake-btn primary" id="snake-start-${this.containerId}">START GAME</button>
-                    <button class="snake-btn secondary" id="snake-pause-${this.containerId}" style="display: none;">PAUSE</button>
-                    <button class="snake-btn danger" id="snake-reset-${this.containerId}" style="display: none;">RESET</button>
-                </div>
-            </div>
-            
-            <style>
-                .snake-close-btn {
-                    position: absolute;
-                    top: 20px;
-                    right: 20px;
-                    width: 40px;
-                    height: 40px;
-                    background: rgba(255, 68, 68, 0.2);
-                    border: 2px solid #ff4444;
-                    border-radius: 50%;
-                    color: #ff4444;
-                    font-size: 24px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    transition: all 0.2s ease;
-                    z-index: 10001;
-                }
-                
-                .snake-close-btn:hover {
-                    background: rgba(255, 68, 68, 0.4);
-                    transform: scale(1.1);
-                }
-                
-                .snake-game-container {
-                    background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
-                    border: 2px solid #00ff9d;
-                    border-radius: 12px;
-                    padding: 20px;
-                    font-family: 'Space Mono', monospace;
-                    color: #00ff9d;
-                    max-width: 90vw;
-                    max-height: 90vh;
-                    margin: 0 auto;
-                    position: relative;
-                }
-                
-                .snake-hud {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    margin-bottom: 15px;
-                    flex-wrap: wrap;
-                    gap: 10px;
-                }
-                
-                .snake-score-panel {
-                    display: flex;
-                    gap: 20px;
-                    flex-wrap: wrap;
-                }
-                
-                .score-item {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    min-width: 60px;
-                }
-                
-                .score-label {
-                    font-size: 12px;
-                    opacity: 0.7;
-                    margin-bottom: 2px;
-                }
-                
-                .score-value {
-                    font-size: 18px;
-                    font-weight: bold;
-                    color: #00ff9d;
-                }
-                
-                .snake-status {
-                    font-size: 14px;
-                    padding: 5px 10px;
-                    background: rgba(0, 255, 157, 0.1);
-                    border-radius: 4px;
-                    border: 1px solid rgba(0, 255, 157, 0.3);
-                }
-                
-                .snake-game-area {
-                    position: relative;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    margin-bottom: 15px;
-                }
-                
-                #snake-canvas {
-                    background: #000;
-                    border: 1px solid #00ff9d;
-                    border-radius: 4px;
-                    max-width: 100%;
-                    height: auto;
-                }
-                
-                .mobile-controls {
-                    margin-top: 15px;
-                    display: none;
-                }
-                
-                .control-instructions {
-                    text-align: center;
-                    font-size: 12px;
-                    margin-bottom: 10px;
-                    opacity: 0.7;
-                }
-                
-                .control-grid {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    gap: 8px;
-                }
-                
-                .control-row {
-                    display: flex;
-                    gap: 8px;
-                    align-items: center;
-                }
-                
-                .control-btn {
-                    width: 50px;
-                    height: 50px;
-                    background: rgba(0, 255, 157, 0.1);
-                    border: 2px solid #00ff9d;
-                    border-radius: 8px;
-                    color: #00ff9d;
-                    font-size: 18px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    user-select: none;
-                    -webkit-tap-highlight-color: transparent;
-                }
-                
-                .control-btn:active {
-                    background: rgba(0, 255, 157, 0.3);
-                    transform: scale(0.95);
-                }
-                
-                .boost-btn {
-                    background: rgba(255, 215, 0, 0.1);
-                    border-color: #ffd700;
-                    color: #ffd700;
-                }
-                
-                .boost-btn:active {
-                    background: rgba(255, 215, 0, 0.3);
-                }
-                
-                .snake-actions {
-                    display: flex;
-                    gap: 10px;
-                    justify-content: center;
-                    flex-wrap: wrap;
-                }
-                
-                .snake-btn {
-                    padding: 10px 20px;
-                    border: 2px solid;
-                    border-radius: 6px;
-                    font-family: 'Space Mono', monospace;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.2s ease;
-                    background: transparent;
-                }
-                
-                .snake-btn.primary {
-                    border-color: #00ff9d;
-                    color: #00ff9d;
-                }
-                
-                .snake-btn.primary:hover {
-                    background: #00ff9d;
-                    color: #000;
-                }
-                
-                .snake-btn.secondary {
-                    border-color: #ffd700;
-                    color: #ffd700;
-                }
-                
-                .snake-btn.danger {
-                    border-color: #ff4444;
-                    color: #ff4444;
-                }
-                
-                /* Mobile responsive */
-                @media (max-width: 768px) {
-                    .mobile-controls {
-                        display: block !important;
-                    }
-                    
-                    #snake-canvas {
-                        width: 100%;
-                        max-width: 400px;
-                    }
-                    
-                    .snake-hud {
-                        font-size: 14px;
-                    }
-                    
-                    .score-value {
-                        font-size: 16px;
-                    }
-                }
-                
-                @media (max-width: 480px) {
-                    .snake-game-container {
-                        padding: 15px;
-                    }
-                    
-                    .snake-score-panel {
-                        gap: 15px;
-                    }
-                    
-                    .control-btn {
-                        width: 45px;
-                        height: 45px;
-                        font-size: 16px;
-                    }
-                }
-            </style>
-        `;
-
-        // Get UI element references with unique IDs
-        this.scoreDisplay = document.getElementById(`snake-score-${this.containerId}`);
-        this.highScoreDisplay = document.getElementById(`snake-high-score-${this.containerId}`);
-        this.levelDisplay = document.getElementById(`snake-level-${this.containerId}`);
-        this.statusDisplay = document.getElementById(`snake-status-${this.containerId}`);
+        // Add CSS for immersive styling
+        this.addImmersiveStyles();
     }
 
-    setupCanvas() {
-        this.canvas = document.getElementById(`snake-canvas-${this.containerId}`);
-        this.ctx = this.canvas.getContext('2d');
+    addImmersiveStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .immersive-snake-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+                font-family: 'Courier New', monospace;
+                color: var(--cyber-primary-accent, #00ff9d);
+            }
+            
+            .snake-hud {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: ${this.canvasWidth}px;
+                padding: 15px 0;
+                border-bottom: 2px solid var(--cyber-primary-accent, #00ff9d);
+            }
+            
+            .hud-left {
+                display: flex;
+                gap: 30px;
+            }
+            
+            .hud-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 5px;
+            }
+            
+            .hud-label {
+                font-size: 12px;
+                opacity: 0.7;
+                font-weight: bold;
+            }
+            
+            .hud-value {
+                font-size: 18px;
+                font-weight: bold;
+                color: var(--cyber-primary-accent, #00ff9d);
+            }
+            
+            .hud-right {
+                display: flex;
+                gap: 15px;
+            }
+            
+            .hud-btn {
+                background: var(--surface-secondary, rgba(0, 255, 157, 0.1));
+                border: 1px solid var(--cyber-primary-accent, #00ff9d);
+                color: var(--cyber-primary-accent, #00ff9d);
+                padding: 8px 16px;
+                font-family: inherit;
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            
+            .hud-btn:hover {
+                background: var(--surface-tertiary, rgba(0, 255, 157, 0.2));
+                transform: translateY(-1px);
+            }
+            
+            .close-btn {
+                background: rgba(255, 255, 255, 0.9) !important;
+                border-color: #ffffff !important;
+                color: #000000 !important;
+                font-weight: bold !important;
+            }
+            
+            .close-btn:hover {
+                background: rgba(255, 255, 255, 1) !important;
+                transform: translateY(-1px) !important;
+            }
+            
+            .start-btn {
+                background: linear-gradient(45deg, #00ff9d, #00cc7a) !important;
+                border-color: #00ff9d !important;
+                color: #000 !important;
+                font-weight: bold !important;
+            }
+            
+            .start-btn:hover {
+                background: linear-gradient(45deg, #00cc7a, #00aa66) !important;
+                transform: translateY(-2px) !important;
+                box-shadow: 0 4px 12px rgba(0, 255, 157, 0.4) !important;
+            }
+            
+            #snake-canvas {
+                border: 2px solid #00ff9d;
+                background: #111;
+                box-shadow: 0 0 20px rgba(0, 255, 157, 0.3);
+            }
+            
+            .snake-controls {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: ${this.canvasWidth}px;
+                padding: 15px 0;
+                border-top: 1px solid rgba(0, 255, 157, 0.3);
+                gap: 15px;
+            }
+            
+            .touch-controls {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .touch-row {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .touch-btn {
+                width: 50px;
+                height: 50px;
+                background: rgba(0, 255, 157, 0.1);
+                border: 2px solid var(--cyber-primary-accent, #00ff9d);
+                color: var(--cyber-primary-accent, #00ff9d);
+                font-size: 20px;
+                font-weight: bold;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+                transition: all 0.2s ease;
+            }
+            
+            .touch-btn:hover,
+            .touch-btn:active {
+                background: rgba(0, 255, 157, 0.2);
+                box-shadow: 0 0 10px rgba(0, 255, 157, 0.4);
+                transform: scale(0.95);
+            }
+            
+            .control-hint {
+                display: flex;
+                gap: 20px;
+                font-size: 11px;
+                opacity: 0.6;
+            }
+            
+            .control-hint span {
+                padding: 4px 8px;
+                border: 1px solid rgba(0, 255, 157, 0.3);
+                border-radius: 3px;
+            }
+            
+            @media (max-width: 768px) {
+                .touch-controls {
+                    display: flex;
+                }
+                .control-hint {
+                    display: none;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setupHUD() {
+        // BULLETPROOF DOM BINDING: Immediate binding with fallback retry
+        this.bindHUDElements();
         
-        // Handle high DPI displays
-        const dpr = window.devicePixelRatio || 1;
-        const rect = this.canvas.getBoundingClientRect();
+        // Backup binding with retry mechanism
+        const retryBinding = () => {
+            if (!this.scoreEl || !this.levelEl || !this.statusEl) {
+                // Retrying HUD element binding
+                this.bindHUDElements();
+                if (!this.scoreEl) {
+                    setTimeout(retryBinding, 50);
+                }
+            }
+        };
         
-        this.canvas.width = rect.width * dpr;
-        this.canvas.height = rect.height * dpr;
-        this.ctx.scale(dpr, dpr);
+        setTimeout(retryBinding, 10);
+    }
+    
+    bindHUDElements() {
+        this.scoreEl = document.getElementById('snake-score');
+        this.levelEl = document.getElementById('snake-level');
+        this.statusEl = document.getElementById('snake-status');
         
-        // Calculate grid dimensions based on canvas size
-        this.gridWidth = Math.floor(rect.width / this.config.gridSize);
-        this.gridHeight = Math.floor(rect.height / this.config.gridSize);
+        console.log(`🔍 HUD Binding: Score=${!!this.scoreEl}, Level=${!!this.levelEl}, Status=${!!this.statusEl}`);
+        
+        // Force initial update if elements found
+        if (this.scoreEl && this.levelEl && this.statusEl) {
+            this.updateHUD();
+        }
     }
 
     setupControls() {
-        // Keyboard controls
-        document.addEventListener('keydown', (e) => this.handleKeyPress(e));
-        
-        // Touch controls for swipe gestures
-        this.canvas.addEventListener('touchstart', (e) => this.handleTouchStart(e), { passive: false });
-        this.canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-        this.canvas.addEventListener('touchend', (e) => this.handleTouchEnd(e), { passive: false });
-        
-        // Button controls
-        document.querySelectorAll('.control-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => this.handleControlClick(e));
-        });
-        
-        // Game action buttons with unique IDs
-        document.getElementById(`snake-start-${this.containerId}`).addEventListener('click', () => this.startGame());
-        document.getElementById(`snake-pause-${this.containerId}`).addEventListener('click', () => this.togglePause());
-        document.getElementById(`snake-reset-${this.containerId}`).addEventListener('click', () => this.resetGame());
-    }
-
-    handleKeyPress(e) {
-        if (this.gameState !== 'playing') return;
-        
-        const keyMap = {
-            'ArrowUp': { x: 0, y: -1 },
-            'ArrowDown': { x: 0, y: 1 },
-            'ArrowLeft': { x: -1, y: 0 },
-            'ArrowRight': { x: 1, y: 0 },
-            'w': { x: 0, y: -1 },
-            's': { x: 0, y: 1 },
-            'a': { x: -1, y: 0 },
-            'd': { x: 1, y: 0 }
+        this.keyHandler = (e) => {
+            // Key input processed
+            switch(e.code) {
+                case 'ArrowUp':
+                case 'KeyW':
+                    e.preventDefault();
+                    this.setDirection({ x: 0, y: -1 });
+                    break;
+                case 'ArrowDown':
+                case 'KeyS':
+                    e.preventDefault();
+                    this.setDirection({ x: 0, y: 1 });
+                    break;
+                case 'ArrowLeft':
+                case 'KeyA':
+                    e.preventDefault();
+                    this.setDirection({ x: -1, y: 0 });
+                    break;
+                case 'ArrowRight':
+                case 'KeyD':
+                    e.preventDefault();
+                    if (this.gameState === 'ready') {
+                        this.startGame();
+                    } else {
+                        this.setDirection({ x: 1, y: 0 });
+                    }
+                    break;
+                case 'Space':
+                    e.preventDefault();
+                    this.togglePause();
+                    break;
+                case 'KeyR':
+                    this.restart();
+                    break;
+                case 'ShiftLeft':
+                case 'ShiftRight':
+                    this.activateBoost();
+                    break;
+                case 'Escape':
+                    this.close();
+                    break;
+            }
         };
         
-        const newDirection = keyMap[e.key];
-        if (newDirection) {
-            e.preventDefault();
-            this.changeDirection(newDirection);
-        }
+        document.addEventListener('keydown', this.keyHandler);
         
-        // Boost control
-        if (e.key === ' ') {
-            e.preventDefault();
-            this.activateBoost();
-        }
+        // Setup touch controls for mobile
+        this.setupTouchControls();
     }
 
-    handleTouchStart(e) {
-        e.preventDefault();
-        const touch = e.touches[0];
-        this.touchStartX = touch.clientX;
-        this.touchStartY = touch.clientY;
-    }
-
-    handleTouchEnd(e) {
-        e.preventDefault();
-        
-        if (this.gameState !== 'playing') return;
-        
-        const now = Date.now();
-        if (now - this.lastSwipeTime < this.swipeDebounce) return;
-        
-        const touch = e.changedTouches[0];
-        const deltaX = touch.clientX - this.touchStartX;
-        const deltaY = touch.clientY - this.touchStartY;
-        
-        const absDeltaX = Math.abs(deltaX);
-        const absDeltaY = Math.abs(deltaY);
-        
-        // Check if swipe is significant enough
-        if (Math.max(absDeltaX, absDeltaY) < this.touchThreshold) return;
-        
-        let newDirection;
-        
-        if (absDeltaX > absDeltaY) {
-            // Horizontal swipe
-            newDirection = deltaX > 0 ? { x: 1, y: 0 } : { x: -1, y: 0 };
-        } else {
-            // Vertical swipe
-            newDirection = deltaY > 0 ? { x: 0, y: 1 } : { x: 0, y: -1 };
+    setupTouchControls() {
+        // Force touch controls to be visible on mobile
+        const touchControlsContainer = document.getElementById('snake-touch-controls');
+        if (touchControlsContainer) {
+            touchControlsContainer.style.display = 'flex';
+            touchControlsContainer.style.visibility = 'visible';
+            touchControlsContainer.style.opacity = '1';
+            console.log('🎮 Touch controls container forced visible');
         }
         
-        this.changeDirection(newDirection);
-        this.lastSwipeTime = now;
+        // Touch control setup for mobile devices
+        const touchButtons = {
+            'snake-up': () => this.setDirection({ x: 0, y: -1 }),
+            'snake-down': () => this.setDirection({ x: 0, y: 1 }),
+            'snake-left': () => this.setDirection({ x: -1, y: 0 }),
+            'snake-right': () => this.setDirection({ x: 1, y: 0 }),
+            'snake-boost': () => this.activateBoost(),
+            'snake-close': () => this.close()
+        };
+
+        // Special handling for pause button only (reset removed for better UX)
+        const specialButtons = {
+            'snake-pause': () => this.togglePause()
+        };
+
+        // Setup regular touch controls
+        Object.entries(touchButtons).forEach(([id, handler]) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                // Force button visibility
+                btn.style.display = 'flex';
+                btn.style.visibility = 'visible';
+                btn.style.opacity = '1';
+                
+                // Remove existing listeners
+                btn.replaceWith(btn.cloneNode(true));
+                const newBtn = document.getElementById(id);
+                
+                // Force new button visibility too
+                newBtn.style.display = 'flex';
+                newBtn.style.visibility = 'visible';
+                newBtn.style.opacity = '1';
+                
+                console.log(`🎮 Touch button ${id} forced visible`);
+                
+                // Add multiple event types for compatibility with immediate response
+                ['touchstart', 'mousedown', 'click'].forEach(eventType => {
+                    newBtn.addEventListener(eventType, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Immediate handler execution for responsive controls
+                        handler();
+                        console.log(`🎮 Touch control ${id} activated via ${eventType}`);
+                        
+                        // Visual feedback
+                        newBtn.style.transform = 'scale(0.9)';
+                        newBtn.style.background = 'var(--cyber-primary)';
+                        setTimeout(() => {
+                            newBtn.style.transform = 'scale(1)';
+                            newBtn.style.background = 'var(--cyber-secondary-accent)';
+                        }, 150);
+                    }, { passive: false });
+                });
+            }
+        });
+
+        // Setup special buttons with click-only events
+        Object.entries(specialButtons).forEach(([id, handler]) => {
+            const btn = document.getElementById(id);
+            if (btn) {
+                // Remove existing listeners
+                btn.replaceWith(btn.cloneNode(true));
+                const newBtn = document.getElementById(id);
+                
+                // Only use click event for proper toggle behavior
+                newBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handler();
+                    
+                    // Visual feedback
+                    newBtn.style.transform = 'scale(0.9)';
+                    setTimeout(() => newBtn.style.transform = 'scale(1)', 150);
+                }, { passive: false });
+            }
+        });
     }
 
-    handleControlClick(e) {
-        const direction = e.target.dataset.direction;
-        const action = e.target.dataset.action;
-        
-        if (action === 'boost') {
-            this.activateBoost();
-            return;
-        }
-        
-        if (direction && this.gameState === 'playing') {
-            const directionMap = {
-                'up': { x: 0, y: -1 },
-                'down': { x: 0, y: 1 },
-                'left': { x: -1, y: 0 },
-                'right': { x: 1, y: 0 }
-            };
-            
-            this.changeDirection(directionMap[direction]);
-        }
-    }
-
-    changeDirection(newDirection) {
+    setDirection(newDirection) {
         // Prevent reversing into self
-        const head = this.snake[0];
-        const neck = this.snake[1];
-        
-        if (neck && head.x + newDirection.x === neck.x && head.y + newDirection.y === neck.y) {
+        if (newDirection.x === -this.direction.x && newDirection.y === -this.direction.y) {
             return;
         }
         
-        this.nextDirection = newDirection;
-    }
-
-    activateBoost() {
-        if (this.gameState === 'playing' && !this.boostActive) {
-            this.boostActive = true;
-            this.speed = this.config.boostSpeed;
-            
-            setTimeout(() => {
-                this.boostActive = false;
-                this.speed = this.config.initialSpeed;
-            }, 1000);
+        this.direction = newDirection;
+        
+        if (this.gameState === 'ready') {
+            this.startGame(); // Auto-start on first direction input
         }
     }
 
     startGame() {
+        if (this.gameState === 'playing') return;
+        
         this.gameState = 'playing';
-        this.updateStatus('Playing - Use arrows or swipe to control');
-        this.updateButtons();
-        this.gameLoop = setInterval(() => this.update(), this.speed);
+        this.gameStartTime = Date.now(); // Track game start time
+        this.updateHUD();
+        this.updateButtonStates();
+        this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
+        
+        // Game started successfully
+    }
+
+    start() {
+        // Legacy method - redirect to startGame
+        this.startGame();
     }
 
     togglePause() {
         if (this.gameState === 'playing') {
             this.gameState = 'paused';
-            this.updateStatus('Paused');
             clearInterval(this.gameLoop);
         } else if (this.gameState === 'paused') {
             this.gameState = 'playing';
-            this.updateStatus('Playing');
-            this.gameLoop = setInterval(() => this.update(), this.speed);
+            this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
         }
-        this.updateButtons();
+        this.updateHUD();
+        this.updateButtonStates();
     }
 
-    resetGame() {
+    restart() {
         clearInterval(this.gameLoop);
         this.snake = [{ x: 10, y: 10 }];
         this.direction = { x: 1, y: 0 };
-        this.nextDirection = { x: 1, y: 0 };
         this.score = 0;
         this.level = 1;
         this.gameState = 'ready';
-        this.speed = this.config.initialSpeed;
-        this.generateMultipleFoods();
-        this.updateScore();
-        this.updateStatus('Ready to Play');
-        this.updateButtons();
-        this.render();
-    }
-
-    generateMultipleFoods() {
-        // Clear existing foods
+        this.speed = 100; // Updated to match new base speed
+        this.boostActive = false;
+        this.boostTimeLeft = 0;
         this.foods = [];
-        
-        // Generate 2-4 foods like original
-        const foodCount = Math.floor(Math.random() * 3) + 2;
-        
-        for (let i = 0; i < foodCount; i++) {
-            this.spawnFood();
-        }
-    }
-
-    spawnFood() {
-        let foodPosition;
-        let attempts = 0;
-        
-        do {
-            foodPosition = {
-                x: Math.floor(Math.random() * this.gridWidth),
-                y: Math.floor(Math.random() * this.gridHeight)
-            };
-            attempts++;
-        } while (attempts < 50 && (
-            this.snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y) ||
-            this.foods.some(food => food.x === foodPosition.x && food.y === foodPosition.y)
-        ));
-        
-        if (attempts < 50) {
-            // Select food type based on probability
-            const rand = Math.random();
-            let cumulativeProbability = 0;
-            let selectedType = 'apple';
-            
-            for (const [type, config] of Object.entries(this.foodTypes)) {
-                cumulativeProbability += config.probability;
-                if (rand <= cumulativeProbability) {
-                    selectedType = type;
-                    break;
-                }
-            }
-            
-            const food = {
-                x: foodPosition.x,
-                y: foodPosition.y,
-                type: selectedType,
-                spawnTime: Date.now(),
-                ...this.foodTypes[selectedType]
-            };
-            
-            this.foods.push(food);
-        }
+        this.ghostFoods = [];
+        this.foodAnimations = new Map(); // Reset animations
+        this.consumptionAnimations = []; // Reset consumption effects
+        this.lastFoodSpawn = 0; // Reset spawn timer
+        this.generateMultipleFoods();
+        this.updateHUD();
+        this.updateButtonStates();
+        this.render();
+        // Auto-start after restart
+        setTimeout(() => this.startGame(), 100);
     }
 
     update() {
         if (this.gameState !== 'playing') return;
-        
-        // Update direction
-        this.direction = { ...this.nextDirection };
-        
+
         // Move snake
         const head = { ...this.snake[0] };
         head.x += this.direction.x;
         head.y += this.direction.y;
-        
+
         // Check wall collision
         if (head.x < 0 || head.x >= this.gridWidth || head.y < 0 || head.y >= this.gridHeight) {
             this.gameOver();
             return;
         }
-        
+
         // Check self collision
         if (this.snake.some(segment => segment.x === head.x && segment.y === head.y)) {
             this.gameOver();
             return;
         }
-        
+
         this.snake.unshift(head);
-        
-        // Check food collisions with multiple foods
+
+        // Check food collisions
         let foodEaten = false;
+        
+        // Check regular foods
         for (let i = this.foods.length - 1; i >= 0; i--) {
             const food = this.foods[i];
             if (head.x === food.x && head.y === food.y) {
-                this.eatFood(food, i);
+                // Add consumption animation with math display
+                this.consumptionAnimations.push({
+                    x: food.x * this.cellSize + this.cellSize / 2,
+                    y: food.y * this.cellSize + this.cellSize / 2,
+                    startTime: Date.now(),
+                    duration: 400,
+                    points: food.points,
+                    emoji: food.emoji
+                });
+                
+                this.handleFoodEffect(food);
+                this.foods.splice(i, 1);
                 foodEaten = true;
+                console.log(`🍎 Food eaten! Score before: ${this.score - food.points}, Points: ${food.points}, Score after: ${this.score}`);
+                this.updateHUD(); // Update HUD immediately after food consumption
                 break;
+            }
+        }
+        
+        // Check ghost foods
+        for (let i = this.ghostFoods.length - 1; i >= 0; i--) {
+            const ghostFood = this.ghostFoods[i];
+            if (head.x === ghostFood.x && head.y === ghostFood.y) {
+                this.score += ghostFood.points;
+                this.ghostFoods.splice(i, 1);
+                foodEaten = true;
+                this.updateHUD(); // Update HUD immediately after ghost food consumption
+                break;
+            }
+        }
+        
+        // Continuous food spawning system
+        const currentTime = Date.now();
+        if (currentTime - this.lastFoodSpawn > this.foodSpawnInterval) {
+            // Vary spawn interval for dynamic gameplay (1.5-3 seconds)
+            this.foodSpawnInterval = 1500 + Math.random() * 1500;
+            
+            // Spawn new food if we have less than 5 foods on screen
+            if (this.foods.length < 5) {
+                this.generateSingleFood();
+                this.lastFoodSpawn = currentTime;
+            }
+            
+            // 20% chance to spawn ghost food if none exists
+            if (this.ghostFoods.length === 0 && Math.random() < 0.2) {
+                this.generateGhostFood();
             }
         }
         
@@ -663,196 +632,609 @@ class SnakeGameEngine {
             this.snake.pop();
         }
         
-        // Spawn new food periodically
-        if (Date.now() - this.lastFoodSpawn > this.foodSpawnInterval && this.foods.length < 4) {
-            this.spawnFood();
-            this.lastFoodSpawn = Date.now();
+        // Update boost timer
+        if (this.boostActive && this.boostTimeLeft > 0) {
+            this.boostTimeLeft--;
+            if (this.boostTimeLeft <= 0) {
+                this.boostActive = false;
+            }
         }
         
+        // Update ghost food movement
+        this.updateGhostFoods();
+
         this.render();
     }
 
-    eatFood(food, foodIndex) {
-        // Remove the eaten food
-        this.foods.splice(foodIndex, 1);
+    generateMultipleFoods() {
+        // Clear existing foods
+        this.foods = [];
         
-        // Apply food effects
-        if (food.effect === 'turbo') {
-            this.activateBoost();
-            this.updateStatus('⚡ TURBO BOOST!');
-        } else if (food.effect === 'poison') {
-            this.score = Math.max(0, this.score + food.points);
-            this.updateStatus('☠️ POISONED!');
-            // Flash effect
-            this.flashEffect('#ff0040');
-        } else if (food.effect === 'death') {
-            this.gameOver();
-            return;
-        } else {
-            this.updateStatus(`${food.emoji} +${food.points} points!`);
+        // Generate 2-4 regular foods
+        const numFoods = Math.floor(Math.random() * 3) + 2;
+        for (let i = 0; i < numFoods; i++) {
+            this.generateSingleFood();
         }
         
-        this.score += food.points;
-        this.updateScore();
-        
-        // Level up every 100 points
-        const newLevel = Math.floor(this.score / 100) + 1;
-        if (newLevel > this.level) {
-            this.level = newLevel;
-            this.levelDisplay.textContent = this.level;
-            // Increase speed slightly
-            this.speed = Math.max(50, this.config.initialSpeed - (this.level * 10));
-            this.updateStatus(`🎉 LEVEL ${this.level}!`);
+        // 30% chance to generate ghost food
+        if (Math.random() < 0.3) {
+            this.generateGhostFood();
         }
-        
-        // Spawn replacement food
-        setTimeout(() => this.spawnFood(), 500);
     }
 
-    flashEffect(color) {
-        const originalBg = this.container.style.background;
-        this.container.style.background = color;
+    generateSingleFood() {
+        let x, y;
+        do {
+            x = Math.floor(Math.random() * this.gridWidth);
+            y = Math.floor(Math.random() * this.gridHeight);
+        } while (this.isPositionOccupied(x, y));
+        
+        // Select food type based on probability
+        const rand = Math.random();
+        let cumulativeProbability = 0;
+        let selectedType = 'apple'; // default
+        
+        for (const [type, config] of Object.entries(this.foodTypes)) {
+            cumulativeProbability += config.probability;
+            if (rand <= cumulativeProbability) {
+                selectedType = type;
+                break;
+            }
+        }
+        
+        const foodConfig = this.foodTypes[selectedType];
+        const food = {
+            x: x,
+            y: y,
+            emoji: foodConfig.emoji,
+            points: foodConfig.points,
+            effect: foodConfig.effect || null,
+            id: Date.now() + Math.random() // Unique ID for animation tracking
+        };
+        
+        // Add introduction animation
+        this.foodAnimations.set(food.id, {
+            type: 'introduction',
+            startTime: Date.now(),
+            duration: 300, // 300ms intro animation
+            scale: 0
+        });
+        
+        this.foods.push(food);
+    }
+
+    generateGhostFood() {
+        let position;
+        do {
+            position = {
+                x: Math.floor(Math.random() * this.gridWidth),
+                y: Math.floor(Math.random() * this.gridHeight)
+            };
+        } while (this.isPositionOccupied(position.x, position.y));
+        
+        const ghostFood = {
+            x: position.x,
+            y: position.y,
+            emoji: '👻',
+            points: 50,
+            type: 'ghost',
+            moveTimer: 0,
+            moveInterval: 20 // TROJAN HORSE FIX: Move every 20 frames for visible chase mechanics
+        };
+        
+        this.ghostFoods.push(ghostFood);
+    }
+
+    isPositionOccupied(x, y) {
+        // Check snake
+        if (this.snake.some(segment => segment.x === x && segment.y === y)) {
+            return true;
+        }
+        
+        // Check regular foods
+        if (this.foods.some(food => food.x === x && food.y === y)) {
+            return true;
+        }
+        
+        // Check ghost foods
+        if (this.ghostFoods.some(food => food.x === x && food.y === y)) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    handleFoodEffect(food) {
+        // Processing food effect
+        this.score += food.points;
+        console.log(`🎯 Score updated: ${this.score} (added ${food.points} points)`);
+        
+        // Force immediate HUD update
+        this.updateHUD();
+        
+        switch (food.effect) {
+            case 'turbo':
+                this.boostActive = true;
+                this.boostTimeLeft = 180; // 3 seconds at 60fps
+                break;
+                
+            case 'poison':
+                // Negative points already applied, add visual effect
+                this.showPoisonEffect();
+                break;
+                
+            case 'death':
+                this.gameOver();
+                return;
+        }
+        
+        // Update level and speed with more dynamic progression
+        this.level = Math.floor(Math.max(0, this.score) / 100) + 1;
+        this.speed = Math.max(40, 100 - (this.level * 8)); // Faster progression and lower minimum speed
+        
+        // Force another HUD update after level calculation
+        this.updateHUD();
+        
+        // Restart game loop with new speed if not boosting
+        if (!this.boostActive) {
+            clearInterval(this.gameLoop);
+            this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
+        }
+    }
+
+    updateGhostFoods() {
+        for (let i = this.ghostFoods.length - 1; i >= 0; i--) {
+            const ghost = this.ghostFoods[i];
+            ghost.moveTimer++;
+            
+            // TROJAN HORSE FIX: More frequent movement for visible chase mechanics
+            if (ghost.moveTimer >= ghost.moveInterval) {
+                ghost.moveTimer = 0;
+                
+                // Move ghost food like a chess knight
+                const knightMoves = [
+                    { x: 2, y: 1 }, { x: 2, y: -1 }, { x: -2, y: 1 }, { x: -2, y: -1 },
+                    { x: 1, y: 2 }, { x: 1, y: -2 }, { x: -1, y: 2 }, { x: -1, y: -2 }
+                ];
+                
+                const validMoves = knightMoves.filter(move => {
+                    const newX = ghost.x + move.x;
+                    const newY = ghost.y + move.y;
+                    return newX >= 0 && newX < this.gridWidth && 
+                           newY >= 0 && newY < this.gridHeight &&
+                           !this.isPositionOccupied(newX, newY);
+                });
+                
+                if (validMoves.length > 0) {
+                    const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)];
+                    ghost.x += randomMove.x;
+                    ghost.y += randomMove.y;
+                } else {
+                    // If no valid moves, disappear
+                    this.ghostFoods.splice(i, 1);
+                }
+            }
+        }
+    }
+
+    showPoisonEffect() {
+        // Flash the canvas red briefly
+        const originalFillStyle = this.ctx.fillStyle;
+        this.ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+        
         setTimeout(() => {
-            this.container.style.background = originalBg;
+            this.render();
         }, 200);
+    }
+
+    getCurrentSpeed() {
+        return this.boostActive ? this.boostSpeed : this.speed;
+    }
+
+    render() {
+        // Clear canvas
+        this.ctx.fillStyle = '#111';
+        this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+
+        // Draw snake with CYBERPUNK TURBO VISUAL AFFORDANCE
+        const turboTime = Date.now() * 0.01;
+        this.snake.forEach((segment, index) => {
+            if (index === 0) {
+                // TURBO HEAD: Dynamic color transformation
+                let headColor = '#00ff9d'; // Default green
+                let glowIntensity = 0;
+                
+                if (this.boostActive) {
+                    // CYBERPUNK TURBO TRANSFORMATION
+                    const pulseFactor = Math.sin(turboTime) * 0.5 + 0.5;
+                    headColor = `rgb(${Math.floor(255 * pulseFactor)}, ${Math.floor(255 * (1 - pulseFactor))}, ${Math.floor(255 * pulseFactor)})`;
+                    glowIntensity = 15 + Math.sin(turboTime * 2) * 10;
+                    
+                    // Electric glow effect
+                    this.ctx.shadowColor = '#ff00ff';
+                    this.ctx.shadowBlur = glowIntensity;
+                }
+                
+                this.ctx.fillStyle = headColor;
+                this.ctx.fillRect(
+                    segment.x * this.cellSize + 1,
+                    segment.y * this.cellSize + 1,
+                    this.cellSize - 2,
+                    this.cellSize - 2
+                );
+                
+                // Reset shadow for other elements
+                this.ctx.shadowBlur = 0;
+                
+                // Determine emotion based on game state and recent events
+                let emotion = 'normal';
+                if (this.boostActive) {
+                    emotion = 'excited';
+                } else if (this.consumptionAnimations.length > 0) {
+                    emotion = 'happy';
+                } else if (this.score < 0) {
+                    emotion = 'sad';
+                }
+                
+                // Draw emotive eyes
+                this.ctx.fillStyle = '#000000';
+                const eyeSize = Math.max(2, this.cellSize / 6);
+                const eyeOffset = this.cellSize / 4;
+                const headCenterX = segment.x * this.cellSize + this.cellSize / 2;
+                const headCenterY = segment.y * this.cellSize + this.cellSize / 2;
+                
+                // Eye positions based on direction
+                let leftEyeX = segment.x * this.cellSize + eyeOffset;
+                let rightEyeX = segment.x * this.cellSize + this.cellSize - eyeOffset - eyeSize;
+                let eyeY = segment.y * this.cellSize + eyeOffset;
+                
+                // Adjust eye position based on movement direction
+                if (this.direction.x !== 0) {
+                    leftEyeX += this.direction.x * 2;
+                    rightEyeX += this.direction.x * 2;
+                }
+                if (this.direction.y !== 0) {
+                    eyeY += this.direction.y * 2;
+                }
+                
+                // Draw eyes based on emotion with TURBO ENHANCEMENT
+                switch (emotion) {
+                    case 'excited':
+                        // TURBO EYES: Electric cyan glow with sparks
+                        if (this.boostActive) {
+                            this.ctx.shadowColor = '#00ffff';
+                            this.ctx.shadowBlur = 8;
+                            this.ctx.fillStyle = '#00ffff';
+                        } else {
+                            this.ctx.fillStyle = '#ffffff';
+                        }
+                        this.ctx.fillRect(leftEyeX - 1, eyeY - 1, eyeSize + 2, eyeSize + 2);
+                        this.ctx.fillRect(rightEyeX - 1, eyeY - 1, eyeSize + 2, eyeSize + 2);
+                        this.ctx.shadowBlur = 0;
+                        this.ctx.fillStyle = '#000000';
+                        this.ctx.fillRect(leftEyeX, eyeY, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY, eyeSize, eyeSize);
+                        break;
+                        
+                    case 'happy':
+                        // Squinted happy eyes
+                        this.ctx.fillRect(leftEyeX, eyeY + eyeSize / 3, eyeSize, eyeSize / 2);
+                        this.ctx.fillRect(rightEyeX, eyeY + eyeSize / 3, eyeSize, eyeSize / 2);
+                        break;
+                        
+                    case 'sad':
+                        // Droopy eyes
+                        this.ctx.fillRect(leftEyeX, eyeY + eyeSize / 4, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY + eyeSize / 4, eyeSize, eyeSize);
+                        break;
+                        
+                    default:
+                        // Normal eyes
+                        this.ctx.fillRect(leftEyeX, eyeY, eyeSize, eyeSize);
+                        this.ctx.fillRect(rightEyeX, eyeY, eyeSize, eyeSize);
+                }
+                
+                // Add pupils that follow movement direction
+                this.ctx.fillStyle = '#ffffff';
+                const pupilSize = Math.max(1, eyeSize / 3);
+                const pupilOffsetX = this.direction.x * (eyeSize / 4);
+                const pupilOffsetY = this.direction.y * (eyeSize / 4);
+                
+                if (emotion !== 'happy') { // Don't draw pupils for squinted eyes
+                    this.ctx.fillRect(
+                        leftEyeX + eyeSize / 2 - pupilSize / 2 + pupilOffsetX,
+                        eyeY + eyeSize / 2 - pupilSize / 2 + pupilOffsetY,
+                        pupilSize,
+                        pupilSize
+                    );
+                    this.ctx.fillRect(
+                        rightEyeX + eyeSize / 2 - pupilSize / 2 + pupilOffsetX,
+                        eyeY + eyeSize / 2 - pupilSize / 2 + pupilOffsetY,
+                        pupilSize,
+                        pupilSize
+                    );
+                }
+            } else {
+                // TURBO BODY: Dynamic trail effect with cyberpunk colors
+                let bodyColor, bodyAlpha;
+                
+                if (this.boostActive) {
+                    // CYBERPUNK TURBO TRAIL: Magenta to cyan gradient
+                    const trailProgress = index / this.snake.length;
+                    const pulseFactor = Math.sin(turboTime + index * 0.5) * 0.3 + 0.7;
+                    
+                    // Interpolate between magenta (#ff00ff) and cyan (#00ffff)
+                    const red = Math.floor(255 * (1 - trailProgress) * pulseFactor);
+                    const green = Math.floor(255 * trailProgress * pulseFactor);
+                    const blue = Math.floor(255 * pulseFactor);
+                    
+                    bodyColor = `rgb(${red}, ${green}, ${blue})`;
+                    bodyAlpha = 0.9 - (index * 0.03); // Slower fade for turbo trail
+                    
+                    // Add glow effect to body segments
+                    this.ctx.shadowColor = bodyColor;
+                    this.ctx.shadowBlur = 5 + Math.sin(turboTime + index) * 3;
+                } else {
+                    // Normal green body
+                    bodyColor = `rgba(0, 255, 157, ${0.8 - (index * 0.05)})`;
+                    bodyAlpha = 1;
+                }
+                
+                this.ctx.fillStyle = bodyColor;
+                this.ctx.globalAlpha = bodyAlpha;
+                this.ctx.fillRect(
+                    segment.x * this.cellSize + 1,
+                    segment.y * this.cellSize + 1,
+                    this.cellSize - 2,
+                    this.cellSize - 2
+                );
+                
+                // Reset effects
+                this.ctx.shadowBlur = 0;
+                this.ctx.globalAlpha = 1.0;
+            }
+        });
+
+        // Draw regular foods with pulsing animation
+        this.ctx.font = `${this.cellSize - 4}px Arial`;
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        
+        const pulseTime = Date.now() * 0.005; // Smooth pulsing animation
+        
+        this.foods.forEach(food => {
+            // Full opacity for all foods
+            this.ctx.globalAlpha = 1.0;
+            
+            // Handle introduction animation
+            let animationScale = 1.0;
+            if (food.id && this.foodAnimations.has(food.id)) {
+                const anim = this.foodAnimations.get(food.id);
+                const elapsed = Date.now() - anim.startTime;
+                const progress = Math.min(elapsed / anim.duration, 1);
+                
+                if (anim.type === 'introduction') {
+                    // Bounce-in animation
+                    animationScale = progress < 0.5 ? 
+                        2 * progress * progress : 
+                        1 - Math.pow(-2 * progress + 2, 3) / 2;
+                    
+                    if (progress >= 1) {
+                        this.foodAnimations.delete(food.id);
+                    }
+                }
+            }
+            
+            // Enhanced pulsing scale (0.8 to 1.3) for more fun and expressive animation
+            const basePulse = Math.sin(pulseTime + food.x * 0.5 + food.y * 0.3);
+            const pulseScale = (1.0 + basePulse * 0.25) * animationScale;
+            
+            // Save context for transformation
+            this.ctx.save();
+            
+            // Move to food center for scaling
+            const centerX = food.x * this.cellSize + this.cellSize / 2;
+            const centerY = food.y * this.cellSize + this.cellSize / 2;
+            this.ctx.translate(centerX, centerY);
+            this.ctx.scale(pulseScale, pulseScale);
+            
+            // Razor sharp emoji rendering with no glow effects
+            // Clean pulsing through transparency for special foods
+            if (food.effect) {
+                // Special foods pulse with transparency (0.7 to 1.0)
+                this.ctx.globalAlpha = 0.85 + Math.sin(pulseTime * 3) * 0.15;
+            } else {
+                // Regular foods have subtle transparency pulse (0.9 to 1.0)
+                this.ctx.globalAlpha = 0.95 + Math.sin(pulseTime * 2) * 0.05;
+            }
+            
+            // Razor sharp emoji rendering - no shadows, no glow
+            this.ctx.shadowBlur = 0;
+            this.ctx.shadowColor = 'transparent';
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.fillText(food.emoji, 0, 0);
+            
+            // Restore context
+            this.ctx.restore();
+            this.ctx.shadowBlur = 0;
+            this.ctx.globalAlpha = 1.0;
+        });
+        
+        // Draw consumption animations
+        this.consumptionAnimations = this.consumptionAnimations.filter(anim => {
+            const elapsed = Date.now() - anim.startTime;
+            const progress = elapsed / anim.duration;
+            
+            if (progress >= 1) return false; // Remove completed animations
+            
+            this.ctx.save();
+            
+            // Fade out and scale up
+            const alpha = 1 - progress;
+            const scale = 1 + progress * 2;
+            
+            this.ctx.globalAlpha = alpha;
+            this.ctx.translate(anim.x, anim.y);
+            this.ctx.scale(scale, scale);
+            
+            // Draw points text
+            this.ctx.fillStyle = anim.points > 0 ? '#00ff9d' : '#ff4444';
+            this.ctx.font = `${Math.floor(this.cellSize * 0.6)}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(`${anim.points > 0 ? '+' : ''}${anim.points}`, 0, -this.cellSize);
+            
+            // Draw emoji
+            this.ctx.fillText(anim.emoji, 0, 0);
+            
+            this.ctx.restore();
+            return true; // Keep animation
+        });
+        
+        // Draw ghost foods with enhanced visibility and movement trail
+        this.ghostFoods.forEach(ghost => {
+            this.ctx.save();
+            
+            // TROJAN HORSE ENHANCEMENT: Add movement trail effect
+            const pulseTime = Date.now() * 0.008;
+            const trailAlpha = 0.3 + Math.sin(pulseTime) * 0.2;
+            
+            // Draw trail positions to show chess movement
+            this.ctx.globalAlpha = trailAlpha;
+            this.ctx.shadowColor = '#00ffff';
+            this.ctx.shadowBlur = 15;
+            
+            // Draw main ghost with pulsing effect
+            this.ctx.globalAlpha = 0.8 + Math.sin(pulseTime * 1.5) * 0.2;
+            this.ctx.translate(ghost.x * this.cellSize + this.cellSize / 2, ghost.y * this.cellSize + this.cellSize / 2);
+            
+            // Add chess piece indicator
+            this.ctx.fillStyle = '#00ffff';
+            this.ctx.font = `${Math.floor(this.cellSize * 0.3)}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.fillText('♞', 0, -this.cellSize * 0.6); // Chess knight symbol
+            
+            // Draw ghost emoji
+            this.ctx.font = `${this.cellSize - 4}px Arial`;
+            this.ctx.fillText(ghost.emoji, 0, 0);
+            
+            this.ctx.restore();
+        });
+    }
+
+    // Removed showScoreMath - was interfering with score display
+
+    updateHUD() {
+        // Force re-bind if elements are missing
+        if (!this.scoreEl || !this.levelEl || !this.statusEl) {
+            this.bindHUDElements();
+        }
+        
+        if (this.scoreEl) {
+            // Force immediate DOM update
+            this.scoreEl.innerHTML = this.score;
+            this.scoreEl.setAttribute('data-score', this.score);
+            this.scoreEl.style.color = 'var(--cyber-primary)';
+            this.scoreEl.style.fontWeight = 'bold';
+            console.log(`🎯 HUD Update: Setting score to ${this.score}, Element text: ${this.scoreEl.textContent}`);
+            
+            // Force repaint
+            this.scoreEl.offsetHeight;
+        }
+        
+        if (this.levelEl) {
+            this.levelEl.textContent = this.level;
+        }
+        
+        if (this.statusEl) {
+            this.statusEl.textContent = this.gameState.toUpperCase();
+        }
+    }
+
+    updateButtonStates() {
+        const startBtn = document.getElementById('snake-start');
+        const pauseBtn = document.getElementById('snake-pause');
+        
+        if (this.gameState === 'ready') {
+            startBtn.style.display = 'inline-block';
+            pauseBtn.style.display = 'none';
+        } else {
+            startBtn.style.display = 'none';
+            pauseBtn.style.display = 'inline-block';
+        }
+    }
+
+    activateBoost() {
+        if (this.gameState !== 'playing') return;
+        
+        this.boostActive = true;
+        
+        // Restart game loop with boost speed
+        clearInterval(this.gameLoop);
+        this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
+        
+        // Deactivate boost after 2 seconds
+        setTimeout(() => {
+            this.boostActive = false;
+            if (this.gameState === 'playing') {
+                clearInterval(this.gameLoop);
+                this.gameLoop = setInterval(() => this.update(), this.getCurrentSpeed());
+            }
+        }, 2000);
+    }
+
+    getCurrentSpeed() {
+        return this.boostActive ? this.boostSpeed : this.speed;
     }
 
     gameOver() {
         clearInterval(this.gameLoop);
         this.gameState = 'gameOver';
+        this.updateHUD();
         
-        // Update high score
-        if (this.score > this.highScore) {
-            this.highScore = this.score;
-            this.saveHighScore();
-            this.highScoreDisplay.textContent = this.highScore;
-            this.updateStatus(`New High Score: ${this.highScore}!`);
-        } else {
-            this.updateStatus(`Game Over - Score: ${this.score}`);
+        // Record game stats
+        this.recordGameStats();
+        
+        setTimeout(() => {
+            this.restart();
+        }, 2000);
+    }
+
+    recordGameStats() {
+        // Update Games section counters
+        const snakeCountEl = document.getElementById('snake-count');
+        if (snakeCountEl) {
+            const currentCount = parseInt(snakeCountEl.textContent) || 0;
+            snakeCountEl.textContent = currentCount + 1;
         }
-        
-        this.updateButtons();
+
+        // Store game data for potential leaderboards
+        const gameData = {
+            score: this.score,
+            level: this.level,
+            timestamp: Date.now(),
+            duration: Date.now() - (this.gameStartTime || Date.now())
+        };
+
+        // Save to localStorage for persistence
+        const savedGames = JSON.parse(localStorage.getItem('snake-games') || '[]');
+        savedGames.push(gameData);
+        localStorage.setItem('snake-games', JSON.stringify(savedGames.slice(-10))); // Keep last 10 games
     }
 
-    updateScore() {
-        this.scoreDisplay.textContent = this.score;
-    }
-
-    updateStatus(message) {
-        this.statusDisplay.textContent = message;
-    }
-
-    updateButtons() {
-        const startBtn = document.getElementById(`snake-start-${this.containerId}`);
-        const pauseBtn = document.getElementById(`snake-pause-${this.containerId}`);
-        const resetBtn = document.getElementById(`snake-reset-${this.containerId}`);
-        
-        switch (this.gameState) {
-            case 'ready':
-                startBtn.style.display = 'inline-block';
-                startBtn.textContent = 'START GAME';
-                pauseBtn.style.display = 'none';
-                resetBtn.style.display = 'none';
-                break;
-            case 'playing':
-                startBtn.style.display = 'none';
-                pauseBtn.style.display = 'inline-block';
-                pauseBtn.textContent = 'PAUSE';
-                resetBtn.style.display = 'inline-block';
-                break;
-            case 'paused':
-                startBtn.style.display = 'none';
-                pauseBtn.style.display = 'inline-block';
-                pauseBtn.textContent = 'RESUME';
-                resetBtn.style.display = 'inline-block';
-                break;
-            case 'gameOver':
-                startBtn.style.display = 'inline-block';
-                startBtn.textContent = 'PLAY AGAIN';
-                pauseBtn.style.display = 'none';
-                resetBtn.style.display = 'inline-block';
-                break;
-        }
-    }
-
-    render() {
-        // Clear canvas
-        this.ctx.fillStyle = '#000';
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Draw snake
-        this.ctx.fillStyle = '#00ff9d';
-        this.snake.forEach((segment, index) => {
-            const x = segment.x * this.config.gridSize;
-            const y = segment.y * this.config.gridSize;
-            
-            if (index === 0) {
-                // Head with different color
-                this.ctx.fillStyle = '#00ff9d';
-                this.ctx.fillRect(x + 1, y + 1, this.config.gridSize - 2, this.config.gridSize - 2);
-                
-                // Draw eyes
-                this.ctx.fillStyle = '#000';
-                const eyeSize = 3;
-                const eyeOffset = 5;
-                this.ctx.fillRect(x + eyeOffset, y + eyeOffset, eyeSize, eyeSize);
-                this.ctx.fillRect(x + this.config.gridSize - eyeOffset - eyeSize, y + eyeOffset, eyeSize, eyeSize);
-            } else {
-                // Body
-                this.ctx.fillStyle = index % 2 === 0 ? '#00cc7d' : '#00aa6d';
-                this.ctx.fillRect(x + 1, y + 1, this.config.gridSize - 2, this.config.gridSize - 2);
-            }
-        });
-        
-        // Draw multiple foods with emojis
-        this.foods.forEach(food => {
-            const x = food.x * this.config.gridSize;
-            const y = food.y * this.config.gridSize;
-            
-            // Food background based on type
-            let bgColor = '#ff4444';
-            if (food.type === 'turbo') bgColor = '#ffd700';
-            else if (food.type === 'poison') bgColor = '#8b008b';
-            else if (food.type === 'bomb') bgColor = '#ff0000';
-            else if (food.type === 'cherry') bgColor = '#dc143c';
-            else if (food.type === 'banana') bgColor = '#ffff00';
-            
-            this.ctx.fillStyle = bgColor;
-            this.ctx.fillRect(x + 2, y + 2, this.config.gridSize - 4, this.config.gridSize - 4);
-            
-            // Draw emoji
-            this.ctx.font = `${this.config.gridSize - 4}px Arial`;
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(
-                food.emoji, 
-                x + this.config.gridSize / 2, 
-                y + this.config.gridSize / 2
-            );
-        });
-    }
-
-    loadHighScore() {
-        return parseInt(localStorage.getItem('snake-high-score') || '0');
-    }
-
-    saveHighScore() {
-        localStorage.setItem('snake-high-score', this.highScore.toString());
+    close() {
+        clearInterval(this.gameLoop);
+        document.removeEventListener('keydown', this.keyHandler);
+        this.container.style.display = 'none';
+        document.body.style.overflow = '';
     }
 
     destroy() {
         clearInterval(this.gameLoop);
-        document.removeEventListener('keydown', this.handleKeyPress);
-        if (this.container) {
-            this.container.innerHTML = '';
-        }
+        document.removeEventListener('keydown', this.keyHandler);
+        this.container.innerHTML = '';
     }
 }
 
-// Export for module usage
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SnakeGameEngine;
-}
-
-// Global access
-window.SnakeGameEngine = SnakeGameEngine;
+window.ImmersiveSnakeGame = ImmersiveSnakeGame;
