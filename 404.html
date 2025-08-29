@@ -27,8 +27,17 @@
     <link rel="icon" type="image/png" sizes="512x512" href="favicon-512x512.png?v=2">
     
     <!-- Web App Manifest -->
-    <link rel="manifest" href="site.webmanifest">
+    <link rel="manifest" href="./site.webmanifest">
     <meta name="theme-color" content="#00ff9d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RicRios">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#0a0a0a">
+    <meta name="msapplication-TileImage" content="favicon-144x144.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
     <style>
         /* CYBERPUNK 404 DESIGN SYSTEM - HERO REPLICATION */
         * {
@@ -104,11 +113,13 @@
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: var(--space-lg);
+            padding: clamp(1rem, 4vw, 2rem);
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
 
         .hero-404 {
@@ -118,26 +129,110 @@
             position: relative;
         }
 
+        .rr-monogram {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: bold;
+            color: #00ff9d;
+            text-align: center;
+            margin: clamp(1rem, 4vh, 2rem) 0 clamp(4rem, 12vh, 8rem) 0;
+            line-height: 0.8;
+            white-space: pre;
+            position: relative;
+            min-height: clamp(150px, 25vh, 300px);
+            animation: 
+                glitchPulse 3s infinite, 
+                glitchShake 0.5s infinite alternate, 
+                colorChaos 2s infinite;
+            filter: saturate(3) contrast(2) brightness(1.5);
+            text-shadow: 
+                3px 0 #ff0080,
+                -3px 0 #00d4ff,
+                0 3px #00ff9d,
+                0 -3px #ff0080;
+        }
+        
+        .rr-monogram .ascii-variant {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            animation: asciiMorph 8s infinite;
+        }
+        
+        .rr-monogram .ascii-variant:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .rr-monogram .ascii-variant:nth-child(2) {
+            animation-delay: 4s;
+        }
+
         .ascii-rr {
             font-family: var(--cyber-font-mono);
             font-size: clamp(1.2rem, 4vw, 3rem);
             line-height: 1.1;
-            color: var(--cyber-secondary-accent);
+            color: #00ff9d;
             white-space: pre;
             margin-bottom: var(--space-xl);
             position: relative;
-            animation: glitchPulse 3s ease-in-out infinite;
+            animation: 
+                glitchPulse 2.5s ease-in-out infinite,
+                glitchShake 0.8s ease-in-out infinite,
+                colorChaos 4s linear infinite,
+                textCorruption 6s ease-in-out infinite;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            filter: saturate(1.5) contrast(1.3) brightness(1.2);
+        }
+        
+        .ascii-rr:hover {
+            animation-duration: 0.5s, 0.2s, 1s, 1s;
+            transform: scale(1.05);
+        }
+        
+        .ascii-rr::before {
+            content: attr(data-glitch);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: #ff6b35;
+            overflow: hidden;
+            animation: glitchShake 0.3s ease-in-out infinite reverse;
+            opacity: 0.8;
+            mix-blend-mode: screen;
+        }
+        
+        .ascii-rr::after {
+            content: attr(data-glitch);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            color: #00ff9d;
+            overflow: hidden;
+            animation: glitchShake 0.4s ease-in-out infinite;
+            opacity: 0.7;
+            mix-blend-mode: screen;
         }
 
         .off-grid-text {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
             font-weight: 600;
             color: #00ff9d;
-            margin-bottom: var(--space-2xl);
+            margin-bottom: clamp(2rem, 6vh, 4rem);
+            margin-top: clamp(2rem, 6vh, 4rem);
             letter-spacing: 0.1em;
             text-transform: uppercase;
             font-family: var(--cyber-font-mono);
+            filter: saturate(2) contrast(1.4) brightness(1.2);
         }
 
         .home-button {
@@ -148,6 +243,7 @@
             border: 2px solid #00ff9d;
             color: #00ff9d;
             text-decoration: none;
+            filter: saturate(2) contrast(1.4) brightness(1.2);
             padding: var(--space-md) var(--space-xl);
             border-radius: 4px;
             font-weight: 600;
@@ -182,29 +278,126 @@
             left: 100%;
         }
 
-        /* Glitch Effects */
+        /* Enhanced Glitch Effects - Unsettling 404 */
         @keyframes glitchPulse {
-            0%, 100% {
-                filter: hue-rotate(0deg);
+            0% {
+                transform: translate(0);
+                text-shadow: none;
+            }
+            5% {
+                transform: translate(-2px, 1px) skew(0.5deg);
+                text-shadow: 
+                    3px 0 #ff0080,
+                    -3px 0 #00d4ff;
+            }
+            10% {
+                transform: translate(1px, -1px) skew(-0.3deg);
+                text-shadow: 
+                    -2px 0 #00d4ff,
+                    2px 0 #ff0080;
+            }
+            15% {
+                transform: translate(-1px, 2px) skew(0.8deg);
+                text-shadow: 
+                    4px 0 #ff0080,
+                    -4px 0 #00d4ff;
             }
             25% {
+                transform: translate(2px, -2px) skew(-0.2deg);
                 text-shadow: 
-                    2px 0 #FF6B35,
-                    -2px 0 #00ff9d;
-                filter: hue-rotate(90deg);
+                    -3px 0 #00d4ff,
+                    3px 0 #ff0080;
+            }
+            35% {
+                transform: translate(-2px, 1px) skew(0.6deg);
+                text-shadow: 
+                    2px 0 #00ff9d,
+                    -2px 0 #ff0080;
             }
             50% {
+                transform: translate(1px, 2px) skew(-0.4deg);
                 text-shadow: 
-                    -1px 0 #00ff9d,
-                    1px 0 #FF6B35;
-                filter: hue-rotate(180deg);
+                    -4px 0 #00d4ff,
+                    4px 0 #ff0080;
+            }
+            65% {
+                transform: translate(-1px, -1px) skew(0.7deg);
+                text-shadow: 
+                    3px 0 #00d4ff,
+                    -3px 0 #ff0080;
             }
             75% {
+                transform: translate(2px, 1px) skew(-0.1deg);
                 text-shadow: 
-                    1px 0 #4A90E2,
-                    -1px 0 #FF6B35;
-                filter: hue-rotate(270deg);
+                    -2px 0 #ff0080,
+                    2px 0 #00d4ff;
             }
+            85% {
+                transform: translate(-2px, -2px) skew(0.9deg);
+                text-shadow: 
+                    4px 0 #ff0080,
+                    -4px 0 #00d4ff;
+            }
+            95% {
+                transform: translate(1px, 1px) skew(-0.5deg);
+                text-shadow: 
+                    -3px 0 #00d4ff,
+                    3px 0 #ff0080;
+            }
+            100% {
+                transform: translate(0);
+                text-shadow: none;
+            }
+        }
+        
+        @keyframes glitchShake {
+            0%, 100% { transform: translate(0); }
+            10% { transform: translate(-1px, -2px) rotate(0.5deg); }
+            20% { transform: translate(-3px, 0px) rotate(-0.5deg); }
+            30% { transform: translate(3px, 2px) rotate(0.5deg); }
+            40% { transform: translate(1px, -1px) rotate(-0.5deg); }
+            50% { transform: translate(-1px, 2px) rotate(0.5deg); }
+            60% { transform: translate(-3px, 1px) rotate(-0.5deg); }
+            70% { transform: translate(3px, 1px) rotate(0.5deg); }
+            80% { transform: translate(-1px, -1px) rotate(-0.5deg); }
+            90% { transform: translate(1px, 2px) rotate(0.5deg); }
+        }
+        
+        @keyframes colorChaos {
+            0% { color: #00ff9d; filter: saturate(3) contrast(2) brightness(1.5); }
+            12.5% { color: #00d4ff; filter: saturate(3) contrast(2) brightness(1.5); }
+            25% { color: #ff0080; filter: saturate(3) contrast(2) brightness(1.5); }
+            37.5% { color: #00ff9d; filter: saturate(3) contrast(2) brightness(1.5); }
+            50% { color: #00d4ff; filter: saturate(3) contrast(2) brightness(1.5); }
+            62.5% { color: #ff0080; filter: saturate(3) contrast(2) brightness(1.5); }
+            75% { color: #00ff9d; filter: saturate(3) contrast(2) brightness(1.5); }
+            87.5% { color: #00d4ff; filter: saturate(3) contrast(2) brightness(1.5); }
+            100% { color: #00ff9d; filter: saturate(3) contrast(2) brightness(1.5); }
+        }
+
+        @keyframes asciiMorph {
+            0%, 45% {
+                opacity: 1;
+            }
+            50%, 95% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        @keyframes textCorruption {
+            0%, 90%, 100% { opacity: 1; }
+            91% { opacity: 0.1; }
+            92% { opacity: 0.8; }
+            93% { opacity: 0.3; }
+            94% { opacity: 0.9; }
+            95% { opacity: 0.2; }
+            96% { opacity: 0.7; }
+            97% { opacity: 0.4; }
+            98% { opacity: 0.95; }
+            99% { opacity: 0.1; }
         }
 
 
@@ -247,13 +440,19 @@
     </div>
     
     <div class="hero-404">
-        <div class="ascii-rr" id="ascii-rr">
-██████╗ ██████╗ 
+        <div class="rr-monogram" id="ascii-rr">
+            <div class="ascii-variant">██████╗ ██████╗ 
 ██╔══██╗██╔══██╗
 ██████╔╝██████╔╝
 ██╔══██╗██╔══██╗
 ██║  ██║██║  ██║
-╚═╝  ╚═╝╚═╝  ╚═╝
+╚═╝  ╚═╝╚═╝  ╚═╝</div>
+            <div class="ascii-variant">╔══════╗ ╔══════╗
+║ ╔══╗ ║ ║ ╔══╗ ║
+║ ╚══╝ ║ ║ ╚══╝ ║
+║ ╔══╗ ║ ║ ╔══╗ ║
+║ ║  ║ ║ ║ ║  ║ ║
+╚═╝  ╚═╝ ╚═╝  ╚═╝</div>
         </div>
         
         <h1 class="off-grid-text">You're Off The Grid</h1>
@@ -303,13 +502,118 @@
             console.log(`💀 404 System initialized: ${timeOfDay} mode active`);
         }
 
+        // Dark Matter ASCII Morph System
+        function initDarkMatterMorph() {
+            const variants = document.querySelectorAll('.ascii-variant');
+            const filledVariant = variants[0];
+            const outlinedVariant = variants[1];
+            
+            // Start with filled variant visible
+            filledVariant.style.opacity = '1';
+            outlinedVariant.style.opacity = '0';
+            
+            // Morph cycle: 4s filled -> 4s outlined -> repeat
+            setInterval(() => {
+                // Glitch transition effect
+                const glitchFrames = [
+                    { opacity: '1', transform: 'translateX(-50%) translate(0px, 0px)' },
+                    { opacity: '0.3', transform: 'translateX(-50%) translate(-2px, 1px) skew(2deg)' },
+                    { opacity: '0.7', transform: 'translateX(-50%) translate(1px, -1px) skew(-1deg)' },
+                    { opacity: '0.1', transform: 'translateX(-50%) translate(-1px, 2px) skew(1deg)' },
+                    { opacity: '0', transform: 'translateX(-50%) translate(0px, 0px)' }
+                ];
+                
+                // Fade out current variant with glitch
+                const currentVariant = filledVariant.style.opacity === '1' ? filledVariant : outlinedVariant;
+                const nextVariant = currentVariant === filledVariant ? outlinedVariant : filledVariant;
+                
+                // Glitch out current
+                currentVariant.animate(glitchFrames, {
+                    duration: 300,
+                    easing: 'ease-in-out'
+                }).onfinish = () => {
+                    currentVariant.style.opacity = '0';
+                    
+                    // Glitch in next variant
+                    const reverseGlitch = [...glitchFrames].reverse();
+                    nextVariant.animate(reverseGlitch, {
+                        duration: 300,
+                        easing: 'ease-in-out'
+                    }).onfinish = () => {
+                        nextVariant.style.opacity = '1';
+                    };
+                };
+            }, 4000);
+        }
+
         // Enhanced glitch effect for RR monogram
         function triggerGlitchBurst() {
             const rr = document.getElementById('ascii-rr');
-            rr.style.animation = 'none';
-            setTimeout(() => {
-                rr.style.animation = 'glitchPulse 3s ease-in-out infinite';
+            const variants = rr.querySelectorAll('.ascii-variant');
+            
+            // Chaos burst on all variants
+            variants.forEach(variant => {
+                variant.style.animation = `
+                    glitchPulse 0.1s ease-in-out infinite,
+                    glitchShake 0.05s ease-in-out infinite,
+                    colorChaos 0.2s linear infinite,
+                    textCorruption 0.3s ease-in-out infinite
+                `;
+            });
+            
+            // Add random transform chaos
+            const chaosTransforms = [
+                'translateX(-50%) translate(-5px, 3px) rotate(2deg) scale(1.1)',
+                'translateX(-50%) translate(4px, -2px) rotate(-1.5deg) scale(0.95)',
+                'translateX(-50%) translate(-2px, -4px) rotate(1deg) scale(1.05)',
+                'translateX(-50%) translate(3px, 5px) rotate(-2deg) scale(0.98)',
+                'translateX(-50%) translate(-6px, 1px) rotate(1.5deg) scale(1.02)'
+            ];
+            
+            let burstCount = 0;
+            const burstInterval = setInterval(() => {
+                variants.forEach(variant => {
+                    variant.style.transform = chaosTransforms[Math.floor(Math.random() * chaosTransforms.length)];
+                });
+                
+                burstCount++;
+                if (burstCount > 20) {
+                    clearInterval(burstInterval);
+                    // Return to normal
+                    setTimeout(() => {
+                        variants.forEach(variant => {
+                            variant.style.animation = '';
+                            variant.style.transform = 'translateX(-50%)';
+                        });
+                    }, 100);
+                }
             }, 50);
+        }
+        
+        // Continuous micro-glitches
+        function triggerMicroGlitch() {
+            const rr = document.getElementById('ascii-rr');
+            const originalText = rr.textContent;
+            
+            // Corrupt random characters
+            const corruptChars = ['█', '▓', '▒', '░', '╬', '╫', '╪', '┼', '┬', '┴', '├', '┤', '╔', '╗', '╚', '╝'];
+            let corruptedText = originalText;
+            
+            for (let i = 0; i < 3; i++) {
+                const randomPos = Math.floor(Math.random() * originalText.length);
+                if (originalText[randomPos] !== '\n' && originalText[randomPos] !== ' ') {
+                    corruptedText = corruptedText.substring(0, randomPos) + 
+                                  corruptChars[Math.floor(Math.random() * corruptChars.length)] + 
+                                  corruptedText.substring(randomPos + 1);
+                }
+            }
+            
+            rr.textContent = corruptedText;
+            
+            // Restore after brief moment
+            setTimeout(() => {
+                rr.textContent = originalText;
+            }, 100 + Math.random() * 200);
         }
 
         // Initialize system
@@ -317,13 +621,24 @@
             initializeTimeAwareTheme();
             updateTimeDisplay();
             
+            // Initialize Dark Matter ASCII Morph System
+            initDarkMatterMorph();
+            
             // Update time every second
             setInterval(updateTimeDisplay, 1000);
             
-            // Trigger random glitch bursts
-            setInterval(triggerGlitchBurst, 8000 + Math.random() * 4000);
+            // Trigger random glitch bursts (more frequent)
+            setInterval(triggerGlitchBurst, 3000 + Math.random() * 2000);
             
-            console.log('💀 Off Grid system operational');
+            // Click for mega-glitch
+            const rrElement = document.getElementById('ascii-rr');
+            rrElement.addEventListener('click', () => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => triggerGlitchBurst(), i * 200);
+                }
+            });
+            
+            console.log('💀 Dark Matter ASCII Morph System - OPERATIONAL');
         });
 
         // Keyboard shortcuts

@@ -29,6 +29,15 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="site.webmanifest">
     <meta name="theme-color" content="#00ff9d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RicRios">
+    
+    <!-- Microsoft Tiles -->
+    <meta name="msapplication-TileColor" content="#0a0a0a">
+    <meta name="msapplication-TileImage" content="favicon-144x144.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
     <style>
         body {
             background: #0a0a0a;
@@ -61,11 +70,72 @@
             white-space: pre;
             text-align: center;
         }
+        .controls {
+            background: #1a1a1a;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #00ff9d;
+        }
+        .controls h3 {
+            margin: 15px 0 5px 0;
+            color: #00ff9d;
+        }
+        select {
+            background: #0a0a0a;
+            color: #00ff9d;
+            border: 1px solid #00ff9d;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        .template-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .social-template {
+            margin: 20px 0;
+            border: 1px solid #00ff9d;
+            padding: 10px;
+        }
+        .template-info {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="generator">
         <h1>ASCII Social Image Generator</h1>
+        
+        <!-- RR Monogram Selection -->
+        <div class="controls">
+            <h3>RR Monogram Variants</h3>
+            <select id="monogram-select">
+                <option value="clean">Variant 1 - Outlined Perfect</option>
+                <option value="glitch">Variant 2 - Filled Perfect</option>
+            </select>
+            
+            <h3>Cyberpunk Color Theme</h3>
+            <select id="color-select">
+                <option value="#00ff9d">Neon Green (Primary)</option>
+                <option value="#ff6b35">Orange Accent</option>
+                <option value="#00d4ff">Cyan Blue</option>
+                <option value="#ff0080">Hot Pink</option>
+                <option value="#ffff00">Canary Yellow</option>
+            </select>
+            
+            <h3>Social Media Templates</h3>
+            <div class="template-buttons">
+                <button onclick="generateTemplate('linkedin')">LinkedIn Post</button>
+                <button onclick="generateTemplate('instagram')">Instagram Story</button>
+                <button onclick="generateTemplate('tiktok')">TikTok Profile</button>
+                <button onclick="generateTemplate('twitter')">Twitter Header</button>
+            </div>
+        </div>
         
         <!-- OG Image Canvas -->
         <h2>Open Graph Image (1200x630)</h2>
@@ -93,58 +163,120 @@
     </div>
 
     <script>
-        // RR Monogram Variations - Exact Box Drawing Pattern
+        // RR Monogram Variations - Exact from Index Hero Section
         const rrMonograms = {
-            // Large OG Image - Box drawing RR pattern
-            large: `
-██████╗ ██████╗ 
+            clean: {
+                large: `██████╗ ██████╗ 
 ██╔══██╗██╔══██╗
 ██████╔╝██████╔╝
 ██╔══██╗██╔══██╗
 ██║  ██║██║  ██║
 ╚═╝  ╚═╝╚═╝  ╚═╝`,
-            
-            // Medium - Box drawing RR pattern
-            medium: `
-██████╗ ██████╗ 
+                medium: `██████╗ ██████╗ 
 ██╔══██╗██╔══██╗
 ██████╔╝██████╔╝
 ██╔══██╗██╔══██╗
 ██║  ██║██║  ██║
 ╚═╝  ╚═╝╚═╝  ╚═╝`,
-            
-            // Small - Box drawing RR pattern
-            small: `
-██████╗ ██████╗ 
-██╔══██╗██╔══██╗
-██████╔╝██████╔╝
-██╔══██╗██╔══██╗
-██║  ██║██║  ██║
-╚═╝  ╚═╝╚═╝  ╚═╝`,
-            
-            // Tiny - Minimal RR pattern
-            tiny: `
-██████╗ ██████╗ 
+                small: `██████╗ ██████╗ 
 ██╔══██╗██╔══██╗
 ██████╔╝██████╔╝
 ██╔══██╗██╔══██╗
 ██║  ██║██║  ██║
 ╚═╝  ╚═╝╚═╝  ╚═╝`
+            },
+            glitch: {
+                large: `███████ ███████
+██   ██ ██   ██
+██████  ██████ 
+██   ██ ██   ██
+██   ██ ██   ██
+██   ██ ██   ██`,
+                medium: `███████ ███████
+██   ██ ██   ██
+██████  ██████ 
+██   ██ ██   ██
+██   ██ ██   ██`,
+                small: `█████ █████
+██ ██ ██ ██
+████  ████ 
+██ ██ ██ ██`
+            },
+            minimal: {
+                large: `████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████`,
+                medium: `████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████`,
+                small: `██████ ██████
+██████ ██████
+██████ ██████
+██████ ██████`
+            },
+            heavy: {
+                large: `████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████`,
+                medium: `████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████
+████████ ████████`,
+                small: `██████ ██████
+██████ ██████
+██████ ██████
+██████ ██████`
+            }
+        };
+        
+        // Social Media Templates
+        const socialTemplates = {
+            linkedin: { width: 1200, height: 627, name: 'LinkedIn Post' },
+            instagram: { width: 1080, height: 1920, name: 'Instagram Story' },
+            tiktok: { width: 1080, height: 1080, name: 'TikTok Profile' },
+            twitter: { width: 1500, height: 500, name: 'Twitter Header' }
         };
 
-        function drawASCIIToCanvas(canvasId, asciiArt, fontSize = 12) {
+        function drawASCIIToCanvas(canvasId, asciiArt, fontSize = 12, color = '#00ff9d') {
             const canvas = document.getElementById(canvasId);
             const ctx = canvas.getContext('2d');
             
-            // Clear canvas with black background
-            ctx.fillStyle = '#000000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Clear canvas with transparent background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Set text properties for cyberpunk neon green (matching main site)
-            ctx.fillStyle = '#00ff9d';
+            // Set text properties with selected color
+            ctx.fillStyle = color;
             ctx.font = `${fontSize}px 'Courier New', monospace`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
+            
+            function drawASCII(canvas, text, color) {
+                const ctx = canvas.getContext('2d');
+                // Clear with transparent background
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Set font and color
+                ctx.font = '14px "Courier New", monospace';
+                ctx.fillStyle = color;
+                ctx.textAlign = 'center';
+                
+                const lines = text.split('\n');
+                const lineHeight = 16;
+                const startY = (canvas.height - (lines.length * lineHeight)) / 2;
+                
+                lines.forEach((line, index) => {
+                    ctx.fillText(line, canvas.width / 2, startY + (index * lineHeight));
+                });
+            }
             
             // Clear any existing shadows
             ctx.shadowColor = 'transparent';
@@ -161,10 +293,10 @@
                 ctx.fillText(line, canvas.width / 2, y);
             });
             
-            // Add subtle glow effect with neon green
-            ctx.shadowColor = '#00ff9d';
+            // Add subtle glow effect with selected color
+            ctx.shadowColor = color;
             ctx.shadowBlur = 3;
-            ctx.fillStyle = '#00ff9d';
+            ctx.fillStyle = color;
             
             lines.forEach((line, index) => {
                 const y = startY + (index * lineHeight);
@@ -179,6 +311,49 @@
                 ctx.fillRect(canvas.width - 80, canvas.height - 80, 60, 40);
             }
         }
+        
+        function generateTemplate(platform) {
+            const template = socialTemplates[platform];
+            const canvasId = `${platform}-canvas`;
+            
+            // Remove existing canvas if it exists
+            const existingCanvas = document.getElementById(canvasId);
+            if (existingCanvas) {
+                existingCanvas.remove();
+            }
+            
+            // Create new canvas
+            const canvas = document.createElement('canvas');
+            canvas.id = canvasId;
+            canvas.width = template.width;
+            canvas.height = template.height;
+            
+            // Create template section
+            const templateDiv = document.createElement('div');
+            templateDiv.className = 'social-template';
+            templateDiv.innerHTML = `
+                <h3>${template.name} (${template.width}x${template.height})</h3>
+                <div class="template-info">Optimized for ${platform} platform specifications</div>
+            `;
+            templateDiv.appendChild(canvas);
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = `Download ${template.name}`;
+            downloadBtn.onclick = () => downloadCanvas(canvasId, `${platform}-${template.width}x${template.height}.png`);
+            templateDiv.appendChild(downloadBtn);
+            
+            // Insert before the generate all button
+            const generateAllBtn = document.querySelector('button[onclick="generateAll()"]');
+            generateAllBtn.parentNode.insertBefore(templateDiv, generateAllBtn);
+            
+            // Generate the image
+            const monogramType = document.getElementById('monogram-select').value;
+            const color = document.getElementById('color-select').value;
+            const size = template.width > 1000 ? 'large' : template.width > 500 ? 'medium' : 'small';
+            const fontSize = Math.max(12, Math.min(48, template.width / 30));
+            
+            drawASCIIToCanvas(canvasId, rrMonograms[monogramType][size], fontSize, color);
+        }
 
         function downloadCanvas(canvasId, filename) {
             const canvas = document.getElementById(canvasId);
@@ -189,20 +364,29 @@
         }
 
         function generateAll() {
+            const monogramType = document.getElementById('monogram-select').value;
+            const color = document.getElementById('color-select').value;
+            
             // OG Image - Large RR Monogram with perfect centering
-            drawASCIIToCanvas('og-canvas', rrMonograms.large, 32);
+            drawASCIIToCanvas('og-canvas', rrMonograms[monogramType].large, 32, color);
             
             // Apple Touch Icon - Medium RR
-            drawASCIIToCanvas('apple-touch', rrMonograms.medium, 14);
+            drawASCIIToCanvas('apple-touch', rrMonograms[monogramType].medium, 14, color);
             
             // Android Icons - Scaled RR
-            drawASCIIToCanvas('android-192', rrMonograms.medium, 12);
-            drawASCIIToCanvas('android-512', rrMonograms.medium, 28);
+            drawASCIIToCanvas('android-192', rrMonograms[monogramType].medium, 12, color);
+            drawASCIIToCanvas('android-512', rrMonograms[monogramType].medium, 28, color);
             
             // Small Favicons - Tiny RR
-            drawASCIIToCanvas('favicon-32', rrMonograms.small, 3);
-            drawASCIIToCanvas('favicon-16', rrMonograms.tiny, 2);
+            drawASCIIToCanvas('favicon-32', rrMonograms[monogramType].small, 3, color);
+            drawASCIIToCanvas('favicon-16', rrMonograms[monogramType].small, 2, color);
         }
+        
+        // Update images when selections change
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('monogram-select').addEventListener('change', generateAll);
+            document.getElementById('color-select').addEventListener('change', generateAll);
+        });
 
         // Generate on load
         window.onload = generateAll;
