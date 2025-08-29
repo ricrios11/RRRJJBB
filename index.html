@@ -2365,8 +2365,8 @@
         <nav class="ascii-nav" id="ascii-nav">
             <div class="nav-container">
                 <span class="nav-item" onclick="scrollToSection('hero-section')">├─ HOME</span>
-                <span class="nav-item" onclick="scrollToSection('case-studies-grid')">├─ CASE STUDIES</span>
-                <span class="nav-item" onclick="scrollToSection('playground-section')">├─ INNOVATION LAB</span>
+                <span class="nav-item" onclick="scrollToSection('case-studies')">├─ CASE STUDIES</span>
+                <span class="nav-item" onclick="scrollToSection('innovation-lab')">├─ INNOVATION LAB</span>
                 <span class="nav-item" onclick="scrollToSection('footer')">└─ CONNECT</span>
             </div>
         </nav>
@@ -2427,28 +2427,18 @@
                     <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Impact:</span> This portfolio showcases systematic design innovation and agent orchestration frameworks.</small>
                 </div>
                 <div class="case-footer">
-                    <span class="ascii-micro">▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒</span>
-                </div>
-            </article>
-        </section>
-        
-        <!-- DIVE LAYER: Innovation Lab -->
-        <section class="playground-section">
-            <div class="playground-header">
-                <h2 class="section-title ascii-title">
-┌─ INNOVATION LAB: ACTIVE ─┐
-└─────────────────────────┘
-                </h2>
-                <div class="playground-status">
-                    <div class="status-item">
-                        <div class="status-label">├─ GAMES</div>
-                        <div class="status-value" id="snake-count">2</div>
-                    </div>
-                    <div class="status-item">
                         <div class="status-label">├─ ART</div>
                         <div class="status-value" id="art-count">∞</div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Innovation Lab Section -->
+        <section class="innovation-lab-section" id="innovation-lab">
+            <div class="lab-header">
+                <h2 class="section-title glitch-text">INNOVATION LAB</h2>
+                <p class="section-subtitle">Interactive Experiments & Digital Prototypes</p>
             </div>
             
             <div class="playground-games">
@@ -2497,7 +2487,7 @@
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer id="footer" class="cyber-footer">
@@ -2592,12 +2582,12 @@
                             <div class="touch-instructions" style="font-size: 0.8rem; color: #888; margin-bottom: 0.5rem;">TOUCH CONTROLS</div>
                             <div class="touch-grid" style="display: grid; grid-template-rows: auto auto auto; gap: 0.5rem; align-items: center; justify-items: center;">
                                 <div class="touch-row" style="grid-row: 1;">
-                                    <button class="touch-btn" id="snake-up" aria-label="Move Up" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↑</button>
+                                    <button class="touch-btn" id="snake-up" aria-label="Move Up" style="width: 50px; height: 50px; background: var(--cyber-secondary-accent); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↑</button>
                                 </div>
                                 <div class="touch-row" style="grid-row: 2; display: flex; gap: 0.5rem; align-items: center;">
-                                    <button class="touch-btn" id="snake-left" aria-label="Move Left" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">←</button>
-                                    <button class="touch-btn" id="snake-down" aria-label="Move Down" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↓</button>
-                                    <button class="touch-btn" id="snake-right" aria-label="Move Right" style="width: 50px; height: 50px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">→</button>
+                                    <button class="touch-btn" id="snake-left" aria-label="Move Left" style="width: 50px; height: 50px; background: var(--cyber-secondary-accent); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">←</button>
+                                    <button class="touch-btn" id="snake-down" aria-label="Move Down" style="width: 50px; height: 50px; background: var(--cyber-secondary-accent); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">↓</button>
+                                    <button class="touch-btn" id="snake-right" aria-label="Move Right" style="width: 50px; height: 50px; background: var(--cyber-secondary-accent); color: #fff; border: none; border-radius: 8px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;">→</button>
                                 </div>
                                 <div class="touch-row" style="grid-row: 3;">
                                     <button class="touch-btn boost-btn" id="snake-boost" aria-label="Speed Boost" style="width: 60px; height: 40px; background: var(--cyber-warning); color: #000; border: none; border-radius: 8px; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: bold;">⚡ BOOST</button>
@@ -2640,56 +2630,62 @@
                 <h2 class="modal-title" role="heading" aria-level="2">┌─ GRAFFITI SLAP CREATOR ─┐</h2>
                 <button class="game-modal-close" onclick="closeGameModal('graffiti-modal')" aria-label="Close Graffiti Creator Modal">×</button>
             </div>
-            <div class="game-modal-body refined-body">
-                <div class="graffiti-interface refined-interface" role="main" aria-label="Graffiti Creation Interface">
-                    <div class="graffiti-canvas-area">
-                        <div class="graffiti-tools responsive-draw-tools">
-                            <div class="tool-sections">
-                                <div class="tool-section primary-section">
-                                    <h4>COLORS</h4>
-                                    <div class="color-palette enhanced-palette">
-                                        <button class="color-btn active" data-color="#FF3B30" style="background: #FF3B30;" title="Red" type="button"></button>
-                                        <button class="color-btn" data-color="#FF9500" style="background: #FF9500;" title="Orange" type="button"></button>
-                                        <button class="color-btn" data-color="#FFCC00" style="background: #FFCC00;" title="Yellow" type="button"></button>
-                                        <button class="color-btn" data-color="#34C759" style="background: #34C759;" title="Green" type="button"></button>
-                                        <button class="color-btn" data-color="#007AFF" style="background: #007AFF;" title="Blue" type="button"></button>
-                                        <button class="color-btn" data-color="#5856D6" style="background: #5856D6;" title="Purple" type="button"></button>
-                                        <button class="color-btn" data-color="#FF2D92" style="background: #FF2D92;" title="Pink" type="button"></button>
-                                        <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF;" title="White" type="button"></button>
-                                    </div>
-                                </div>
-                                <div class="tool-section primary-section">
-                                    <h4>ASCII CHARS</h4>
-                                    <div class="ascii-palette enhanced-tools">
-                                        <button class="ascii-btn active" data-char="█" title="Full Block">█</button>
-                                        <button class="ascii-btn" data-char="▓" title="Dark Shade">▓</button>
-                                        <button class="ascii-btn" data-char="▒" title="Medium Shade">▒</button>
-                                        <button class="ascii-btn" data-char="░" title="Light Shade">░</button>
-                                        <button class="ascii-btn" data-char="╔" title="Box Top-Left">╔</button>
-                                        <button class="ascii-btn" data-char="╗" title="Box Top-Right">╗</button>
-                                        <button class="ascii-btn" data-char="╚" title="Box Bottom-Left">╚</button>
-                                        <button class="ascii-btn" data-char="╝" title="Box Bottom-Right">╝</button>
-                                        <button class="ascii-btn" data-char="║" title="Vertical Line">║</button>
-                                        <button class="ascii-btn" data-char="═" title="Horizontal Line">═</button>
-                                        <button class="ascii-btn" data-char="#" title="Hash">#</button>
-                                        <button class="ascii-btn" data-char="@" title="At Symbol">@</button>
-                                    </div>
+            <div class="game-modal-body refined-body" style="display: flex; flex-direction: column; height: 80vh;">
+                <div class="graffiti-interface refined-interface" role="main" aria-label="Graffiti Creation Interface" style="display: flex; flex-direction: column; height: 100%;">
+                    
+                    <!-- Tools Area (20vh) - Mobile Horizontal Scroll -->
+                    <div class="graffiti-tools-area" style="height: 20vh; min-height: 120px; padding: 1rem; border-bottom: 2px solid var(--cyber-secondary); overflow-x: auto; overflow-y: hidden;">
+                        <div class="graffiti-tools responsive-draw-tools" style="display: flex; gap: 2rem; min-width: max-content;">
+                            <div class="tool-section primary-section" style="flex-shrink: 0;">
+                                <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: var(--cyber-primary);">COLORS</h4>
+                                <div class="color-palette enhanced-palette" style="display: flex; gap: 0.5rem; flex-wrap: wrap; max-width: 200px;">
+                                    <button class="color-btn active" data-color="#FF3B30" style="background: #FF3B30; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Red" type="button"></button>
+                                    <button class="color-btn" data-color="#FF9500" style="background: #FF9500; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Orange" type="button"></button>
+                                    <button class="color-btn" data-color="#FFCC00" style="background: #FFCC00; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Yellow" type="button"></button>
+                                    <button class="color-btn" data-color="#34C759" style="background: #34C759; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Green" type="button"></button>
+                                    <button class="color-btn" data-color="#007AFF" style="background: #007AFF; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Blue" type="button"></button>
+                                    <button class="color-btn" data-color="#5856D6" style="background: #5856D6; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Purple" type="button"></button>
+                                    <button class="color-btn" data-color="#FF2D92" style="background: #FF2D92; width: 30px; height: 30px; border: none; border-radius: 4px; cursor: pointer;" title="Pink" type="button"></button>
+                                    <button class="color-btn" data-color="#FFFFFF" style="background: #FFFFFF; width: 30px; height: 30px; border: 2px solid #333; border-radius: 4px; cursor: pointer;" title="White" type="button"></button>
                                 </div>
                             </div>
-                        </div>
-                        <div class="graffiti-canvas-container">
-                            <canvas id="graffiti-canvas" class="graffiti-canvas"></canvas>
-                        </div>
-                        <div class="graffiti-controls responsive-draw-tools">
-                            <div class="primary-actions">
-                                <button id="slap-all" class="control-btn primary" aria-label="Save artwork to gallery">SLAP</button>
-                            </div>
-                            <div class="secondary-actions">
-                                <button id="clear-canvas" class="control-btn">CLEAR</button>
-                                <button id="undo-action" class="control-btn">UNDO</button>
+                            <div class="tool-section primary-section" style="flex-shrink: 0;">
+                                <h4 style="margin: 0 0 0.5rem 0; font-size: 0.9rem; color: var(--cyber-primary);">ASCII CHARS</h4>
+                                <div class="ascii-palette enhanced-tools" style="display: flex; gap: 0.5rem; flex-wrap: wrap; max-width: 240px;">
+                                    <button class="ascii-btn active" data-char="█" title="Full Block" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">█</button>
+                                    <button class="ascii-btn" data-char="▓" title="Dark Shade" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">▓</button>
+                                    <button class="ascii-btn" data-char="▒" title="Medium Shade" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">▒</button>
+                                    <button class="ascii-btn" data-char="░" title="Light Shade" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">░</button>
+                                    <button class="ascii-btn" data-char="╔" title="Box Top-Left" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">╔</button>
+                                    <button class="ascii-btn" data-char="╗" title="Box Top-Right" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">╗</button>
+                                    <button class="ascii-btn" data-char="╚" title="Box Bottom-Left" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">╚</button>
+                                    <button class="ascii-btn" data-char="╝" title="Box Bottom-Right" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">╝</button>
+                                    <button class="ascii-btn" data-char="║" title="Vertical Line" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">║</button>
+                                    <button class="ascii-btn" data-char="═" title="Horizontal Line" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">═</button>
+                                    <button class="ascii-btn" data-char="#" title="Hash" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">#</button>
+                                    <button class="ascii-btn" data-char="@" title="At Symbol" style="width: 30px; height: 30px; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 4px; cursor: pointer; font-family: monospace;">@</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- Canvas Area (60vh) - Touch Optimized -->
+                    <div class="graffiti-canvas-area" style="height: 60vh; display: flex; justify-content: center; align-items: center; padding: 1rem; background: rgba(0,0,0,0.1);">
+                        <div class="graffiti-canvas-container" style="width: 100%; height: 100%; max-width: 600px; max-height: 100%; border: 2px solid var(--cyber-primary); border-radius: 8px; overflow: hidden;">
+                            <canvas id="graffiti-canvas" class="graffiti-canvas" style="width: 100%; height: 100%; display: block; touch-action: none; cursor: crosshair;"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Actions Area (20vh) - Mobile Buttons -->
+                    <div class="graffiti-actions-area" style="height: 20vh; min-height: 80px; padding: 1rem; border-top: 2px solid var(--cyber-secondary); display: flex; justify-content: center; align-items: center;">
+                        <div class="graffiti-controls responsive-draw-tools" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                            <button id="slap-all" class="control-btn primary" aria-label="Save artwork to gallery" style="padding: 0.8rem 1.5rem; background: var(--cyber-primary); color: #000; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; min-width: 80px;">SLAP</button>
+                            <button id="clear-canvas" class="control-btn" style="padding: 0.8rem 1.5rem; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; min-width: 80px;">CLEAR</button>
+                            <button id="undo-action" class="control-btn" style="padding: 0.8rem 1.5rem; background: var(--cyber-secondary); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; min-width: 80px;">UNDO</button>
+                            <button class="control-btn" onclick="closeGameModal('graffiti-modal')" style="padding: 0.8rem 1.5rem; background: var(--cyber-danger); color: #fff; border: none; border-radius: 8px; font-weight: bold; font-size: 1rem; cursor: pointer; min-width: 80px;">CLOSE</button>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -2862,9 +2858,16 @@
                     });
                 });
 
-                // Control buttons - ASCII focused
+                // Control buttons - ASCII focused - SCOPED TO GRAFFITI MODAL ONLY
                 // Wait for DOM to be ready, then setup button events
                 setTimeout(() => {
+                    // Only attach listeners if graffiti modal is visible
+                    const graffitiModal = document.getElementById('graffiti-modal');
+                    if (!graffitiModal || graffitiModal.style.display === 'none') {
+                        console.log('🚫 Graffiti modal not visible, skipping button setup');
+                        return;
+                    }
+                    
                     const slapBtn = document.getElementById('slap-all');
                     const clearBtn = document.getElementById('clear-canvas');
                     const undoBtn = document.getElementById('undo-canvas');
@@ -2889,6 +2892,14 @@
                             console.log('🎯 SLAP button clicked!');
                             e.preventDefault();
                             e.stopPropagation();
+                            
+                            // CRITICAL: Only process if graffiti modal is actually visible
+                            const currentGraffitiModal = document.getElementById('graffiti-modal');
+                            if (!currentGraffitiModal || currentGraffitiModal.style.display === 'none') {
+                                console.log('🚫 Graffiti modal not visible, ignoring slap click');
+                                return;
+                            }
+                            
                             // Prevent rapid clicking
                             if (newSlapBtn.disabled) return;
                             newSlapBtn.disabled = true;
@@ -3234,18 +3245,7 @@
                     document.head.appendChild(style);
                 }
                 
-                document.body.appendChild(confirmation);
-                
-                // Auto-remove after 2 seconds
-                setTimeout(() => {
-                    if (confirmation.parentNode) {
-                        confirmation.remove();
-                    }
-                }, 2000);
-            }
-
-            showCelebration() {
-                // Enhanced success affordance with multiple feedback layers
+                // Create celebration element
                 const celebration = document.createElement('div');
                 celebration.innerHTML = `
                     <div style="text-align: center;">
@@ -3308,21 +3308,6 @@
         function initGraffitiSlap() {
             console.log('🚫 Legacy initGraffitiSlap disabled - using unified system');
             return;
-            if (window.graffitiSlap) {
-                delete window.graffitiSlap;
-            }
-            
-            // Create new instance with proper initialization
-            setTimeout(() => {
-                try {
-                    window.graffitiSlap = new GraffitiSlap();
-                    window.graffitiSlap.init();
-                    console.log('✅ ASCII Graffiti Slap initialized successfully');
-                } catch (error) {
-                    console.error('❌ GraffitiSlap initialization failed:', error);
-                    return;
-                }
-            }, 100);
         }
 
         // ENHANCED MODAL SYSTEM - BULLETPROOF EXECUTION
@@ -3475,101 +3460,17 @@
         }
 
         // Time-aware theme application across all layers with content personalization
+        // ARCHIVED: Time-aware theme system - replaced with static cyberpunk theme
+        // Original time-aware functionality preserved for future reference
         function applyTimeAwareThemes() {
-            const now = new Date();
-            const hour = now.getHours();
-            
-            let timeTheme;
-            if (hour >= 5 && hour < 12) timeTheme = 'morning';
-            else if (hour >= 12 && hour < 17) timeTheme = 'afternoon';
-            else if (hour >= 17 && hour < 21) timeTheme = 'evening';
-            else timeTheme = 'night';
-            
-            // Apply to all layers
-            document.documentElement.setAttribute('data-time-theme', timeTheme);
-            
-            // Apply to modals and overlays
-            document.querySelectorAll('.game-modal, .dip-overlay, .modal').forEach(element => {
-                element.setAttribute('data-time-theme', timeTheme);
-            });
-            
-            // Update CSS custom properties for time-aware colors
-            const root = document.documentElement;
-            switch(timeTheme) {
-                case 'morning':
-                    root.style.setProperty('--cyber-primary-accent', '#00d4ff');
-                    root.style.setProperty('--cyber-secondary-accent', '#ff7744');
-                    root.style.setProperty('--cyber-secondary-accent-rgb', '255, 119, 68');
-                    root.style.setProperty('--cyber-tertiary-accent', '#00ff88');
-                    break;
-                case 'afternoon':
-                    root.style.setProperty('--cyber-primary-accent', '#00ff88');
-                    root.style.setProperty('--cyber-secondary-accent', '#ff4477');
-                    root.style.setProperty('--cyber-secondary-accent-rgb', '255, 68, 119');
-                    root.style.setProperty('--cyber-tertiary-accent', '#ffaa00');
-                    break;
-                case 'evening':
-                    root.style.setProperty('--cyber-primary-accent', '#ff6600');
-                    root.style.setProperty('--cyber-secondary-accent', '#bb44ff');
-                    root.style.setProperty('--cyber-secondary-accent-rgb', '187, 68, 255');
-                    root.style.setProperty('--cyber-tertiary-accent', '#00ccff');
-                    break;
-                case 'night':
-                    root.style.setProperty('--cyber-primary-accent', '#ff0080');
-                    root.style.setProperty('--cyber-secondary-accent', '#4488ff');
-                    root.style.setProperty('--cyber-secondary-accent-rgb', '68, 136, 255');
-                    root.style.setProperty('--cyber-tertiary-accent', '#80ff00');
-                    break;
-            }
-            
-            // Time-based content personalization
-            personalizeContent(timeTheme);
+            // Static cyberpunk theme - no time-based changes
+            console.log('Time-aware themes archived - using static cyberpunk theme');
         }
 
-        // Content personalization based on time of day
+        // ARCHIVED: Content personalization - simplified for consistent experience
         function personalizeContent(timeTheme) {
-            const caseCards = document.querySelectorAll('.case-card');
-            
-            // Define time-based emphasis
-            const contentStrategy = {
-                morning: {
-                    primary: 'chase-travel', // Strategic leadership focus
-                    emphasis: 'STRATEGIC ORCHESTRATION',
-                    tone: 'executive'
-                },
-                afternoon: {
-                    primary: 'chase-dining', // Operational excellence
-                    emphasis: 'OPERATIONAL PRECISION',
-                    tone: 'systematic'
-                },
-                evening: {
-                    primary: 'chase-travel', // Creative innovation
-                    emphasis: 'INNOVATIVE FRAMEWORKS',
-                    tone: 'creative'
-                },
-                night: {
-                    primary: 'chase-dining', // Technical depth
-                    emphasis: 'TECHNICAL MASTERY',
-                    tone: 'analytical'
-                }
-            };
-            
-            const strategy = contentStrategy[timeTheme];
-            
-            // Reorder case studies based on time
-            caseCards.forEach(card => {
-                const cardId = card.onclick.toString().match(/'([^']+)'/)?.[1];
-                if (cardId === strategy.primary) {
-                    card.style.order = '1';
-                    // Removed persistent glow and transform - cards should have equal visual weight
-                } else {
-                    card.style.order = '2';
-                    card.style.transform = '';
-                    card.style.boxShadow = '';
-                }
-            });
-            // Update theme name to reflect current strategy
-            document.getElementById('current-theme-name').textContent = strategy.emphasis;
+            // Static content order - no time-based reordering
+            console.log('Content personalization archived - using static layout');
         }
 
         // Portfolio Performance Analytics (Trojan Horse #1)
@@ -4595,198 +4496,33 @@
                 cell.style.cssText = `
                     border: 1px solid var(--cyber-dark-tertiary);
                     background: transparent;
+                `;
+                gameBoard.appendChild(cell);
+            }
             
     function updateBoard() {
         return; // Disabled to prevent conflicts
     }
                 
     function moveSnake() {
-        if (gameState !== 'playing') return;
-                
-        const head = {...snake[0]};
-                    const foodData = foodTypes[food.type];
-                    cells[foodIndex].style.background = foodData.color;
-                    cells[foodIndex].style.boxShadow = `0 0 10px ${foodData.color}`;
-                    cells[foodIndex].textContent = foodData.emoji;
-                }
-            }
+        return; // Disabled to prevent conflicts
+    }
+    
+    function generateFood() {
+        return; // Disabled to prevent conflicts
+    }
+    
+    function gameOver() {
+        return; // Disabled to prevent conflicts
+    }
+    
+    function getFoodType() {
+        return; // Disabled to prevent conflicts
+    }
             
-            function moveSnake() {
-                if (gameState !== 'playing') return;
-                
-                const head = {...snake[0]};
-                
-                switch(direction) {
-                    case 'UP': head.y--; break;
-                    case 'DOWN': head.y++; break;
-                    case 'LEFT': head.x--; break;
-                    case 'RIGHT': head.x++; break;
-                }
-                
-                // Check collisions
-                if (head.x < 0 || head.x >= GRID_SIZE || head.y < 0 || head.y >= GRID_SIZE ||
-                    snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-                    gameOver();
-                    return;
-                }
-                
-                snake.unshift(head);
-                
-                // Check food
-                if (head.x === food.x && head.y === food.y) {
-                    const foodData = foodTypes[food.type];
-                    let points = foodData.points;
-                    
-                    // Apply boost multiplier for positive foods
-                    if (boostMode && points > 0) {
-                        points = Math.floor(points * 1.5);
-                    }
-                    
-                    score += points;
-                    scoreElement.textContent = score;
-                    
-                    // Special food effects
-                    if (food.type === 'speed') {
-                        // Temporary speed boost
-                        clearInterval(gameLoop);
-                        currentSpeed = Math.max(50, currentSpeed - 20);
-                        gameLoop = setInterval(moveSnake, currentSpeed);
-                    } else if (food.type === 'toxic') {
-                        // Flash red effect
-                        board.style.borderColor = 'var(--cyber-secondary-accent)';
-                        setTimeout(() => {
-                            board.style.borderColor = 'var(--cyber-primary-accent)';
-                        }, 300);
-                    }
-                    
-                    generateFood();
-                    
-                    // Snake grows by NOT removing tail when eating (except toxic food)
-                    if (food.type === 'toxic') {
-                        snake.pop(); // Toxic food doesn't grow snake
-                    }
-                    
-                    // Update game count
-                    const gameCount = document.getElementById('snake-count');
-                    if (gameCount) gameCount.textContent = parseInt(gameCount.textContent) + 1;
-                } else {
-                    // Only remove tail if no food eaten (normal movement)
-                    snake.pop();
-                }
-                
-                updateBoard();
-            }
+            // Legacy snake code removed - using ImmersiveSnakeGame.js instead
             
-            function generateFood() {
-                do {
-                    food = {
-                        x: Math.floor(Math.random() * GRID_SIZE),
-                        y: Math.floor(Math.random() * GRID_SIZE),
-                        type: getFoodType()
-                    };
-                } while (snake.some(segment => segment.x === food.x && segment.y === food.y));
-            }
-            
-            function getFoodType() {
-                const rand = Math.random();
-                const scoreMultiplier = Math.floor(score / 50); // Rarer foods at higher scores
-                
-                if (rand < 0.6) return 'normal';        // 60% - Basic hunt
-                if (rand < 0.75) return 'power';        // 15% - Boost equivalent 
-                if (rand < 0.85) return 'speed';        // 10% - Risk/reward speed
-                if (rand < 0.95) return 'toxic';        // 10% - Risk (penalty)
-                return 'golden';                         // 5% - High reward
-            }
-            
-            function gameOver() {
-                gameState = 'gameOver';
-                clearInterval(gameLoop);
-                startButton.textContent = '🐍 HUNT AGAIN';
-                startButton.style.display = 'block';
-            }
-            
-            function togglePause() {
-                if (gameState === 'playing') {
-                    gameState = 'paused';
-                    clearInterval(gameLoop);
-                    startButton.textContent = '▶️ RESUME';
-                    startButton.style.display = 'block';
-                } else if (gameState === 'paused') {
-                    gameState = 'playing';
-                    startButton.style.display = 'none';
-                    gameLoop = setInterval(moveSnake, currentSpeed);
-                }
-            }
-            
-            function toggleBoost(active) {
-                boostMode = active;
-                if (gameState === 'playing') {
-                    clearInterval(gameLoop);
-                    currentSpeed = active ? baseSpeed / 2.5 : baseSpeed; // 2.5x faster
-                    gameLoop = setInterval(moveSnake, currentSpeed);
-                    
-                    // Visual feedback
-                    board.style.boxShadow = active ? 
-                        '0 0 30px var(--cyber-warning), inset 0 0 20px rgba(255, 165, 0, 0.2)' : 
-                        '0 0 20px var(--cyber-glow-color)';
-                }
-            }
-            
-            // DISABLED LEGACY SNAKE - CONFLICTS WITH IMMERSIVE SNAKE
-            function startGame() {
-                return; // Disabled to prevent score conflicts
-                gameState = 'playing';
-                score = 0;
-                snake = [{x: 10, y: 10}];
-                direction = 'RIGHT';
-                currentSpeed = baseSpeed;
-                boostMode = false;
-                generateFood();
-                scoreElement.textContent = score;
-                startButton.style.display = 'none';
-                
-                gameLoop = setInterval(moveSnake, currentSpeed);
-                updateBoard();
-            }
-            
-            // Enhanced Controls
-            document.addEventListener('keydown', (e) => {
-                // Pause functionality
-                if (e.code === 'Space') {
-                    e.preventDefault();
-                    if (gameState === 'playing' || gameState === 'paused') {
-                        togglePause();
-                    }
-                    return;
-                }
-                
-                // Boost mode
-                if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-                    e.preventDefault();
-                    toggleBoost(true);
-                    return;
-                }
-                
-                // Movement (only when playing)
-                if (gameState !== 'playing') return;
-                
-                switch(e.key) {
-                    case 'ArrowUp': if (direction !== 'DOWN') direction = 'UP'; break;
-                    case 'ArrowDown': if (direction !== 'UP') direction = 'DOWN'; break;
-                    case 'ArrowLeft': if (direction !== 'RIGHT') direction = 'LEFT'; break;
-                    case 'ArrowRight': if (direction !== 'LEFT') direction = 'RIGHT'; break;
-                }
-            });
-            
-            document.addEventListener('keyup', (e) => {
-                // Release boost mode
-                if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-                    toggleBoost(false);
-                }
-            });
-            
-            startButton.addEventListener('click', startGame);
-            updateBoard();
+            // All legacy snake functions disabled - using ImmersiveSnakeGame.js
         }
 
         // Theme Toggle Functionality
@@ -5326,6 +5062,32 @@
                     overflow-y: auto !important;
                     -webkit-overflow-scrolling: touch !important;
                 }
+            }
+            
+            /* CRITICAL: Snake touch controls visibility fix */
+            .snake-controls-area {
+                display: flex !important;
+                visibility: visible !important;
+            }
+            
+            #snake-touch-controls {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            .touch-controls.mobile-touch-controls {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            /* Force touch buttons to be visible */
+            .touch-btn {
+                display: flex !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
             }
         `;
         document.head.appendChild(mobileStyles);

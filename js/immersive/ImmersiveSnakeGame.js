@@ -103,7 +103,6 @@ class ImmersiveSnakeGame {
                     </div>
                     <div class="hud-right">
                         <button id="snake-pause" class="hud-btn" style="display: none;">⏸️ PAUSE</button>
-                        <button id="snake-restart" class="hud-btn">🔄 RESTART</button>
                         <button id="snake-close" class="hud-btn close-btn">✕ CLOSE</button>
                     </div>
                 </div>
@@ -390,6 +389,15 @@ class ImmersiveSnakeGame {
     }
 
     setupTouchControls() {
+        // Force touch controls to be visible on mobile
+        const touchControlsContainer = document.getElementById('snake-touch-controls');
+        if (touchControlsContainer) {
+            touchControlsContainer.style.display = 'flex';
+            touchControlsContainer.style.visibility = 'visible';
+            touchControlsContainer.style.opacity = '1';
+            console.log('🎮 Touch controls container forced visible');
+        }
+        
         // Touch control setup for mobile devices
         const touchButtons = {
             'snake-up': () => this.setDirection({ x: 0, y: -1 }),
@@ -409,20 +417,39 @@ class ImmersiveSnakeGame {
         Object.entries(touchButtons).forEach(([id, handler]) => {
             const btn = document.getElementById(id);
             if (btn) {
+                // Force button visibility
+                btn.style.display = 'flex';
+                btn.style.visibility = 'visible';
+                btn.style.opacity = '1';
+                
                 // Remove existing listeners
                 btn.replaceWith(btn.cloneNode(true));
                 const newBtn = document.getElementById(id);
                 
-                // Add multiple event types for compatibility
+                // Force new button visibility too
+                newBtn.style.display = 'flex';
+                newBtn.style.visibility = 'visible';
+                newBtn.style.opacity = '1';
+                
+                console.log(`🎮 Touch button ${id} forced visible`);
+                
+                // Add multiple event types for compatibility with immediate response
                 ['touchstart', 'mousedown', 'click'].forEach(eventType => {
                     newBtn.addEventListener(eventType, (e) => {
                         e.preventDefault();
                         e.stopPropagation();
+                        
+                        // Immediate handler execution for responsive controls
                         handler();
+                        console.log(`🎮 Touch control ${id} activated via ${eventType}`);
                         
                         // Visual feedback
                         newBtn.style.transform = 'scale(0.9)';
-                        setTimeout(() => newBtn.style.transform = 'scale(1)', 150);
+                        newBtn.style.background = 'var(--cyber-primary)';
+                        setTimeout(() => {
+                            newBtn.style.transform = 'scale(1)';
+                            newBtn.style.background = 'var(--cyber-secondary-accent)';
+                        }, 150);
                     }, { passive: false });
                 });
             }
@@ -712,7 +739,10 @@ class ImmersiveSnakeGame {
     handleFoodEffect(food) {
         // Processing food effect
         this.score += food.points;
-        // Score updated
+        console.log(`🎯 Score updated: ${this.score} (added ${food.points} points)`);
+        
+        // Force immediate HUD update
+        this.updateHUD();
         
         switch (food.effect) {
             case 'turbo':
@@ -733,6 +763,9 @@ class ImmersiveSnakeGame {
         // Update level and speed with more dynamic progression
         this.level = Math.floor(Math.max(0, this.score) / 100) + 1;
         this.speed = Math.max(40, 100 - (this.level * 8)); // Faster progression and lower minimum speed
+        
+        // Force another HUD update after level calculation
+        this.updateHUD();
         
         // Restart game loop with new speed if not boosting
         if (!this.boostActive) {
@@ -1091,7 +1124,15 @@ class ImmersiveSnakeGame {
         }
         
         if (this.scoreEl) {
-            this.scoreEl.textContent = this.score;
+            // Force immediate DOM update
+            this.scoreEl.innerHTML = this.score;
+            this.scoreEl.setAttribute('data-score', this.score);
+            this.scoreEl.style.color = 'var(--cyber-primary)';
+            this.scoreEl.style.fontWeight = 'bold';
+            console.log(`🎯 HUD Update: Setting score to ${this.score}, Element text: ${this.scoreEl.textContent}`);
+            
+            // Force repaint
+            this.scoreEl.offsetHeight;
         }
         
         if (this.levelEl) {
