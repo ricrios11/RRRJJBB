@@ -26,7 +26,8 @@ class SnakeGameEngine {
         this.snake = [{ x: 10, y: 10 }];
         this.direction = { x: 1, y: 0 };
         this.nextDirection = { x: 1, y: 0 };
-        this.food = null;
+        this.foods = []; // Multi-food system like original
+        this.ghostFoods = [];
         this.score = 0;
         this.highScore = this.loadHighScore();
         this.level = 1;
@@ -34,6 +35,22 @@ class SnakeGameEngine {
         this.gameLoop = null;
         this.speed = this.config.initialSpeed;
         this.boostActive = false;
+        this.boostTimeLeft = 0;
+        
+        // Enhanced food types from original
+        this.foodTypes = {
+            apple: { emoji: '🍎', points: 10, probability: 0.35 },
+            cherry: { emoji: '🍒', points: 20, probability: 0.2 },
+            banana: { emoji: '🍌', points: 15, probability: 0.2 },
+            turbo: { emoji: '⚡', points: 5, probability: 0.1, effect: 'turbo' },
+            poison: { emoji: '☠️', points: -20, probability: 0.1, effect: 'poison' },
+            bomb: { emoji: '💣', points: 0, probability: 0.05, effect: 'death' }
+        };
+        
+        // Game timing
+        this.gameStartTime = null;
+        this.lastFoodSpawn = 0;
+        this.foodSpawnInterval = 2000;
 
         // Mobile touch controls
         this.touchStartX = 0;
@@ -62,7 +79,7 @@ class SnakeGameEngine {
         this.createGameUI();
         this.setupCanvas();
         this.setupControls();
-        this.generateFood();
+        this.generateMultipleFoods();
         this.render();
         
         console.log('🐍 SNAKE ENGINE: Initialized with mobile controls');
@@ -546,23 +563,64 @@ class SnakeGameEngine {
         this.level = 1;
         this.gameState = 'ready';
         this.speed = this.config.initialSpeed;
-        this.generateFood();
+        this.generateMultipleFoods();
         this.updateScore();
         this.updateStatus('Ready to Play');
         this.updateButtons();
         this.render();
     }
 
-    generateFood() {
+    generateMultipleFoods() {
+        // Clear existing foods
+        this.foods = [];
+        
+        // Generate 2-4 foods like original
+        const foodCount = Math.floor(Math.random() * 3) + 2;
+        
+        for (let i = 0; i < foodCount; i++) {
+            this.spawnFood();
+        }
+    }
+
+    spawnFood() {
         let foodPosition;
+        let attempts = 0;
+        
         do {
             foodPosition = {
                 x: Math.floor(Math.random() * this.gridWidth),
                 y: Math.floor(Math.random() * this.gridHeight)
             };
-        } while (this.snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y));
+            attempts++;
+        } while (attempts < 50 && (
+            this.snake.some(segment => segment.x === foodPosition.x && segment.y === foodPosition.y) ||
+            this.foods.some(food => food.x === foodPosition.x && food.y === foodPosition.y)
+        ));
         
-        this.food = foodPosition;
+        if (attempts < 50) {
+            // Select food type based on probability
+            const rand = Math.random();
+            let cumulativeProbability = 0;
+            let selectedType = 'apple';
+            
+            for (const [type, config] of Object.entries(this.foodTypes)) {
+                cumulativeProbability += config.probability;
+                if (rand <= cumulativeProbability) {
+                    selectedType = type;
+                    break;
+                }
+            }
+            
+            const food = {
+                x: foodPosition.x,
+                y: foodPosition.y,
+                type: selectedType,
+                spawnTime: Date.now(),
+                ...this.foodTypes[selectedType]
+            };
+            
+            this.foods.push(food);
+        }
     }
 
     update() {
@@ -590,18 +648,51 @@ class SnakeGameEngine {
         
         this.snake.unshift(head);
         
-        // Check food collision
-        if (head.x === this.food.x && head.y === this.food.y) {
-            this.eatFood();
-        } else {
+        // Check food collisions with multiple foods
+        let foodEaten = false;
+        for (let i = this.foods.length - 1; i >= 0; i--) {
+            const food = this.foods[i];
+            if (head.x === food.x && head.y === food.y) {
+                this.eatFood(food, i);
+                foodEaten = true;
+                break;
+            }
+        }
+        
+        if (!foodEaten) {
             this.snake.pop();
+        }
+        
+        // Spawn new food periodically
+        if (Date.now() - this.lastFoodSpawn > this.foodSpawnInterval && this.foods.length < 4) {
+            this.spawnFood();
+            this.lastFoodSpawn = Date.now();
         }
         
         this.render();
     }
 
-    eatFood() {
-        this.score += 10;
+    eatFood(food, foodIndex) {
+        // Remove the eaten food
+        this.foods.splice(foodIndex, 1);
+        
+        // Apply food effects
+        if (food.effect === 'turbo') {
+            this.activateBoost();
+            this.updateStatus('⚡ TURBO BOOST!');
+        } else if (food.effect === 'poison') {
+            this.score = Math.max(0, this.score + food.points);
+            this.updateStatus('☠️ POISONED!');
+            // Flash effect
+            this.flashEffect('#ff0040');
+        } else if (food.effect === 'death') {
+            this.gameOver();
+            return;
+        } else {
+            this.updateStatus(`${food.emoji} +${food.points} points!`);
+        }
+        
+        this.score += food.points;
         this.updateScore();
         
         // Level up every 100 points
@@ -611,9 +702,19 @@ class SnakeGameEngine {
             this.levelDisplay.textContent = this.level;
             // Increase speed slightly
             this.speed = Math.max(50, this.config.initialSpeed - (this.level * 10));
+            this.updateStatus(`🎉 LEVEL ${this.level}!`);
         }
         
-        this.generateFood();
+        // Spawn replacement food
+        setTimeout(() => this.spawnFood(), 500);
+    }
+
+    flashEffect(color) {
+        const originalBg = this.container.style.background;
+        this.container.style.background = color;
+        setTimeout(() => {
+            this.container.style.background = originalBg;
+        }, 200);
     }
 
     gameOver() {
@@ -703,20 +804,32 @@ class SnakeGameEngine {
             }
         });
         
-        // Draw food
-        if (this.food) {
-            const x = this.food.x * this.config.gridSize;
-            const y = this.food.y * this.config.gridSize;
+        // Draw multiple foods with emojis
+        this.foods.forEach(food => {
+            const x = food.x * this.config.gridSize;
+            const y = food.y * this.config.gridSize;
             
-            this.ctx.fillStyle = '#ff4444';
+            // Food background based on type
+            let bgColor = '#ff4444';
+            if (food.type === 'turbo') bgColor = '#ffd700';
+            else if (food.type === 'poison') bgColor = '#8b008b';
+            else if (food.type === 'bomb') bgColor = '#ff0000';
+            else if (food.type === 'cherry') bgColor = '#dc143c';
+            else if (food.type === 'banana') bgColor = '#ffff00';
+            
+            this.ctx.fillStyle = bgColor;
             this.ctx.fillRect(x + 2, y + 2, this.config.gridSize - 4, this.config.gridSize - 4);
             
-            // Food glow effect
-            this.ctx.shadowColor = '#ff4444';
-            this.ctx.shadowBlur = 10;
-            this.ctx.fillRect(x + 4, y + 4, this.config.gridSize - 8, this.config.gridSize - 8);
-            this.ctx.shadowBlur = 0;
-        }
+            // Draw emoji
+            this.ctx.font = `${this.config.gridSize - 4}px Arial`;
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(
+                food.emoji, 
+                x + this.config.gridSize / 2, 
+                y + this.config.gridSize / 2
+            );
+        });
     }
 
     loadHighScore() {
