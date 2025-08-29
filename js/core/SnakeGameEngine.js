@@ -1,24 +1,22 @@
 /**
  * Immersive Snake Game - Viewport-aware with elegant HUD
  * Clean, functional implementation matching production quality
+ * Extends BaseGameEngine for unified architecture
  */
 
-class SnakeGameEngine {
+class SnakeGameEngine extends BaseGameEngine {
     constructor(containerId, config = {}) {
-        this.containerId = containerId;
-        this.config = {
+        super(containerId, 'snake', {
             gridSize: 20,
             canvasWidth: 600,
             canvasHeight: 400,
             initialSpeed: 150,
+            enableAnalytics: true,
+            enableHighScore: true,
+            enableSocialSharing: true,
+            enableLeaderboard: true,
             ...config
-        };
-        
-        this.container = document.getElementById(containerId);
-        
-        if (!this.container) {
-            throw new Error(`Container ${containerId} not found`);
-        }
+        });
 
         // Game state
         this.snake = [{ x: 10, y: 10 }];
@@ -26,8 +24,6 @@ class SnakeGameEngine {
         this.foods = []; // Multi-food system
         this.ghostFoods = [];
         
-        // Game timing
-        this.gameStartTime = null;
         this.lastFoodSpawn = 0;
         this.foodSpawnInterval = 2000; // Base spawn interval in ms
         
@@ -35,13 +31,9 @@ class SnakeGameEngine {
         this.foodAnimations = new Map(); // Track food introduction animations
         this.consumptionAnimations = []; // Track consumption effects
         
-        // Initialize HUD elements - TROJAN HORSE FIX: Proper element binding
-        this.scoreEl = null;
+        // Snake-specific HUD elements
         this.levelEl = null;
-        this.statusEl = null;
-        this.score = 0;
         this.level = 1;
-        this.gameState = 'ready'; // ready, playing, paused, gameOver
         this.gameLoop = null;
         this.speed = 100; // More dynamic base speed for engaging gameplay
         this.boostActive = false;
@@ -1126,29 +1118,17 @@ class SnakeGameEngine {
     // Removed showScoreMath - was interfering with score display
 
     updateHUD() {
+        // Call parent HUD update first
+        super.updateHUD();
+        
         // Force re-bind if elements are missing
-        if (!this.scoreEl || !this.levelEl || !this.statusEl) {
+        if (!this.levelEl) {
             this.bindHUDElements();
         }
         
-        if (this.scoreEl) {
-            // Force immediate DOM update
-            this.scoreEl.innerHTML = this.score;
-            this.scoreEl.setAttribute('data-score', this.score);
-            this.scoreEl.style.color = 'var(--cyber-primary)';
-            this.scoreEl.style.fontWeight = 'bold';
-            console.log(`🎯 HUD Update: Setting score to ${this.score}, Element text: ${this.scoreEl.textContent}`);
-            
-            // Force repaint
-            this.scoreEl.offsetHeight;
-        }
-        
+        // Update Snake-specific level display
         if (this.levelEl) {
             this.levelEl.textContent = this.level;
-        }
-        
-        if (this.statusEl) {
-            this.statusEl.textContent = this.gameState.toUpperCase();
         }
     }
 
@@ -1190,10 +1170,11 @@ class SnakeGameEngine {
 
     gameOver() {
         clearInterval(this.gameLoop);
-        this.gameState = 'gameOver';
-        this.updateHUD();
         
-        // Record game stats
+        // Call parent endGame method for unified analytics and leaderboard
+        this.endGame();
+        
+        // Record Snake-specific game stats
         this.recordGameStats();
         
         setTimeout(() => {
@@ -1226,15 +1207,20 @@ class SnakeGameEngine {
     close() {
         clearInterval(this.gameLoop);
         document.removeEventListener('keydown', this.keyHandler);
-        this.container.style.display = 'none';
-        document.body.style.overflow = '';
+        
+        // Call parent close method
+        super.close();
     }
 
     destroy() {
         clearInterval(this.gameLoop);
         document.removeEventListener('keydown', this.keyHandler);
-        this.container.innerHTML = '';
+        
+        // Call parent destroy method
+        super.destroy();
     }
 }
 
-window.ImmersiveSnakeGame = ImmersiveSnakeGame;
+// Export both names for compatibility
+window.SnakeGameEngine = SnakeGameEngine;
+window.ImmersiveSnakeGame = SnakeGameEngine;
