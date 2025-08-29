@@ -316,14 +316,12 @@ class AccessibilityValidator {
 
         console.log('♿ ACCESSIBILITY REPORT:', report);
 
-        // Show summary notification
-        if (window.GlobalErrorHandler) {
-            const message = `Accessibility scan complete: ${report.totalIssues} issues found (${report.highSeverity} high, ${report.mediumSeverity} medium, ${report.lowSeverity} low)`;
+        // Only show notifications for critical issues or in development mode
+        if (window.GlobalErrorHandler && window.location.hostname === 'localhost') {
+            const message = `Accessibility scan: ${report.totalIssues} issues (${report.highSeverity} high)`;
             
-            if (report.highSeverity > 0) {
+            if (report.highSeverity > 3) { // Only show if more than 3 high severity issues
                 window.GlobalErrorHandler.reportError(message, 'accessibility');
-            } else {
-                window.GlobalErrorHandler.reportSuccess(message);
             }
         }
 
@@ -372,9 +370,7 @@ class AccessibilityValidator {
 
         console.log(`♿ AUTO-FIXED: ${fixedCount} accessibility issues`);
         
-        if (window.GlobalErrorHandler && fixedCount > 0) {
-            window.GlobalErrorHandler.reportSuccess(`Auto-fixed ${fixedCount} accessibility issues`);
-        }
+        // Silent auto-fixes - no notifications for production UX
         
         return fixedCount;
     }
