@@ -4853,6 +4853,7 @@
     <script src="js/core/GlobalErrorHandler.js" defer></script>
     <script src="js/utils/WebPConverter.js" defer></script>
     <script src="js/validators/AccessibilityValidator.js" defer></script>
+    <script src="js/core/SnakeGameEngine.js" defer></script>
 </body>
 </html>
 
@@ -4880,9 +4881,9 @@
                     activeImmersiveGame.destroy();
                 }
 
-                // Launch new game
-                activeImmersiveGame = new ImmersiveSnakeGame('immersive-snake-container');
-                console.log('✅ Immersive Snake Game launched successfully');
+                // Launch new modular Snake Game Engine
+                activeImmersiveGame = new SnakeGameEngine('immersive-snake-container');
+                console.log('✅ Modular Snake Game Engine launched successfully');
             } catch (error) {
                 console.error('❌ Failed to launch Immersive Snake Game:', error);
                 document.body.style.overflow = '';
