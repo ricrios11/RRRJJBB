@@ -850,8 +850,9 @@
         }
         
         .playground-section {
-            margin: var(--space-3xl) var(--space-md) 0;
-            padding: var(--space-xl);
+            max-width: 1200px;
+            margin: var(--space-3xl) auto 0;
+            padding: var(--space-2xl) var(--space-xl);
             background: var(--cyber-surface);
             border-radius: var(--cyber-radius-lg);
             border: 1px solid var(--cyber-primary-accent);
@@ -859,8 +860,7 @@
         
         @media (min-width: 768px) {
             .playground-section {
-                margin: var(--space-3xl) var(--space-xl) 0;
-                padding: var(--space-2xl);
+                padding: var(--space-3xl) var(--space-2xl);
             }
         }
         
@@ -1113,7 +1113,7 @@
         
         .playground-games {
             display: grid;
-            gap: var(--space-xl);
+            gap: var(--space-lg);
             margin-top: var(--space-xl);
             grid-template-columns: 1fr;
         }
@@ -1122,7 +1122,7 @@
         @media (min-width: 768px) and (orientation: portrait) {
             .playground-games {
                 grid-template-columns: repeat(2, 1fr);
-                gap: var(--space-xl);
+                gap: var(--space-lg);
             }
         }
         
@@ -1130,7 +1130,7 @@
         @media (min-width: 1024px) {
             .playground-games {
                 grid-template-columns: repeat(2, 1fr);
-                gap: var(--space-2xl);
+                gap: var(--space-lg);
                 max-width: 800px;
                 margin: var(--space-xl) auto 0;
             }
@@ -1140,13 +1140,13 @@
         @media (min-width: 1440px) {
             .playground-games {
                 max-width: 900px;
-                gap: var(--space-3xl);
+                gap: var(--space-lg);
             }
         }
         
         .game-card {
             background: var(--surface-secondary);
-            border: none;
+            border: 1px solid var(--cyber-primary-accent);
             border-radius: var(--cyber-radius-base);
             padding: var(--space-lg);
             cursor: pointer;
@@ -1154,12 +1154,6 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-        
-        .game-card:hover {
-            box-shadow: 0 8px 24px rgba(0, 255, 157, 0.2);
-            transform: translateY(-2px);
-            border: 1px solid var(--cyber-primary-accent);
         }
         
         .game-card:hover::before {
@@ -2365,7 +2359,7 @@
         <nav class="ascii-nav" id="ascii-nav">
             <div class="nav-container">
                 <span class="nav-item" onclick="scrollToSection('hero-section')">├─ HOME</span>
-                <span class="nav-item" onclick="scrollToSection('case-studies')">├─ CASE STUDIES</span>
+                <span class="nav-item" onclick="scrollToSection('case-studies-grid')">├─ CASE STUDIES</span>
                 <span class="nav-item" onclick="scrollToSection('innovation-lab')">├─ INNOVATION LAB</span>
                 <span class="nav-item" onclick="scrollToSection('footer')">└─ CONNECT</span>
             </div>
@@ -2379,7 +2373,7 @@
     
     <div class="portfolio-container">
         <!-- SKIM LAYER: Case Studies Grid -->
-        <section class="case-studies-grid">
+        <section class="case-studies-grid" id="case-studies-grid">
             <!-- Chase Travel Case Study -->
             <article class="case-card" onclick="openDip('chase-travel')" title="15-person design team orchestrating 24 scrum teams — rejumble the pieces philosophy">
                 <div class="case-impact ascii-impact"><span title="Forbes Advisor: overview of Chase Travel portal">$30B</span> ▓▓▓▓▓▓▓</div>
@@ -2427,18 +2421,29 @@
                     <small><span style="color: var(--cyber-primary-accent); font-weight: bold;">Impact:</span> This portfolio showcases systematic design innovation and agent orchestration frameworks.</small>
                 </div>
                 <div class="case-footer">
-                        <div class="status-label">├─ ART</div>
-                        <div class="status-value" id="art-count">∞</div>
-                    </div>
+                    <span class="ascii-micro">▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒▓░▒</span>
+                </div>
                 </div>
             </div>
         </section>
 
         <!-- Innovation Lab Section -->
-        <section class="innovation-lab-section" id="innovation-lab">
-            <div class="lab-header">
-                <h2 class="section-title glitch-text">INNOVATION LAB</h2>
-                <p class="section-subtitle">Interactive Experiments & Digital Prototypes</p>
+        <section class="playground-section" id="playground-section">
+            <div class="playground-header">
+                <h2 class="section-title ascii-title">
+┌─ INNOVATION LAB: ACTIVE ─┐
+└─────────────────────────┘
+                </h2>
+                <div class="playground-status">
+                    <div class="status-item">
+                        <div class="status-label">├─ GAMES</div>
+                        <div class="status-value" id="snake-count">2</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-label">├─ ART</div>
+                        <div class="status-value" id="art-count">0</div>
+                    </div>
+                </div>
             </div>
             
             <div class="playground-games">
