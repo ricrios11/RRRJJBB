@@ -50,6 +50,11 @@ class SnakeGameEngine {
         this.levelDisplay = null;
         this.statusDisplay = null;
 
+        // Bind methods to preserve context
+        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleTouchEnd = this.handleTouchEnd.bind(this);
+
         this.init();
     }
 
@@ -64,28 +69,44 @@ class SnakeGameEngine {
     }
 
     createGameUI() {
+        // Make container fullscreen for immersive mode
+        this.container.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        `;
+
         this.container.innerHTML = `
             <div class="snake-game-container">
+                <div class="snake-close-btn" onclick="this.parentElement.parentElement.remove(); document.body.style.overflow = '';">×</div>
                 <div class="snake-hud">
                     <div class="snake-score-panel">
                         <div class="score-item">
                             <span class="score-label">SCORE</span>
-                            <span class="score-value" id="snake-score">0</span>
+                            <span class="score-value" id="snake-score-${this.containerId}">0</span>
                         </div>
                         <div class="score-item">
                             <span class="score-label">HIGH</span>
-                            <span class="score-value" id="snake-high-score">${this.highScore}</span>
+                            <span class="score-value" id="snake-high-score-${this.containerId}">${this.highScore}</span>
                         </div>
                         <div class="score-item">
                             <span class="score-label">LEVEL</span>
-                            <span class="score-value" id="snake-level">1</span>
+                            <span class="score-value" id="snake-level-${this.containerId}">1</span>
                         </div>
                     </div>
-                    <div class="snake-status" id="snake-status">Ready to Play</div>
+                    <div class="snake-status" id="snake-status-${this.containerId}">Ready to Play</div>
                 </div>
                 
                 <div class="snake-game-area">
-                    <canvas id="snake-canvas" width="${this.config.canvasWidth}" height="${this.config.canvasHeight}"></canvas>
+                    <canvas id="snake-canvas-${this.containerId}" width="${this.config.canvasWidth}" height="${this.config.canvasHeight}"></canvas>
                     
                     <!-- Mobile Touch Controls -->
                     <div class="mobile-controls" id="mobile-controls">
@@ -107,13 +128,38 @@ class SnakeGameEngine {
                 </div>
                 
                 <div class="snake-actions">
-                    <button class="snake-btn primary" id="snake-start">START GAME</button>
-                    <button class="snake-btn secondary" id="snake-pause" style="display: none;">PAUSE</button>
-                    <button class="snake-btn danger" id="snake-reset" style="display: none;">RESET</button>
+                    <button class="snake-btn primary" id="snake-start-${this.containerId}">START GAME</button>
+                    <button class="snake-btn secondary" id="snake-pause-${this.containerId}" style="display: none;">PAUSE</button>
+                    <button class="snake-btn danger" id="snake-reset-${this.containerId}" style="display: none;">RESET</button>
                 </div>
             </div>
             
             <style>
+                .snake-close-btn {
+                    position: absolute;
+                    top: 20px;
+                    right: 20px;
+                    width: 40px;
+                    height: 40px;
+                    background: rgba(255, 68, 68, 0.2);
+                    border: 2px solid #ff4444;
+                    border-radius: 50%;
+                    color: #ff4444;
+                    font-size: 24px;
+                    font-weight: bold;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                    z-index: 10001;
+                }
+                
+                .snake-close-btn:hover {
+                    background: rgba(255, 68, 68, 0.4);
+                    transform: scale(1.1);
+                }
+                
                 .snake-game-container {
                     background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
                     border: 2px solid #00ff9d;
@@ -121,8 +167,10 @@ class SnakeGameEngine {
                     padding: 20px;
                     font-family: 'Space Mono', monospace;
                     color: #00ff9d;
-                    max-width: 100%;
+                    max-width: 90vw;
+                    max-height: 90vh;
                     margin: 0 auto;
+                    position: relative;
                 }
                 
                 .snake-hud {
@@ -314,15 +362,15 @@ class SnakeGameEngine {
             </style>
         `;
 
-        // Get UI element references
-        this.scoreDisplay = document.getElementById('snake-score');
-        this.highScoreDisplay = document.getElementById('snake-high-score');
-        this.levelDisplay = document.getElementById('snake-level');
-        this.statusDisplay = document.getElementById('snake-status');
+        // Get UI element references with unique IDs
+        this.scoreDisplay = document.getElementById(`snake-score-${this.containerId}`);
+        this.highScoreDisplay = document.getElementById(`snake-high-score-${this.containerId}`);
+        this.levelDisplay = document.getElementById(`snake-level-${this.containerId}`);
+        this.statusDisplay = document.getElementById(`snake-status-${this.containerId}`);
     }
 
     setupCanvas() {
-        this.canvas = document.getElementById('snake-canvas');
+        this.canvas = document.getElementById(`snake-canvas-${this.containerId}`);
         this.ctx = this.canvas.getContext('2d');
         
         // Handle high DPI displays
@@ -352,10 +400,10 @@ class SnakeGameEngine {
             btn.addEventListener('click', (e) => this.handleControlClick(e));
         });
         
-        // Game action buttons
-        document.getElementById('snake-start').addEventListener('click', () => this.startGame());
-        document.getElementById('snake-pause').addEventListener('click', () => this.togglePause());
-        document.getElementById('snake-reset').addEventListener('click', () => this.resetGame());
+        // Game action buttons with unique IDs
+        document.getElementById(`snake-start-${this.containerId}`).addEventListener('click', () => this.startGame());
+        document.getElementById(`snake-pause-${this.containerId}`).addEventListener('click', () => this.togglePause());
+        document.getElementById(`snake-reset-${this.containerId}`).addEventListener('click', () => this.resetGame());
     }
 
     handleKeyPress(e) {
@@ -594,9 +642,9 @@ class SnakeGameEngine {
     }
 
     updateButtons() {
-        const startBtn = document.getElementById('snake-start');
-        const pauseBtn = document.getElementById('snake-pause');
-        const resetBtn = document.getElementById('snake-reset');
+        const startBtn = document.getElementById(`snake-start-${this.containerId}`);
+        const pauseBtn = document.getElementById(`snake-pause-${this.containerId}`);
+        const resetBtn = document.getElementById(`snake-reset-${this.containerId}`);
         
         switch (this.gameState) {
             case 'ready':
