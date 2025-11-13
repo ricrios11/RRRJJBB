@@ -1183,11 +1183,11 @@ class SnakeGameEngine extends BaseGameEngine {
     }
 
     recordGameStats() {
-        // Update Games section counters
-        const snakeCountEl = document.getElementById('snake-count');
-        if (snakeCountEl) {
-            const currentCount = parseInt(snakeCountEl.textContent) || 0;
-            snakeCountEl.textContent = currentCount + 1;
+        if (window.gameStats) {
+            window.gameStats.snakeGames = (window.gameStats.snakeGames || 0) + 1;
+            if (typeof window.updateGameStats === 'function') {
+                window.updateGameStats();
+            }
         }
 
         // Store game data for potential leaderboards

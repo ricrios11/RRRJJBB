@@ -78,10 +78,10 @@ class ImmersiveSlapGame {
                         </div>
                     </div>
                     <div class="hud-right">
-                        <button class="hud-btn slap-btn primary-action" ontouchstart="this.click()" onclick="window.currentSlapGame.slap()">🎯 SLAP</button>
-                        <button class="hud-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.clear()">🧹 CLEAR</button>
-                        <button class="hud-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.undo()">↶ UNDO</button>
-                        <button class="hud-btn close-btn" ontouchstart="this.click()" onclick="window.currentSlapGame.close()">✕ CLOSE</button>
+                        <button class="hud-btn slap-btn primary-action" data-action="slap">🎯 SLAP</button>
+                        <button class="hud-btn" data-action="clear">🧹 CLEAR</button>
+                        <button class="hud-btn" data-action="undo">↶ UNDO</button>
+                        <button class="hud-btn close-btn" data-action="close">✕ CLOSE</button>
                     </div>
                 </div>
                 <canvas id="slap-canvas" width="${this.canvasWidth}" height="${this.canvasHeight}"></canvas>
@@ -100,20 +100,7 @@ class ImmersiveSlapGame {
         this.canvas = document.getElementById('slap-canvas');
         this.ctx = this.canvas.getContext('2d');
         
-        // Style the container - bulletproof dark mode
-        this.container.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #0a0a0a;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-        `;
+        this.container.classList.add('immersive-slap-stage');
 
         this.addImmersiveStyles();
         
@@ -131,6 +118,12 @@ class ImmersiveSlapGame {
     addImmersiveStyles() {
         const style = document.createElement('style');
         style.textContent = `
+            .immersive-slap-stage {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+
             .immersive-slap-container {
                 display: flex;
                 flex-direction: column;
@@ -290,29 +283,45 @@ class ImmersiveSlapGame {
     }
 
     setupHUD() {
-        // Color palette
-        document.querySelectorAll('.color-swatch').forEach(swatch => {
+        const scope = this.container;
+        if (!scope) return;
+
+        scope.querySelectorAll('.color-swatch').forEach(swatch => {
             swatch.addEventListener('click', (e) => {
-                document.querySelector('.color-swatch.active').classList.remove('active');
-                e.target.classList.add('active');
-                this.currentColor = e.target.dataset.color;
+                scope.querySelectorAll('.color-swatch.active').forEach(active => active.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                this.currentColor = e.currentTarget.dataset.color;
             });
         });
 
-        // Character palette
-        document.querySelectorAll('.char-btn').forEach(btn => {
+        scope.querySelectorAll('.char-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                document.querySelector('.char-btn.active').classList.remove('active');
-                e.target.classList.add('active');
-                this.currentChar = e.target.dataset.char;
+                scope.querySelectorAll('.char-btn.active').forEach(active => active.classList.remove('active'));
+                e.currentTarget.classList.add('active');
+                this.currentChar = e.currentTarget.dataset.char;
             });
         });
 
-        // Action buttons - use querySelector since buttons don't have IDs
-        document.querySelector('.slap-btn').addEventListener('click', () => this.slap());
-        document.querySelector('.hud-btn:not(.slap-btn):not(.close-btn)').addEventListener('click', () => this.clear());
-        document.querySelectorAll('.hud-btn:not(.slap-btn):not(.close-btn)')[1].addEventListener('click', () => this.undo());
-        document.querySelector('.close-btn').addEventListener('click', () => this.close());
+        scope.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const action = e.currentTarget.dataset.action;
+                switch (action) {
+                    case 'slap':
+                        this.slap();
+                        break;
+                    case 'clear':
+                        this.clear();
+                        break;
+                    case 'undo':
+                        this.undo();
+                        break;
+                    case 'close':
+                        this.close();
+                        break;
+                }
+            });
+        });
     }
 
     setupControls() {
@@ -378,40 +387,14 @@ class ImmersiveSlapGame {
     }
 
     setupTouchControls() {
-        // Enhanced touch controls for SLAP buttons
-        const slapButtons = {
-            'slap-btn': () => this.slap(),
-            'clear-btn': () => this.clear(),
-            'undo-btn': () => this.undo(),
-            'close-btn': () => this.close()
-        };
-
-        Object.entries(slapButtons).forEach(([className, handler]) => {
-            const btn = document.querySelector(`.${className}`);
-            if (btn) {
-                console.log(`🎨 Setting up SLAP touch control: ${className}`);
-                
-                // Remove existing listeners
-                btn.replaceWith(btn.cloneNode(true));
-                const newBtn = document.querySelector(`.${className}`);
-                
-                // Add multiple event types for maximum compatibility
-                ['touchstart', 'mousedown', 'click'].forEach(eventType => {
-                    newBtn.addEventListener(eventType, (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        
-                        // Visual feedback
-                        newBtn.style.transform = 'scale(0.95)';
-                        setTimeout(() => {
-                            newBtn.style.transform = '';
-                        }, 100);
-                        
-                        handler();
-                        console.log(`🎨 SLAP ${className} activated via ${eventType}`);
-                    });
-                });
-            }
+        if (!this.container) return;
+        this.container.querySelectorAll('[data-action]').forEach(btn => {
+            btn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                btn.classList.add('active');
+                setTimeout(() => btn.classList.remove('active'), 120);
+            }, { passive: false });
         });
     }
 
@@ -538,6 +521,15 @@ class ImmersiveSlapGame {
     }
 
     addToArtFeed(artOutput) {
+        if (window.communitySlapWall) {
+            window.communitySlapWall.addEntryFromGame({
+                art: artOutput,
+                author: 'Workbench',
+                gridSize: `${this.gridWidth}x${this.gridHeight}`
+            });
+            return;
+        }
+
         // Generate thumbnail from ASCII art
         const thumbnail = this.generateArtThumbnail(artOutput);
         
@@ -662,6 +654,10 @@ class ImmersiveSlapGame {
     }
 
     recordArtCreation(artOutput) {
+        if (window.communitySlapWall) {
+            return;
+        }
+
         // Update Games section art counter
         const artCountEl = document.getElementById('art-count');
         if (artCountEl && artCountEl.textContent !== '∞') {

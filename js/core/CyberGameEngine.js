@@ -62,6 +62,7 @@ class CyberGameEngine {
             this.inputManager = null;
         }
         this.touchControls = null;
+        this.resizeObserver = null;
     }
 
     /**
@@ -139,16 +140,31 @@ class CyberGameEngine {
      * Mathematical precision over pixel-perfect positioning
      */
     calculateOptimalGrid() {
-        const availableWidth = this.viewport.width - (this.gridConfig.padding * 2);
-        const availableHeight = this.viewport.height - (this.gridConfig.padding * 2);
+        const containerRect = this.container.getBoundingClientRect();
+        const rawWidth = containerRect.width || this.viewport.width;
+        const rawHeight = containerRect.height || this.viewport.height;
+        const paddedWidth = Math.max(
+            rawWidth - (this.gridConfig.padding * 2),
+            this.gridConfig.minCellSize * 8
+        );
+        const paddedHeight = Math.max(
+            rawHeight - (this.gridConfig.padding * 2),
+            this.gridConfig.minCellSize * 10
+        );
         
         // Account for UI elements (controls, score, etc.)
-        const uiHeight = this.viewport.isMobile ? 120 : 80;
-        const gameHeight = availableHeight - uiHeight;
+        const uiHeight = Math.min(
+            paddedHeight * 0.35,
+            this.viewport.isMobile ? 200 : 120
+        );
+        const gameHeight = Math.max(
+            paddedHeight - uiHeight,
+            this.gridConfig.minCellSize * 8
+        );
         
         // Calculate optimal cell size
         let cellSize = Math.floor(Math.min(
-            availableWidth / this.gridConfig.baseSize,
+            paddedWidth / this.gridConfig.baseSize,
             gameHeight / this.gridConfig.baseSize
         ));
         
@@ -157,8 +173,8 @@ class CyberGameEngine {
                    Math.min(this.gridConfig.maxCellSize, cellSize));
         
         // Calculate grid dimensions
-        const cols = Math.floor(availableWidth / cellSize);
-        const rows = Math.floor(gameHeight / cellSize);
+        const cols = Math.max(1, Math.floor(paddedWidth / cellSize));
+        const rows = Math.max(1, Math.floor(gameHeight / cellSize));
         
         // Calculate actual canvas size (centered)
         const canvasWidth = cols * cellSize;
@@ -170,9 +186,14 @@ class CyberGameEngine {
             cellSize,
             canvasWidth,
             canvasHeight,
-            offsetX: (availableWidth - canvasWidth) / 2,
-            offsetY: (availableHeight - canvasHeight) / 2
+            offsetX: (paddedWidth - canvasWidth) / 2,
+            offsetY: (paddedHeight - canvasHeight) / 2,
+            uiHeight,
+            visibleWidth: paddedWidth,
+            visibleHeight: paddedHeight
         };
+
+        this.resizeCanvas();
     }
 
     /**
@@ -192,6 +213,7 @@ class CyberGameEngine {
         this.canvas.height = canvasHeight * this.devicePixelRatio;
         
         // Scale context to match device pixel ratio
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
         this.ctx.scale(this.devicePixelRatio, this.devicePixelRatio);
         
         // Position canvas
@@ -248,6 +270,14 @@ class CyberGameEngine {
         this.canvas.addEventListener('contextmenu', (e) => {
             e.preventDefault();
         });
+
+        // Watch container size changes for responsive layouts
+        if (window.ResizeObserver) {
+            this.resizeObserver = new ResizeObserver(() => this.handleResize());
+            this.resizeObserver.observe(this.container);
+        } else {
+            console.warn('ResizeObserver not supported - relying on window resize events only');
+        }
     }
 
     /**
@@ -256,7 +286,6 @@ class CyberGameEngine {
     handleResize() {
         this.viewport = this.detectViewport();
         this.calculateOptimalGrid();
-        this.resizeCanvas();
         
         // Reinitialize controls for new viewport
         if (this.touchControls) {
@@ -422,6 +451,11 @@ class CyberGameEngine {
         
         if (this.canvas && this.canvas.parentNode) {
             this.canvas.parentNode.removeChild(this.canvas);
+        }
+
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect();
+            this.resizeObserver = null;
         }
         
         console.log(`🗑️ ${this.gameType} engine destroyed`);

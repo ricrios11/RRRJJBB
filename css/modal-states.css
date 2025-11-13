@@ -1,0 +1,217 @@
+/* Base Game Modal Layout */
+.game-modal {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    z-index: 1100;
+    overflow-y: auto;
+}
+
+.game-modal-content {
+    width: min(960px, 100%);
+    max-height: calc(100vh - clamp(1rem, 3vw, 2.5rem) * 2);
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-emphasis);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+}
+
+.game-modal-header {
+    padding: clamp(1rem, 2vw, 1.5rem);
+    border-bottom: 1px solid var(--border-emphasis);
+}
+
+.game-modal-body {
+    padding: clamp(1rem, 3vw, 2rem);
+    overflow-y: auto;
+    flex: 1;
+}
+
+
+/* Theme Variants for Modals */
+/* Light Mode Game Modal Enhancement */
+[data-theme="light"] .game-modal {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.99) 100%);
+    backdrop-filter: blur(15px);
+}
+
+[data-theme="light"] .game-modal-content {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 248, 248, 0.99) 100%);
+}
+
+/* Modal Close Controls */
+.game-modal-close, .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--cyber-text-primary);
+    border: 2px solid var(--border-emphasis);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+    font-family: var(--cyber-font-mono);
+}
+
+/* Cross-browser backdrop-filter for close buttons */
+@supports (backdrop-filter: blur(8px)) {
+    .game-modal-close,
+    .modal-close {
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+    }
+}
+
+@supports not (backdrop-filter: blur(8px)) {
+    .game-modal-close,
+    .modal-close {
+        background: rgba(0, 0, 0, 0.95);
+    }
+}
+
+@media (max-width: 768px) {
+    .game-modal {
+        padding: 0.75rem;
+    }
+    .game-modal-content {
+        width: 100%;
+        max-height: none;
+        min-height: calc(100vh - 1.5rem);
+        border-radius: 14px;
+    }
+    .game-modal-body {
+        padding: 1rem;
+    }
+    .game-modal-close, .modal-close {
+        top: 0.75rem;
+        right: 0.75rem;
+    }
+}
+
+/* Immersive Overlay System */
+.immersive-game-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    z-index: 10000;
+}
+
+.immersive-game-shell {
+    width: min(1100px, 100%);
+    max-height: 90vh;
+    background: var(--surface-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: var(--space-lg);
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.slap-shell {
+    gap: var(--space-md);
+}
+
+.immersive-game-close {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    border: none;
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--cyber-primary-accent);
+    font-size: 1.25rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .immersive-game-shell {
+        padding: var(--space-md);
+        border-radius: 12px;
+    }
+
+    .immersive-game-close {
+        top: var(--space-sm);
+        right: var(--space-sm);
+    }
+}
+
+.slap-overlay-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.slap-overlay-header h3 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2vw, 1.8rem);
+    color: var(--text-primary);
+}
+
+.slap-overlay-header p {
+    margin: 0.2rem 0 0 0;
+    color: var(--text-secondary);
+    max-width: 420px;
+}
+
+.overlay-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cyber-secondary-accent);
+}
+
+.overlay-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-family: var(--cyber-font-mono);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.immersive-slap-root {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    width: 100%;
+    margin-top: var(--space-md);
+}

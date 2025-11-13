@@ -157,39 +157,11 @@ class UnifiedGameModalSystem {
      * Initialize Graffiti Game - Clean implementation
      */
     initializeGraffitiGame() {
-        console.log('🎨 Initializing Graffiti Game (Unified)');
-        
-        const container = document.querySelector('.graffiti-canvas-container');
-        if (!container) {
-            console.error('❌ Graffiti container not found');
-            return;
-        }
-
-        // Clear container
-        container.innerHTML = '';
-
-        try {
-            // Check if classes are available
-            if (typeof CyberGraffitiGame === 'undefined') {
-                console.error('❌ CyberGraffitiGame class not found - check script loading');
-                return;
-            }
-
-            // Create new game instance
-            const graffitiGame = new CyberGraffitiGame('graffiti-canvas-container');
-            
-            // Force start the game
-            setTimeout(() => {
-                graffitiGame.start();
-                console.log('🎨 Graffiti game started with state:', graffitiGame.gameState);
-            }, 100);
-            
-            // Store reference
-            this.activeGames.set('graffiti-modal', graffitiGame);
-            
-            console.log('✅ Graffiti game initialized successfully');
-        } catch (error) {
-            console.error('❌ Graffiti game initialization failed:', error);
+        console.log('🎨 Preparing SLAP studio');
+        if (window.asciiSlapStudio) {
+            setTimeout(() => window.asciiSlapStudio.refreshLayout(), 100);
+        } else {
+            console.warn('⚠️ AsciiSlapStudio not found – ensure slap-canvas script is loaded');
         }
     }
 

@@ -23,6 +23,19 @@ class CyberSnakeGame extends CyberGameEngine {
         this.lastMoveTime = 0;
         this.boostMode = false;
         this.boostEndTime = 0;
+        this.gameStartTime = null;
+        this.runId = null;
+        this.scoreFormatter = new Intl.NumberFormat('en-US');
+        this.scoreHistory = this.loadScoreHistory();
+        this.hud = {
+            root: null,
+            score: null,
+            level: null,
+            status: null,
+            highScore: null,
+            startButton: null,
+            leaderboard: null
+        };
 
         // Food types with different effects
         this.foodTypes = {
@@ -68,32 +81,206 @@ class CyberSnakeGame extends CyberGameEngine {
         
         // Remove auto-start - let unified system handle it
         console.log('🐍 Snake game constructor complete - waiting for manual start');
+
+        window.currentSnakeGame = this;
     }
 
     /**
      * Create game HUD - Skip if elements already exist
      */
     createHUD() {
-        // Use existing HUD elements from modal instead of creating new ones
+        this.resolveHUD();
+        this.bindHUDInteractions();
         this.updateHUD();
+        this.renderLeaderboard();
     }
 
     /**
      * Update HUD display
      */
     updateHUD() {
-        const scoreEl = document.getElementById('snake-score');
-        const levelEl = document.getElementById('snake-level');
-        const statusEl = document.getElementById('snake-status');
-        
-        if (scoreEl) scoreEl.textContent = this.score;
-        if (levelEl) levelEl.textContent = Math.floor(this.score / 50) + 1;
-        if (statusEl) {
-            let status = this.gameState.toUpperCase();
-            if (this.boostMode) status += ' [BOOST]';
-            if (this.glitchEffect) status += ' [GLITCH]';
-            statusEl.textContent = status;
+        if (this.hud.score) {
+            this.hud.score.textContent = this.formatScore(this.score);
         }
+        if (this.hud.level) {
+            this.hud.level.textContent = this.computeLevel();
+        }
+        if (this.hud.status) {
+            this.hud.status.textContent = this.describeStatus();
+        }
+        if (this.hud.highScore) {
+            this.hud.highScore.textContent = this.formatScore(this.highScore);
+        }
+        this.updateStartButtonState();
+    }
+
+    resolveHUD() {
+        const host = this.container.closest('[data-snake-root]') || this.container.parentElement;
+        this.hud.root = host;
+        this.hud.score = this.selectHUDElement(host, 'score', 'snake-score');
+        this.hud.level = this.selectHUDElement(host, 'level', 'snake-level');
+        this.hud.status = this.selectHUDElement(host, 'status', 'snake-status');
+        this.hud.highScore = this.selectHUDElement(host, 'high-score', 'snake-high-score');
+        this.hud.startButton = this.selectHUDElement(host, 'start', 'snake-start');
+        this.hud.leaderboard = this.selectHUDElement(host, 'leaderboard');
+
+        if (!this.hud.score || !this.hud.level || !this.hud.status) {
+            this.mountInlineHUD();
+        }
+    }
+
+    selectHUDElement(root, attr, fallbackId) {
+        if (!root) return null;
+        return root.querySelector(`[data-snake-${attr}]`) || (fallbackId ? root.querySelector(`#${fallbackId}`) : null);
+    }
+
+    mountInlineHUD() {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'cyber-snake-inline-hud';
+        wrapper.setAttribute('data-snake-root', '');
+        wrapper.innerHTML = `
+            <div class="cyber-snake-inline-stats">
+                <div>
+                    <span class="stat-label">SCORE</span>
+                    <span class="stat-value" data-snake-score>0</span>
+                </div>
+                <div>
+                    <span class="stat-label">LEVEL</span>
+                    <span class="stat-value" data-snake-level>1</span>
+                </div>
+                <div>
+                    <span class="stat-label">STATUS</span>
+                    <span class="stat-value" data-snake-status>READY</span>
+                </div>
+                <div>
+                    <span class="stat-label">HIGH</span>
+                    <span class="stat-value" data-snake-high-score>0</span>
+                </div>
+            </div>
+            <button class="game-btn primary-action" data-snake-start style="width: 100%;">🐍 START RUN</button>
+            <div class="snake-leaderboard" data-snake-leaderboard>
+                <h4>Arcade Leaderboard</h4>
+                <p class="snake-leaderboard-empty">Play a run to log your first score.</p>
+            </div>
+        `;
+
+        this.container.parentElement?.insertBefore(wrapper, this.container);
+        this.hud.root = wrapper;
+        this.hud.score = wrapper.querySelector('[data-snake-score]');
+        this.hud.level = wrapper.querySelector('[data-snake-level]');
+        this.hud.status = wrapper.querySelector('[data-snake-status]');
+        this.hud.highScore = wrapper.querySelector('[data-snake-high-score]');
+        this.hud.startButton = wrapper.querySelector('[data-snake-start]');
+        this.hud.leaderboard = wrapper.querySelector('[data-snake-leaderboard]');
+    }
+
+    bindHUDInteractions() {
+        const startBtn = this.hud.startButton;
+        if (!startBtn || startBtn.dataset.bound === 'true') return;
+        startBtn.dataset.bound = 'true';
+
+        startBtn.addEventListener('click', () => {
+            if (this.gameState === 'idle' || this.gameState === 'gameOver') {
+                this.restart();
+                this.start();
+            } else if (this.gameState === 'playing') {
+                this.pause();
+            } else if (this.gameState === 'paused') {
+                this.resume();
+            }
+        });
+    }
+
+    formatScore(value) {
+        return this.scoreFormatter.format(value || 0);
+    }
+
+    computeLevel() {
+        return Math.max(1, Math.floor(this.score / 50) + 1);
+    }
+
+    describeStatus() {
+        let status = (this.gameState || 'idle').toUpperCase();
+        if (this.boostMode) status += ' • BOOST';
+        if (this.glitchEffect) status += ' • GLITCH';
+        return status;
+    }
+
+    updateStartButtonState() {
+        if (!this.hud.startButton) return;
+        const copy = {
+            idle: '🐍 START RUN',
+            playing: '⏸ PAUSE RUN',
+            paused: '▶ RESUME RUN',
+            gameOver: '↻ PLAY AGAIN'
+        };
+        this.hud.startButton.textContent = copy[this.gameState] || copy.idle;
+    }
+
+    renderLeaderboard() {
+        if (!this.hud.leaderboard) return;
+        let placeholder = this.hud.leaderboard.querySelector('.snake-leaderboard-empty');
+        let list = this.hud.leaderboard.querySelector('ol');
+
+        if (!this.scoreHistory.length) {
+            if (!placeholder) {
+                placeholder = document.createElement('p');
+                placeholder.className = 'snake-leaderboard-empty';
+                this.hud.leaderboard.appendChild(placeholder);
+            }
+            placeholder.textContent = 'Play a run to log your first score.';
+            if (list) list.remove();
+            return;
+        }
+
+        if (!list) {
+            list = document.createElement('ol');
+            this.hud.leaderboard.appendChild(list);
+        }
+        if (placeholder) placeholder.remove();
+
+        list.innerHTML = this.scoreHistory.slice(0, 5).map((entry, index) => `
+            <li>
+                <span>${index + 1}.</span>
+                <span>${this.formatScore(entry.score)}</span>
+                <small>${entry.duration || 0}s • ${new Date(entry.timestamp).toLocaleDateString()}</small>
+            </li>
+        `).join('');
+    }
+
+    loadScoreHistory() {
+        try {
+            const stored = localStorage.getItem('cyber-snake-leaderboard');
+            return stored ? JSON.parse(stored) : [];
+        } catch {
+            return [];
+        }
+    }
+
+    saveScoreHistory() {
+        try {
+            localStorage.setItem('cyber-snake-leaderboard', JSON.stringify(this.scoreHistory.slice(0, 20)));
+        } catch (error) {
+            console.warn('Could not save leaderboard', error);
+        }
+    }
+
+    recordScoreEntry(outcome = 'completed') {
+        if (!this.score || this.score <= 0) return;
+        const entry = {
+            id: this.runId || Date.now().toString(36),
+            score: this.score,
+            level: this.computeLevel(),
+            length: this.snake.length,
+            duration: this.gameStartTime ? Math.round((Date.now() - this.gameStartTime) / 1000) : 0,
+            timestamp: Date.now(),
+            outcome
+        };
+        this.scoreHistory.push(entry);
+        this.scoreHistory.sort((a, b) => b.score - a.score);
+        this.scoreHistory = this.scoreHistory.slice(0, 10);
+        this.saveScoreHistory();
+        this.renderLeaderboard();
     }
 
     /**
@@ -243,6 +430,24 @@ class CyberSnakeGame extends CyberGameEngine {
         }
     }
 
+    start() {
+        if (this.gameState === 'playing') return;
+        this.gameStartTime = Date.now();
+        this.runId = `${this.gameStartTime}-${Math.random().toString(36).slice(2, 6)}`;
+        super.start();
+        this.updateHUD();
+    }
+
+    pause() {
+        super.pause();
+        this.updateHUD();
+    }
+
+    resume() {
+        super.resume();
+        this.updateHUD();
+    }
+
     /**
      * Restart game
      */
@@ -258,7 +463,10 @@ class CyberSnakeGame extends CyberGameEngine {
         this.particles = [];
         this.trailEffect = [];
         this.generateFood();
+        this.gameStartTime = null;
+        this.runId = null;
         this.updateHUD();
+        this.renderLeaderboard();
     }
 
     /**
@@ -404,7 +612,10 @@ class CyberSnakeGame extends CyberGameEngine {
      * Game over handling
      */
     gameOver() {
+        if (this.gameState === 'gameOver') return;
         this.gameState = 'gameOver';
+        this.recordScoreEntry('gameOver');
+        this.updateHUD();
         this.createParticleEffect(this.snake[0], '#ff4444', 20);
         
         // Flash effect
@@ -568,3 +779,4 @@ class CyberSnakeGame extends CyberGameEngine {
 
 // Export for use
 window.CyberSnakeGame = CyberSnakeGame;
+window.ImmersiveSnakeGame = CyberSnakeGame;

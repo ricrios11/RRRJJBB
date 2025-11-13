@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "python3 -m http.server 8000",
     "start": "npm run dev",
+    "lint": "node scripts/lint.js",
     "deploy": "gh-pages -d . -f cyberpunk-portfolio.html",
     "zip": "zip -r ricrios-cyberpunk-portfolio.zip cyberpunk-portfolio.html README.md"
   },

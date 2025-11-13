@@ -27,10 +27,17 @@ Portfolio demonstrating leadership in scaling design organizations, strategic in
 ```bash
 # Clone repository
 git clone https://github.com/ricrios11/time-aware-design-leadership-portfolio.git
+cd time-aware-design-leadership-portfolio
 
-# Open in browser
-open index.html
+# Serve locally
+npm install        # only required once for the simple dev script
+npm run dev        # starts python3 -m http.server on :8000
+
+# Optional sanity check before pushing changes
+npm run lint       # lightweight merge-marker + DOM anchor guard
 ```
+
+Then open [http://localhost:8000/index.html](http://localhost:8000/index.html) and explore the skim/dip/dive layers across desktop and mobile breakpoints.
 
 ## 📱 Cross-Device Testing
 
@@ -94,11 +101,14 @@ open index.html
 ## 🏗️ Cyberpunk Architecture
 
 ```bash
-/
-├── cyberpunk-portfolio.html    # Executive Production Build (3.5K lines)
-├── assets/                     # Static resources (future)
-├── deploy/                     # Deployment configurations
-└── README.md                   # This documentation
+.
+├── index.html                  # Production build (no framework)
+├── css/                        # Modular styles (core, modals, games, community)
+├── js/                         # Active runtime scripts (core, games, unified modal, validators, utils, features)
+├── ARCHIVE/
+│   └── 2025-02-unused/         # React prototype, lab utilities, legacy scripts & configs
+├── README.md
+└── package.json                # Minimal npm scripts (python dev server)
 ```
 
 ## 🚀 Deployment
@@ -132,23 +142,17 @@ open index.html
 ---
 *Built with TechOS + ResearchOS systematic principles*
 
-### Project Structure
-```
-portfolio/
-├── src/                    # Source components (future modularization)
-├── public/                 # Static assets and favicons
-├── build/                  # Production output
-├── scripts/                # Build and development scripts
-├── config/                 # Configuration files
-├── docs/                   # Documentation
-└── archive/                # Historical artifacts
-```
+### Archive & Legacy Systems
+
+- `ARCHIVE/2025-02-unused/` contains the experimental React prototype (`src/`), AgentX labs, build scripts/config, and validation tooling.
+- Historical documentation, heuristics, and superseded builds now live alongside those assets to keep the working tree lean.
+- When you need to revive any of those systems, copy them out of the archive into a feature branch—nothing in the active build references them anymore.
 
 ### Development Workflow
-1. Make changes to `build/index.html` (current monolith)
-2. Run `npm run dev` to serve locally
-3. Test across devices and browsers
-4. Deploy `build/` directory to production
+1. Modify `index.html`, `css/`, or the live `js/` modules.
+2. Run `npm run dev` and open `http://localhost:8000` for smoke tests.
+3. Validate touch + keyboard flows on both modals/games.
+4. Commit + deploy by publishing the updated static files.
 
 ### Future Roadmap
 - [ ] Modular React component extraction
@@ -156,6 +160,13 @@ portfolio/
 - [ ] Automated testing suite
 - [ ] CI/CD pipeline
 - [ ] Performance optimization
+
+## 🧱 Current Debt & Next Moves
+1. **Modal Normalization** – lazy-load the remaining hidden markup, add shared scroll-lock + exit animations, and wire the immersive overlays into the unified theme hooks.
+2. **Micro-IA Pulse** – ship the Lab Log console + diagnostics copy so the system narrates what each mode is doing (Trojan signature).
+3. **Mobile Deep Polish** – extend the new safe-area/touch grid rules beyond the games so case studies + manifesto breathe on <768px.
+4. **Testing Harness** – add a lint + minimal regression script (even a windowed `npm run lint`) so future modular edits land safely.
+5. **RR Arrival Ritual** – expand the fresh ASCII animation into the nav + diagnostics chips so time-of-day transitions feel scripted, not decorative.
 
 ---
 *Built with TechOS + ResearchOS systematic principles*
